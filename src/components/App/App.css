@@ -1,0 +1,113 @@
+body {
+  font-family: "Roboto", "Arial", "Helvetica", "sans-serif";
+  font-weight: 400;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 16px;
+  background-color: rgb(248 250 252);
+  --bg-white: #fff;
+  --bg-red: rgb(253, 240, 240);
+  --bg-blue: rgb(240, 249, 255);
+  --text-color: rgb(12, 74, 110);
+  --text-secondary: rgb(7, 89, 133);
+  --white: #fff;
+  --blue: rgb(14, 165, 233);
+  --red: rgb(163, 22, 22);
+  --border-blue: rgba(14, 165, 233, 0.25);
+  --border-active-blue: rgb(14, 165, 233);
+}
+
+.title {
+  color: var(--text-color);
+  font-weight: 500;
+}
+
+.input {
+  padding: 12px 16px;
+  border-radius: 8px;
+  border: 1px solid var(--border-blue);
+  transition: border-color 0.1s ease-in;
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--border-active-blue);
+}
+
+.button {
+  padding: 12px 16px;
+  background-color: var(--blue);
+  color: var(--white);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: opacity 0.1s ease-in;
+}
+
+.button:hover {
+  opacity: 0.7;
+}
+
+.icon-button {
+  background-color: var(--bg-blue);
+  padding: 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  border: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: opacity 0.1s ease-in;
+}
+
+.icon-button:hover {
+  opacity: 0.7;
+}
+
+.icon {
+  color: var(--blue);
+  width: 24px;
+  height: 24px;
+}
+
+.error {
+  color: var(--red);
+  font-size: 15px;
+  background-color: var(--bg-red);
+  padding: 4px;
+  border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.image {
+  width: 100%;
+  object-fit: contain;
+}
+
+.cards-section {
+  display: grid;
+  margin: 0;
+  list-style: none;
+  gap: 16px;
+  padding: 24px;
+  grid-template-columns: repeat(5, 1fr);
+  overflow-y: auto;
+  height: calc(100vh - 115px);
+}
+
+.card {
+  background-color: var(--white);
+  padding: 16px;
+  border-radius: 12px;
+  border: 2px solid var(--border-blue);
+  cursor: pointer;
+  transition: border-color 0.1s ease-in, transform 0.1s ease-in;
+}
+
+.card:hover {
+  border-color: var(--border-active-blue);
+  transform: translateY(-3px);
+}

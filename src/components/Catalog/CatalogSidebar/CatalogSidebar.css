@@ -1,0 +1,33 @@
+.sidebar {
+  background-color: var(--white);
+  padding: 16px;
+  border-right: 1px solid #e5e7eb;
+  min-width: 320px;
+  box-sizing: border-box;
+}
+
+.sidebar__selects {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.sidebar__select-container {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.sidebar__select-title {
+  font-size: 12px;
+}
+
+.sidebar__select {
+  padding: 6px 8px;
+  font-size: 12px;
+  color: var(--text-color);
+  cursor: pointer;
+}
