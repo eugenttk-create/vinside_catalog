@@ -7,6 +7,7 @@ interface CatalogModelCardProps {
   modelId: string;
   catalogId: string;
   name: string;
+  setModelId: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const CatalogModelCard: React.FC<CatalogModelCardProps> = ({
@@ -14,11 +15,13 @@ const CatalogModelCard: React.FC<CatalogModelCardProps> = ({
   modelId,
   catalogId,
   name,
+  setModelId,
 }) => {
   const { parametersError, getParameters } = useParameters();
 
   const handleCardClick = () => {
-    getParameters(catalogId, modelId);
+    getParameters(catalogId, modelId, null);
+    setModelId(modelId);
   };
 
   return (

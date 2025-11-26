@@ -4,13 +4,17 @@ import { useModels } from "../../../../hooks/models/useModels";
 
 interface CatalogModelsProps {
   catalogId: string;
+  setModelId: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const CatalogModels: React.FC<CatalogModelsProps> = ({ catalogId }) => {
+const CatalogModels: React.FC<CatalogModelsProps> = ({
+  catalogId,
+  setModelId,
+}) => {
   const { models } = useModels();
 
   return (
-    <div className="models cards-section">
+    <ul className="models cards-section">
       {models &&
         models.map((model) => {
           return (
@@ -20,10 +24,11 @@ const CatalogModels: React.FC<CatalogModelsProps> = ({ catalogId }) => {
               key={model.id}
               name={model.name}
               catalogId={catalogId}
+              setModelId={setModelId}
             />
           );
         })}
-    </div>
+    </ul>
   );
 };
 

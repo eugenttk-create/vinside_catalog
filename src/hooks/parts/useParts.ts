@@ -1,0 +1,25 @@
+import { useCallback } from "react";
+import { useAppDispatch } from "../store/useAppDispatch";
+import { useAppSelector } from "../store/useAppSelector";
+import { fetchParts } from "../../store/parts/partsThunks";
+
+export const useParts = () => {
+  const dispatch = useAppDispatch();
+  const { parts, partsLoading, partsError } = useAppSelector(
+    (state) => state.parts
+  );
+
+  const getParts = useCallback(
+    (catalogId: string, carId: string, groupId: string) => {
+      return dispatch(fetchParts({ catalogId, carId, groupId }));
+    },
+    [dispatch]
+  );
+
+  return {
+    parts,
+    partsLoading,
+    partsError,
+    getParts,
+  };
+};

@@ -1,0 +1,7 @@
+.catalog-group-card__name {
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  max-width: 200px;
+}
