@@ -29,6 +29,7 @@
   border: 1px solid transparent;
   transition: border-color 0.1s ease-in;
   pointer-events: auto;
+  cursor: pointer;
 }
 
 .catalog-parts__highlight_active {
@@ -74,12 +75,15 @@
 
 .catalog-parts__ts_number {
   color: var(--blue);
+  text-wrap: nowrap;
+  text-overflow: nowrap;
 }
 
 .catalog-parts__table-icon {
   width: 14px;
   height: 14px;
   cursor: pointer;
+  flex-shrink: 0;
 }
 
 .catalog-parts__tb {

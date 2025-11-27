@@ -17,7 +17,7 @@ const CatalogModelCard: React.FC<CatalogModelCardProps> = ({
   name,
   setModelId,
 }) => {
-  const { parametersError, getParameters } = useParameters();
+  const { getParameters } = useParameters();
 
   const handleCardClick = () => {
     getParameters(catalogId, modelId, null);

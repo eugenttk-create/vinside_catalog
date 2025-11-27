@@ -51,7 +51,7 @@ const Widget: React.FC<WidgetProps> = ({ catalogId, setCatalogId }) => {
           </p>
         </div>
         <div className="widget__input-container">
-          <p className="title widget__input-title">Please enter your VIN</p>
+          <p className="title widget__input-title">Please select a vehicle</p>
           <select
             name="widget-car-select"
             id="widget-car-select"

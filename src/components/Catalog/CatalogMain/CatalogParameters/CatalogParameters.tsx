@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { useParameters } from "../../../../hooks/parameters/useParameters";
 import CatalogParameterCard from "./CatalogParameterCard/CatalogParameterCard";
 

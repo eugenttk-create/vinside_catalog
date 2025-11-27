@@ -22,14 +22,16 @@ const CatalogGroupCard: React.FC<CatalogGroupCardProps> = ({
   idx,
   hasSubgroup,
 }) => {
-  const { getGroups } = useGroups();
+  const { getGroups, selectGroup } = useGroups();
   const { getParts } = useParts();
 
   const handleCardClick = () => {
     if (hasSubgroup) {
       getGroups(catalogId, carId, idx);
+      selectGroup(name);
     } else {
       getParts(catalogId, carId, idx);
+      selectGroup(name);
     }
   };
 

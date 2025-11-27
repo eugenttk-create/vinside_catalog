@@ -20,8 +20,22 @@ const Catalog: React.FC<CatalogProps> = ({
   return (
     <section className="catalog">
       <CatalogHeader />
-      <Breadcrumbs />
-      <div className="catalog__container">
+      {!(
+        parts?.partGroups &&
+        parts.partGroups.length > 0 &&
+        parts.partGroups[0].parts?.length > 0
+      ) && <Breadcrumbs />}
+      <div
+        className={`${
+          !(
+            parts?.partGroups &&
+            parts.partGroups.length > 0 &&
+            parts.partGroups[0].parts?.length > 0
+          )
+            ? "catalog__container"
+            : ""
+        }`}
+      >
         {!(
           parts?.partGroups &&
           parts.partGroups.length > 0 &&

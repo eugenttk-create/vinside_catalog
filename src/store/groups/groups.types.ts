@@ -11,10 +11,12 @@ interface GroupsState {
   groups: Group[];
   groupsLoading: boolean;
   groupsError: string | null;
+  selectedGroups: string[];
 }
 
 export const initialState: GroupsState = {
   groups: [],
   groupsLoading: false,
   groupsError: null,
+  selectedGroups: [],
 };
