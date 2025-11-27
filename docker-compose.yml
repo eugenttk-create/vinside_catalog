@@ -1,0 +1,12 @@
+services:
+  autocatalog-front:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        - VITE_API_URL=${VITE_API_URL:?Please set VITE_API_URL}
+        - VITE_API_TOKEN=${VITE_API_TOKEN:?Please set VITE_API_TOKEN}
+    container_name: autocatalog-front
+    ports:
+      - 8085:8085
+    restart: unless-stopped
