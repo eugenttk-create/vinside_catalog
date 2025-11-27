@@ -6,6 +6,7 @@ services:
       args:
         - VITE_API_URL=${VITE_API_URL:?Please set VITE_API_URL}
         - VITE_API_TOKEN=${VITE_API_TOKEN:?Please set VITE_API_TOKEN}
+        - VITE_API_IMG_BASE=${VITE_API_IMG_BASE:?Please set VITE_API_IMG_BASE}
     container_name: autocatalog-front
     ports:
       - 8085:8085
