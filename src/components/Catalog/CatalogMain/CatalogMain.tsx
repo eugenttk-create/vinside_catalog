@@ -9,18 +9,13 @@ import { useParts } from "../../../hooks/parts/useParts";
 import PageLoader from "../../Loaders/PageLoader/PageLoader";
 
 interface CatalogMainProps {
-  catalogId: string;
   modelId: string;
   setModelId: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const CatalogMain: React.FC<CatalogMainProps> = ({
-  catalogId,
-  modelId,
-  setModelId,
-}) => {
+const CatalogMain: React.FC<CatalogMainProps> = ({ modelId, setModelId }) => {
   const { parametersLoading, parameters, carId } = useParameters();
-  const { groups, groupsLoading } = useGroups();
+  const { groupsFlat, groupsLoading } = useGroups();
   const { parts, partsLoading } = useParts();
 
   return (
@@ -31,12 +26,12 @@ const CatalogMain: React.FC<CatalogMainProps> = ({
       parts.partGroups.length > 0 &&
       parts.partGroups[0].parts?.length > 0 ? (
         <CatalogParts />
-      ) : groups.length > 0 && carId ? (
-        <CatalogGroups catalogId={catalogId} carId={carId} />
+      ) : groupsFlat.length > 0 && carId ? (
+        <CatalogGroups carId={carId} />
       ) : parameters.length > 0 ? (
-        <CatalogParameters modelId={modelId} catalogId={catalogId} />
+        <CatalogParameters modelId={modelId} />
       ) : (
-        <CatalogModels catalogId={catalogId} setModelId={setModelId} />
+        <CatalogModels setModelId={setModelId} />
       )}
     </div>
   );

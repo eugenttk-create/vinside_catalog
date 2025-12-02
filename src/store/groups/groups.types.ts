@@ -7,15 +7,21 @@ interface Group {
   img: string;
 }
 
-interface GroupsState {
-  groups: Group[];
+export interface GroupNode extends Group {
+  children?: GroupNode[];
+}
+
+export interface GroupsState {
+  groupsTree: GroupNode[];
+  groupsFlat: Group[];
   groupsLoading: boolean;
   groupsError: string | null;
   selectedGroups: string[];
 }
 
 export const initialState: GroupsState = {
-  groups: [],
+  groupsTree: [],
+  groupsFlat: [],
   groupsLoading: false,
   groupsError: null,
   selectedGroups: [],

@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { initialState } from "./parameters.types";
 import { fetchParameters, fetchCarId } from "./parametersThunks";
+import { fetchByVin } from "../groups/groupsThunks";
 
 const parametersSlice = createSlice({
   name: "parameters",
@@ -29,7 +30,6 @@ const parametersSlice = createSlice({
         const newCount = newParams.length;
 
         if (newCount === oldCount) {
-          console.log("Параметры кончились (конечная точка)");
           return;
         }
 
@@ -58,6 +58,21 @@ const parametersSlice = createSlice({
         state.parametersError = action.payload as string;
         state.parametersLoading = false;
         state.carId = null;
+      })
+      // fetch by vin
+      .addCase(fetchByVin.pending, (state) => {
+        state.parametersLoading = true;
+        state.parametersError = null;
+      })
+      .addCase(fetchByVin.fulfilled, (state, action) => {
+        state.parametersLoading = false;
+        state.parametersError = null;
+
+        state.carId = action.payload.carId;
+      })
+      .addCase(fetchByVin.rejected, (state, action) => {
+        state.parametersLoading = false;
+        state.parametersError = action.payload as string;
       });
   },
 });

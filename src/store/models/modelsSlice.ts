@@ -5,7 +5,11 @@ import { fetchModels } from "./modelsThunks";
 const modelsSlice = createSlice({
   name: "models",
   initialState,
-  reducers: {},
+  reducers: {
+    setCatalogId: (state, action) => {
+      state.catalogId = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder
       //get models
@@ -24,4 +28,5 @@ const modelsSlice = createSlice({
   },
 });
 
+export const { setCatalogId } = modelsSlice.actions;
 export default modelsSlice.reducer;

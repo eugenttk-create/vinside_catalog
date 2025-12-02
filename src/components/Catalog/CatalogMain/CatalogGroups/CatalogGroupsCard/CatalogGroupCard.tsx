@@ -2,11 +2,11 @@ import CarImage from "../../../../../assets/car_cover.png";
 import "./CatalogGroupCard.css";
 import { useGroups } from "../../../../../hooks/groups/useGroups";
 import { useParts } from "../../../../../hooks/parts/useParts";
+import { useModels } from "../../../../../hooks/models/useModels";
 
 const IMG_URL = import.meta.env.VITE_API_IMG_BASE;
 
 interface CatalogGroupCardProps {
-  catalogId: string;
   carId: string;
   imageSrc?: string;
   name: string;
@@ -17,11 +17,11 @@ interface CatalogGroupCardProps {
 const CatalogGroupCard: React.FC<CatalogGroupCardProps> = ({
   imageSrc,
   carId,
-  catalogId,
   name,
   idx,
   hasSubgroup,
 }) => {
+  const { catalogId } = useModels();
   const { getGroups, selectGroup } = useGroups();
   const { getParts } = useParts();
 

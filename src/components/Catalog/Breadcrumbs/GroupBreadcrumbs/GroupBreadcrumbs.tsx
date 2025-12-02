@@ -15,7 +15,7 @@ const GroupBreadcrumbs: React.FC = () => {
       {selectedGroups.length > 0 &&
         selectedGroups.map((el, index) => {
           return (
-            <li className="breadcrumbs__el" key={el}>
+            <li className="breadcrumbs__el" key={index}>
               {el}{" "}
               {index !== selectedGroups.length - 1 && (
                 <ChevronRight className="icon breadcrumbs__chevron" />

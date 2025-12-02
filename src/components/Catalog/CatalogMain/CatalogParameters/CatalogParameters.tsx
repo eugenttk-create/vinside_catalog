@@ -1,16 +1,14 @@
 import { useParameters } from "../../../../hooks/parameters/useParameters";
+import { useModels } from "../../../../hooks/models/useModels";
 import CatalogParameterCard from "./CatalogParameterCard/CatalogParameterCard";
 
 interface CatalogParametersProps {
   modelId: string;
-  catalogId: string;
 }
 
-const CatalogParameters: React.FC<CatalogParametersProps> = ({
-  modelId,
-  catalogId,
-}) => {
+const CatalogParameters: React.FC<CatalogParametersProps> = ({ modelId }) => {
   const { parameters, getParameters } = useParameters();
+  const { catalogId } = useModels();
 
   const lastParameter = parameters[parameters.length - 1];
 

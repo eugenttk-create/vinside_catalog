@@ -1,11 +1,11 @@
 import "./CatalogModelCard.css";
 import CarImage from "../../../../../assets/car_cover.png";
 import { useParameters } from "../../../../../hooks/parameters/useParameters";
+import { useModels } from "../../../../../hooks/models/useModels";
 
 interface CatalogModelCardProps {
   imageSrc?: string;
   modelId: string;
-  catalogId: string;
   name: string;
   setModelId: React.Dispatch<React.SetStateAction<string>>;
 }
@@ -13,10 +13,10 @@ interface CatalogModelCardProps {
 const CatalogModelCard: React.FC<CatalogModelCardProps> = ({
   imageSrc,
   modelId,
-  catalogId,
   name,
   setModelId,
 }) => {
+  const { catalogId } = useModels();
   const { getParameters } = useParameters();
 
   const handleCardClick = () => {

@@ -6,16 +6,11 @@ import { useParts } from "../../hooks/parts/useParts";
 import "./Catalog.css";
 
 interface CatalogProps {
-  catalogId: string;
   modelId: string;
   setModelId: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const Catalog: React.FC<CatalogProps> = ({
-  catalogId,
-  modelId,
-  setModelId,
-}) => {
+const Catalog: React.FC<CatalogProps> = ({ modelId, setModelId }) => {
   const { parts } = useParts();
   return (
     <section className="catalog">
@@ -41,11 +36,7 @@ const Catalog: React.FC<CatalogProps> = ({
           parts.partGroups.length > 0 &&
           parts.partGroups[0].parts?.length > 0
         ) && <CatalogSidebar />}
-        <CatalogMain
-          catalogId={catalogId}
-          modelId={modelId}
-          setModelId={setModelId}
-        />
+        <CatalogMain modelId={modelId} setModelId={setModelId} />
       </div>
     </section>
   );

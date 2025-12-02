@@ -2,30 +2,39 @@ import "./Widget.css";
 import { useState, useEffect } from "react";
 import { useCatalogs } from "../../hooks/catalogs/useCatalogs";
 import { useModels } from "../../hooks/models/useModels";
+import { useGroups } from "../../hooks/groups/useGroups";
 
-interface WidgetProps {
-  catalogId: string;
-  setCatalogId: React.Dispatch<React.SetStateAction<string>>;
-}
-
-const Widget: React.FC<WidgetProps> = ({ catalogId, setCatalogId }) => {
+const Widget: React.FC = () => {
   const [vin, setVin] = useState("");
   const { catalogs, catalogsError, getCatalogs, catalogsLoading } =
     useCatalogs();
-  const { getModels, modelsError, modelsLoading } = useModels();
-
-  const handleSelectChange = (e: any) => {
-    setCatalogId(e.target.value);
-    setVin("");
-  };
-
-  const handleSearchButtonClick = () => {
-    getModels(catalogId);
-  };
+  const { getModels, modelsError, modelsLoading, catalogId, setCatalogId } =
+    useModels();
+  const { getGroupsByVin, groupsLoading, groupsError } = useGroups();
 
   useEffect(() => {
     getCatalogs();
   }, []);
+
+  const handleVinChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setVin(e.target.value);
+    if (catalogId) setCatalogId("");
+  };
+
+  const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setCatalogId(e.target.value);
+    if (vin) setVin("");
+  };
+
+  const handleSearchButtonClick = () => {
+    if (vin) {
+      getGroupsByVin(vin);
+    } else if (catalogId) {
+      getModels(catalogId);
+    }
+  };
+
+  const isButtonDisabled = vin === "" && catalogId === "";
 
   return (
     <div className="widget">
@@ -38,13 +47,17 @@ const Widget: React.FC<WidgetProps> = ({ catalogId, setCatalogId }) => {
             id="widget-vin-input"
             className="widget__input input"
             value={vin}
-            onChange={(e) => setVin(e.target.value)}
+            onChange={handleVinChange}
           />
           <p className="widget__example-vin">
             Example VIN:{" "}
             <span
               className="widget__example-vin widget__example-vin_blue"
-              onClick={() => setVin("XW8AN2NE3JH035743")}
+              onClick={() =>
+                handleVinChange({
+                  target: { value: "XW8AN2NE3JH035743" },
+                } as any)
+              }
             >
               XW8AN2NE3JH035743
             </span>
@@ -57,37 +70,35 @@ const Widget: React.FC<WidgetProps> = ({ catalogId, setCatalogId }) => {
             id="widget-car-select"
             className="widget__input input"
             disabled={catalogsLoading || catalogsError !== null}
-            onChange={(e) => handleSelectChange(e)}
+            value={catalogId}
+            onChange={handleSelectChange}
           >
-            {catalogId === "" && (
-              <option value="initial">
-                {catalogsLoading
-                  ? "Loading..."
-                  : catalogsError !== null
-                  ? `${catalogsError}`
-                  : "Select a vehicle..."}
+            <option value="">
+              {catalogsLoading
+                ? "Loading..."
+                : catalogsError
+                ? `${catalogsError}`
+                : "Select a vehicle..."}
+            </option>
+            {catalogs?.map((catalog) => (
+              <option value={catalog.id} key={catalog.id}>
+                {catalog.name}
               </option>
-            )}
-            {catalogs &&
-              catalogs.map((catalog) => {
-                return (
-                  <option value={catalog.id} key={catalog.id}>
-                    {catalog.name}
-                  </option>
-                );
-              })}
+            ))}
           </select>
         </div>
       </div>
       <button
         className="widget__button button"
-        disabled={(vin === "" && catalogId === "") || modelsLoading}
+        disabled={isButtonDisabled || modelsLoading || groupsLoading}
         onClick={handleSearchButtonClick}
       >
-        {modelsLoading ? "Loading..." : "Search"}
+        {modelsLoading || groupsLoading ? "Loading..." : "Search"}
       </button>
-      {modelsError && (
-        <span className="widget__error error">{modelsError}</span>
+      {(modelsError || groupsError) && (
+        <span className="widget__error error">
+          {modelsError || groupsError}
+        </span>
       )}
     </div>
   );

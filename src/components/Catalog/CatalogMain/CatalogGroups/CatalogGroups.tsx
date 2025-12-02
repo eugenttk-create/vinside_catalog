@@ -4,31 +4,27 @@ import CatalogGroupsCard from "./CatalogGroupsCard/CatalogGroupCard";
 import GroupBreadcrumbs from "../../Breadcrumbs/GroupBreadcrumbs/GroupBreadcrumbs";
 
 interface CatalogGroupsProps {
-  catalogId: string;
   carId: string;
 }
 
-const CatalogGroups: React.FC<CatalogGroupsProps> = ({ catalogId, carId }) => {
-  const { groups } = useGroups();
+const CatalogGroups: React.FC<CatalogGroupsProps> = ({ carId }) => {
+  const { groupsFlat } = useGroups();
 
   return (
     <>
       <GroupBreadcrumbs />
+
       <ul className="cards-section cards-section_groups">
-        {groups &&
-          groups.map((group) => {
-            return (
-              <CatalogGroupsCard
-                name={group.name}
-                catalogId={catalogId}
-                carId={carId}
-                idx={group.id}
-                imageSrc={group.img}
-                hasSubgroup={group.hasSubgroups}
-                key={group.id}
-              />
-            );
-          })}
+        {groupsFlat.map((group) => (
+          <CatalogGroupsCard
+            key={group.id}
+            name={group.name}
+            carId={carId}
+            idx={group.id}
+            imageSrc={group.img}
+            hasSubgroup={group.hasSubgroups}
+          />
+        ))}
       </ul>
     </>
   );

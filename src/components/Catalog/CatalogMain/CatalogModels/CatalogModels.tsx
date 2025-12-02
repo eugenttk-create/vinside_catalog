@@ -3,14 +3,10 @@ import CatalogModelCard from "./CatalogModelCard/CatalogModelCard";
 import { useModels } from "../../../../hooks/models/useModels";
 
 interface CatalogModelsProps {
-  catalogId: string;
   setModelId: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const CatalogModels: React.FC<CatalogModelsProps> = ({
-  catalogId,
-  setModelId,
-}) => {
+const CatalogModels: React.FC<CatalogModelsProps> = ({ setModelId }) => {
   const { models } = useModels();
 
   return (
@@ -23,7 +19,6 @@ const CatalogModels: React.FC<CatalogModelsProps> = ({
               imageSrc={model.img}
               key={model.id}
               name={model.name}
-              catalogId={catalogId}
               setModelId={setModelId}
             />
           );
