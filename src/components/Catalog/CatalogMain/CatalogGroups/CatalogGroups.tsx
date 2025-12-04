@@ -1,7 +1,6 @@
 import "./CatalogGroups.css";
 import { useGroups } from "../../../../hooks/groups/useGroups";
 import CatalogGroupsCard from "./CatalogGroupsCard/CatalogGroupCard";
-import GroupBreadcrumbs from "../../Breadcrumbs/GroupBreadcrumbs/GroupBreadcrumbs";
 
 interface CatalogGroupsProps {
   carId: string;
@@ -12,8 +11,6 @@ const CatalogGroups: React.FC<CatalogGroupsProps> = ({ carId }) => {
 
   return (
     <>
-      <GroupBreadcrumbs />
-
       <ul className="cards-section cards-section_groups">
         {groupsFlat.map((group) => (
           <CatalogGroupsCard

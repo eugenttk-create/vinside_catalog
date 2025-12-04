@@ -3,14 +3,23 @@ import { useState, useEffect } from "react";
 import { useCatalogs } from "../../hooks/catalogs/useCatalogs";
 import { useModels } from "../../hooks/models/useModels";
 import { useGroups } from "../../hooks/groups/useGroups";
+import { useRef } from "react";
 
 const Widget: React.FC = () => {
   const [vin, setVin] = useState("");
   const { catalogs, catalogsError, getCatalogs, catalogsLoading } =
     useCatalogs();
-  const { getModels, modelsError, modelsLoading, catalogId, setCatalogId } =
-    useModels();
+  const {
+    getModels,
+    modelsError,
+    modelsLoading,
+    catalogId,
+    setCatalogId,
+    handleOpenCatalog,
+    handleSetSelectedBrand,
+  } = useModels();
   const { getGroupsByVin, groupsLoading, groupsError } = useGroups();
+  const selectRef = useRef<HTMLSelectElement>(null);
 
   useEffect(() => {
     getCatalogs();
@@ -22,15 +31,25 @@ const Widget: React.FC = () => {
   };
 
   const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setCatalogId(e.target.value);
+    const selectedId = e.target.value;
+    setCatalogId(selectedId);
+
+    if (selectRef.current) {
+      const selectedOption =
+        selectRef.current.options[selectRef.current.selectedIndex];
+      handleSetSelectedBrand(selectedOption.textContent || "");
+    }
+
     if (vin) setVin("");
   };
 
   const handleSearchButtonClick = () => {
     if (vin) {
       getGroupsByVin(vin);
+      handleOpenCatalog();
     } else if (catalogId) {
       getModels(catalogId);
+      handleOpenCatalog();
     }
   };
 
@@ -67,6 +86,7 @@ const Widget: React.FC = () => {
           <p className="title widget__input-title">Please select a vehicle</p>
           <select
             name="widget-car-select"
+            ref={selectRef}
             id="widget-car-select"
             className="widget__input input"
             disabled={catalogsLoading || catalogsError !== null}

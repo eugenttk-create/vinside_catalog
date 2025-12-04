@@ -4,6 +4,7 @@ import modelsReducer from "./models/modelsSlice";
 import parametersReducer from "./parameters/parametersSlice";
 import groupsReducer from "./groups/groupsSlice";
 import partsReducer from "./parts/partsSlice";
+import breadcrumbsReducer from "./breadcrumbs/breadcrumbsSlice";
 
 const store = configureStore({
   reducer: {
@@ -12,6 +13,7 @@ const store = configureStore({
     parameters: parametersReducer,
     groups: groupsReducer,
     parts: partsReducer,
+    breadcrumbs: breadcrumbsReducer,
   },
 });
 

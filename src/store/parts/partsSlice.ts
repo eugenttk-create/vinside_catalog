@@ -5,7 +5,13 @@ import { fetchParts } from "./partsThunks";
 const partsSlice = createSlice({
   name: "parts",
   initialState,
-  reducers: {},
+  reducers: {
+    resetParts: (state) => {
+      state.parts = initialState.parts;
+      state.partsError = null;
+      state.partsLoading = false;
+    },
+  },
   extraReducers: (builder) => {
     builder
       //get parts
@@ -24,4 +30,5 @@ const partsSlice = createSlice({
   },
 });
 
+export const { resetParts } = partsSlice.actions;
 export default partsSlice.reducer;

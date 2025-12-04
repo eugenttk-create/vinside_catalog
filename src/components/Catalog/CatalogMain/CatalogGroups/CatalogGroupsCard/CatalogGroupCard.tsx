@@ -3,6 +3,7 @@ import "./CatalogGroupCard.css";
 import { useGroups } from "../../../../../hooks/groups/useGroups";
 import { useParts } from "../../../../../hooks/parts/useParts";
 import { useModels } from "../../../../../hooks/models/useModels";
+import { useBreadcrumbs } from "../../../../../hooks/breadcrumbs/useBreadcrumbs";
 
 const IMG_URL = import.meta.env.VITE_API_IMG_BASE;
 
@@ -22,16 +23,17 @@ const CatalogGroupCard: React.FC<CatalogGroupCardProps> = ({
   hasSubgroup,
 }) => {
   const { catalogId } = useModels();
-  const { getGroups, selectGroup } = useGroups();
+  const { getGroups } = useGroups();
   const { getParts } = useParts();
+  const { handleAddBreadcrumb } = useBreadcrumbs();
 
   const handleCardClick = () => {
     if (hasSubgroup) {
       getGroups(catalogId, carId, idx);
-      selectGroup(name);
+      handleAddBreadcrumb("group", name, idx);
     } else {
       getParts(catalogId, carId, idx);
-      selectGroup(name);
+      handleAddBreadcrumb("part", name, idx);
     }
   };
 

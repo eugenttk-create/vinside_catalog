@@ -2,7 +2,7 @@ import { useCallback } from "react";
 import { useAppDispatch } from "../store/useAppDispatch";
 import { useAppSelector } from "../store/useAppSelector";
 import { fetchGroups, fetchByVin } from "../../store/groups/groupsThunks";
-import { addSelectedGroup } from "../../store/groups/groupsSlice";
+import { resetGroups } from "../../store/groups/groupsSlice";
 
 export const useGroups = () => {
   const dispatch = useAppDispatch();
@@ -24,10 +24,9 @@ export const useGroups = () => {
     [dispatch]
   );
 
-  const selectGroup = useCallback(
-    (name: string) => dispatch(addSelectedGroup(name)),
-    [dispatch]
-  );
+  const handleResetGroups = useCallback(() => {
+    return dispatch(resetGroups());
+  }, [dispatch]);
 
   return {
     groupsTree,
@@ -35,8 +34,8 @@ export const useGroups = () => {
     groupsLoading,
     groupsError,
     getGroups,
-    selectGroup,
     selectedGroups,
     getGroupsByVin,
+    handleResetGroups,
   };
 };

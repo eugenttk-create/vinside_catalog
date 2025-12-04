@@ -9,6 +9,21 @@ const modelsSlice = createSlice({
     setCatalogId: (state, action) => {
       state.catalogId = action.payload;
     },
+    setSelectedBrand: (state, action) => {
+      state.selectedBrand = action.payload;
+    },
+    resetModels: (state) => {
+      state.models = [];
+      state.modelsError = null;
+      state.modelsLoading = false;
+      state.catalogId = "";
+    },
+    openCatalog: (state) => {
+      state.catalogOpened = true;
+    },
+    closeCatalog: (state) => {
+      state.catalogOpened = false;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -28,5 +43,11 @@ const modelsSlice = createSlice({
   },
 });
 
-export const { setCatalogId } = modelsSlice.actions;
+export const {
+  setCatalogId,
+  resetModels,
+  openCatalog,
+  closeCatalog,
+  setSelectedBrand,
+} = modelsSlice.actions;
 export default modelsSlice.reducer;

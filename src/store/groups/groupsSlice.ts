@@ -25,10 +25,6 @@ const groupsSlice = createSlice({
   name: "groups",
   initialState,
   reducers: {
-    addSelectedGroup: (state, action) => {
-      state.selectedGroups.push(action.payload);
-    },
-
     resetGroups: (state) => {
       state.groupsTree = [];
       state.groupsFlat = [];
@@ -82,5 +78,5 @@ const groupsSlice = createSlice({
   },
 });
 
-export const { addSelectedGroup, resetGroups } = groupsSlice.actions;
+export const { resetGroups } = groupsSlice.actions;
 export default groupsSlice.reducer;

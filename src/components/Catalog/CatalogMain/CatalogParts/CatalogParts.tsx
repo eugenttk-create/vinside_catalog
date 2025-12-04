@@ -2,11 +2,16 @@ import "./CatalogParts.css";
 import { Copy } from "lucide-react";
 import { useParts } from "../../../../hooks/parts/useParts";
 import { useEffect, useState, useRef } from "react";
-import GroupBreadcrumbs from "../../Breadcrumbs/GroupBreadcrumbs/GroupBreadcrumbs";
+import Breadcrumbs from "../../Breadcrumbs/Breadcrumbs";
 
 const IMAGE_URL = import.meta.env.VITE_API_IMG_BASE;
 
-const CatalogParts: React.FC = () => {
+interface CatalogPartsProps {
+  modelId: string;
+  setModelId: React.Dispatch<React.SetStateAction<string>>;
+}
+
+const CatalogParts: React.FC<CatalogPartsProps> = ({ modelId, setModelId }) => {
   const { parts } = useParts();
   const imageRef = useRef<HTMLImageElement | null>(null);
   const containerRef = useRef<HTMLDivElement | null>(null);
@@ -90,7 +95,7 @@ const CatalogParts: React.FC = () => {
 
   return (
     <>
-      <GroupBreadcrumbs />
+      <Breadcrumbs modelId={modelId} setModelId={setModelId} />
       <div className="catalog-parts">
         <div
           className="catalog-parts__img-container"

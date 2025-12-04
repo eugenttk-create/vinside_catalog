@@ -19,7 +19,7 @@ const Catalog: React.FC<CatalogProps> = ({ modelId, setModelId }) => {
         parts?.partGroups &&
         parts.partGroups.length > 0 &&
         parts.partGroups[0].parts?.length > 0
-      ) && <Breadcrumbs />}
+      ) && <Breadcrumbs modelId={modelId} setModelId={setModelId} />}
       <div
         className={`${
           !(

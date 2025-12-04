@@ -9,6 +9,8 @@ interface ModelsState {
   modelsLoading: boolean;
   modelsError: string | null;
   catalogId: string;
+  selectedBrand?: string;
+  catalogOpened: boolean;
 }
 
 export const initialState: ModelsState = {
@@ -16,4 +18,6 @@ export const initialState: ModelsState = {
   modelsLoading: false,
   modelsError: null,
   catalogId: "",
+  selectedBrand: "",
+  catalogOpened: false,
 };

@@ -96,16 +96,9 @@ body {
   gap: 16px;
   padding: 24px;
   grid-template-columns: repeat(6, 1fr);
-  overflow-y: auto;
-  height: calc(100vh - 149px);
-}
-
-.cards-section_groups {
-  height: calc(100vh - 182px);
 }
 
 .card {
-  max-height: none;
   background-color: var(--white);
   padding: 16px;
   border-radius: 12px;

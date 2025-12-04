@@ -6,6 +6,10 @@ import {
   fetchCarId,
 } from "../../store/parameters/parametersThunks";
 import { fetchGroups } from "../../store/groups/groupsThunks";
+import {
+  resetParameters,
+  resetCarId,
+} from "../../store/parameters/parametersSlice";
 
 export const useParameters = () => {
   const dispatch = useAppDispatch();
@@ -21,13 +25,16 @@ export const useParameters = () => {
     async (
       catalogId: string,
       modelId: string,
-      newParameter?: string | null
+      newParameter?: string | null,
+      forcedSelected?: string[] | null
     ) => {
+      const paramsToUse = forcedSelected ?? selectedParameters;
+
       const resultAction = await dispatch(
         fetchParameters({
           catalogId,
           modelId,
-          selectedParameters,
+          selectedParameters: paramsToUse,
           newParameter,
         })
       );
@@ -66,6 +73,14 @@ export const useParameters = () => {
     [dispatch, parameters.length, selectedParameters, carId]
   );
 
+  const handleResetParameters = useCallback(() => {
+    return dispatch(resetParameters());
+  }, [dispatch]);
+
+  const handleResetCarId = useCallback(() => {
+    return dispatch(resetCarId());
+  }, [dispatch]);
+
   return {
     parameters,
     parametersLoading,
@@ -73,5 +88,7 @@ export const useParameters = () => {
     carId,
     selectedParameters,
     getParameters,
+    handleResetParameters,
+    handleResetCarId,
   };
 };

@@ -2,6 +2,7 @@ import { useCallback } from "react";
 import { useAppDispatch } from "../store/useAppDispatch";
 import { useAppSelector } from "../store/useAppSelector";
 import { fetchParts } from "../../store/parts/partsThunks";
+import { resetParts } from "../../store/parts/partsSlice";
 
 export const useParts = () => {
   const dispatch = useAppDispatch();
@@ -16,10 +17,15 @@ export const useParts = () => {
     [dispatch]
   );
 
+  const handleResetParts = useCallback(() => {
+    return dispatch(resetParts());
+  }, [dispatch]);
+
   return {
     parts,
     partsLoading,
     partsError,
     getParts,
+    handleResetParts,
   };
 };

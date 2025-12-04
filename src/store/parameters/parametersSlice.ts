@@ -12,6 +12,9 @@ const parametersSlice = createSlice({
       state.selectedParameters = [];
       state.carId = null;
     },
+    resetCarId(state) {
+      state.carId = null;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -77,5 +80,5 @@ const parametersSlice = createSlice({
   },
 });
 
-export const { resetParameters } = parametersSlice.actions;
+export const { resetParameters, resetCarId } = parametersSlice.actions;
 export default parametersSlice.reducer;
