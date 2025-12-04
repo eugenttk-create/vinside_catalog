@@ -45,7 +45,7 @@
 }
 
 .widget__example-vin {
-  margin: 0;
+  margin: 16px 0 0 0;
   color: var(--text-secondary);
   font-size: 14px;
 }
@@ -71,4 +71,35 @@
 
 .widget__error {
   margin-top: 16px;
+}
+
+@media screen and (max-width: 600px) {
+  .widget__title {
+    font-size: 24px;
+  }
+
+  .widget__input-title {
+    font-size: 14px;
+  }
+
+  .widget__inputs {
+    grid-template-columns: repeat(1, 1fr);
+    gap: 16px;
+  }
+
+  .widget__input-container {
+    gap: 5px;
+  }
+
+  .widget__input-container:first-of-type {
+    padding: 0;
+    border-right: none;
+  }
+  .widget__input-container:last-of-type {
+    padding: 0;
+  }
+
+  .widget__example-vin {
+    font-size: 13px;
+  }
 }

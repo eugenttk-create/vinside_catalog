@@ -7,6 +7,7 @@ import { useGroups } from "../../../hooks/groups/useGroups";
 import { useBreadcrumbs } from "../../../hooks/breadcrumbs/useBreadcrumbs";
 import { fetchCarId } from "../../../store/parameters/parametersThunks";
 import { useAppDispatch } from "../../../hooks/store/useAppDispatch";
+import { useRef, useEffect } from "react";
 
 interface BreadcrumbsProps {
   modelId: string;
@@ -14,6 +15,7 @@ interface BreadcrumbsProps {
 }
 
 const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ setModelId }) => {
+  const scrollRef = useRef(null);
   const dispatch = useAppDispatch();
   const { handleResetParameters, getParameters, handleResetCarId, carId } =
     useParameters();
@@ -114,17 +116,71 @@ const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ setModelId }) => {
     }
   };
 
+  useEffect(() => {
+    const el: any = scrollRef.current;
+    if (!el) return;
+
+    let isDown = false;
+    let startX = 0;
+    let scrollLeft = 0;
+
+    const onMouseDown = (e: MouseEvent) => {
+      isDown = true;
+      el.classList.add("dragging");
+      startX = e.pageX - el.offsetLeft;
+      scrollLeft = el.scrollLeft;
+    };
+
+    const onMouseLeave = (_e: MouseEvent) => {
+      isDown = false;
+      el.classList.remove("dragging");
+    };
+
+    const onMouseUp = (_e: MouseEvent) => {
+      isDown = false;
+      el.classList.remove("dragging");
+    };
+
+    const onMouseMove = (e: MouseEvent) => {
+      if (!isDown) return;
+      e.preventDefault();
+      const x = e.pageX - el.offsetLeft;
+      const walk = (x - startX) * 1;
+      el.scrollLeft = scrollLeft - walk;
+    };
+
+    el.addEventListener("mousedown", onMouseDown);
+    el.addEventListener("mouseleave", onMouseLeave);
+    el.addEventListener("mouseup", onMouseUp);
+    el.addEventListener("mousemove", onMouseMove);
+
+    return () => {
+      el.removeEventListener("mousedown", onMouseDown);
+      el.removeEventListener("mouseleave", onMouseLeave);
+      el.removeEventListener("mouseup", onMouseUp);
+      el.removeEventListener("mousemove", onMouseMove);
+    };
+  }, []);
+
   return (
-    <ul className="breadcrumbs">
+    <ul className="breadcrumbs" ref={scrollRef}>
       {" "}
-      <li className="breadcrumbs__el" onClick={handleBrandsClick}>
-        Brands{" "}
+      <li
+        className="breadcrumbs__el"
+        onClick={handleBrandsClick}
+        title="Brands"
+      >
+        <span className="breadcrumbs__el-text">Brands</span>{" "}
         {selectedBrand && (
           <ChevronRight className="icon breadcrumbs__chevron" />
         )}
       </li>
-      <li className="breadcrumbs__el" onClick={handleModelClick}>
-        {selectedBrand}{" "}
+      <li
+        className="breadcrumbs__el"
+        onClick={handleModelClick}
+        title={selectedBrand}
+      >
+        <span className="breadcrumbs__el-text">{selectedBrand}</span>{" "}
         {breadcrumbs.length > 0 && (
           <ChevronRight className="icon breadcrumbs__chevron" />
         )}
@@ -136,8 +192,9 @@ const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ setModelId }) => {
               className="breadcrumbs__el"
               key={`${index}-${el.name}`}
               onClick={() => handleBreadcrumbClick(index)}
+              title={el.name}
             >
-              {el.name}{" "}
+              <span className="breadcrumbs__el-text">{el.name}</span>
               {index !== breadcrumbs.length - 1 && (
                 <ChevronRight className="icon breadcrumbs__chevron" />
               )}{" "}

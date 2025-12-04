@@ -8,3 +8,13 @@
 .catalog-main_parts {
   height: 100vh;
 }
+
+@media screen and (max-width: 768px) {
+  .catalog-main {
+    height: calc(100vh - 158px);
+  }
+
+  .catalog-main_parts {
+    height: 100vh;
+  }
+}

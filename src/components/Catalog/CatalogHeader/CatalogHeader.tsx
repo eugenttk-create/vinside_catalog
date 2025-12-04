@@ -1,17 +1,30 @@
-import { Package, Home, SettingsIcon, User, Search } from "lucide-react";
+import { Home, SettingsIcon, User, Search, Menu, X } from "lucide-react";
 import { useModels } from "../../../hooks/models/useModels";
 import { useParts } from "../../../hooks/parts/useParts";
 import { useParameters } from "../../../hooks/parameters/useParameters";
 import { useGroups } from "../../../hooks/groups/useGroups";
+import { useBreadcrumbs } from "../../../hooks/breadcrumbs/useBreadcrumbs";
 import "./CatalogHeader.css";
 
-const CatalogHeader: React.FC = () => {
+interface CatalogHeaderProps {
+  isSidebarActive: boolean;
+  setIsSidebarActive: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const CatalogHeader: React.FC<CatalogHeaderProps> = ({
+  isSidebarActive,
+  setIsSidebarActive,
+}) => {
+  const { handleResetBreadcrumbs } = useBreadcrumbs();
   const { handleResetParameters } = useParameters();
-  const { handleResetModels, handleCloseCatalog } = useModels();
+  const { handleResetModels, handleCloseCatalog, handleSetSelectedBrand } =
+    useModels();
   const { handleResetParts } = useParts();
   const { handleResetGroups } = useGroups();
 
   const handleResetAndCloseCatalog = () => {
+    handleSetSelectedBrand("");
+    handleResetBreadcrumbs();
     handleResetModels();
     handleResetParts();
     handleResetGroups();
@@ -19,45 +32,63 @@ const CatalogHeader: React.FC = () => {
     handleCloseCatalog();
   };
 
+  const toggleSidebar = () => {
+    setIsSidebarActive(!isSidebarActive);
+  };
+
   return (
     <header className="catalog-header">
       <div className="catalog-header__left">
-        <button className="catalog-header__button icon-button">
-          <Package className="icon" />
-        </button>
-        <button
-          className="catalog-header__button icon-button"
-          onClick={handleResetAndCloseCatalog}
-        >
-          <Home className="icon" />
-        </button>
-        <div className="catalog-header__input-container">
-          <input
-            type="text"
-            placeholder="VIN"
-            className="catalog-header__input input"
-            id="catalog-header-vin-input"
-          />
-          <Search className="icon catalog-header__icon" />
+        <div className="catalog-header__buttons">
+          <button
+            className="catalog-header__button icon-button"
+            onClick={handleResetAndCloseCatalog}
+          >
+            <Home className="icon" />
+          </button>
+          <button
+            className="catalog-header__button icon-button catalog-header__button_burger"
+            onClick={toggleSidebar}
+          >
+            {isSidebarActive ? (
+              <X className="icon" />
+            ) : (
+              <Menu className="icon" />
+            )}
+          </button>
         </div>
-        <div className="catalog-header__input-container">
-          <input
-            type="text"
-            placeholder="Search"
-            className="catalog-header__input input"
-            id="catalog-header-search-input"
-          />
-          <Search className="icon catalog-header__icon" />
+        <div className="catalog-header__inputs">
+          {" "}
+          <div className="catalog-header__input-container">
+            <input
+              type="text"
+              placeholder="VIN"
+              className="catalog-header__input input"
+              id="catalog-header-vin-input"
+            />
+            <Search className="icon catalog-header__icon" />
+          </div>
+          <div className="catalog-header__input-container">
+            <input
+              type="text"
+              placeholder="Search"
+              className="catalog-header__input input"
+              id="catalog-header-search-input"
+            />
+            <Search className="icon catalog-header__icon" />
+          </div>
         </div>
       </div>
       <div className="catalog-header__right">
         {" "}
-        <button className="catalog-header__button icon-button">
-          <SettingsIcon className="icon" />
-        </button>
-        <button className="catalog-header__button icon-button">
-          <User className="icon" />
-        </button>
+        <div className="catalog-header__buttons">
+          <button className="catalog-header__button icon-button">
+            <SettingsIcon className="icon" />
+          </button>
+          <button className="catalog-header__button icon-button">
+            <User className="icon" />
+          </button>
+        </div>
       </div>
     </header>
   );

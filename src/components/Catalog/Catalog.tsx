@@ -4,6 +4,7 @@ import CatalogSidebar from "./CatalogSidebar/CatalogSidebar";
 import Breadcrumbs from "./Breadcrumbs/Breadcrumbs";
 import { useParts } from "../../hooks/parts/useParts";
 import "./Catalog.css";
+import { useState } from "react";
 
 interface CatalogProps {
   modelId: string;
@@ -11,10 +12,15 @@ interface CatalogProps {
 }
 
 const Catalog: React.FC<CatalogProps> = ({ modelId, setModelId }) => {
+  const [isSidebarActive, setIsSidebarActive] = useState(false);
+
   const { parts } = useParts();
   return (
     <section className="catalog">
-      <CatalogHeader />
+      <CatalogHeader
+        isSidebarActive={isSidebarActive}
+        setIsSidebarActive={setIsSidebarActive}
+      />
       {!(
         parts?.partGroups &&
         parts.partGroups.length > 0 &&
@@ -35,7 +41,19 @@ const Catalog: React.FC<CatalogProps> = ({ modelId, setModelId }) => {
           parts?.partGroups &&
           parts.partGroups.length > 0 &&
           parts.partGroups[0].parts?.length > 0
-        ) && <CatalogSidebar />}
+        ) && (
+          <>
+            <div
+              className={`sidebar__button ${
+                isSidebarActive ? "sidebar__button_active" : ""
+              }`}
+            ></div>
+            <CatalogSidebar
+              isSidebarActive={isSidebarActive}
+              setIsSidebarActive={setIsSidebarActive}
+            />
+          </>
+        )}
         <CatalogMain modelId={modelId} setModelId={setModelId} />
       </div>
     </section>

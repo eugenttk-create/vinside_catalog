@@ -75,3 +75,28 @@
 .nested {
   padding-left: 16px;
 }
+
+@media screen and (max-width: 768px) {
+  .sidebar {
+    display: none;
+    width: 100%;
+  }
+
+  .sidebar_active {
+    display: block;
+  }
+
+  .sidebar__button {
+    width: 30px;
+    height: 30px;
+    background-color: var(--bg-blue);
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    border-radius: 4px;
+  }
+
+  .sidebar__button_active {
+  }
+}

@@ -8,6 +8,15 @@
   background-color: var(--white);
   border-bottom: 1px solid #e5e7eb;
   box-sizing: border-box;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  touch-action: pan-x;
+  cursor: grab;
+}
+
+.breadcrumbs::-webkit-scrollbar {
+  display: none;
 }
 
 .breadcrumbs__el {
@@ -17,10 +26,18 @@
   display: flex;
   align-items: center;
   gap: 5px;
+  user-select: none;
 }
 
 .breadcrumbs__el:hover {
   text-decoration: underline;
+}
+
+.breadcrumbs__el-text {
+  max-width: 150px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 .breadcrumbs__chevron {

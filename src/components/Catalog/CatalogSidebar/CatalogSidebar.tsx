@@ -3,10 +3,16 @@ import { useGroups } from "../../../hooks/groups/useGroups";
 import CatalogGroupsSidebarContent from "./CatalogGroupsSidebarContent/CatalogGroupsSidebarContent";
 import CatalogModelSidebarContent from "./CatalogModelSidebarContent/CatalogModelSidebarContent";
 
-const CatalogSidebar: React.FC = ({}) => {
+interface CatalogSidebarProps {
+  isSidebarActive: boolean;
+  setIsSidebarActive: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const CatalogSidebar: React.FC<CatalogSidebarProps> = ({ isSidebarActive }) => {
   const { groupsFlat } = useGroups();
+
   return (
-    <aside className="sidebar">
+    <aside className={`sidebar ${isSidebarActive ? "sidebar_active" : ""}`}>
       {groupsFlat.length > 0 ? (
         <CatalogGroupsSidebarContent />
       ) : (

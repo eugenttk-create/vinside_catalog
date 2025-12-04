@@ -68,19 +68,6 @@ const Widget: React.FC = () => {
             value={vin}
             onChange={handleVinChange}
           />
-          <p className="widget__example-vin">
-            Example VIN:{" "}
-            <span
-              className="widget__example-vin widget__example-vin_blue"
-              onClick={() =>
-                handleVinChange({
-                  target: { value: "XW8AN2NE3JH035743" },
-                } as any)
-              }
-            >
-              XW8AN2NE3JH035743
-            </span>
-          </p>
         </div>
         <div className="widget__input-container">
           <p className="title widget__input-title">Please select a vehicle</p>
@@ -108,6 +95,19 @@ const Widget: React.FC = () => {
           </select>
         </div>
       </div>
+      <p className="widget__example-vin">
+        Example VIN:{" "}
+        <span
+          className="widget__example-vin widget__example-vin_blue"
+          onClick={() =>
+            handleVinChange({
+              target: { value: "XW8AN2NE3JH035743" },
+            } as any)
+          }
+        >
+          XW8AN2NE3JH035743
+        </span>
+      </p>
       <button
         className="widget__button button"
         disabled={isButtonDisabled || modelsLoading || groupsLoading}
