@@ -1,22 +1,23 @@
 (function () {
-  const WIDGET_CONTAINER_ID = "my-widget-root";
-  const WIDGET_BUNDLE_URL = "https://vinside.carcatonline.com/widget.js";
+  const ROOT_ID = "my-widget-root";
 
-  let container = document.getElementById(WIDGET_CONTAINER_ID);
+  const BASE = "https://vinside.carcatonline.com";
+  const JS = BASE + "/widget.js";
+  const CSS = BASE + "/widget.css";
+
+  let container = document.getElementById(ROOT_ID);
   if (!container) {
     container = document.createElement("div");
-    container.id = WIDGET_CONTAINER_ID;
+    container.id = ROOT_ID;
     document.body.appendChild(container);
   }
 
-  const script = document.createElement("script");
-  script.src = WIDGET_BUNDLE_URL;
-  script.type = "module";
-  script.onload = () => {
-    import(WIDGET_BUNDLE_URL).then((mod) => {
-      mod.mountWidget(container);
-    });
-  };
+  const link = document.createElement("link");
+  link.rel = "stylesheet";
+  link.href = CSS;
+  document.head.appendChild(link);
 
-  document.body.appendChild(script);
+  import(JS)
+    .then((mod) => mod.mountWidget(container))
+    .catch(console.error);
 })();

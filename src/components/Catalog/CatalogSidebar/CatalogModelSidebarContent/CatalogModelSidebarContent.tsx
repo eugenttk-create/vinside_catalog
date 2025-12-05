@@ -13,7 +13,8 @@ const CatalogModelSidebarContent: React.FC<CatalogModelSidebarContentProps> = ({
   setModelId,
 }) => {
   const { catalogs } = useCatalogs();
-  const { models, handleSetSelectedBrand, getModels, catalogId } = useModels();
+  const { models, handleSetSelectedBrand, getModels, catalogId, setCatalogId } =
+    useModels();
   const { parameters, handleResetParameters, getParameters, handleResetCarId } =
     useParameters();
   const { handleResetBreadcrumbs, handleAddBreadcrumb } = useBreadcrumbs();
@@ -53,6 +54,7 @@ const CatalogModelSidebarContent: React.FC<CatalogModelSidebarContentProps> = ({
             className="sidebar__select input"
             onChange={(e) => {
               const id = e.target.value;
+              console.log(catalogId);
               handleResetBreadcrumbs();
               handleResetParameters();
               handleAddBreadcrumb(
@@ -61,6 +63,7 @@ const CatalogModelSidebarContent: React.FC<CatalogModelSidebarContentProps> = ({
                 id
               );
               handleResetCarId();
+              setModelId(id);
               getParameters(catalogId, id, null, []);
             }}
           >
