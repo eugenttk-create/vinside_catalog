@@ -13,17 +13,25 @@
     document.body.appendChild(container);
   }
 
-  const link = document.createElement("link");
-  link.rel = "stylesheet";
-  link.href = CSS;
-  document.head.appendChild(link);
+  const shadowRoot = container.attachShadow({ mode: "open" });
+
+  const link1 = document.createElement("link");
+  link1.rel = "stylesheet";
+  link1.href = CSS;
+  shadowRoot.appendChild(link1);
 
   const link2 = document.createElement("link");
   link2.rel = "stylesheet";
   link2.href = CSS2;
-  document.head.appendChild(link2);
+  shadowRoot.appendChild(link2);
 
   import(JS)
-    .then((mod) => mod.mountWidget(container))
+    .then((mod) => {
+      if (typeof mod.mountWidget !== "function") {
+        console.error("mountWidget() not found in widget.js", mod);
+        return;
+      }
+      mod.mountWidget(shadowRoot);
+    })
     .catch(console.error);
 })();

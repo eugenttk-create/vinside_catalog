@@ -13,9 +13,15 @@ const CatalogModelSidebarContent: React.FC<CatalogModelSidebarContentProps> = ({
   setModelId,
 }) => {
   const { catalogs } = useCatalogs();
-  const { models, handleSetSelectedBrand, getModels, catalogId } = useModels();
-  const { parameters, handleResetParameters, getParameters, handleResetCarId } =
-    useParameters();
+  const { models, handleSetSelectedBrand, getModels, catalogId, setCatalogId } =
+    useModels();
+  const {
+    parameters,
+    selectedParameters,
+    handleResetParameters,
+    getParameters,
+    handleResetCarId,
+  } = useParameters();
   const { handleResetBreadcrumbs, handleAddBreadcrumb } = useBreadcrumbs();
 
   return (
@@ -27,6 +33,7 @@ const CatalogModelSidebarContent: React.FC<CatalogModelSidebarContentProps> = ({
             className="sidebar__select input"
             onChange={(e) => {
               const id = e.target.value;
+              setCatalogId(catalogs.find((c) => c.id === id)?.id || "");
               handleSetSelectedBrand(
                 catalogs.find((c) => c.id === id)?.name || ""
               );
@@ -35,7 +42,10 @@ const CatalogModelSidebarContent: React.FC<CatalogModelSidebarContentProps> = ({
               handleResetParameters();
               setModelId("");
             }}
+            value={catalogId || ""}
           >
+            {" "}
+            <option value="">Select Brand</option>
             {catalogs.map((catalog) => {
               return (
                 <option value={catalog.id} key={catalog.id}>
@@ -53,7 +63,6 @@ const CatalogModelSidebarContent: React.FC<CatalogModelSidebarContentProps> = ({
             className="sidebar__select input"
             onChange={(e) => {
               const id = e.target.value;
-              console.log(catalogId);
               handleResetBreadcrumbs();
               handleResetParameters();
               handleAddBreadcrumb(
@@ -65,6 +74,7 @@ const CatalogModelSidebarContent: React.FC<CatalogModelSidebarContentProps> = ({
               setModelId(id);
               getParameters(catalogId, id, null, []);
             }}
+            value={modelId}
           >
             {models.map((model) => {
               return (
@@ -78,7 +88,7 @@ const CatalogModelSidebarContent: React.FC<CatalogModelSidebarContentProps> = ({
       )}
       {parameters && parameters[0]?.values.length > 0 && (
         <>
-          {parameters.map((parameter) => {
+          {parameters.map((parameter, index) => {
             return (
               <li className="sidebar__select-container" key={parameter.key}>
                 <span className="sidebar__select-title title">
@@ -97,6 +107,7 @@ const CatalogModelSidebarContent: React.FC<CatalogModelSidebarContentProps> = ({
                       idx
                     );
                   }}
+                  value={selectedParameters[index]}
                 >
                   {parameter.values.map((value) => {
                     return (
