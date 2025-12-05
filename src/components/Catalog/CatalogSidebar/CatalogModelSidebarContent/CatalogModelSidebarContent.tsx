@@ -31,7 +31,9 @@ const CatalogModelSidebarContent: React.FC<CatalogModelSidebarContentProps> = ({
           <span className="sidebar__select-title title">Brand</span>
           <select
             className="sidebar__select input"
+            id="sidebar-select-brand"
             onChange={(e) => {
+              if (!e.target.value) return;
               const id = e.target.value;
               setCatalogId(catalogs.find((c) => c.id === id)?.id || "");
               handleSetSelectedBrand(
@@ -45,7 +47,7 @@ const CatalogModelSidebarContent: React.FC<CatalogModelSidebarContentProps> = ({
             value={catalogId || ""}
           >
             {" "}
-            <option value="">Select Brand</option>
+            <option value="">--- Select Brand ---</option>
             {catalogs.map((catalog) => {
               return (
                 <option value={catalog.id} key={catalog.id}>
@@ -61,7 +63,9 @@ const CatalogModelSidebarContent: React.FC<CatalogModelSidebarContentProps> = ({
           <span className="sidebar__select-title title">Model</span>
           <select
             className="sidebar__select input"
+            id="sidebar-select-model"
             onChange={(e) => {
+              if (!e.target.value) return;
               const id = e.target.value;
               handleResetBreadcrumbs();
               handleResetParameters();
@@ -76,6 +80,7 @@ const CatalogModelSidebarContent: React.FC<CatalogModelSidebarContentProps> = ({
             }}
             value={modelId}
           >
+            <option value="">--- Select Model ---</option>
             {models.map((model) => {
               return (
                 <option value={model.id} key={model.id}>
@@ -96,9 +101,10 @@ const CatalogModelSidebarContent: React.FC<CatalogModelSidebarContentProps> = ({
                 </span>
                 <select
                   name="sidebar-select"
-                  id="sidebar-select"
+                  id={`sidebar-select-parameter-${parameter.key}`}
                   className="sidebar__select input"
                   onChange={(e) => {
+                    if (!e.target.value) return;
                     const idx = e.target.value;
                     getParameters(catalogId, modelId, idx);
                     handleAddBreadcrumb(
@@ -109,6 +115,7 @@ const CatalogModelSidebarContent: React.FC<CatalogModelSidebarContentProps> = ({
                   }}
                   value={selectedParameters[index]}
                 >
+                  <option value="">--- Select Parameter ---</option>
                   {parameter.values.map((value) => {
                     return (
                       <option value={value.idx} key={value.idx}>
