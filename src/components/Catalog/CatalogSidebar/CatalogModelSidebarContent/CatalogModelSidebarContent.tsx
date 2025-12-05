@@ -13,8 +13,7 @@ const CatalogModelSidebarContent: React.FC<CatalogModelSidebarContentProps> = ({
   setModelId,
 }) => {
   const { catalogs } = useCatalogs();
-  const { models, handleSetSelectedBrand, getModels, catalogId, setCatalogId } =
-    useModels();
+  const { models, handleSetSelectedBrand, getModels, catalogId } = useModels();
   const { parameters, handleResetParameters, getParameters, handleResetCarId } =
     useParameters();
   const { handleResetBreadcrumbs, handleAddBreadcrumb } = useBreadcrumbs();
