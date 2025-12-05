@@ -20,7 +20,12 @@ export default defineConfig({
           return "assets/[name]-[hash].js";
         },
         chunkFileNames: "assets/[name]-[hash].js",
-        assetFileNames: "assets/[name]-[hash].[ext]",
+        assetFileNames: (assetInfo) => {
+          if (assetInfo.name && assetInfo.name.endsWith(".css")) {
+            return "widget.css";
+          }
+          return "assets/[name]-[hash].[ext]";
+        },
       },
     },
   },
