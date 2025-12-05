@@ -7,6 +7,7 @@ export default defineConfig({
 
   build: {
     rollupOptions: {
+      preserveEntrySignatures: "strict",
       input: {
         main: resolve(__dirname, "index.html"),
         widget: resolve(__dirname, "src/embed-widget.tsx"),

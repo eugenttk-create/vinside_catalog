@@ -5,10 +5,15 @@ import CatalogModelSidebarContent from "./CatalogModelSidebarContent/CatalogMode
 
 interface CatalogSidebarProps {
   isSidebarActive: boolean;
-  setIsSidebarActive: React.Dispatch<React.SetStateAction<boolean>>;
+  modelId: string;
+  setModelId: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const CatalogSidebar: React.FC<CatalogSidebarProps> = ({ isSidebarActive }) => {
+const CatalogSidebar: React.FC<CatalogSidebarProps> = ({
+  isSidebarActive,
+  modelId,
+  setModelId,
+}) => {
   const { groupsFlat } = useGroups();
 
   return (
@@ -16,7 +21,7 @@ const CatalogSidebar: React.FC<CatalogSidebarProps> = ({ isSidebarActive }) => {
       {groupsFlat.length > 0 ? (
         <CatalogGroupsSidebarContent />
       ) : (
-        <CatalogModelSidebarContent />
+        <CatalogModelSidebarContent modelId={modelId} setModelId={setModelId} />
       )}
     </aside>
   );

@@ -50,7 +50,8 @@ const Catalog: React.FC<CatalogProps> = ({ modelId, setModelId }) => {
             ></div>
             <CatalogSidebar
               isSidebarActive={isSidebarActive}
-              setIsSidebarActive={setIsSidebarActive}
+              modelId={modelId}
+              setModelId={setModelId}
             />
           </>
         )}

@@ -41,7 +41,7 @@ export const useParameters = () => {
 
       if (fetchParameters.fulfilled.match(resultAction)) {
         const newParams = resultAction.payload.data;
-        const oldCount = parameters.length;
+        const oldCount = forcedSelected ? 0 : parameters.length;
         const newCount = newParams.length;
 
         if (newCount === oldCount && newCount > 0) {
