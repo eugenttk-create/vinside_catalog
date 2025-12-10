@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { initialState } from "./groups.types";
-import { fetchGroups, fetchByVin } from "./groupsThunks";
+import { fetchGroups, fetchByVin, fetchVinInfo } from "./groupsThunks";
 import type { GroupNode } from "./groups.types";
 
 const insertChildren = (
@@ -73,6 +73,22 @@ const groupsSlice = createSlice({
 
       .addCase(fetchByVin.rejected, (state, action) => {
         state.groupsLoading = false;
+        state.groupsError = action.payload as string;
+      })
+      //get vin info
+      .addCase(fetchVinInfo.pending, (state) => {
+        state.isSidebarLoading = true;
+        state.groupsError = null;
+      })
+
+      .addCase(fetchVinInfo.fulfilled, (state, action) => {
+        state.isSidebarLoading = false;
+        state.vinInfo = action.payload;
+        state.groupsError = null;
+      })
+
+      .addCase(fetchVinInfo.rejected, (state, action) => {
+        state.isSidebarLoading = false;
         state.groupsError = action.payload as string;
       });
   },

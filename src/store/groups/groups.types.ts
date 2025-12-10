@@ -7,6 +7,19 @@ interface Group {
   img: string;
 }
 
+interface VinInfoParameter {
+  key: string;
+  value: string;
+}
+
+interface VinInfo {
+  brand: string;
+  carId: string;
+  model: string;
+  vin: string;
+  parameters: VinInfoParameter[];
+}
+
 export interface GroupNode extends Group {
   children?: GroupNode[];
 }
@@ -17,6 +30,8 @@ export interface GroupsState {
   groupsLoading: boolean;
   groupsError: string | null;
   selectedGroups: string[];
+  isSidebarLoading: boolean;
+  vinInfo: VinInfo | null;
 }
 
 export const initialState: GroupsState = {
@@ -25,4 +40,6 @@ export const initialState: GroupsState = {
   groupsLoading: false,
   groupsError: null,
   selectedGroups: [],
+  isSidebarLoading: false,
+  vinInfo: null,
 };

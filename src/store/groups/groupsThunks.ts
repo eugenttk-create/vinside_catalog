@@ -53,6 +53,8 @@ export const fetchByVin = createAsyncThunk(
         })
       );
 
+      await dispatch(fetchVinInfo(carData.vin));
+
       return carData;
     } catch (error: any) {
       return rejectWithValue(
@@ -60,6 +62,23 @@ export const fetchByVin = createAsyncThunk(
           error.response?.data?.message ||
           error.message ||
           "Failed to fetch car by VIN"
+      );
+    }
+  }
+);
+
+export const fetchVinInfo = createAsyncThunk(
+  "groups/fetchVinInfo",
+  async (vin: string, { rejectWithValue }) => {
+    try {
+      const response = await api.get(`/car/vin-info?q=${vin}`);
+      return response.data[0];
+    } catch (error: any) {
+      return rejectWithValue(
+        error.response?.data?.detail ||
+          error.response?.data?.message ||
+          error.message ||
+          "Failed to fetch catalogs"
       );
     }
   }
