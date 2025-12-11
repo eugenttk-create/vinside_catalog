@@ -26,6 +26,7 @@ const CatalogParameters: React.FC<CatalogParametersProps> = ({ modelId }) => {
             getParameters(catalogId, modelId, idx);
             handleAddBreadcrumb("parameter", val.value, val.idx);
           }}
+          description={val.description}
         />
       ))}
     </ul>

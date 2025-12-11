@@ -37,6 +37,12 @@
   background-color: rgba(240, 249, 255, 0.212);
 }
 
+.catalog-parts__icon {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+
 .catalog-parts__table-wrapper {
   width: 40%;
   height: calc(100vh - 100px);
@@ -73,10 +79,23 @@
   gap: 8px;
 }
 
+.catalog-parts__ts_name {
+  display: block;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  max-width: 100px;
+  cursor: pointer;
+}
+
 .catalog-parts__ts_number {
   color: var(--blue);
   text-wrap: nowrap;
   text-overflow: nowrap;
+}
+
+.catalog-parts__ts_number-copied {
+  color: var(--green);
 }
 
 .catalog-parts__table-icon {
@@ -84,6 +103,10 @@
   height: 14px;
   cursor: pointer;
   flex-shrink: 0;
+}
+
+.catalog-parts__table-icon_copied {
+  color: var(--green);
 }
 
 .catalog-parts__tb {

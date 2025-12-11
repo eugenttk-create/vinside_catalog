@@ -2,6 +2,7 @@ interface Catalog {
   id: string;
   name: string;
   modelsCount: number;
+  img: string;
 }
 
 interface CatalogsState {

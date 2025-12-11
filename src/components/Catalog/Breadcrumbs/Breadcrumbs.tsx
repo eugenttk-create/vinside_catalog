@@ -26,9 +26,10 @@ const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ setModelId }) => {
     catalogId,
     selectedBrand,
     handleSetSelectedBrand,
+    handleSetIsVinSearch,
   } = useModels();
   const { handleResetParts } = useParts();
-  const { handleResetGroups, getGroups } = useGroups();
+  const { handleResetGroups, getGroups, getGroupsByVin } = useGroups();
 
   const handleBrandsClick = () => {
     handleResetBreadcrumbs();
@@ -37,6 +38,7 @@ const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ setModelId }) => {
     handleResetGroups();
     handleResetParameters();
     handleSetSelectedBrand("");
+    handleSetIsVinSearch(false);
   };
 
   const handleModelClick = () => {
@@ -53,6 +55,22 @@ const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ setModelId }) => {
 
     const clicked = breadcrumbs[index];
     handleTrimBreadcrumbs(index);
+
+    if (clicked.type === "vin") {
+      handleTrimBreadcrumbs(index);
+
+      handleResetModels();
+      handleResetParameters();
+      handleResetParts();
+      handleResetGroups();
+      handleSetIsVinSearch(true);
+
+      if (clicked.id) {
+        await getGroupsByVin(clicked.id);
+      }
+
+      return;
+    }
 
     if (clicked.type === "model") {
       const modelId = clicked.id!;

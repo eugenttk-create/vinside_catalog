@@ -9,6 +9,13 @@
   border-bottom: 1px solid #e5e7eb;
 }
 
+.catalog-header__vin-info {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--text-color);
+}
+
 .catalog-header__left {
   display: flex;
   align-items: center;

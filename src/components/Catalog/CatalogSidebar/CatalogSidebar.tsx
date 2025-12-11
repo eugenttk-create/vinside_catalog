@@ -1,9 +1,10 @@
 import "./CatalogSidebar.css";
 import { useGroups } from "../../../hooks/groups/useGroups";
+import { useModels } from "../../../hooks/models/useModels";
 import CatalogGroupsSidebarContent from "./CatalogGroupsSidebarContent/CatalogGroupsSidebarContent";
 import CatalogModelSidebarContent from "./CatalogModelSidebarContent/CatalogModelSidebarContent";
 import CatalogEquipmentSidebarContent from "./CatalogEquipmentSidebarContent/CatalogEquipmentSidebarContent";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 interface CatalogSidebarProps {
   isSidebarActive: boolean;
@@ -18,6 +19,7 @@ const CatalogSidebar: React.FC<CatalogSidebarProps> = ({
 }) => {
   const [activeTab, setActiveTab] = useState("categories");
   const { groupsFlat } = useGroups();
+  const { isVinSearch } = useModels();
 
   const tabs = [
     { id: "categories", title: "Категории" },
@@ -28,9 +30,15 @@ const CatalogSidebar: React.FC<CatalogSidebarProps> = ({
     setActiveTab(id);
   };
 
+  useEffect(() => {
+    if (!isVinSearch) {
+      setActiveTab("categories");
+    }
+  }, [isVinSearch]);
+
   return (
     <aside className={`sidebar ${isSidebarActive ? "sidebar_active" : ""}`}>
-      {groupsFlat.length > 0 && (
+      {groupsFlat.length > 0 && isVinSearch && (
         <ul className="sidebar__tabs">
           {tabs.map((tab) => {
             return (

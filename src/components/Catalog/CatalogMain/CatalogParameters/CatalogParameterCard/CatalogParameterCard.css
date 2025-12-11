@@ -1,0 +1,8 @@
+.catalog-parameter-card__info-icon {
+  position: absolute;
+  right: 16px;
+  top: 16px;
+  background-color: transparent;
+  border: none;
+  z-index: 10;
+}

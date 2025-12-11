@@ -20,6 +20,7 @@ const CatalogModels: React.FC<CatalogModelsProps> = ({ setModelId }) => {
               key={model.id}
               name={model.name}
               setModelId={setModelId}
+              description={model.description}
             />
           );
         })}

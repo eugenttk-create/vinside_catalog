@@ -8,6 +8,7 @@ import {
   openCatalog,
   closeCatalog,
   setSelectedBrand,
+  setIsVinSearch,
 } from "../../store/models/modelsSlice";
 
 export const useModels = () => {
@@ -19,6 +20,7 @@ export const useModels = () => {
     catalogId,
     catalogOpened,
     selectedBrand,
+    isVinSearch,
   } = useAppSelector((state) => state.models);
 
   const getModels = useCallback(
@@ -52,6 +54,13 @@ export const useModels = () => {
     [dispatch]
   );
 
+  const handleSetIsVinSearch = useCallback(
+    (value: boolean) => {
+      return dispatch(setIsVinSearch(value));
+    },
+    [dispatch]
+  );
+
   return {
     models,
     modelsLoading,
@@ -65,5 +74,7 @@ export const useModels = () => {
     catalogOpened,
     handleSetSelectedBrand,
     selectedBrand,
+    handleSetIsVinSearch,
+    isVinSearch,
   };
 };

@@ -17,10 +17,15 @@ const CatalogHeader: React.FC<CatalogHeaderProps> = ({
 }) => {
   const { handleResetBreadcrumbs } = useBreadcrumbs();
   const { handleResetParameters } = useParameters();
-  const { handleResetModels, handleCloseCatalog, handleSetSelectedBrand } =
-    useModels();
+  const {
+    handleResetModels,
+    handleCloseCatalog,
+    handleSetSelectedBrand,
+    isVinSearch,
+    handleSetIsVinSearch,
+  } = useModels();
   const { handleResetParts } = useParts();
-  const { handleResetGroups } = useGroups();
+  const { handleResetGroups, vinInfo } = useGroups();
 
   const handleResetAndCloseCatalog = () => {
     handleSetSelectedBrand("");
@@ -30,6 +35,7 @@ const CatalogHeader: React.FC<CatalogHeaderProps> = ({
     handleResetGroups();
     handleResetParameters();
     handleCloseCatalog();
+    handleSetIsVinSearch(false);
   };
 
   const toggleSidebar = () => {
@@ -59,16 +65,26 @@ const CatalogHeader: React.FC<CatalogHeaderProps> = ({
         </div>
         <div className="catalog-header__inputs">
           {" "}
-          <div className="catalog-header__input-container">
-            <input
-              type="text"
-              placeholder="VIN"
-              className="catalog-header__input input"
-              id="catalog-header-vin-input"
-            />
-            <Search className="icon catalog-header__icon" />
-          </div>
-          <div className="catalog-header__input-container">
+          {!isVinSearch && (
+            <div className="catalog-header__input-container">
+              <input
+                type="text"
+                placeholder="VIN"
+                className="catalog-header__input input"
+                id="catalog-header-vin-input"
+              />
+              <Search className="icon catalog-header__icon" />
+            </div>
+          )}
+          {isVinSearch && vinInfo && (
+            <div className="catalog-header__input-container">
+              <p className="catalog-header__vin-info">
+                {vinInfo.brand}&nbsp;&mdash;&nbsp;{vinInfo.model}
+                &nbsp;&mdash;&nbsp;{vinInfo.vin}
+              </p>
+            </div>
+          )}
+          {/* <div className="catalog-header__input-container">
             <input
               type="text"
               placeholder="Search"
@@ -76,7 +92,7 @@ const CatalogHeader: React.FC<CatalogHeaderProps> = ({
               id="catalog-header-search-input"
             />
             <Search className="icon catalog-header__icon" />
-          </div>
+          </div> */}
         </div>
       </div>
       <div className="catalog-header__right">

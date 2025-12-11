@@ -14,6 +14,7 @@ const CatalogBrands: React.FC = () => {
               key={brand.id}
               catalogId={brand.id}
               name={brand.name}
+              imageSrc={brand.img}
             />
           );
         })}

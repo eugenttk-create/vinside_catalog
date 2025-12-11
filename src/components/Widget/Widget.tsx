@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { useCatalogs } from "../../hooks/catalogs/useCatalogs";
 import { useModels } from "../../hooks/models/useModels";
 import { useGroups } from "../../hooks/groups/useGroups";
+import { useBreadcrumbs } from "../../hooks/breadcrumbs/useBreadcrumbs";
 import { useRef } from "react";
 
 const Widget: React.FC = () => {
@@ -17,13 +18,24 @@ const Widget: React.FC = () => {
     setCatalogId,
     handleOpenCatalog,
     handleSetSelectedBrand,
+    handleSetIsVinSearch,
   } = useModels();
-  const { getGroupsByVin, groupsLoading, groupsError } = useGroups();
+  const { getGroupsByVin, groupsLoading, groupsError, vinInfo } = useGroups();
+  const { breadcrumbs, handleAddBreadcrumb } = useBreadcrumbs();
   const selectRef = useRef<HTMLSelectElement>(null);
 
   useEffect(() => {
     getCatalogs();
   }, []);
+
+  useEffect(() => {
+    if (vinInfo?.vin) {
+      const exists = breadcrumbs.some(
+        (b) => b.type === "vin" && b.id === vinInfo.vin
+      );
+      if (!exists) handleAddBreadcrumb("vin", vinInfo.vin, vinInfo.vin);
+    }
+  }, [vinInfo]);
 
   const handleVinChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setVin(e.target.value);
@@ -47,9 +59,11 @@ const Widget: React.FC = () => {
     if (vin) {
       getGroupsByVin(vin);
       handleOpenCatalog();
+      handleSetIsVinSearch(true);
     } else if (catalogId) {
       getModels(catalogId);
       handleOpenCatalog();
+      handleSetIsVinSearch(false);
     }
   };
 

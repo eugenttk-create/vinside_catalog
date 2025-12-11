@@ -2,7 +2,7 @@
   background-color: var(--white);
   padding: 0;
   border-right: 1px solid #e5e7eb;
-  width: 320px;
+  width: 400px;
   box-sizing: border-box;
   overflow-y: auto;
   height: calc(100vh - 100px);
@@ -35,6 +35,10 @@
 .sidebar__tab_active {
   border-bottom: 2px solid var(--blue);
   background-color: var(--bg-blue);
+}
+
+.sidebar__tab_active .sidebar__tab-title {
+  color: var(--blue);
 }
 
 .sidebar__tab-title {

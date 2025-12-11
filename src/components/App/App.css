@@ -12,6 +12,7 @@
   --white: #fff;
   --blue: rgb(14, 165, 233);
   --red: rgb(163, 22, 22);
+  --green: rgb(85, 211, 59);
   --border-blue: rgba(14, 165, 233, 0.25);
   --border-active-blue: rgb(14, 165, 233);
 }
@@ -30,6 +31,7 @@ main {
   --white: #fff;
   --blue: rgb(14, 165, 233);
   --red: rgb(163, 22, 22);
+  --green: rgb(85, 211, 59);
   --border-blue: rgba(14, 165, 233, 0.25);
   --border-active-blue: rgb(14, 165, 233);
 }
@@ -131,12 +133,62 @@ main {
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
+  position: relative;
   transition: border-color 0.1s ease-in, transform 0.1s ease-in;
 }
 
 .card:hover {
   border-color: var(--border-active-blue);
   transform: translateY(-3px);
+}
+
+.card-description {
+  display: flex;
+  width: 100%;
+  gap: 10px;
+  flex-direction: column;
+  list-style: none;
+  padding: 16px;
+  border-radius: 16px;
+  box-sizing: border-box;
+  margin: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  background-color: var(--white);
+  height: 100%;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.card-description_visible {
+  opacity: 1;
+}
+
+.card-description-title {
+  font-weight: 700;
+  font-size: 20px;
+  color: var(--text-color);
+  margin: 0;
+}
+
+.card-description-el {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.card-description-el-title {
+  margin: 0;
+  font-size: 14px;
+  color: var(--blue);
+  font-weight: 500;
+}
+
+.card-description-el-text {
+  margin: 0;
+  font-size: 14px;
+  color: var(--text-color);
 }
 
 @media screen and (max-width: 1650px) {

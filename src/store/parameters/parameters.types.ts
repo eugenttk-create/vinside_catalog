@@ -1,6 +1,11 @@
 interface ParameterValue {
   idx: string;
   value: string;
+  description: {
+    model: string | null;
+    productionFrom: string | null;
+    salesTerm: string | null;
+  } | null;
 }
 
 interface Parameter {

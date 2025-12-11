@@ -1,4 +1,10 @@
 interface Model {
+  description: {
+    modelType: string | null;
+    productionFrom: string | null;
+    productionTo: string | null;
+    series: string | null;
+  } | null;
   id: string;
   name: string;
   img: string;
@@ -11,6 +17,7 @@ interface ModelsState {
   catalogId: string;
   selectedBrand?: string;
   catalogOpened: boolean;
+  isVinSearch: boolean;
 }
 
 export const initialState: ModelsState = {
@@ -20,4 +27,5 @@ export const initialState: ModelsState = {
   catalogId: "",
   selectedBrand: "",
   catalogOpened: false,
+  isVinSearch: false,
 };

@@ -37,14 +37,18 @@ const CatalogGroupCard: React.FC<CatalogGroupCardProps> = ({
     }
   };
 
+  const handleImgError = (e: React.SyntheticEvent<HTMLImageElement>) => {
+    e.currentTarget.src = CarImage;
+  };
+
   return (
     <li className="catalog-group-card card" onClick={handleCardClick}>
-      {" "}
       <img
         src={imageSrc ? `${IMG_URL}${imageSrc}` : CarImage}
         alt={`param-${idx}`}
         className="catalog-group-card__image image"
         loading="lazy"
+        onError={handleImgError}
       />
       <p className="catalog-group-card__name title" title={name}>
         {name}

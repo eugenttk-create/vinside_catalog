@@ -1,5 +1,5 @@
 import "./CatalogParts.css";
-import { Copy } from "lucide-react";
+import { Copy, CircleCheck, Info } from "lucide-react";
 import { useParts } from "../../../../hooks/parts/useParts";
 import { useEffect, useState, useRef } from "react";
 import Breadcrumbs from "../../Breadcrumbs/Breadcrumbs";
@@ -22,6 +22,7 @@ const CatalogParts: React.FC<CatalogPartsProps> = ({ modelId, setModelId }) => {
   const [containerRect, setContainerRect] = useState<DOMRect | null>(null);
 
   const [hoverPos, setHoverPos] = useState<string | null>(null);
+  const [copiedPartId, setCopiedPartId] = useState<string | null>(null);
 
   const updateRects = () => {
     const img = imageRef.current;
@@ -35,6 +36,16 @@ const CatalogParts: React.FC<CatalogPartsProps> = ({ modelId, setModelId }) => {
 
     setImgRect(img.getBoundingClientRect());
     setContainerRect(container.getBoundingClientRect());
+  };
+
+  const handleCopy = async (partId: string, value: string) => {
+    try {
+      await navigator.clipboard.writeText(value);
+      setCopiedPartId(partId);
+      setTimeout(() => setCopiedPartId(null), 1500);
+    } catch (e) {
+      console.error("Copy error:", e);
+    }
   };
 
   useEffect(() => {
@@ -135,7 +146,6 @@ const CatalogParts: React.FC<CatalogPartsProps> = ({ modelId, setModelId }) => {
                 key={key}
                 style={baseStyle}
                 onMouseEnter={() => setHoverPos(key)}
-                onMouseLeave={() => setHoverPos(null)}
                 onClick={handleClick}
                 className={`catalog-parts__highlight ${
                   hoverPos === key ? "catalog-parts__highlight_active" : ""
@@ -163,7 +173,6 @@ const CatalogParts: React.FC<CatalogPartsProps> = ({ modelId, setModelId }) => {
                       }}
                       key={part.id}
                       onMouseEnter={() => posKey && setHoverPos(posKey)}
-                      onMouseLeave={() => posKey && setHoverPos(null)}
                     >
                       <td className="catalog-parts__td">
                         <span className="catalog-parts__ts">
@@ -171,13 +180,31 @@ const CatalogParts: React.FC<CatalogPartsProps> = ({ modelId, setModelId }) => {
                         </span>
                       </td>
                       <td className="catalog-parts__td">
-                        <span className="catalog-parts__ts catalog-parts__ts_number">
+                        <span
+                          className={
+                            "catalog-parts__ts catalog-parts__ts_number" +
+                            (copiedPartId === part.id
+                              ? " catalog-parts__ts_number-copied"
+                              : "")
+                          }
+                          onClick={() => handleCopy(part.id, part.number)}
+                          style={{ cursor: "pointer" }}
+                        >
                           {part.number}{" "}
-                          <Copy className="icon catalog-parts__table-icon" />
+                          {copiedPartId === part.id ? (
+                            <CircleCheck className="icon catalog-parts__table-icon catalog-parts__table-icon_copied" />
+                          ) : (
+                            <Copy className="icon catalog-parts__table-icon" />
+                          )}
                         </span>
                       </td>
                       <td className="catalog-parts__td">
-                        <span className="catalog-parts__ts">{part.name}</span>
+                        <span className="catalog-parts__ts" title={part.name}>
+                          <Info className="icon catalog-parts__icon" />{" "}
+                          <span className="catalog-parts__ts_name">
+                            {part.name}
+                          </span>
+                        </span>
                       </td>
                       <td className="catalog-parts__td">
                         <span className="catalog-parts__ts">

@@ -24,6 +24,9 @@ const modelsSlice = createSlice({
     closeCatalog: (state) => {
       state.catalogOpened = false;
     },
+    setIsVinSearch: (state, action) => {
+      state.isVinSearch = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -49,5 +52,6 @@ export const {
   openCatalog,
   closeCatalog,
   setSelectedBrand,
+  setIsVinSearch,
 } = modelsSlice.actions;
 export default modelsSlice.reducer;
