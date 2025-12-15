@@ -1,12 +1,15 @@
 .catalog-parts {
   display: flex;
   width: 100%;
+  overflow: hidden;
 }
 
 .catalog-parts__img-container {
   width: 60%;
   height: calc(100vh - 101px);
   background-color: var(--white);
+  flex: 1 1 auto;
+  min-width: 0;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -34,7 +37,7 @@
 
 .catalog-parts__highlight_active {
   border: 2px solid var(--blue);
-  background-color: rgba(240, 249, 255, 0.212);
+  background-color: rgba(0, 153, 255, 0.425);
 }
 
 .catalog-parts__icon {
@@ -44,10 +47,25 @@
 }
 
 .catalog-parts__table-wrapper {
-  width: 40%;
+  position: relative;
   height: calc(100vh - 100px);
   overflow-y: auto;
   border-left: 1px solid #e5e7eb;
+  flex-shrink: 0;
+}
+
+.catalog-parts__resize-handle {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 6px;
+  height: 100%;
+  cursor: col-resize;
+  z-index: 10;
+}
+
+.catalog-parts__resize-handle:hover {
+  background-color: rgba(14, 165, 233, 0.15);
 }
 
 .catalog-parts__table {
@@ -65,6 +83,7 @@
 
 .catalog-parts__tr_active {
   background-color: rgba(0, 0, 0, 0.041) !important;
+  border-left: 3px solid var(--blue);
 }
 
 .catalog-parts__td {

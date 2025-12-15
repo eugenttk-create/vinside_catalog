@@ -6,6 +6,10 @@ import Breadcrumbs from "../../Breadcrumbs/Breadcrumbs";
 
 const IMAGE_URL = import.meta.env.VITE_API_IMG_BASE;
 
+const MIN_WIDTH = 300;
+const MAX_WIDTH = 1500;
+const LS_KEY = "catalog_parts_table_width";
+
 interface CatalogPartsProps {
   modelId: string;
   setModelId: React.Dispatch<React.SetStateAction<string>>;
@@ -21,8 +25,49 @@ const CatalogParts: React.FC<CatalogPartsProps> = ({ modelId, setModelId }) => {
   const [imgRect, setImgRect] = useState<DOMRect | null>(null);
   const [containerRect, setContainerRect] = useState<DOMRect | null>(null);
 
-  const [hoverPos, setHoverPos] = useState<string | null>(null);
+  const [hoverImgPos, setHoverImgPos] = useState<string | null>(null);
+  const [selectedPos, setSelectedPos] = useState<string | null>(null);
+  const [hoverTablePos, setHoverTablePos] = useState<string | null>(null);
   const [copiedPartId, setCopiedPartId] = useState<string | null>(null);
+
+  const [tableWidth, setTableWidth] = useState<number>(() => {
+    const saved = localStorage.getItem(LS_KEY);
+    return saved ? Number(saved) : 400;
+  });
+
+  const isResizing = useRef(false);
+  const catalogRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      if (!isResizing.current || !catalogRef.current) return;
+
+      const rect = catalogRef.current.getBoundingClientRect();
+      const containerRight = rect.right;
+
+      const newWidth = containerRight - e.clientX;
+
+      const clamped = Math.min(MAX_WIDTH, Math.max(MIN_WIDTH, newWidth));
+
+      setTableWidth(clamped);
+    };
+
+    const handleMouseUp = () => {
+      if (!isResizing.current) return;
+      isResizing.current = false;
+      localStorage.setItem(LS_KEY, String(tableWidth));
+      document.body.style.cursor = "";
+      document.body.style.userSelect = "";
+    };
+
+    window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("mouseup", handleMouseUp);
+
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("mouseup", handleMouseUp);
+    };
+  }, [tableWidth]);
 
   const updateRects = () => {
     const img = imageRef.current;
@@ -107,7 +152,7 @@ const CatalogParts: React.FC<CatalogPartsProps> = ({ modelId, setModelId }) => {
   return (
     <>
       <Breadcrumbs modelId={modelId} setModelId={setModelId} />
-      <div className="catalog-parts">
+      <div className="catalog-parts" ref={catalogRef}>
         <div
           className="catalog-parts__img-container"
           ref={containerRef}
@@ -134,28 +179,42 @@ const CatalogParts: React.FC<CatalogPartsProps> = ({ modelId, setModelId }) => {
               height,
             };
 
-            const handleClick = () => {
-              const row = rowRefs.current[key];
-              if (row) {
-                row.scrollIntoView({ behavior: "smooth", block: "center" });
-              }
-            };
-
             return (
               <div
                 key={key}
                 style={baseStyle}
-                onMouseEnter={() => setHoverPos(key)}
-                onClick={handleClick}
+                onMouseEnter={() => setHoverImgPos(key)}
+                onMouseLeave={() => setHoverImgPos(null)}
+                onClick={() => {
+                  setSelectedPos(key);
+                  const row = rowRefs.current[key];
+                  if (row) {
+                    row.scrollIntoView({ behavior: "smooth", block: "center" });
+                  }
+                }}
                 className={`catalog-parts__highlight ${
-                  hoverPos === key ? "catalog-parts__highlight_active" : ""
+                  hoverImgPos === key || hoverTablePos === key
+                    ? "catalog-parts__highlight_active"
+                    : ""
                 }`}
               />
             );
           })}
         </div>
 
-        <div className="catalog-parts__table-wrapper">
+        <div
+          className="catalog-parts__table-wrapper"
+          style={{ width: tableWidth }}
+        >
+          {" "}
+          <div
+            className="catalog-parts__resize-handle"
+            onMouseDown={() => {
+              isResizing.current = true;
+              document.body.style.cursor = "col-resize";
+              document.body.style.userSelect = "none";
+            }}
+          />
           <table className="catalog-parts__table">
             <tbody className="catalog-parts__tbody">
               {parts &&
@@ -166,13 +225,17 @@ const CatalogParts: React.FC<CatalogPartsProps> = ({ modelId, setModelId }) => {
                   return (
                     <tr
                       className={`catalog-parts__tr ${
-                        hoverPos === posKey ? "catalog-parts__tr_active" : ""
+                        selectedPos === posKey || hoverTablePos === posKey
+                          ? "catalog-parts__tr_active"
+                          : ""
                       }`}
                       ref={(el) => {
                         if (posKey) rowRefs.current[posKey] = el;
                       }}
                       key={part.id}
-                      onMouseEnter={() => posKey && setHoverPos(posKey)}
+                      onMouseEnter={() => posKey && setHoverTablePos(posKey)}
+                      onMouseLeave={() => setHoverTablePos(null)}
+                      onClick={() => posKey && setSelectedPos(posKey)}
                     >
                       <td className="catalog-parts__td">
                         <span className="catalog-parts__ts">

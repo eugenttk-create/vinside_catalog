@@ -12,6 +12,7 @@ interface CatalogParameterCardProps {
     model: string | null;
     productionFrom: string | null;
     salesTerm: string | null;
+    salesType: string | null;
   } | null;
 }
 
@@ -51,7 +52,9 @@ const CatalogParameterCard: React.FC<CatalogParameterCardProps> = ({
         alt={`param-${idx}`}
         className="catalog-parameter-card__image image"
       />
-      <p className="catalog-parameter-card__name title">{name}</p>
+      <p className="catalog-parameter-card__name title" title={name}>
+        {name}
+      </p>
       {description !== null && (
         <ul
           className={`catalog-parameter-card__description card-description ${
@@ -90,6 +93,16 @@ const CatalogParameterCard: React.FC<CatalogParameterCardProps> = ({
               </p>
               <p className="catalog-parameter-card__description-el-text card-description-el-text">
                 {description.salesTerm}
+              </p>
+            </li>
+          )}
+          {description.salesType && (
+            <li className="catalog-parameter-card__description-el card-description-el">
+              <p className="catalog-parameter-card__description-el-title card-description-el-title">
+                Sales type
+              </p>
+              <p className="catalog-parameter-card__description-el-text card-description-el-text">
+                {description.salesType}
               </p>
             </li>
           )}
