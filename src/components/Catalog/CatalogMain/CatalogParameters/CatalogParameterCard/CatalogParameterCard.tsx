@@ -12,7 +12,7 @@ interface CatalogParameterCardProps {
     model: string | null;
     productionFrom: string | null;
     salesTerm: string | null;
-    salesType: string | null;
+    salesType?: string | null;
   } | null;
 }
 
