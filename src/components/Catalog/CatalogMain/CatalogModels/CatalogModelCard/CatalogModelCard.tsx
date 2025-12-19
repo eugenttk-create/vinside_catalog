@@ -19,6 +19,8 @@ interface CatalogModelCardProps {
   } | null;
 }
 
+const IMG_URL = import.meta.env.VITE_API_IMG_BASE;
+
 const CatalogModelCard: React.FC<CatalogModelCardProps> = ({
   imageSrc,
   modelId,
@@ -62,7 +64,7 @@ const CatalogModelCard: React.FC<CatalogModelCardProps> = ({
       )}
       <>
         <img
-          src={imageSrc ? imageSrc : CarImage}
+          src={imageSrc ? `${IMG_URL}${imageSrc}` : CarImage}
           alt={`model-${modelId}`}
           className="catalog-model-card__image image"
         />
