@@ -41,7 +41,7 @@ RUN mkdir -p /run/nginx
 COPY --from=build /app/dist /usr/share/nginx/html
 
 # Copy nginx configuration
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+COPY nginx.conf /etc/nginx/nginx.conf
 
 # Expose port 8085
 EXPOSE 8085
