@@ -26,7 +26,16 @@ ENV VITE_API_IMG_BASE=$VITE_API_IMG_BASE
 RUN npm run build
 
 # Production stage - serve with nginx
-FROM nginx:alpine AS production
+FROM alpine:latest
+
+# Install Nginx and the Lua module
+RUN apk add --no-cache nginx-mod-http-lua nginx-mod-http-ndk
+
+# Remove default Nginx config to use your own
+RUN rm -r /etc/nginx/conf.d && rm /etc/nginx/nginx.conf
+
+# Create a folder for the PID file
+RUN mkdir -p /run/nginx
 
 # Copy built files to nginx
 COPY --from=build /app/dist /usr/share/nginx/html
