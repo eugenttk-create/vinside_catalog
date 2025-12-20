@@ -29,7 +29,7 @@ RUN npm run build
 FROM alpine:latest
 
 # Install Nginx and the Lua module
-RUN apk add --no-cache nginx-mod-http-lua nginx-mod-http-ndk
+RUN apk add --no-cache nginx-mod-http-lua
 
 # Remove default Nginx config to use your own
 RUN rm -r /etc/nginx/conf.d && rm /etc/nginx/nginx.conf
