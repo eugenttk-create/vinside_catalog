@@ -30,8 +30,9 @@ FROM alpine:latest
 
 # Install Nginx and the Lua module
 RUN apk add --no-cache nginx-mod-http-lua
-RUN apk add gcc musl-dev coreutils wget && luarocks install lua-resty-redis
-
+RUN apk add gcc musl-dev coreutils wget \
+    && luarocks install lua-resty-redis
+    
 # Remove default Nginx config to use your own
 RUN rm /etc/nginx/nginx.conf
 
