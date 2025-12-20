@@ -32,7 +32,7 @@ FROM alpine:latest
 RUN apk add --no-cache nginx-mod-http-lua
 
 # Remove default Nginx config to use your own
-RUN rm -r /etc/nginx/conf.d && rm /etc/nginx/nginx.conf
+RUN rm /etc/nginx/nginx.conf
 
 # Create a folder for the PID file
 RUN mkdir -p /run/nginx
