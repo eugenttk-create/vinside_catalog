@@ -28,10 +28,11 @@ RUN npm run build
 # Production stage - serve with nginx
 FROM alpine:3.20
 
-# Enable Alpine main+community repositories (lua-resty-* packages live in community)
+# Enable Alpine main+community repositories
 RUN echo "https://dl-cdn.alpinelinux.org/alpine/v3.20/main" > /etc/apk/repositories \
 	&& echo "https://dl-cdn.alpinelinux.org/alpine/v3.20/community" >> /etc/apk/repositories \
-	&& apk add --no-cache nginx nginx-mod-http-lua lua-resty-redis
+		&& apk add --no-cache ca-certificates nginx nginx-mod-http-lua luarocks5.4 \
+		&& luarocks-5.4 install lua-resty-redis
 
 # Remove default Nginx config to use your own
 RUN rm /etc/nginx/nginx.conf
