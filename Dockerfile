@@ -26,11 +26,12 @@ ENV VITE_API_IMG_BASE=$VITE_API_IMG_BASE
 RUN npm run build
 
 # Production stage - serve with nginx
-FROM alpine:latest
+FROM alpine:3.20
 
-# Install Nginx and the Lua module
-RUN apk add --no-cache nginx-mod-http-lua
-RUN apk add --no-cache lua-resty-redis
+# Enable Alpine main+community repositories (lua-resty-* packages live in community)
+RUN echo "https://dl-cdn.alpinelinux.org/alpine/v3.20/main" > /etc/apk/repositories \
+	&& echo "https://dl-cdn.alpinelinux.org/alpine/v3.20/community" >> /etc/apk/repositories \
+	&& apk add --no-cache nginx nginx-mod-http-lua lua-resty-redis
 
 # Remove default Nginx config to use your own
 RUN rm /etc/nginx/nginx.conf
