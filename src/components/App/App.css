@@ -7,6 +7,7 @@
   --bg-white: #fff;
   --bg-red: rgb(253, 240, 240);
   --bg-blue: rgb(240, 249, 255);
+  --bg-gray: rgb(249 250 251);
   --text-color: rgb(12, 74, 110);
   --text-secondary: rgb(7, 89, 133);
   --white: #fff;
@@ -45,6 +46,10 @@ main {
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 3;
+}
+
+.title_list {
+  text-align: left;
 }
 
 .input {
@@ -114,6 +119,10 @@ main {
   object-position: center;
 }
 
+.image_list {
+  max-width: 150px;
+}
+
 .cards-section {
   display: grid;
   margin: 0;
@@ -121,6 +130,45 @@ main {
   gap: 16px;
   padding: 24px;
   grid-template-columns: repeat(6, 1fr);
+}
+
+.cards-section_grid {
+}
+
+.cards-section_list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.cards-section__switch-container {
+  width: 100%;
+  padding: 24px 24px 0 24px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.cards-section__switch {
+  border: 1px solid var(--border-blue);
+  border-radius: 8px;
+  width: fit-content;
+  display: flex;
+  align-items: center;
+}
+
+.cards-section__switch-button {
+  cursor: pointer;
+  background-color: transparent;
+  border: none;
+  padding: 4px;
+  line-height: 0;
+  border-radius: 8px;
+}
+
+.cards-section__switch-button_active {
+  background-color: var(--border-blue);
 }
 
 .card {
@@ -140,6 +188,32 @@ main {
 .card:hover {
   border-color: var(--border-active-blue);
   transform: translateY(-3px);
+}
+
+.card_list {
+  border: 1px solid var(--border-blue);
+  border-bottom: none;
+  border-radius: 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  gap: 8px;
+}
+
+.card_list:hover {
+  transform: none;
+  background-color: var(--bg-gray);
+  border: 1px solid var(--border-blue);
+  border-bottom: none;
+}
+
+.card_list:first-of-type {
+  border-radius: 8px 8px 0 0;
+}
+
+.card_list:last-of-type {
+  border-radius: 0 0 8px 8px;
+  border-bottom: 1px solid var(--border-blue);
 }
 
 .card-description {

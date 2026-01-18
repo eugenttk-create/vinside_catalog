@@ -13,6 +13,7 @@ interface CatalogGroupCardProps {
   name: string;
   idx: string;
   hasSubgroup: boolean;
+  switchState: string;
 }
 
 const CatalogGroupCard: React.FC<CatalogGroupCardProps> = ({
@@ -21,6 +22,7 @@ const CatalogGroupCard: React.FC<CatalogGroupCardProps> = ({
   name,
   idx,
   hasSubgroup,
+  switchState,
 }) => {
   const { catalogId } = useModels();
   const { getGroups } = useGroups();
@@ -42,15 +44,27 @@ const CatalogGroupCard: React.FC<CatalogGroupCardProps> = ({
   };
 
   return (
-    <li className="catalog-group-card card" onClick={handleCardClick}>
+    <li
+      className={`catalog-group-card card ${
+        switchState === "list" ? "card_list" : ""
+      }`}
+      onClick={handleCardClick}
+    >
       <img
         src={imageSrc ? `${IMG_URL}${imageSrc}` : CarImage}
         alt={`param-${idx}`}
-        className="catalog-group-card__image image"
+        className={`catalog-group-card__image image ${
+          switchState === "list" ? "image_list" : ""
+        }`}
         loading="lazy"
         onError={handleImgError}
       />
-      <p className="catalog-group-card__name title" title={name}>
+      <p
+        className={`catalog-group-card__name title ${
+          switchState === "list" ? "title_list" : ""
+        }`}
+        title={name}
+      >
         {name}
       </p>
     </li>
