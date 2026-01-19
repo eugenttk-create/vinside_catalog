@@ -1,10 +1,10 @@
 import "./CatalogModelCard.css";
-import CarImage from "../../../../../assets/car_cover.png";
 import { useParameters } from "../../../../../hooks/parameters/useParameters";
 import { useModels } from "../../../../../hooks/models/useModels";
 import { useBreadcrumbs } from "../../../../../hooks/breadcrumbs/useBreadcrumbs";
 import { useState } from "react";
 import { Info, X } from "lucide-react";
+import { resolveImageSrc } from "../../../../../utils/resolveImgSrc";
 
 interface CatalogModelCardProps {
   imageSrc?: string;
@@ -18,8 +18,6 @@ interface CatalogModelCardProps {
     series: string | null;
   } | null;
 }
-
-const IMG_URL = import.meta.env.VITE_API_IMG_BASE;
 
 const CatalogModelCard: React.FC<CatalogModelCardProps> = ({
   imageSrc,
@@ -64,7 +62,7 @@ const CatalogModelCard: React.FC<CatalogModelCardProps> = ({
       )}
       <>
         <img
-          src={imageSrc ? `${IMG_URL}${imageSrc}` : CarImage}
+          src={resolveImageSrc(imageSrc)}
           alt={`model-${modelId}`}
           className="catalog-model-card__image image"
         />

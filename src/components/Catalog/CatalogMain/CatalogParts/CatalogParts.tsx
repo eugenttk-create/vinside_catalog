@@ -3,8 +3,7 @@ import { Copy, CircleCheck, Info } from "lucide-react";
 import { useParts } from "../../../../hooks/parts/useParts";
 import { useEffect, useState, useRef } from "react";
 import Breadcrumbs from "../../Breadcrumbs/Breadcrumbs";
-
-const IMAGE_URL = import.meta.env.VITE_API_IMG_BASE;
+import { resolveImageSrc } from "../../../../utils/resolveImgSrc";
 
 const MIN_WIDTH = 300;
 const MAX_WIDTH = 1500;
@@ -160,7 +159,7 @@ const CatalogParts: React.FC<CatalogPartsProps> = ({ modelId, setModelId }) => {
         >
           <img
             ref={imageRef}
-            src={`${IMAGE_URL}${parts.img}`}
+            src={resolveImageSrc(parts.img)}
             alt="parts"
             className="catalog-parts__image"
             loading="lazy"
