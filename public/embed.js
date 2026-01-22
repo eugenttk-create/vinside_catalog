@@ -6,6 +6,13 @@
   const CSS = BASE + "/widget.css";
   const CSS2 = BASE + "/widget2.css";
 
+  const script = document.currentScript;
+  const token = script?.dataset?.token;
+
+  if (!token) {
+    console.warn("Widget token is not provided");
+  }
+
   let container = document.getElementById(ROOT_ID);
   if (!container) {
     container = document.createElement("div");
@@ -31,7 +38,8 @@
         console.error("mountWidget() not found in widget.js", mod);
         return;
       }
-      mod.mountWidget(shadowRoot);
+
+      mod.mountWidget(shadowRoot, { token });
     })
     .catch(console.error);
 })();
