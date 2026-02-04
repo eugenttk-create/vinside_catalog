@@ -7,18 +7,17 @@
   const CSS2 = BASE + "/widget2.css";
 
   const script = document.currentScript;
-  const token = script?.dataset?.token;
-
-  if (!token) {
-    console.warn("Widget token is not provided");
+  if (!script) {
+    console.error("Cannot detect current script");
+    return;
   }
 
-  let container = document.getElementById(ROOT_ID);
-  if (!container) {
-    container = document.createElement("div");
-    container.id = ROOT_ID;
-    document.body.appendChild(container);
-  }
+  const token = script.dataset.token;
+
+  const container = document.createElement("div");
+  container.id = ROOT_ID;
+
+  script.parentNode.insertBefore(container, script);
 
   const shadowRoot = container.attachShadow({ mode: "open" });
 
