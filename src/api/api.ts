@@ -38,12 +38,20 @@ api.interceptors.response.use(
       const carcatId = getCookie("carcat_id");
 
       if (carcatId) {
+        console.log(
+          "Found carcat_id cookie:",
+          carcatId.substring(0, 50) + "..."
+        );
+        console.log("Cookie length:", carcatId.length);
+
         try {
           encryptionService.initializeFromBase64(carcatId);
           console.log("Encryption initialized from carcat_id cookie");
         } catch (error) {
           console.error("Failed to initialize encryption from cookie:", error);
         }
+      } else {
+        console.log("carcat_id cookie not found");
       }
     }
 

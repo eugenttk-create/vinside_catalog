@@ -5,9 +5,14 @@ class EncryptionService {
 
   initializeFromBase64(base64PublicKey: string): void {
     try {
-      const pemKey = forge.util.decode64(base64PublicKey);
+      const decodedKey = forge.util.decode64(base64PublicKey);
 
-      this.publicKey = forge.pki.publicKeyFromPem(pemKey);
+      if (decodedKey.includes("-----BEGIN")) {
+        this.publicKey = forge.pki.publicKeyFromPem(decodedKey);
+      } else {
+        const asn1 = forge.asn1.fromDer(decodedKey);
+        this.publicKey = forge.pki.publicKeyFromAsn1(asn1);
+      }
 
       console.log("Public key initialized successfully");
     } catch (error) {
