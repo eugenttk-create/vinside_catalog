@@ -1,121 +1,45 @@
-let publicKey: CryptoKey | null = null;
+import { JSEncrypt } from "jsencrypt";
 
-function base64ToArrayBuffer(base64: string) {
-  console.log("[CARCAT] Decoding base64 public key...");
+export class CryptoService {
+  private publicKey: string | null = null;
+  private encrypt = new JSEncrypt();
 
-  const binary = atob(base64);
-  const bytes = new Uint8Array(binary.length);
+  setPublicKeyFromCookie() {
+    const cookies = document.cookie.split(";");
+    const carcatCookie = cookies.find((c) => c.trim().startsWith("carcat_id="));
 
-  for (let i = 0; i < binary.length; i++) {
-    bytes[i] = binary.charCodeAt(i);
+    if (carcatCookie) {
+      const base64Key = carcatCookie.split("=")[1];
+      const decodedKey = atob(base64Key);
+      this.publicKey = decodedKey;
+      this.encrypt.setPublicKey(decodedKey);
+      console.log("Public key loaded from cookie");
+    }
   }
 
-  console.log("[CARCAT] Base64 decoded. Bytes length:", bytes.length);
+  encryptEndpoint(endpoint: string): string | null {
+    if (!this.publicKey) {
+      console.error("Public key not set");
+      return null;
+    }
 
-  return bytes.buffer;
-}
+    const payload = JSON.stringify({ endpoint });
 
-function arrayBufferToBase64(buffer: ArrayBuffer) {
-  const bytes = new Uint8Array(buffer);
-  let binary = "";
+    const encrypted = this.encrypt.encrypt(payload);
 
-  for (let i = 0; i < bytes.byteLength; i++) {
-    binary += String.fromCharCode(bytes[i]);
+    if (!encrypted) {
+      console.error("Encryption failed");
+      return null;
+    }
+
+    const base64Encrypted = btoa(encrypted);
+
+    return base64Encrypted;
   }
 
-  const encoded = btoa(binary);
-
-  console.log("[CARCAT] Encrypted payload base64 length:", encoded.length);
-
-  return encoded;
-}
-
-export function getCookie(name: string) {
-  console.log(`[CARCAT] Searching cookie: ${name}`);
-
-  const match = document.cookie.match(new RegExp("(^| )" + name + "=([^;]+)"));
-
-  if (match) {
-    console.log("[CARCAT] Cookie found");
-    return match[2];
-  }
-
-  console.warn("[CARCAT] Cookie not found");
-  return null;
-}
-
-export async function loadPublicKeyFromCookie() {
-  if (publicKey) {
-    console.log("[CARCAT] Using cached public key");
-    return publicKey;
-  }
-
-  const cookie = getCookie("carcat_id");
-
-  if (!cookie) {
-    console.warn("[CARCAT] No carcat_id cookie available");
-    return null;
-  }
-
-  try {
-    const keyBuffer = base64ToArrayBuffer(cookie);
-
-    console.log("[CARCAT] Importing RSA public key...");
-
-    publicKey = await crypto.subtle.importKey(
-      "spki",
-      keyBuffer,
-      {
-        name: "RSA-OAEP",
-        hash: "SHA-256",
-      },
-      false,
-      ["encrypt"]
-    );
-
-    console.log("[CARCAT] RSA public key imported successfully");
-
-    return publicKey;
-  } catch (error) {
-    console.error("[CARCAT] Failed to import public key:", error);
-    return null;
+  hasPublicKey(): boolean {
+    return this.publicKey !== null;
   }
 }
 
-export async function encryptEndpoint(endpoint: string) {
-  console.log("[CARCAT] Encrypting endpoint:", endpoint);
-
-  const key = await loadPublicKeyFromCookie();
-
-  if (!key) {
-    console.warn("[CARCAT] Encryption skipped — no public key");
-    return null;
-  }
-
-  const payloadObject = { endpoint };
-  const payload = JSON.stringify(payloadObject);
-
-  console.log("[CARCAT] Payload before encryption:", payload);
-
-  const encoded = new TextEncoder().encode(payload);
-
-  console.log("[CARCAT] Payload byte length:", encoded.length);
-
-  try {
-    const encrypted = await crypto.subtle.encrypt(
-      { name: "RSA-OAEP" },
-      key,
-      encoded
-    );
-
-    console.log(
-      "[CARCAT] Encryption successful. Encrypted byte length:",
-      encrypted.byteLength
-    );
-
-    return arrayBufferToBase64(encrypted);
-  } catch (error) {
-    console.error("[CARCAT] Encryption failed:", error);
-    return null;
-  }
-}
+export const cryptoService = new CryptoService();
