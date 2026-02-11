@@ -1,64 +1,121 @@
-import forge from "node-forge";
+let publicKey: CryptoKey | null = null;
 
-class EncryptionService {
-  private publicKey: forge.pki.rsa.PublicKey | null = null;
+function base64ToArrayBuffer(base64: string) {
+  console.log("[CARCAT] Decoding base64 public key...");
 
-  initializeFromBase64(base64PublicKey: string): void {
-    try {
-      const decoded = forge.util.decode64(base64PublicKey);
+  const binary = atob(base64);
+  const bytes = new Uint8Array(binary.length);
 
-      if (decoded.includes("-----BEGIN")) {
-        this.publicKey = forge.pki.publicKeyFromPem(decoded);
-      } else {
-        const asn1 = forge.asn1.fromDer(decoded);
-        this.publicKey = forge.pki.publicKeyFromAsn1(asn1);
-      }
-
-      console.log("Public key initialized successfully");
-      console.log("Key size:", this.publicKey.n.bitLength(), "bits");
-    } catch (error) {
-      console.error("Failed to initialize public key:", error);
-      throw error;
-    }
+  for (let i = 0; i < binary.length; i++) {
+    bytes[i] = binary.charCodeAt(i);
   }
 
-  encryptEndpoint(endpoint: string): string {
-    if (!this.publicKey) {
-      console.warn("Public key not initialized");
-      throw new Error("Public key not initialized");
-    }
+  console.log("[CARCAT] Base64 decoded. Bytes length:", bytes.length);
 
-    try {
-      const payload = JSON.stringify({ endpoint });
-      console.log("Payload to encrypt:", payload);
+  return bytes.buffer;
+}
 
-      const encrypted = this.publicKey.encrypt(payload, "RSA-OAEP", {
-        md: forge.md.sha256.create(),
-      });
+function arrayBufferToBase64(buffer: ArrayBuffer) {
+  const bytes = new Uint8Array(buffer);
+  let binary = "";
 
-      console.log("Encrypted (binary length):", encrypted.length, "bytes");
-
-      const base64Encrypted = forge.util.encode64(encrypted);
-      console.log(
-        "Base64 encrypted:",
-        base64Encrypted.substring(0, 50) + "..."
-      );
-      console.log("Base64 length:", base64Encrypted.length, "chars");
-
-      return base64Encrypted;
-    } catch (error) {
-      console.error("Encryption failed:", error);
-      throw error;
-    }
+  for (let i = 0; i < bytes.byteLength; i++) {
+    binary += String.fromCharCode(bytes[i]);
   }
 
-  isInitialized(): boolean {
-    return this.publicKey !== null;
+  const encoded = btoa(binary);
+
+  console.log("[CARCAT] Encrypted payload base64 length:", encoded.length);
+
+  return encoded;
+}
+
+export function getCookie(name: string) {
+  console.log(`[CARCAT] Searching cookie: ${name}`);
+
+  const match = document.cookie.match(new RegExp("(^| )" + name + "=([^;]+)"));
+
+  if (match) {
+    console.log("[CARCAT] Cookie found");
+    return match[2];
   }
 
-  reset(): void {
-    this.publicKey = null;
+  console.warn("[CARCAT] Cookie not found");
+  return null;
+}
+
+export async function loadPublicKeyFromCookie() {
+  if (publicKey) {
+    console.log("[CARCAT] Using cached public key");
+    return publicKey;
+  }
+
+  const cookie = getCookie("carcat_id");
+
+  if (!cookie) {
+    console.warn("[CARCAT] No carcat_id cookie available");
+    return null;
+  }
+
+  try {
+    const keyBuffer = base64ToArrayBuffer(cookie);
+
+    console.log("[CARCAT] Importing RSA public key...");
+
+    publicKey = await crypto.subtle.importKey(
+      "spki",
+      keyBuffer,
+      {
+        name: "RSA-OAEP",
+        hash: "SHA-256",
+      },
+      false,
+      ["encrypt"]
+    );
+
+    console.log("[CARCAT] RSA public key imported successfully");
+
+    return publicKey;
+  } catch (error) {
+    console.error("[CARCAT] Failed to import public key:", error);
+    return null;
   }
 }
 
-export const encryptionService = new EncryptionService();
+export async function encryptEndpoint(endpoint: string) {
+  console.log("[CARCAT] Encrypting endpoint:", endpoint);
+
+  const key = await loadPublicKeyFromCookie();
+
+  if (!key) {
+    console.warn("[CARCAT] Encryption skipped — no public key");
+    return null;
+  }
+
+  const payloadObject = { endpoint };
+  const payload = JSON.stringify(payloadObject);
+
+  console.log("[CARCAT] Payload before encryption:", payload);
+
+  const encoded = new TextEncoder().encode(payload);
+
+  console.log("[CARCAT] Payload byte length:", encoded.length);
+
+  try {
+    const encrypted = await crypto.subtle.encrypt(
+      { name: "RSA-OAEP" },
+      key,
+      encoded
+    );
+
+    console.log(
+      "[CARCAT] Encryption successful. Encrypted byte length:",
+      encrypted.byteLength
+    );
+
+    return arrayBufferToBase64(encrypted);
+  } catch (error) {
+    console.error("[CARCAT] Encryption failed:", error);
+    return null;
+  }
+}
