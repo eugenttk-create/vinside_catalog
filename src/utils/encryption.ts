@@ -13,22 +13,21 @@ export class CryptoService {
       const decodedKey = atob(base64Key);
       this.publicKey = decodedKey;
       this.encrypt.setPublicKey(decodedKey);
-      console.log("Public key loaded from cookie");
     }
   }
 
   encryptEndpoint(endpoint: string): string | null {
     if (!this.publicKey) {
-      console.error("Public key not set");
       return null;
     }
 
-    const payload = JSON.stringify({ endpoint });
+    const endpointWithoutQuery = endpoint.split("?")[0];
 
+    const payload = JSON.stringify({ endpoint: endpointWithoutQuery });
+    console.log(payload);
     const encrypted = this.encrypt.encrypt(payload);
 
     if (!encrypted) {
-      console.error("Encryption failed");
       return null;
     }
 
