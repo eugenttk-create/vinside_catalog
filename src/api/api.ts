@@ -1,6 +1,5 @@
 import axios from "axios";
-import { encryptEndpoint } from "../utils/encryption";
-// import { getCookie } from "../utils/cookies";
+import JSEncrypt from "jsencrypt";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -13,47 +12,58 @@ const api = axios.create({
   },
 });
 
-api.interceptors.request.use(async (config) => {
-  console.log("======================================");
-  console.log("Outgoing request:", config.url);
-  console.log("Method:", config.method);
+let publicKey: string | null = null;
 
+const readPublicKeyFromCookie = () => {
+  const cookie = document.cookie
+    .split("; ")
+    .find((row) => row.startsWith("carcat_id="));
+  if (cookie) {
+    const base64Key = cookie.split("=")[1];
+    return atob(base64Key);
+  }
+  return null;
+};
+
+api.interceptors.request.use((config) => {
   const token = window.__WIDGET_TOKEN__;
-
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
-    console.log("Authorization header attached");
   }
 
-  if (config.url) {
-    const encrypted = await encryptEndpoint(config.url);
+  if (publicKey && config.url) {
+    const jsonPayload = { endpoint: config.url };
+    const dataToEncrypt = JSON.stringify(jsonPayload);
+
+    const encrypt = new JSEncrypt();
+    encrypt.setPublicKey(publicKey);
+    const encrypted = encrypt.encrypt(dataToEncrypt);
 
     if (encrypted) {
-      config.headers.carcat_session = encrypted;
-      console.log("carcat_session header attached");
+      config.headers["carcat_session"] = encrypted;
     } else {
-      console.warn("carcat_session NOT attached");
+      console.error("Encryption failed");
     }
   }
-
-  console.log("Final headers:", config.headers);
-  console.log("======================================");
 
   return config;
 });
 
 api.interceptors.response.use(
   (response) => {
-    console.log("Response received:", response.config.url);
+    if (response.config.url === "/catalogs" && !publicKey) {
+      const keyFromCookie = readPublicKeyFromCookie();
+      if (keyFromCookie) {
+        publicKey = keyFromCookie;
+        console.log("Public key loaded from cookie");
+      }
+    }
     return response;
   },
   (error) => {
-    console.error("Response error:", error.response?.status);
-
     if (error.response?.status === 401) {
       console.error("Unauthorized access");
     }
-
     return Promise.reject(error);
   }
 );
