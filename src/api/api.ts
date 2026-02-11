@@ -30,7 +30,7 @@ api.interceptors.request.use((config) => {
 
 api.interceptors.response.use(
   (response) => {
-    if (!cryptoService.hasPublicKey()) {
+    if (response.config.url?.includes("/catalogs")) {
       cryptoService.setPublicKeyFromCookie();
     }
     return response;
