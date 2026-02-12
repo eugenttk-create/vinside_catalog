@@ -2,8 +2,7 @@ import "./CatalogModelCard.css";
 import { useParameters } from "../../../../../hooks/parameters/useParameters";
 import { useModels } from "../../../../../hooks/models/useModels";
 import { useBreadcrumbs } from "../../../../../hooks/breadcrumbs/useBreadcrumbs";
-import { useState } from "react";
-import { Info, X } from "lucide-react";
+import { Info } from "lucide-react";
 import { resolveImageSrc } from "../../../../../utils/resolveImgSrc";
 import type { InfoPopupDescription } from "../CatalogModels";
 

@@ -1,7 +1,7 @@
 import "./CatalogModels.css";
 import CatalogModelCard from "./CatalogModelCard/CatalogModelCard";
 import { useModels } from "../../../../hooks/models/useModels";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import InfoPopup from "../../../InfoPopup/InfoPopup";
 
 interface CatalogModelsProps {
