@@ -5,6 +5,7 @@ import { useBreadcrumbs } from "../../../../../hooks/breadcrumbs/useBreadcrumbs"
 import { useState } from "react";
 import { Info, X } from "lucide-react";
 import { resolveImageSrc } from "../../../../../utils/resolveImgSrc";
+import type { InfoPopupDescription } from "../CatalogModels";
 
 interface CatalogModelCardProps {
   imageSrc?: string;
@@ -17,6 +18,10 @@ interface CatalogModelCardProps {
     productionTo: string | null;
     series: string | null;
   } | null;
+  setIsInfoActive: React.Dispatch<React.SetStateAction<boolean>>;
+  setCurrentDescription: React.Dispatch<
+    React.SetStateAction<InfoPopupDescription>
+  >;
 }
 
 const CatalogModelCard: React.FC<CatalogModelCardProps> = ({
@@ -25,12 +30,12 @@ const CatalogModelCard: React.FC<CatalogModelCardProps> = ({
   name,
   setModelId,
   description,
+  setIsInfoActive,
+  setCurrentDescription,
 }) => {
   const { catalogId } = useModels();
   const { getParameters } = useParameters();
   const { handleAddBreadcrumb } = useBreadcrumbs();
-
-  const [isHovered, setIsHovered] = useState(false);
 
   const handleCardClick = () => {
     getParameters(catalogId, modelId, null);
@@ -41,23 +46,19 @@ const CatalogModelCard: React.FC<CatalogModelCardProps> = ({
   const handleInfoButtonClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
     e.preventDefault();
-    setIsHovered(!isHovered);
+    setIsInfoActive(true);
+    setCurrentDescription(description);
   };
 
   return (
-    <li
-      className="catalog-model-card card"
-      onClick={handleCardClick}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-    >
+    <li className="catalog-model-card card" onClick={handleCardClick}>
       {description !== null && (
         <button
           type="button"
           className="catalog-model-card__info-icon"
           onClick={handleInfoButtonClick}
         >
-          {isHovered ? <X className="icon" /> : <Info className="icon" />}
+          <Info className="icon" />
         </button>
       )}
       <>
@@ -68,54 +69,6 @@ const CatalogModelCard: React.FC<CatalogModelCardProps> = ({
         />
         <p className="catalog-model-card__name title">{name}</p>
       </>
-      {description !== null && (
-        <ul
-          className={`catalog-model-card__description card-description ${
-            isHovered ? "card-description_visible" : ""
-          }`}
-        >
-          <p className="catalog-model-card__description-title card-description-title">
-            {name}
-          </p>
-          {description.modelType !== null && (
-            <li className="catalog-model-card__description-el card-description-el">
-              <p className="catalog-model-card__description-el-title card-description-el-title">
-                Model Type
-              </p>
-              <p className="catalog-model-card__description-el-text card-description-el-text">
-                {description.modelType}
-              </p>
-            </li>
-          )}{" "}
-          {description.productionFrom !== null &&
-            description.productionTo !== null && (
-              <li className="catalog-model-card__description-el card-description-el">
-                <p className="catalog-model-card__description-el-title card-description-el-title">
-                  Production Period
-                </p>
-                <p className="catalog-model-card__description-el-text card-description-el-text">
-                  {description.productionFrom !== null &&
-                    description.productionFrom}{" "}
-                  {description.productionFrom !== null &&
-                    description.productionTo !== null &&
-                    "/"}{" "}
-                  {description.productionTo !== null &&
-                    description.productionTo}
-                </p>
-              </li>
-            )}
-          {description.series && (
-            <li className="catalog-model-card__description-el card-description-el">
-              <p className="catalog-model-card__description-el-title card-description-el-title">
-                Series
-              </p>
-              <p className="catalog-model-card__description-el-text card-description-el-text">
-                {description.series}
-              </p>
-            </li>
-          )}
-        </ul>
-      )}
     </li>
   );
 };
