@@ -1,13 +1,16 @@
 import "./CatalogParts.css";
 import { Copy, CircleCheck, Info } from "lucide-react";
 import { useParts } from "../../../../hooks/parts/useParts";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import Breadcrumbs from "../../Breadcrumbs/Breadcrumbs";
 import { resolveImageSrc } from "../../../../utils/resolveImgSrc";
 
 const MIN_WIDTH = 300;
 const MAX_WIDTH = 1500;
 const LS_KEY = "catalog_parts_table_width";
+const MIN_SCALE = 0.5;
+const MAX_SCALE = 3;
+const SCALE_STEP = 0.1;
 
 interface CatalogPartsProps {
   modelId: string;
@@ -28,6 +31,12 @@ const CatalogParts: React.FC<CatalogPartsProps> = ({ modelId, setModelId }) => {
   const [selectedPos, setSelectedPos] = useState<string | null>(null);
   const [hoverTablePos, setHoverTablePos] = useState<string | null>(null);
   const [copiedPartId, setCopiedPartId] = useState<string | null>(null);
+
+  const [scale, setScale] = useState(1);
+  const [panOffset, setPanOffset] = useState({ x: 0, y: 0 });
+  const isPanning = useRef(false);
+  const lastPanPoint = useRef({ x: 0, y: 0 });
+  const lastTouchDistance = useRef<number | null>(null);
 
   const [tableWidth, setTableWidth] = useState<number>(() => {
     const saved = localStorage.getItem(LS_KEY);
@@ -68,7 +77,7 @@ const CatalogParts: React.FC<CatalogPartsProps> = ({ modelId, setModelId }) => {
     };
   }, [tableWidth]);
 
-  const updateRects = () => {
+  const updateRects = useCallback(() => {
     const img = imageRef.current;
     const container = containerRef.current;
     if (!img || !container) return;
@@ -80,7 +89,7 @@ const CatalogParts: React.FC<CatalogPartsProps> = ({ modelId, setModelId }) => {
 
     setImgRect(img.getBoundingClientRect());
     setContainerRect(container.getBoundingClientRect());
-  };
+  }, []);
 
   const handleCopy = async (partId: string, value: string) => {
     try {
@@ -118,6 +127,205 @@ const CatalogParts: React.FC<CatalogPartsProps> = ({ modelId, setModelId }) => {
     };
   }, [parts.img]);
 
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    const handleWheel = (e: WheelEvent) => {
+      e.preventDefault();
+
+      const rect = container.getBoundingClientRect();
+      const mouseX = e.clientX - rect.left;
+      const mouseY = e.clientY - rect.top;
+
+      const delta = e.deltaY > 0 ? -SCALE_STEP : SCALE_STEP;
+      const newScale = Math.min(MAX_SCALE, Math.max(MIN_SCALE, scale + delta));
+
+      if (newScale !== scale) {
+        const scaleRatio = newScale / scale;
+        setPanOffset({
+          x: mouseX - (mouseX - panOffset.x) * scaleRatio,
+          y: mouseY - (mouseY - panOffset.y) * scaleRatio,
+        });
+        setScale(newScale);
+      }
+    };
+
+    container.addEventListener("wheel", handleWheel, { passive: false });
+    return () => container.removeEventListener("wheel", handleWheel);
+  }, [scale, panOffset]);
+
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    const handleMouseDown = (e: MouseEvent) => {
+      if ((e.target as HTMLElement).closest(".catalog-parts__highlight"))
+        return;
+
+      isPanning.current = true;
+      lastPanPoint.current = { x: e.clientX, y: e.clientY };
+      container.style.cursor = "grabbing";
+    };
+
+    const handleMouseMove = (e: MouseEvent) => {
+      if (!isPanning.current) return;
+
+      const dx = e.clientX - lastPanPoint.current.x;
+      const dy = e.clientY - lastPanPoint.current.y;
+
+      setPanOffset((prev) => ({
+        x: prev.x + dx,
+        y: prev.y + dy,
+      }));
+
+      lastPanPoint.current = { x: e.clientX, y: e.clientY };
+    };
+
+    const handleMouseUp = () => {
+      isPanning.current = false;
+      container.style.cursor = scale > 1 ? "grab" : "default";
+    };
+
+    container.addEventListener("mousedown", handleMouseDown);
+    window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("mouseup", handleMouseUp);
+
+    return () => {
+      container.removeEventListener("mousedown", handleMouseDown);
+      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("mouseup", handleMouseUp);
+    };
+  }, [scale]);
+
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    const getTouchDistance = (touches: TouchList) => {
+      if (touches.length < 2) return null;
+      const dx = touches[0].clientX - touches[1].clientX;
+      const dy = touches[0].clientY - touches[1].clientY;
+      return Math.sqrt(dx * dx + dy * dy);
+    };
+
+    const getTouchCenter = (touches: TouchList) => {
+      if (touches.length === 0) return { x: 0, y: 0 };
+      const x =
+        Array.from(touches).reduce((sum, t) => sum + t.clientX, 0) /
+        touches.length;
+      const y =
+        Array.from(touches).reduce((sum, t) => sum + t.clientY, 0) /
+        touches.length;
+      return { x, y };
+    };
+
+    const handleTouchStart = (e: TouchEvent) => {
+      if (e.touches.length === 2) {
+        e.preventDefault();
+        lastTouchDistance.current = getTouchDistance(e.touches);
+      } else if (e.touches.length === 1) {
+        const touch = e.touches[0];
+        lastPanPoint.current = { x: touch.clientX, y: touch.clientY };
+      }
+    };
+
+    const handleTouchMove = (e: TouchEvent) => {
+      if (e.touches.length === 2 && lastTouchDistance.current !== null) {
+        e.preventDefault();
+
+        const currentDistance = getTouchDistance(e.touches);
+        if (currentDistance === null) return;
+
+        const rect = container.getBoundingClientRect();
+        const center = getTouchCenter(e.touches);
+        const centerX = center.x - rect.left;
+        const centerY = center.y - rect.top;
+
+        const scaleChange = currentDistance / lastTouchDistance.current;
+        const newScale = Math.min(
+          MAX_SCALE,
+          Math.max(MIN_SCALE, scale * scaleChange)
+        );
+
+        if (newScale !== scale) {
+          const scaleRatio = newScale / scale;
+          setPanOffset({
+            x: centerX - (centerX - panOffset.x) * scaleRatio,
+            y: centerY - (centerY - panOffset.y) * scaleRatio,
+          });
+          setScale(newScale);
+        }
+
+        lastTouchDistance.current = currentDistance;
+      } else if (e.touches.length === 1 && scale > 1) {
+        e.preventDefault();
+        const touch = e.touches[0];
+        const dx = touch.clientX - lastPanPoint.current.x;
+        const dy = touch.clientY - lastPanPoint.current.y;
+
+        setPanOffset((prev) => ({
+          x: prev.x + dx,
+          y: prev.y + dy,
+        }));
+
+        lastPanPoint.current = { x: touch.clientX, y: touch.clientY };
+      }
+    };
+
+    const handleTouchEnd = () => {
+      lastTouchDistance.current = null;
+    };
+
+    container.addEventListener("touchstart", handleTouchStart, {
+      passive: false,
+    });
+    container.addEventListener("touchmove", handleTouchMove, {
+      passive: false,
+    });
+    container.addEventListener("touchend", handleTouchEnd);
+
+    return () => {
+      container.removeEventListener("touchstart", handleTouchStart);
+      container.removeEventListener("touchmove", handleTouchMove);
+      container.removeEventListener("touchend", handleTouchEnd);
+    };
+  }, [scale, panOffset]);
+
+  const handleZoomIn = () => {
+    const newScale = Math.min(MAX_SCALE, scale + SCALE_STEP);
+    setScale(newScale);
+  };
+
+  const handleZoomOut = () => {
+    const newScale = Math.max(MIN_SCALE, scale - SCALE_STEP);
+    setScale(newScale);
+  };
+
+  const handleResetZoom = () => {
+    setScale(1);
+    setPanOffset({ x: 0, y: 0 });
+  };
+
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      requestAnimationFrame(updateRects);
+    }, 0);
+
+    return () => clearTimeout(timeoutId);
+  }, [tableWidth]);
+
+  useEffect(() => {
+    if (isPanning.current) {
+      requestAnimationFrame(updateRects);
+    } else {
+      const timeout = setTimeout(() => {
+        requestAnimationFrame(updateRects);
+      }, 110);
+      return () => clearTimeout(timeout);
+    }
+  }, [scale, panOffset.x, panOffset.y]);
+
   const computeOverlayStyle = (coords: [number, number, number, number]) => {
     const [x, y, w, h] = coords;
     if (
@@ -128,24 +336,15 @@ const CatalogParts: React.FC<CatalogPartsProps> = ({ modelId, setModelId }) => {
     ) {
       return { left: 0, top: 0, width: 0, height: 0 };
     }
-
     const sx = imgRect.width / naturalSize.width;
     const sy = imgRect.height / naturalSize.height;
-
     const offsetLeft = imgRect.left - containerRect.left;
     const offsetTop = imgRect.top - containerRect.top;
-
     const left = offsetLeft + x * sx;
     const top = offsetTop + y * sy;
     const width = Math.max(0, w * sx);
     const height = Math.max(0, h * sy);
-
-    return {
-      left,
-      top,
-      width,
-      height,
-    };
+    return { left, top, width, height };
   };
 
   return (
@@ -155,14 +354,51 @@ const CatalogParts: React.FC<CatalogPartsProps> = ({ modelId, setModelId }) => {
         <div
           className="catalog-parts__img-container"
           ref={containerRef}
-          style={{ position: "relative" }}
+          style={{
+            position: "relative",
+            overflow: "hidden",
+            cursor: scale > 1 ? "grab" : "default",
+          }}
         >
+          <div className="catalog-parts__zoom-controls">
+            <button
+              className="catalog-parts__zoom-btn"
+              onClick={handleZoomOut}
+              disabled={scale <= MIN_SCALE}
+            >
+              −
+            </button>
+            <span
+              className="catalog-parts__zoom-value"
+              onClick={handleResetZoom}
+              style={{ cursor: "pointer" }}
+              title="Сбросить масштаб"
+            >
+              {Math.round(scale * 100)}%
+            </span>
+            <button
+              className="catalog-parts__zoom-btn"
+              onClick={handleZoomIn}
+              disabled={scale >= MAX_SCALE}
+            >
+              +
+            </button>
+          </div>
+
           <img
             ref={imageRef}
             src={resolveImageSrc(parts.img)}
             alt="parts"
             className="catalog-parts__image"
+            draggable={false}
             loading="lazy"
+            style={{
+              transform: `scale(${scale}) translate(${panOffset.x}px, ${panOffset.y}px)`,
+              transformOrigin: "0 0",
+              transition: isPanning.current
+                ? "none"
+                : "transform 0.1s ease-out",
+            }}
           />
 
           {parts.positions.map((p) => {
@@ -205,7 +441,6 @@ const CatalogParts: React.FC<CatalogPartsProps> = ({ modelId, setModelId }) => {
           className="catalog-parts__table-wrapper"
           style={{ width: tableWidth }}
         >
-          {" "}
           <div
             className="catalog-parts__resize-handle"
             onMouseDown={() => {
@@ -213,7 +448,9 @@ const CatalogParts: React.FC<CatalogPartsProps> = ({ modelId, setModelId }) => {
               document.body.style.cursor = "col-resize";
               document.body.style.userSelect = "none";
             }}
-          />
+          >
+            <div className="catalog-parts__resize-icon"></div>
+          </div>
           <table className="catalog-parts__table">
             <tbody className="catalog-parts__tbody">
               {parts &&

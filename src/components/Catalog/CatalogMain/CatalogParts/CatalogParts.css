@@ -68,6 +68,17 @@
   background-color: rgba(14, 165, 233, 0.15);
 }
 
+.catalog-parts__resize-icon {
+  position: absolute;
+  transform: translateY(-50%);
+  top: 50%;
+  left: 0;
+  width: 5px;
+  height: 20px;
+  border-radius: 4px;
+  background-color: #b6b6b6;
+}
+
 .catalog-parts__table {
   width: 100%;
   border-collapse: collapse;
@@ -132,4 +143,52 @@
   color: var(--blue);
   background-color: rgba(14, 165, 233, 0.082);
   text-wrap: nowrap;
+}
+
+.catalog-parts__zoom-controls {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: white;
+  border-radius: 8px;
+  padding: 4px 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.catalog-parts__zoom-btn {
+  width: 32px;
+  height: 32px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 20px;
+  font-weight: bold;
+  color: #333;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+.catalog-parts__zoom-btn:hover:not(:disabled) {
+  background-color: #f0f0f0;
+}
+
+.catalog-parts__zoom-btn:disabled {
+  color: #ccc;
+  cursor: not-allowed;
+}
+
+.catalog-parts__zoom-value {
+  min-width: 50px;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+  user-select: none;
 }
