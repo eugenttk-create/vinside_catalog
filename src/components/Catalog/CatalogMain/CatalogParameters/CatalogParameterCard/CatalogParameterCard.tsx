@@ -1,7 +1,10 @@
-import CarImage from "../../../../../assets/car_cover.png";
 import { useState } from "react";
 import { X, Info } from "lucide-react";
 import "./CatalogParameterCard.css";
+import {
+  resolveImageSrc,
+  FALLBACK_IMAGE,
+} from "../../../../../utils/resolveImgSrc";
 
 interface CatalogParameterCardProps {
   imageSrc?: string;
@@ -48,9 +51,12 @@ const CatalogParameterCard: React.FC<CatalogParameterCardProps> = ({
         </button>
       )}
       <img
-        src={imageSrc ? imageSrc : CarImage}
+        src={resolveImageSrc(imageSrc)}
         alt={`param-${idx}`}
         className="catalog-parameter-card__image image"
+        onError={(e) => {
+          e.currentTarget.src = FALLBACK_IMAGE;
+        }}
       />
       <p className="catalog-parameter-card__name title" title={name}>
         {name}

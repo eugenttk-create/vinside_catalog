@@ -3,7 +3,10 @@ import { useParameters } from "../../../../../hooks/parameters/useParameters";
 import { useModels } from "../../../../../hooks/models/useModels";
 import { useBreadcrumbs } from "../../../../../hooks/breadcrumbs/useBreadcrumbs";
 import { Info } from "lucide-react";
-import { resolveImageSrc } from "../../../../../utils/resolveImgSrc";
+import {
+  resolveImageSrc,
+  FALLBACK_IMAGE,
+} from "../../../../../utils/resolveImgSrc";
 import type { InfoPopupDescription } from "../CatalogModels";
 
 interface CatalogModelCardProps {
@@ -65,6 +68,9 @@ const CatalogModelCard: React.FC<CatalogModelCardProps> = ({
           src={resolveImageSrc(imageSrc)}
           alt={`model-${modelId}`}
           className="catalog-model-card__image image"
+          onError={(e) => {
+            e.currentTarget.src = FALLBACK_IMAGE;
+          }}
         />
         <p className="catalog-model-card__name title">{name}</p>
       </>
