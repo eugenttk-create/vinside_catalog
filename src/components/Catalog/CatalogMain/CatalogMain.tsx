@@ -1,9 +1,11 @@
 import "./CatalogMain.css";
+import { Grid2X2, Menu } from "lucide-react";
 import CatalogModels from "./CatalogModels/CatalogModels";
 import CatalogParameters from "./CatalogParameters/CatalogParameters";
 import CatalogGroups from "./CatalogGroups/CatalogGroups";
 import CatalogParts from "./CatalogParts/CatalogParts";
 import CatalogBrands from "./CatalogBrands/CatalogBrands";
+import { useState } from "react";
 import { useParameters } from "../../../hooks/parameters/useParameters";
 import { useGroups } from "../../../hooks/groups/useGroups";
 import { useParts } from "../../../hooks/parts/useParts";
@@ -20,6 +22,15 @@ const CatalogMain: React.FC<CatalogMainProps> = ({ modelId, setModelId }) => {
   const { groupsFlat, groupsLoading } = useGroups();
   const { parts, partsLoading } = useParts();
   const { models, modelsLoading } = useModels();
+  const [switchState, setSwitchState] = useState("list");
+
+  const toggleSwitch = () => {
+    if (switchState === "list") {
+      setSwitchState("cards");
+    } else {
+      setSwitchState("list");
+    }
+  };
 
   return (
     <div
@@ -31,6 +42,30 @@ const CatalogMain: React.FC<CatalogMainProps> = ({ modelId, setModelId }) => {
           : ""
       }`}
     >
+      <div className="cards-section__switch-container">
+        <div className="cards-section__switch">
+          <button
+            className={`cards-section__switch-button ${
+              switchState === "cards"
+                ? "cards-section__switch-button_active"
+                : ""
+            }`}
+            onClick={toggleSwitch}
+          >
+            <Grid2X2 className="icon" />
+          </button>
+          <button
+            className={`cards-section__switch-button ${
+              switchState === "list"
+                ? "cards-section__switch-button_active"
+                : ""
+            }`}
+            onClick={toggleSwitch}
+          >
+            <Menu className="icon" />
+          </button>
+        </div>
+      </div>
       {(parametersLoading ||
         groupsLoading ||
         partsLoading ||
@@ -41,13 +76,14 @@ const CatalogMain: React.FC<CatalogMainProps> = ({ modelId, setModelId }) => {
       parts.partGroups[0].parts?.length > 0 ? (
         <CatalogParts modelId={modelId} setModelId={setModelId} />
       ) : groupsFlat.length > 0 && carId ? (
-        <CatalogGroups carId={carId} />
+        <CatalogGroups carId={carId} switchState={switchState} />
       ) : parameters.length > 0 ? (
-        <CatalogParameters modelId={modelId} />
+        <CatalogParameters modelId={modelId} switchState={switchState} />
       ) : models.length > 0 ? (
-        <CatalogModels setModelId={setModelId} />
+        <CatalogModels setModelId={setModelId} switchState={switchState} />
       ) : (
-        !modelsLoading && !groupsLoading && <CatalogBrands />
+        !modelsLoading &&
+        !groupsLoading && <CatalogBrands switchState={switchState} />
       )}
     </div>
   );

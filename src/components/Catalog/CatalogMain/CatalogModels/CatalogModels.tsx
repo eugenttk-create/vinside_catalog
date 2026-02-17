@@ -6,6 +6,7 @@ import InfoPopup from "../../../InfoPopup/InfoPopup";
 
 interface CatalogModelsProps {
   setModelId: React.Dispatch<React.SetStateAction<string>>;
+  switchState: string;
 }
 
 export type InfoPopupDescription = {
@@ -15,7 +16,10 @@ export type InfoPopupDescription = {
   series: string | null;
 } | null;
 
-const CatalogModels: React.FC<CatalogModelsProps> = ({ setModelId }) => {
+const CatalogModels: React.FC<CatalogModelsProps> = ({
+  setModelId,
+  switchState,
+}) => {
   const { models } = useModels();
   const [isInfoActive, setIsInfoActive] = useState(false);
   const [currentDescription, setCurrentDescription] =
@@ -23,7 +27,11 @@ const CatalogModels: React.FC<CatalogModelsProps> = ({ setModelId }) => {
 
   return (
     <>
-      <ul className="models cards-section">
+      <ul
+        className={`models cards-section ${
+          switchState === "cards" ? "cards-section_grid" : "cards-section_list"
+        }`}
+      >
         {models &&
           models.map((model) => {
             return (
@@ -36,6 +44,7 @@ const CatalogModels: React.FC<CatalogModelsProps> = ({ setModelId }) => {
                 description={model.description}
                 setIsInfoActive={setIsInfoActive}
                 setCurrentDescription={setCurrentDescription}
+                switchState={switchState}
               />
             );
           })}

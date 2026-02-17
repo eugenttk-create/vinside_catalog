@@ -24,6 +24,7 @@ interface CatalogModelCardProps {
   setCurrentDescription: React.Dispatch<
     React.SetStateAction<InfoPopupDescription>
   >;
+  switchState: string;
 }
 
 const CatalogModelCard: React.FC<CatalogModelCardProps> = ({
@@ -34,6 +35,7 @@ const CatalogModelCard: React.FC<CatalogModelCardProps> = ({
   description,
   setIsInfoActive,
   setCurrentDescription,
+  switchState,
 }) => {
   const { catalogId } = useModels();
   const { getParameters } = useParameters();
@@ -53,7 +55,12 @@ const CatalogModelCard: React.FC<CatalogModelCardProps> = ({
   };
 
   return (
-    <li className="catalog-model-card card" onClick={handleCardClick}>
+    <li
+      className={`catalog-model-card card ${
+        switchState === "list" ? "card_list" : ""
+      }`}
+      onClick={handleCardClick}
+    >
       {description !== null && (
         <button
           type="button"
@@ -67,12 +74,20 @@ const CatalogModelCard: React.FC<CatalogModelCardProps> = ({
         <img
           src={resolveImageSrc(imageSrc)}
           alt={`model-${modelId}`}
-          className="catalog-model-card__image image"
+          className={`catalog-model-card__image image ${
+            switchState === "list" ? "image_list" : ""
+          }`}
           onError={(e) => {
             e.currentTarget.src = FALLBACK_IMAGE;
           }}
         />
-        <p className="catalog-model-card__name title">{name}</p>
+        <p
+          className={`catalog-model-card__name title ${
+            switchState === "list" ? "title_list" : ""
+          }`}
+        >
+          {name}
+        </p>
       </>
     </li>
   );

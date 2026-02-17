@@ -5,9 +5,13 @@ import { useBreadcrumbs } from "../../../../hooks/breadcrumbs/useBreadcrumbs";
 
 interface CatalogParametersProps {
   modelId: string;
+  switchState: string;
 }
 
-const CatalogParameters: React.FC<CatalogParametersProps> = ({ modelId }) => {
+const CatalogParameters: React.FC<CatalogParametersProps> = ({
+  modelId,
+  switchState,
+}) => {
   const { handleAddBreadcrumb } = useBreadcrumbs();
   const { parameters, getParameters } = useParameters();
   const { catalogId } = useModels();
@@ -15,7 +19,11 @@ const CatalogParameters: React.FC<CatalogParametersProps> = ({ modelId }) => {
   const lastParameter = parameters[parameters.length - 1];
 
   return (
-    <ul className="cards-section">
+    <ul
+      className={`cards-section ${
+        switchState === "cards" ? "cards-section_grid" : "cards-section_list"
+      }`}
+    >
       {lastParameter.values.map((val) => (
         <CatalogParameterCard
           key={val.idx}
@@ -27,6 +35,7 @@ const CatalogParameters: React.FC<CatalogParametersProps> = ({ modelId }) => {
             handleAddBreadcrumb("parameter", val.value, val.idx);
           }}
           description={val.description}
+          switchState={switchState}
         />
       ))}
     </ul>

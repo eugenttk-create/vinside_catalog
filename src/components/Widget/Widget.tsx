@@ -55,11 +55,14 @@ const Widget: React.FC = () => {
     if (vin) setVin("");
   };
 
-  const handleSearchButtonClick = () => {
+  const handleSearchButtonClick = async () => {
     if (vin) {
-      getGroupsByVin(vin);
-      handleOpenCatalog();
-      handleSetIsVinSearch(true);
+      try {
+        await getGroupsByVin(vin);
+        handleOpenCatalog();
+        handleSetIsVinSearch(true);
+        setVin("");
+      } catch (error) {}
     } else if (catalogId) {
       getModels(catalogId);
       handleOpenCatalog();

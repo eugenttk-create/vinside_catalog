@@ -17,6 +17,7 @@ interface CatalogParameterCardProps {
     salesTerm: string | null;
     salesType?: string | null;
   } | null;
+  switchState: string;
 }
 
 const CatalogParameterCard: React.FC<CatalogParameterCardProps> = ({
@@ -25,6 +26,7 @@ const CatalogParameterCard: React.FC<CatalogParameterCardProps> = ({
   idx,
   onClick,
   description,
+  switchState,
 }) => {
   const [isHovered, setIsHovered] = useState(false);
 
@@ -36,7 +38,9 @@ const CatalogParameterCard: React.FC<CatalogParameterCardProps> = ({
 
   return (
     <li
-      className="catalog-parameter-card card"
+      className={`catalog-parameter-card card ${
+        switchState === "list" ? "card_list" : ""
+      }`}
       onClick={() => onClick(idx)}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
@@ -53,12 +57,19 @@ const CatalogParameterCard: React.FC<CatalogParameterCardProps> = ({
       <img
         src={resolveImageSrc(imageSrc)}
         alt={`param-${idx}`}
-        className="catalog-parameter-card__image image"
+        className={`catalog-parameter-card__image image ${
+          switchState === "list" ? "image_list" : ""
+        }`}
         onError={(e) => {
           e.currentTarget.src = FALLBACK_IMAGE;
         }}
       />
-      <p className="catalog-parameter-card__name title" title={name}>
+      <p
+        className={`catalog-parameter-card__name title ${
+          switchState === "list" ? "title_list" : ""
+        }`}
+        title={name}
+      >
         {name}
       </p>
       {description !== null && (
