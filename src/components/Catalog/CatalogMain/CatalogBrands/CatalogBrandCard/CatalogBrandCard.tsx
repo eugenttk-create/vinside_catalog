@@ -1,6 +1,7 @@
 import "./CatalogBrandCard.css";
 import CarImage from "../../../../../assets/car_cover.png";
 import { useModels } from "../../../../../hooks/models/useModels";
+import { resolveImageSrc } from "../../../../../utils/resolveImgSrc";
 
 interface CatalogBrandCardProps {
   catalogId: string;
@@ -8,8 +9,6 @@ interface CatalogBrandCardProps {
   imageSrc: string;
   switchState: string;
 }
-
-const IMG_URL = import.meta.env.VITE_API_IMG_BASE;
 
 const CatalogBrandCard: React.FC<CatalogBrandCardProps> = ({
   catalogId,
@@ -37,7 +36,7 @@ const CatalogBrandCard: React.FC<CatalogBrandCardProps> = ({
       onClick={handleBrandClick}
     >
       <img
-        src={`${IMG_URL}${imageSrc}` || CarImage}
+        src={resolveImageSrc(imageSrc)}
         loading="lazy"
         alt={`brand-${catalogId}`}
         className={`catalog-brand-card__image image ${
