@@ -12,7 +12,7 @@ interface CatalogProps {
 }
 
 const Catalog: React.FC<CatalogProps> = ({ modelId, setModelId }) => {
-  const [isSidebarActive, setIsSidebarActive] = useState(false);
+  const [isSidebarActive, setIsSidebarActive] = useState(true);
 
   const { parts } = useParts();
   return (

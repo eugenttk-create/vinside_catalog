@@ -57,30 +57,32 @@ const CatalogMain: React.FC<CatalogMainProps> = ({
           <ChevronRight className="icon" />
         </button>
       )}
-      <div className="cards-section__switch-container">
-        <div className="cards-section__switch">
-          <button
-            className={`cards-section__switch-button ${
-              switchState === "cards"
-                ? "cards-section__switch-button_active"
-                : ""
-            }`}
-            onClick={toggleSwitch}
-          >
-            <Grid2X2 className="icon" />
-          </button>
-          <button
-            className={`cards-section__switch-button ${
-              switchState === "list"
-                ? "cards-section__switch-button_active"
-                : ""
-            }`}
-            onClick={toggleSwitch}
-          >
-            <Menu className="icon" />
-          </button>
+      {parts?.partGroups.length === 0 && (
+        <div className="cards-section__switch-container">
+          <div className="cards-section__switch">
+            <button
+              className={`cards-section__switch-button ${
+                switchState === "cards"
+                  ? "cards-section__switch-button_active"
+                  : ""
+              }`}
+              onClick={toggleSwitch}
+            >
+              <Grid2X2 className="icon" />
+            </button>
+            <button
+              className={`cards-section__switch-button ${
+                switchState === "list"
+                  ? "cards-section__switch-button_active"
+                  : ""
+              }`}
+              onClick={toggleSwitch}
+            >
+              <Menu className="icon" />
+            </button>
+          </div>
         </div>
-      </div>
+      )}
       {(parametersLoading ||
         groupsLoading ||
         partsLoading ||

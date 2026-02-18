@@ -104,6 +104,32 @@
   border-radius: 4px;
 }
 
+.sidebar__scope-label {
+  border-top: 2px solid #0000002d;
+  border-bottom: 2px solid #0000002d;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 14px;
+  color: var(--text-secondary);
+  padding: 8px 0;
+  cursor: pointer;
+  transition: opacity 0.1s ease-in;
+}
+
+.sidebar__scope-label:hover {
+  opacity: 0.6;
+}
+
+.sidebar__scope-icon {
+  width: 15px;
+  height: 15px;
+}
+
+.sidebar__scope-icon_rotated {
+  transform: rotate(90deg);
+}
+
 .sidebar__dropdown-list {
   display: flex;
   flex-direction: column;

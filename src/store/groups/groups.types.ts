@@ -5,6 +5,7 @@ interface Group {
   name: string;
   description: string;
   img: string;
+  scope: string | null;
 }
 
 interface VinInfoParameter {

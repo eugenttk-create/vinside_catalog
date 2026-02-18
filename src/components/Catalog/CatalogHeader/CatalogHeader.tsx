@@ -5,6 +5,7 @@ import { useParameters } from "../../../hooks/parameters/useParameters";
 import { useGroups } from "../../../hooks/groups/useGroups";
 import { useBreadcrumbs } from "../../../hooks/breadcrumbs/useBreadcrumbs";
 import "./CatalogHeader.css";
+import { useState } from "react";
 
 interface CatalogHeaderProps {
   isSidebarActive: boolean;
@@ -15,6 +16,7 @@ const CatalogHeader: React.FC<CatalogHeaderProps> = ({
   isSidebarActive,
   setIsSidebarActive,
 }) => {
+  const [vin, setVin] = useState("");
   const { handleResetBreadcrumbs } = useBreadcrumbs();
   const { handleResetParameters } = useParameters();
   const {
@@ -23,9 +25,10 @@ const CatalogHeader: React.FC<CatalogHeaderProps> = ({
     handleSetSelectedBrand,
     isVinSearch,
     handleSetIsVinSearch,
+    handleOpenCatalog,
   } = useModels();
   const { handleResetParts } = useParts();
-  const { handleResetGroups, vinInfo } = useGroups();
+  const { handleResetGroups, vinInfo, getGroupsByVin } = useGroups();
 
   const handleResetAndCloseCatalog = () => {
     handleSetSelectedBrand("");
@@ -40,6 +43,18 @@ const CatalogHeader: React.FC<CatalogHeaderProps> = ({
 
   const toggleSidebar = () => {
     setIsSidebarActive(!isSidebarActive);
+  };
+
+  const handleSearchByVin = async () => {
+    if (vin !== "") {
+      handleResetAndCloseCatalog();
+      try {
+        handleOpenCatalog();
+        await getGroupsByVin(vin);
+        handleSetIsVinSearch(true);
+        setVin("");
+      } catch (error) {}
+    }
   };
 
   return (
@@ -72,8 +87,13 @@ const CatalogHeader: React.FC<CatalogHeaderProps> = ({
                 placeholder="VIN"
                 className="catalog-header__input input"
                 id="catalog-header-vin-input"
+                value={vin}
+                onChange={(e) => setVin(e.target.value)}
               />
-              <Search className="icon catalog-header__icon" />
+              <Search
+                className="icon catalog-header__icon"
+                onClick={handleSearchByVin}
+              />
             </div>
           )}
           {isVinSearch && vinInfo && (
