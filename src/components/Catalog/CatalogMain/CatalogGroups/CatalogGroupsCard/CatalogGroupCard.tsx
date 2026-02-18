@@ -4,8 +4,7 @@ import { useGroups } from "../../../../../hooks/groups/useGroups";
 import { useParts } from "../../../../../hooks/parts/useParts";
 import { useModels } from "../../../../../hooks/models/useModels";
 import { useBreadcrumbs } from "../../../../../hooks/breadcrumbs/useBreadcrumbs";
-
-const IMG_URL = import.meta.env.VITE_API_IMG_BASE;
+import { resolveImageSrc } from "../../../../../utils/resolveImgSrc";
 
 interface CatalogGroupCardProps {
   carId: string;
@@ -51,7 +50,7 @@ const CatalogGroupCard: React.FC<CatalogGroupCardProps> = ({
       onClick={handleCardClick}
     >
       <img
-        src={imageSrc ? `${IMG_URL}${imageSrc}` : CarImage}
+        src={resolveImageSrc(imageSrc)}
         alt={`param-${idx}`}
         className={`catalog-group-card__image image ${
           switchState === "list" ? "image_list" : ""

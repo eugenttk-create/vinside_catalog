@@ -3,6 +3,20 @@
   height: calc(100vh - 100px);
   box-sizing: border-box;
   width: 100%;
+  position: relative;
+}
+
+.catalog__sidebar-toggle {
+  position: absolute;
+  top: 29px;
+  left: 0;
+  background-color: transparent;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  cursor: pointer;
 }
 
 .catalog-main_parts {
@@ -16,5 +30,9 @@
 
   .catalog-main_parts {
     height: 100vh;
+  }
+
+  .catalog__sidebar-toggle {
+    display: none;
   }
 }

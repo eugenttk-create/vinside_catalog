@@ -39,6 +39,7 @@ const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ setModelId }) => {
     handleResetParameters();
     handleSetSelectedBrand("");
     handleSetIsVinSearch(false);
+    setModelId("");
   };
 
   const handleModelClick = () => {

@@ -1,5 +1,5 @@
 import "./CatalogMain.css";
-import { Grid2X2, Menu } from "lucide-react";
+import { ChevronRight, Grid2X2, Menu } from "lucide-react";
 import CatalogModels from "./CatalogModels/CatalogModels";
 import CatalogParameters from "./CatalogParameters/CatalogParameters";
 import CatalogGroups from "./CatalogGroups/CatalogGroups";
@@ -15,9 +15,16 @@ import PageLoader from "../../Loaders/PageLoader/PageLoader";
 interface CatalogMainProps {
   modelId: string;
   setModelId: React.Dispatch<React.SetStateAction<string>>;
+  isSidebarActive: boolean;
+  setIsSidebarAvtive: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const CatalogMain: React.FC<CatalogMainProps> = ({ modelId, setModelId }) => {
+const CatalogMain: React.FC<CatalogMainProps> = ({
+  modelId,
+  setModelId,
+  setIsSidebarAvtive,
+  isSidebarActive,
+}) => {
   const { parametersLoading, parameters, carId } = useParameters();
   const { groupsFlat, groupsLoading } = useGroups();
   const { parts, partsLoading } = useParts();
@@ -42,6 +49,14 @@ const CatalogMain: React.FC<CatalogMainProps> = ({ modelId, setModelId }) => {
           : ""
       }`}
     >
+      {!isSidebarActive && (
+        <button
+          className="catalog__sidebar-toggle"
+          onClick={() => setIsSidebarAvtive(true)}
+        >
+          <ChevronRight className="icon" />
+        </button>
+      )}
       <div className="cards-section__switch-container">
         <div className="cards-section__switch">
           <button

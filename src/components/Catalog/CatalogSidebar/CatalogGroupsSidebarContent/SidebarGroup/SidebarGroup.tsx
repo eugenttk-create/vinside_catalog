@@ -4,24 +4,33 @@ import { ChevronRight } from "lucide-react";
 
 const SidebarGroup: React.FC<{
   node: GroupNode;
-  onClick: (node: GroupNode) => void;
-}> = ({ node, onClick }) => {
-  const [isOpen, setIsOpen] = useState(false);
+  levelOpenId: string | null;
+  setLevelOpenId: (id: string | null) => void;
+  levelLastId: string | null;
+  setLevelLastId: (id: string | null) => void;
+  onNodeClick: (
+    node: GroupNode,
+    levelOpenId: string | null,
+    setLevelOpenId: (id: string | null) => void,
+    levelLastId: string | null,
+    setLevelLastId: (id: string | null) => void
+  ) => void;
+}> = ({
+  node,
+  levelOpenId,
+  setLevelOpenId,
+  levelLastId,
+  setLevelLastId,
+  onNodeClick,
+}) => {
+  const [openChildId, setOpenChildId] = useState<string | null>(null);
+  const [lastChildId, setLastChildId] = useState<string | null>(null);
 
-  const canExpand = node.hasSubgroups;
-  const hasChildren = node.children && node.children.length > 0;
+  const isOpen = levelOpenId === node.id;
+  const hasChildren = isOpen && node.children && node.children.length > 0;
 
   const handleClick = () => {
-    if (canExpand) {
-      if (isOpen) {
-        return;
-      } else {
-        setIsOpen(true);
-        onClick(node);
-      }
-    } else {
-      onClick(node);
-    }
+    onNodeClick(node, levelOpenId, setLevelOpenId, levelLastId, setLevelLastId);
   };
 
   return (
@@ -29,7 +38,7 @@ const SidebarGroup: React.FC<{
       <div className="sidebar__group-title" onClick={handleClick}>
         <ChevronRight
           className={`icon sidebar__dropdown-el-icon ${
-            hasChildren ? "sidebar__dropdown-el-icon_rotated" : ""
+            isOpen ? "sidebar__dropdown-el-icon_rotated" : ""
           }`}
         />
         {node.name}
@@ -38,7 +47,15 @@ const SidebarGroup: React.FC<{
       {hasChildren && (
         <ul className="sidebar__dropdown-list nested">
           {node.children!.map((child) => (
-            <SidebarGroup key={child.id} node={child} onClick={onClick} />
+            <SidebarGroup
+              key={child.id}
+              node={child}
+              levelOpenId={openChildId}
+              setLevelOpenId={setOpenChildId}
+              levelLastId={lastChildId}
+              setLevelLastId={setLastChildId}
+              onNodeClick={onNodeClick}
+            />
           ))}
         </ul>
       )}

@@ -5,17 +5,20 @@ import CatalogGroupsSidebarContent from "./CatalogGroupsSidebarContent/CatalogGr
 import CatalogModelSidebarContent from "./CatalogModelSidebarContent/CatalogModelSidebarContent";
 import CatalogEquipmentSidebarContent from "./CatalogEquipmentSidebarContent/CatalogEquipmentSidebarContent";
 import { useEffect, useState } from "react";
+import { ChevronLeft } from "lucide-react";
 
 interface CatalogSidebarProps {
   isSidebarActive: boolean;
   modelId: string;
   setModelId: React.Dispatch<React.SetStateAction<string>>;
+  setIsSidebarActive: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const CatalogSidebar: React.FC<CatalogSidebarProps> = ({
   isSidebarActive,
   modelId,
   setModelId,
+  setIsSidebarActive,
 }) => {
   const [activeTab, setActiveTab] = useState("categories");
   const { groupsFlat } = useGroups();
@@ -38,6 +41,12 @@ const CatalogSidebar: React.FC<CatalogSidebarProps> = ({
 
   return (
     <aside className={`sidebar ${isSidebarActive ? "sidebar_active" : ""}`}>
+      <button
+        className="sidebar__toggle"
+        onClick={() => setIsSidebarActive(false)}
+      >
+        <ChevronLeft className="icon" />
+      </button>
       {groupsFlat.length > 0 && isVinSearch && (
         <ul className="sidebar__tabs">
           {tabs.map((tab) => {

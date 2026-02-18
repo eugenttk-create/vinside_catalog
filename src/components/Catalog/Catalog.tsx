@@ -43,19 +43,20 @@ const Catalog: React.FC<CatalogProps> = ({ modelId, setModelId }) => {
           parts.partGroups[0].parts?.length > 0
         ) && (
           <>
-            <div
-              className={`sidebar__button ${
-                isSidebarActive ? "sidebar__button_active" : ""
-              }`}
-            ></div>
             <CatalogSidebar
               isSidebarActive={isSidebarActive}
               modelId={modelId}
               setModelId={setModelId}
+              setIsSidebarActive={setIsSidebarActive}
             />
           </>
         )}
-        <CatalogMain modelId={modelId} setModelId={setModelId} />
+        <CatalogMain
+          modelId={modelId}
+          setModelId={setModelId}
+          setIsSidebarAvtive={setIsSidebarActive}
+          isSidebarActive={isSidebarActive}
+        />
       </div>
     </section>
   );

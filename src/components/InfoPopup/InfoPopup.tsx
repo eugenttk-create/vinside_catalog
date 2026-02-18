@@ -26,7 +26,7 @@ const InfoPopup: React.FC<InfoPopupProps> = ({
         <div className="info-popup__container">
           <p className="info-popup__title">Production Period</p>
           <p className="info-popup__text">
-            {description?.productionFrom}/{description?.productionTo}
+            {description?.productionFrom} &mdash; {description?.productionTo}
           </p>
         </div>
         <div className="info-popup__container">

@@ -7,6 +7,26 @@
   overflow-y: auto;
   height: calc(100vh - 100px);
   flex-shrink: 0;
+  position: relative;
+  display: none;
+}
+
+.sidebar_active {
+  display: block;
+}
+
+.sidebar__toggle {
+  position: absolute;
+  transform: translateY(-50%);
+  top: 50%;
+  right: 0;
+  background-color: transparent;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  cursor: pointer;
 }
 
 .sidebar__tabs {
@@ -122,19 +142,5 @@
 
   .sidebar_active {
     display: block;
-  }
-
-  .sidebar__button {
-    width: 30px;
-    height: 30px;
-    background-color: var(--bg-blue);
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 10;
-    border-radius: 4px;
-  }
-
-  .sidebar__button_active {
   }
 }
