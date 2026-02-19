@@ -29,7 +29,7 @@ const CatalogMain: React.FC<CatalogMainProps> = ({
   const { groupsFlat, groupsLoading } = useGroups();
   const { parts, partsLoading } = useParts();
   const { models, modelsLoading } = useModels();
-  const [switchState, setSwitchState] = useState("list");
+  const [switchState, setSwitchState] = useState("cards");
 
   const toggleSwitch = () => {
     if (switchState === "list") {
