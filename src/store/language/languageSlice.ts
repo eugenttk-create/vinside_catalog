@@ -7,7 +7,13 @@ interface LanguageState {
 const DEFAULT_LANGUAGE = "en";
 
 const getInitialLanguage = (): string => {
-  return localStorage.getItem("language") ?? DEFAULT_LANGUAGE;
+  const saved = localStorage.getItem("language");
+  if (saved) return saved;
+
+  const fromAttribute = window.__WIDGET_LANGUAGE__;
+  if (fromAttribute) return fromAttribute;
+
+  return DEFAULT_LANGUAGE;
 };
 
 const initialState: LanguageState = {

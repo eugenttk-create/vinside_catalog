@@ -7,17 +7,20 @@ import App from "./components/App/App";
 declare global {
   interface Window {
     __WIDGET_TOKEN__?: string;
+    __WIDGET_LANGUAGE__?: string;
   }
 }
 
 export function mountWidget(
   container: HTMLElement | ShadowRoot,
-  options?: { token?: string }
+  options?: { token?: string; language?: string }
 ) {
-  const token = options?.token;
+  if (options?.token) {
+    window.__WIDGET_TOKEN__ = options.token;
+  }
 
-  if (token) {
-    window.__WIDGET_TOKEN__ = token;
+  if (options?.language) {
+    window.__WIDGET_LANGUAGE__ = options.language;
   }
 
   ReactDOM.createRoot(container).render(
