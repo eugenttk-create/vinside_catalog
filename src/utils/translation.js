@@ -20,6 +20,7 @@ export const translations = {
     widget_series: "Series",
     widget_equipment: "Equipment",
     widget_categories: "Categories",
+    widget_loading: "Loading...",
   },
   ru: {
     widget_title: "Поиск модели автомобиля",
