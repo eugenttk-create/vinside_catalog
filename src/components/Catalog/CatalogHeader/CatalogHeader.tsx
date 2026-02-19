@@ -6,6 +6,7 @@ import { useGroups } from "../../../hooks/groups/useGroups";
 import { useBreadcrumbs } from "../../../hooks/breadcrumbs/useBreadcrumbs";
 import "./CatalogHeader.css";
 import { useState } from "react";
+import Settings from "./Settings/Settings";
 
 interface CatalogHeaderProps {
   isSidebarActive: boolean;
@@ -17,6 +18,7 @@ const CatalogHeader: React.FC<CatalogHeaderProps> = ({
   setIsSidebarActive,
 }) => {
   const [vin, setVin] = useState("");
+  const [isSettingsActive, setIsSettingsActive] = useState(false);
   const { handleResetBreadcrumbs } = useBreadcrumbs();
   const { handleResetParameters } = useParameters();
   const {
@@ -39,6 +41,10 @@ const CatalogHeader: React.FC<CatalogHeaderProps> = ({
     handleResetParameters();
     handleCloseCatalog();
     handleSetIsVinSearch(false);
+  };
+
+  const toggleSettings = () => {
+    setIsSettingsActive(!isSettingsActive);
   };
 
   const toggleSidebar = () => {
@@ -118,12 +124,16 @@ const CatalogHeader: React.FC<CatalogHeaderProps> = ({
       <div className="catalog-header__right">
         {" "}
         <div className="catalog-header__buttons">
-          <button className="catalog-header__button icon-button">
+          <button
+            className="catalog-header__button icon-button"
+            onClick={toggleSettings}
+          >
             <SettingsIcon className="icon" />
           </button>
           <button className="catalog-header__button icon-button">
             <User className="icon" />
           </button>
+          <Settings isActive={isSettingsActive} />
         </div>
       </div>
     </header>

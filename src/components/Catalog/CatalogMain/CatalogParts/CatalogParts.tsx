@@ -4,6 +4,7 @@ import { useParts } from "../../../../hooks/parts/useParts";
 import { useEffect, useState, useRef, useCallback } from "react";
 import Breadcrumbs from "../../Breadcrumbs/Breadcrumbs";
 import { resolveImageSrc } from "../../../../utils/resolveImgSrc";
+import { useTranslation } from "../../../../hooks/translation/useTranslation";
 
 const MIN_WIDTH = 300;
 const MAX_WIDTH = 1500;
@@ -18,6 +19,7 @@ interface CatalogPartsProps {
 }
 
 const CatalogParts: React.FC<CatalogPartsProps> = ({ modelId, setModelId }) => {
+  const { t } = useTranslation();
   const { parts } = useParts();
   const imageRef = useRef<HTMLImageElement | null>(null);
   const containerRef = useRef<HTMLDivElement | null>(null);
@@ -508,7 +510,7 @@ const CatalogParts: React.FC<CatalogPartsProps> = ({ modelId, setModelId }) => {
                       <td className="catalog-parts__td">
                         <span className="catalog-parts__ts">
                           <button className="catalog-parts__tb button">
-                            Аналоги
+                            {t.widget_analogues_button}
                           </button>
                         </span>
                       </td>
@@ -519,7 +521,7 @@ const CatalogParts: React.FC<CatalogPartsProps> = ({ modelId, setModelId }) => {
                               href={`https://google.com/search?q=${part.number}`}
                               target="_blank"
                             >
-                              Zobacz cenę
+                              {t.widget_see_price_button}
                             </a>
                           </button>
                         </span>

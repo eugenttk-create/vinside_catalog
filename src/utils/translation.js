@@ -1,4 +1,4 @@
-const translations = {
+export const translations = {
   en: {
     widget_title: "Search for a vehicle model",
     widget_vin_input: "Please enter your VIN",
@@ -6,7 +6,6 @@ const translations = {
     widget_vehicle_select_placeholder: "Select a vehicle",
     widget_example_vin: "Example VIN",
     widget_search_button: "Search",
-    widget_vin_input: "VIN",
     widget_brands_breadcrumb: "Brands",
     widget_brand_label: "Brand",
     widget_brand_select_placeholder: "--- Select brand ---",
@@ -15,6 +14,10 @@ const translations = {
     widget_parameter_select_placeholder: "--- Select Parameter ---",
     widget_analogues_button: "Analogues",
     widget_see_price_button: "See the price",
+    //new
+    widget_model_type: "Model type",
+    widget_production_period: "Production Period",
+    widget_series: "Series",
   },
   ru: {
     widget_title: "Поиск модели автомобиля",
@@ -23,24 +26,22 @@ const translations = {
     widget_vehicle_select_placeholder: "Выберите автомобиль",
     widget_example_vin: "Пример VIN",
     widget_search_button: "Поиск",
-    widget_vin_input: "VIN",
     widget_brands_breadcrumb: "Бренды",
     widget_brand_label: "Бренд",
     widget_brand_select_placeholder: "--- Выберите бренд ---",
     widget_model_label: "Model",
     widget_model_select_placeholder: "--- Выберите модель ---",
-    widget_parameter_select_placeholder: "--- Выбрать параметр ---",
+    widget_parameter_select_placeholder: "--- Выберите параметр ---",
     widget_analogues_button: "Аналоги",
     widget_see_price_button: "Цена",
   },
-  pl: {    
-	widget_title: "Wyszukaj model pojazdu",
+  pl: {
+    widget_title: "Wyszukaj model pojazdu",
     widget_vin_input: "Proszę podać numer VIN",
     widget_vehicle_select: "Proszę wybrać pojazd",
     widget_vehicle_select_placeholder: "Wybierz pojazd",
     widget_example_vin: "Przykładowy numer VIN",
     widget_search_button: "Wyszukiwanie",
-    widget_vin_input: "VIN",
     widget_brands_breadcrumb: "Marki",
     widget_brand_label: "Marka",
     widget_brand_select_placeholder: "--- Wybierz markę ---",
@@ -49,8 +50,8 @@ const translations = {
     widget_parameter_select_placeholder: "--- Wybierz parametr ---",
     widget_analogues_button: "Analogi",
     widget_see_price_button: "Zobacz cenę",
-	},
-pt_br: {
+  },
+  pt_br: {
     widget_title: "Pesquisar modelo de automóvel",
     widget_vin_input: "VIN",
     widget_vehicle_select: "Selecione o automóvel",

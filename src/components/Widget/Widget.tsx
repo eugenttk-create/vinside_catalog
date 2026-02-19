@@ -5,8 +5,10 @@ import { useModels } from "../../hooks/models/useModels";
 import { useGroups } from "../../hooks/groups/useGroups";
 import { useBreadcrumbs } from "../../hooks/breadcrumbs/useBreadcrumbs";
 import { useRef } from "react";
+import { useTranslation } from "../../hooks/translation/useTranslation";
 
 const Widget: React.FC = () => {
+  const { t } = useTranslation();
   const [vin, setVin] = useState("");
   const { catalogs, catalogsError, getCatalogs, catalogsLoading } =
     useCatalogs();
@@ -74,10 +76,10 @@ const Widget: React.FC = () => {
 
   return (
     <div className="widget">
-      <h1 className="widget__title">Search for a vehicle model</h1>
+      <h1 className="widget__title">{t.widget_title}</h1>
       <div className="widget__inputs">
         <div className="widget__input-container">
-          <p className="title widget__input-title">Please enter your VIN</p>
+          <p className="title widget__input-title">{t.widget_vin_input}</p>
           <input
             type="text"
             id="widget-vin-input"
@@ -87,7 +89,7 @@ const Widget: React.FC = () => {
           />
         </div>
         <div className="widget__input-container">
-          <p className="title widget__input-title">Please select a vehicle</p>
+          <p className="title widget__input-title">{t.widget_vehicle_select}</p>
           <select
             name="widget-car-select"
             ref={selectRef}
@@ -102,7 +104,7 @@ const Widget: React.FC = () => {
                 ? "Loading..."
                 : catalogsError
                 ? `${catalogsError}`
-                : "Select a vehicle..."}
+                : t.widget_vehicle_select_placeholder}
             </option>
             {catalogs?.map((catalog) => (
               <option value={catalog.id} key={catalog.id}>
@@ -113,7 +115,7 @@ const Widget: React.FC = () => {
         </div>
       </div>
       <p className="widget__example-vin">
-        Example VIN:{" "}
+        {t.widget_example_vin}:{" "}
         <span
           className="widget__example-vin widget__example-vin_blue"
           onClick={() =>
@@ -130,7 +132,7 @@ const Widget: React.FC = () => {
         disabled={isButtonDisabled || modelsLoading || groupsLoading}
         onClick={handleSearchButtonClick}
       >
-        {modelsLoading || groupsLoading ? "Loading..." : "Search"}
+        {modelsLoading || groupsLoading ? "Loading..." : t.widget_search_button}
       </button>
       {(modelsError || groupsError) && (
         <span className="widget__error error">

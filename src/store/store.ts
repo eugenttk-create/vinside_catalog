@@ -5,6 +5,7 @@ import parametersReducer from "./parameters/parametersSlice";
 import groupsReducer from "./groups/groupsSlice";
 import partsReducer from "./parts/partsSlice";
 import breadcrumbsReducer from "./breadcrumbs/breadcrumbsSlice";
+import languageReducer from "./language/languageSlice";
 
 const store = configureStore({
   reducer: {
@@ -14,6 +15,7 @@ const store = configureStore({
     groups: groupsReducer,
     parts: partsReducer,
     breadcrumbs: breadcrumbsReducer,
+    language: languageReducer,
   },
 });
 

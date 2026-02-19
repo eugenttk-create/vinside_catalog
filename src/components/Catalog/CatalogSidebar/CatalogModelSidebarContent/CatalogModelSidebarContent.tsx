@@ -2,6 +2,7 @@ import { useCatalogs } from "../../../../hooks/catalogs/useCatalogs";
 import { useModels } from "../../../../hooks/models/useModels";
 import { useParameters } from "../../../../hooks/parameters/useParameters";
 import { useBreadcrumbs } from "../../../../hooks/breadcrumbs/useBreadcrumbs";
+import { useTranslation } from "../../../../hooks/translation/useTranslation";
 
 interface CatalogModelSidebarContentProps {
   modelId: string;
@@ -12,6 +13,7 @@ const CatalogModelSidebarContent: React.FC<CatalogModelSidebarContentProps> = ({
   modelId,
   setModelId,
 }) => {
+  const { t } = useTranslation();
   const { catalogs } = useCatalogs();
   const { models, handleSetSelectedBrand, getModels, catalogId, setCatalogId } =
     useModels();
@@ -28,7 +30,9 @@ const CatalogModelSidebarContent: React.FC<CatalogModelSidebarContentProps> = ({
     <ul className="sidebar__selects">
       {catalogs && catalogs.length > 0 && (
         <li className="sidebar__select-container">
-          <span className="sidebar__select-title title">Brand</span>
+          <span className="sidebar__select-title title">
+            {t.widget_brand_label}
+          </span>
           <select
             className="sidebar__select input"
             id="sidebar-select-brand"
@@ -47,7 +51,7 @@ const CatalogModelSidebarContent: React.FC<CatalogModelSidebarContentProps> = ({
             value={catalogId || ""}
           >
             {" "}
-            <option value="">--- Select Brand ---</option>
+            <option value="">{t.widget_brand_select_placeholder}</option>
             {catalogs.map((catalog) => {
               return (
                 <option value={catalog.id} key={catalog.id}>
@@ -60,7 +64,9 @@ const CatalogModelSidebarContent: React.FC<CatalogModelSidebarContentProps> = ({
       )}
       {models && models.length > 0 && (
         <li className="sidebar__select-container">
-          <span className="sidebar__select-title title">Model</span>
+          <span className="sidebar__select-title title">
+            {t.widget_model_label}
+          </span>
           <select
             className="sidebar__select input"
             id="sidebar-select-model"
@@ -80,7 +86,7 @@ const CatalogModelSidebarContent: React.FC<CatalogModelSidebarContentProps> = ({
             }}
             value={modelId}
           >
-            <option value="">--- Select Model ---</option>
+            <option value="">{t.widget_model_select_placeholder}</option>
             {models.map((model) => {
               return (
                 <option value={model.id} key={model.id}>
@@ -115,7 +121,9 @@ const CatalogModelSidebarContent: React.FC<CatalogModelSidebarContentProps> = ({
                   }}
                   value={selectedParameters[index]}
                 >
-                  <option value="">--- Select Parameter ---</option>
+                  <option value="">
+                    {t.widget_parameter_select_placeholder}
+                  </option>
                   {parameter.values.map((value) => {
                     return (
                       <option value={value.idx} key={value.idx}>

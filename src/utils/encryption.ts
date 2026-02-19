@@ -24,7 +24,6 @@ export class CryptoService {
     const endpointWithoutQuery = endpoint.split("?")[0];
 
     const payload = JSON.stringify({ endpoint: endpointWithoutQuery });
-    console.log(payload);
     const encrypted = this.encrypt.encrypt(payload);
 
     if (!encrypted) {

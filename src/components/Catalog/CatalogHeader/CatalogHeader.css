@@ -25,6 +25,7 @@
 .catalog-header__buttons {
   display: flex;
   gap: 16px;
+  position: relative;
 }
 
 .catalog-header__button_burger {

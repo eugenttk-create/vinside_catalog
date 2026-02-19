@@ -8,6 +8,7 @@ import { useBreadcrumbs } from "../../../hooks/breadcrumbs/useBreadcrumbs";
 import { fetchCarId } from "../../../store/parameters/parametersThunks";
 import { useAppDispatch } from "../../../hooks/store/useAppDispatch";
 import { useRef, useEffect } from "react";
+import { useTranslation } from "../../../hooks/translation/useTranslation";
 
 interface BreadcrumbsProps {
   modelId: string;
@@ -15,6 +16,7 @@ interface BreadcrumbsProps {
 }
 
 const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ setModelId }) => {
+  const { t } = useTranslation();
   const scrollRef = useRef(null);
   const dispatch = useAppDispatch();
   const { handleResetParameters, getParameters, handleResetCarId, carId } =
@@ -189,7 +191,9 @@ const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ setModelId }) => {
         onClick={handleBrandsClick}
         title="Brands"
       >
-        <span className="breadcrumbs__el-text">Brands</span>{" "}
+        <span className="breadcrumbs__el-text">
+          {t.widget_brands_breadcrumb}
+        </span>{" "}
         {selectedBrand && (
           <ChevronRight className="icon breadcrumbs__chevron" />
         )}

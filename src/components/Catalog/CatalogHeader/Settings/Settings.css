@@ -1,0 +1,27 @@
+.settings {
+  display: none;
+  position: absolute;
+  background-color: var(--white);
+  width: 100px;
+  height: 100px;
+  border: 1px solid var(--border-blue);
+  border-radius: 8px;
+  padding: 8px;
+  box-sizing: border-box;
+  top: 40px;
+  left: -100px;
+  z-index: 100;
+}
+
+.settings_active {
+  display: block;
+}
+
+.settings__language {
+}
+
+.settings__language-select {
+  font-size: 14px;
+  padding: 4px;
+  width: 100%;
+}
