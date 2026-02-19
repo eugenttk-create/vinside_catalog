@@ -19,7 +19,7 @@ export const translations = {
     widget_production_period: "Production Period",
     widget_series: "Series",
     widget_equipment: "Equipment",
-    widget_categories: "Cftegories",
+    widget_categories: "Categories",
   },
   ru: {
     widget_title: "Поиск модели автомобиля",
