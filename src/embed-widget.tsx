@@ -3,6 +3,7 @@ import ReactDOM from "react-dom/client";
 import { Provider } from "react-redux";
 import store from "./store/store";
 import App from "./components/App/App";
+import { setLanguage } from "./store/language/languageSlice";
 
 declare global {
   interface Window {
@@ -20,7 +21,12 @@ export function mountWidget(
   }
 
   if (options?.language) {
-    window.__WIDGET_LANGUAGE__ = options.language;
+    store.dispatch(setLanguage(options.language));
+  }
+
+  const saved = localStorage.getItem("language");
+  if (saved) {
+    store.dispatch(setLanguage(saved));
   }
 
   ReactDOM.createRoot(container).render(
