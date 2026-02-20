@@ -8,15 +8,30 @@ const api = axios.create({
   withCredentials: true,
   headers: {
     Accept: "application/json",
-    "Accept-Language": "en",
   },
 });
+
+const DEFAULT_LANGUAGE = "en";
+
+const getRequestLanguage = (): string => {
+  const saved = localStorage.getItem("language");
+  if (saved) return saved;
+
+  if (window.__WIDGET_LANGUAGE__) {
+    return window.__WIDGET_LANGUAGE__;
+  }
+
+  return DEFAULT_LANGUAGE;
+};
 
 api.interceptors.request.use((config) => {
   const token = window.__WIDGET_TOKEN__;
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
+
+  const language = getRequestLanguage();
+  config.headers["Accept-Language"] = language;
 
   if (cryptoService.hasPublicKey() && config.url) {
     const encryptedEndpoint = cryptoService.encryptEndpoint(config.url);
