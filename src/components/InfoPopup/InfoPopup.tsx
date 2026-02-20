@@ -13,26 +13,57 @@ const InfoPopup: React.FC<InfoPopupProps> = ({
   description,
   onClose,
 }) => {
+  const productionPeriod =
+    description?.year_from && description?.year_to
+      ? `${description.year_from} — ${description.year_to}`
+      : description?.year_from
+      ? `${description.year_from}`
+      : description?.year_to
+      ? `${description.year_to}`
+      : null;
+
   return (
     <div className={`info-popup ${isActive ? "info-popup_active" : ""}`}>
       <button className="info-popup__close" onClick={onClose}>
         <X className="icon" />
       </button>
       <div className="info-popup__containers">
-        <div className="info-popup__container">
-          <p className="info-popup__title">Model type</p>
-          <p className="info-popup__text">{description?.modelType}</p>
-        </div>
-        <div className="info-popup__container">
-          <p className="info-popup__title">Production Period</p>
-          <p className="info-popup__text">
-            {description?.productionFrom} &mdash; {description?.productionTo}
-          </p>
-        </div>
-        <div className="info-popup__container">
-          <p className="info-popup__title">Series</p>
-          <p className="info-popup__text">{description?.series}</p>
-        </div>
+        {description?.model_type && (
+          <div className="info-popup__container">
+            <p className="info-popup__title">Model type</p>
+            <p className="info-popup__text">{description?.model_type}</p>
+          </div>
+        )}
+        {productionPeriod && (
+          <div className="info-popup__container">
+            <p className="info-popup__title">Production Period</p>
+            <p className="info-popup__text">{productionPeriod}</p>
+          </div>
+        )}
+        {description?.series && (
+          <div className="info-popup__container">
+            <p className="info-popup__title">Series</p>
+            <p className="info-popup__text">{description?.series}</p>
+          </div>
+        )}
+        {description?.code && (
+          <div className="info-popup__container">
+            <p className="info-popup__title">Code</p>
+            <p className="info-popup__text">{description?.code}</p>
+          </div>
+        )}
+        {description?.sales_term && (
+          <div className="info-popup__container">
+            <p className="info-popup__title">Sales Term</p>
+            <p className="info-popup__text">{description?.sales_term}</p>
+          </div>
+        )}
+        {description?.sales_type && (
+          <div className="info-popup__container">
+            <p className="info-popup__title">Sales Type</p>
+            <p className="info-popup__text">{description?.sales_type}</p>
+          </div>
+        )}
       </div>
     </div>
   );

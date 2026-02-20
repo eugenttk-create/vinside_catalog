@@ -2,9 +2,11 @@ interface ParameterValue {
   idx: string;
   value: string;
   description: {
-    model: string | null;
-    productionFrom: string | null;
-    salesTerm: string | null;
+    code: string | null;
+    year_from: string | null;
+    year_to: string | null;
+    sales_type: string | null;
+    sales_term: string | null;
   } | null;
 }
 

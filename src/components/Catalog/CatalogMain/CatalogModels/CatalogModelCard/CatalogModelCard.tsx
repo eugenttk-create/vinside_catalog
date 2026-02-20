@@ -15,9 +15,9 @@ interface CatalogModelCardProps {
   name: string;
   setModelId: React.Dispatch<React.SetStateAction<string>>;
   description: {
-    modelType: string | null;
-    productionFrom: string | null;
-    productionTo: string | null;
+    model_type: string | null;
+    year_from: string | null;
+    year_to: string | null;
     series: string | null;
   } | null;
   setIsInfoActive: React.Dispatch<React.SetStateAction<boolean>>;
@@ -61,7 +61,12 @@ const CatalogModelCard: React.FC<CatalogModelCardProps> = ({
       }`}
       onClick={handleCardClick}
     >
-      {description !== null && (
+      {!description?.model_type &&
+      !description?.series &&
+      !description?.year_from &&
+      !description?.year_to ? (
+        <></>
+      ) : (
         <button
           type="button"
           className="catalog-model-card__info-icon"

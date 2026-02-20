@@ -1,9 +1,10 @@
 interface Model {
   description: {
-    modelType: string | null;
-    productionFrom: string | null;
-    productionTo: string | null;
+    model_type: string | null;
+    year_from: string | null;
+    year_to: string | null;
     series: string | null;
+    code: string | null;
   } | null;
   id: string;
   name: string;

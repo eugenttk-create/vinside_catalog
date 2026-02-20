@@ -10,10 +10,13 @@ interface CatalogModelsProps {
 }
 
 export type InfoPopupDescription = {
-  modelType: string | null;
-  productionFrom: string | null;
-  productionTo: string | null;
-  series: string | null;
+  model_type?: string | null;
+  year_from?: string | null;
+  year_to?: string | null;
+  series?: string | null;
+  code?: string | null;
+  sales_term?: string | null;
+  sales_type?: string | null;
 } | null;
 
 const CatalogModels: React.FC<CatalogModelsProps> = ({

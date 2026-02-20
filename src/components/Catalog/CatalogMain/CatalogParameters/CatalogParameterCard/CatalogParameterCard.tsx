@@ -5,6 +5,7 @@ import {
   resolveImageSrc,
   FALLBACK_IMAGE,
 } from "../../../../../utils/resolveImgSrc";
+import type { InfoPopupDescription } from "../../CatalogModels/CatalogModels";
 
 interface CatalogParameterCardProps {
   imageSrc?: string;
@@ -12,12 +13,17 @@ interface CatalogParameterCardProps {
   idx: string;
   onClick: (idx: string) => void;
   description: {
-    model: string | null;
-    productionFrom: string | null;
-    salesTerm: string | null;
-    salesType?: string | null;
+    code: string | null;
+    year_from: string | null;
+    year_to: string | null;
+    sales_term: string | null;
+    sales_type: string | null;
   } | null;
   switchState: string;
+  setIsInfoActive: React.Dispatch<React.SetStateAction<boolean>>;
+  setCurrentDescription: React.Dispatch<
+    React.SetStateAction<InfoPopupDescription>
+  >;
 }
 
 const CatalogParameterCard: React.FC<CatalogParameterCardProps> = ({
@@ -27,13 +33,14 @@ const CatalogParameterCard: React.FC<CatalogParameterCardProps> = ({
   onClick,
   description,
   switchState,
+  setIsInfoActive,
+  setCurrentDescription,
 }) => {
-  const [isHovered, setIsHovered] = useState(false);
-
   const handleInfoButtonClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
     e.preventDefault();
-    setIsHovered(!isHovered);
+    setIsInfoActive(true);
+    setCurrentDescription(description);
   };
 
   return (
@@ -42,16 +49,20 @@ const CatalogParameterCard: React.FC<CatalogParameterCardProps> = ({
         switchState === "list" ? "card_list" : ""
       }`}
       onClick={() => onClick(idx)}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
     >
-      {description !== null && (
+      {!description?.code &&
+      !description?.year_from &&
+      !description?.year_to &&
+      !description?.sales_term &&
+      !description?.sales_type ? (
+        <></>
+      ) : (
         <button
           type="button"
           className="catalog-parameter-card__info-icon"
           onClick={handleInfoButtonClick}
         >
-          {isHovered ? <X className="icon" /> : <Info className="icon" />}
+          <Info className="icon" />
         </button>
       )}
       <img
@@ -72,59 +83,6 @@ const CatalogParameterCard: React.FC<CatalogParameterCardProps> = ({
       >
         {name}
       </p>
-      {description !== null && (
-        <ul
-          className={`catalog-parameter-card__description card-description ${
-            isHovered ? "card-description_visible" : ""
-          }`}
-        >
-          <p className="catalog-parameter-card__description-title card-description-title">
-            {name}
-          </p>
-          {description.model !== null && (
-            <li className="catalog-parameter-card__description-el card-description-el">
-              <p className="catalog-parameter-card__description-el-title card-description-el-title">
-                Model
-              </p>
-              <p className="catalog-parameter-card__description-el-text card-description-el-text">
-                {description.model}
-              </p>
-            </li>
-          )}{" "}
-          {description.productionFrom !== null &&
-            description.productionFrom !== null && (
-              <li className="catalog-parameter-card__description-el card-description-el">
-                <p className="catalog-parameter-card__description-el-title card-description-el-title">
-                  Production from
-                </p>
-                <p className="catalog-parameter-card__description-el-text card-description-el-text">
-                  {description.productionFrom !== null &&
-                    description.productionFrom}
-                </p>
-              </li>
-            )}
-          {description.salesTerm && (
-            <li className="catalog-parameter-card__description-el card-description-el">
-              <p className="catalog-parameter-card__description-el-title card-description-el-title">
-                Sales term
-              </p>
-              <p className="catalog-parameter-card__description-el-text card-description-el-text">
-                {description.salesTerm}
-              </p>
-            </li>
-          )}
-          {description.salesType && (
-            <li className="catalog-parameter-card__description-el card-description-el">
-              <p className="catalog-parameter-card__description-el-title card-description-el-title">
-                Sales type
-              </p>
-              <p className="catalog-parameter-card__description-el-text card-description-el-text">
-                {description.salesType}
-              </p>
-            </li>
-          )}
-        </ul>
-      )}
     </li>
   );
 };

@@ -1,7 +1,10 @@
+import { useState } from "react";
 import { useParameters } from "../../../../hooks/parameters/useParameters";
 import { useModels } from "../../../../hooks/models/useModels";
 import CatalogParameterCard from "./CatalogParameterCard/CatalogParameterCard";
 import { useBreadcrumbs } from "../../../../hooks/breadcrumbs/useBreadcrumbs";
+import InfoPopup from "../../../InfoPopup/InfoPopup";
+import type { InfoPopupDescription } from "../CatalogModels/CatalogModels";
 
 interface CatalogParametersProps {
   modelId: string;
@@ -15,30 +18,42 @@ const CatalogParameters: React.FC<CatalogParametersProps> = ({
   const { handleAddBreadcrumb } = useBreadcrumbs();
   const { parameters, getParameters } = useParameters();
   const { catalogId } = useModels();
+  const [isInfoActive, setIsInfoActive] = useState(false);
+  const [currentDescription, setCurrentDescription] =
+    useState<InfoPopupDescription>(null);
 
   const lastParameter = parameters[parameters.length - 1];
 
   return (
-    <ul
-      className={`cards-section ${
-        switchState === "cards" ? "cards-section_grid" : "cards-section_list"
-      }`}
-    >
-      {lastParameter.values.map((val) => (
-        <CatalogParameterCard
-          key={val.idx}
-          idx={val.idx}
-          name={val.value}
-          imageSrc={""}
-          onClick={(idx) => {
-            getParameters(catalogId, modelId, idx);
-            handleAddBreadcrumb("parameter", val.value, val.idx);
-          }}
-          description={val.description}
-          switchState={switchState}
-        />
-      ))}
-    </ul>
+    <>
+      <ul
+        className={`cards-section ${
+          switchState === "cards" ? "cards-section_grid" : "cards-section_list"
+        }`}
+      >
+        {lastParameter.values.map((val) => (
+          <CatalogParameterCard
+            key={val.idx}
+            idx={val.idx}
+            name={val.value}
+            imageSrc={""}
+            onClick={(idx) => {
+              getParameters(catalogId, modelId, idx);
+              handleAddBreadcrumb("parameter", val.value, val.idx);
+            }}
+            description={val.description}
+            switchState={switchState}
+            setIsInfoActive={setIsInfoActive}
+            setCurrentDescription={setCurrentDescription}
+          />
+        ))}
+      </ul>
+      <InfoPopup
+        isActive={isInfoActive}
+        description={currentDescription}
+        onClose={() => setIsInfoActive(false)}
+      />
+    </>
   );
 };
 
