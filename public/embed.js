@@ -5,12 +5,19 @@
   const JS = BASE + "/widget.js";
   const CSS = BASE + "/widget.css";
   const CSS2 = BASE + "/widget2.css";
-  let container = document.getElementById(ROOT_ID);
-  if (!container) {
-    container = document.createElement("div");
-    container.id = ROOT_ID;
-    document.body.appendChild(container);
+  const script = document.currentScript;
+  if (!script) {
+    console.error("Cannot detect current script");
+    return;
   }
+
+  const token = script.dataset.token;
+  const language = script.dataset.language;
+
+  const container = document.createElement("div");
+  container.id = ROOT_ID;
+
+  script.parentNode.insertBefore(container, script);
 
   const shadowRoot = container.attachShadow({ mode: "open" });
 
@@ -30,7 +37,7 @@
         console.error("mountWidget() not found in widget.js", mod);
         return;
       }
-      mod.mountWidget(shadowRoot);
+      mod.mountWidget(shadowRoot, { token, language });
     })
     .catch(console.error);
 })();
