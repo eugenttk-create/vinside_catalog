@@ -37,6 +37,13 @@ export const translations = {
     widget_parameter_select_placeholder: "--- Выберите параметр ---",
     widget_analogues_button: "Аналоги",
     widget_see_price_button: "Цена",
+    //new
+    widget_model_type: "Тип модели",
+    widget_production_period: "Период производства",
+    widget_series: "Серия",
+    widget_equipment: "Комплектация",
+    widget_categories: "Категории",
+    widget_loading: "Загрузка...",
   },
   pl: {
     widget_title: "Wyszukaj model pojazdu",
@@ -53,6 +60,13 @@ export const translations = {
     widget_parameter_select_placeholder: "--- Wybierz parametr ---",
     widget_analogues_button: "Analogi",
     widget_see_price_button: "Zobacz cenę",
+    //new
+    widget_model_type: "Typ modelu",
+    widget_production_period: "Okres produkcji",
+    widget_series: "Seria",
+    widget_equipment: "Wyposażenie",
+    widget_categories: "Kategorie",
+    widget_loading: "Ładowanie...",
   },
   pt_br: {
     widget_title: "Pesquisar modelo de automóvel",
@@ -69,6 +83,13 @@ export const translations = {
     widget_parameter_select_placeholder: "--- Selecione a parâmetro ---",
     widget_analogues_button: "Similares",
     widget_see_price_button: "Preço",
+    //new
+    widget_model_type: "Tipo de modelo",
+    widget_production_period: "Período de produção",
+    widget_series: "Série",
+    widget_equipment: "Equipamento",
+    widget_categories: "Categorias",
+    widget_loading: "Carregando...",
   },
   de: {
     widget_title: "Suche nach einem Fahrzeugmodell",
@@ -85,6 +106,13 @@ export const translations = {
     widget_parameter_select_placeholder: "--- Parameter auswählen ---",
     widget_analogues_button: "Analogen",
     widget_see_price_button: "Preis",
+    //new
+    widget_model_type: "Modelltyp",
+    widget_production_period: "Produktionszeitraum",
+    widget_series: "Baureihe",
+    widget_equipment: "Ausstattung",
+    widget_categories: "Kategorien",
+    widget_loading: "Wird geladen...",
   },
   zh: {
     widget_title: "搜索车型",
@@ -101,6 +129,13 @@ export const translations = {
     widget_parameter_select_placeholder: "--- 选择参数 ---",
     widget_analogues_button: "相似车型",
     widget_see_price_button: "价格",
+    //new
+    widget_model_type: "车型类型",
+    widget_production_period: "生产周期",
+    widget_series: "系列",
+    widget_equipment: "配置",
+    widget_categories: "分类",
+    widget_loading: "加载中...",
   },
   zh_tw: {
     widget_title: "搜尋車輛型號",
@@ -117,6 +152,13 @@ export const translations = {
     widget_parameter_select_placeholder: "--- 選擇參數 ---",
     widget_analogues_button: "類似車款",
     widget_see_price_button: "價格",
+    //new
+    widget_model_type: "車型類型",
+    widget_production_period: "生產期間",
+    widget_series: "系列",
+    widget_equipment: "配備",
+    widget_categories: "分類",
+    widget_loading: "載入中...",
   },
   hr: {
     widget_title: "Pretraži model vozila",
@@ -133,6 +175,13 @@ export const translations = {
     widget_parameter_select_placeholder: "--- Odaberi parametar ---",
     widget_analogues_button: "Analogije",
     widget_see_price_button: "Cijena",
+    //new
+    widget_model_type: "Tip modela",
+    widget_production_period: "Razdoblje proizvodnje",
+    widget_series: "Serija",
+    widget_equipment: "Oprema",
+    widget_categories: "Kategorije",
+    widget_loading: "Učitavanje...",
   },
   cs: {
     widget_title: "Vyhledejte model vozidla",
@@ -149,6 +198,13 @@ export const translations = {
     widget_parameter_select_placeholder: "--- Vyberte parametr ---",
     widget_analogues_button: "Analogy",
     widget_see_price_button: "Cena",
+    //new
+    widget_model_type: "Typ modelu",
+    widget_production_period: "Období výroby",
+    widget_series: "Série",
+    widget_equipment: "Výbava",
+    widget_categories: "Kategorie",
+    widget_loading: "Načítání...",
   },
   da: {
     widget_title: "Søg efter en bilmodel",
@@ -165,6 +221,13 @@ export const translations = {
     widget_parameter_select_placeholder: "--- Vælg parameter ---",
     widget_analogues_button: "Analoger",
     widget_see_price_button: "Pris",
+    //new
+    widget_model_type: "Modeltype",
+    widget_production_period: "Produktionsperiode",
+    widget_series: "Serie",
+    widget_equipment: "Udstyr",
+    widget_categories: "Kategorier",
+    widget_loading: "Indlæser...",
   },
   nl: {
     widget_title: "Zoek een automodel",
@@ -181,6 +244,13 @@ export const translations = {
     widget_parameter_select_placeholder: "--- Selecteer parameter ---",
     widget_analogues_button: "Analogen",
     widget_see_price_button: "Prijs",
+    //new
+    widget_model_type: "Modeltype",
+    widget_production_period: "Productieperiode",
+    widget_series: "Serie",
+    widget_equipment: "Uitrusting",
+    widget_categories: "Categorieën",
+    widget_loading: "Bezig met laden...",
   },
   fi: {
     widget_title: "Etsi ajoneuvomalli",
@@ -197,6 +267,13 @@ export const translations = {
     widget_parameter_select_placeholder: "--- Valitse parametri ---",
     widget_analogues_button: "Analogit",
     widget_see_price_button: "Hinta",
+    //new
+    widget_model_type: "Mallityyppi",
+    widget_production_period: "Tuotantoaika",
+    widget_series: "Sarja",
+    widget_equipment: "Varustelu",
+    widget_categories: "Kategoriat",
+    widget_loading: "Ladataan...",
   },
   fr: {
     widget_title: "Rechercher un modèle de véhicule",
@@ -213,6 +290,13 @@ export const translations = {
     widget_parameter_select_placeholder: "--- Sélectionner un paramètre ---",
     widget_analogues_button: "Analogues",
     widget_see_price_button: "Prix",
+    //new
+    widget_model_type: "Type de modèle",
+    widget_production_period: "Période de production",
+    widget_series: "Série",
+    widget_equipment: "Équipement",
+    widget_categories: "Catégories",
+    widget_loading: "Chargement...",
   },
   el: {
     widget_title: "Αναζήτηση μοντέλου οχήματος",
@@ -229,6 +313,13 @@ export const translations = {
     widget_parameter_select_placeholder: "--- Επιλέξτε παράμετρο ---",
     widget_analogues_button: "Αναλογικά",
     widget_see_price_button: "Τιμή",
+    //new
+    widget_model_type: "Τύπος μοντέλου",
+    widget_production_period: "Περίοδος παραγωγής",
+    widget_series: "Σειρά",
+    widget_equipment: "Εξοπλισμός",
+    widget_categories: "Κατηγορίες",
+    widget_loading: "Φόρτωση...",
   },
   hu: {
     widget_title: "Járműmodell keresése",
@@ -245,6 +336,13 @@ export const translations = {
     widget_parameter_select_placeholder: "--- Paraméter kiválasztása ---",
     widget_analogues_button: "Hasonló modellek",
     widget_see_price_button: "Ár",
+    //new
+    widget_model_type: "Modelltípus",
+    widget_production_period: "Gyártási időszak",
+    widget_series: "Sorozat",
+    widget_equipment: "Felszereltség",
+    widget_categories: "Kategóriák",
+    widget_loading: "Betöltés...",
   },
   it: {
     widget_title: "Cerca un modello di veicolo",
@@ -261,6 +359,13 @@ export const translations = {
     widget_parameter_select_placeholder: "--- Seleziona parametro ---",
     widget_analogues_button: "Analoghi",
     widget_see_price_button: "Prezzo",
+    //new
+    widget_model_type: "Tipo di modello",
+    widget_production_period: "Periodo di produzione",
+    widget_series: "Serie",
+    widget_equipment: "Allestimento",
+    widget_categories: "Categorie",
+    widget_loading: "Caricamento...",
   },
   ja: {
     widget_title: "車両モデルを検索",
@@ -277,6 +382,13 @@ export const translations = {
     widget_parameter_select_placeholder: "--- パラメータを選択 ---",
     widget_analogues_button: "類似車種",
     widget_see_price_button: "価格",
+    //new
+    widget_model_type: "モデルタイプ",
+    widget_production_period: "生産期間",
+    widget_series: "シリーズ",
+    widget_equipment: "装備",
+    widget_categories: "カテゴリー",
+    widget_loading: "読み込み中...",
   },
   ko: {
     widget_title: "차량 모델 검색",
@@ -293,6 +405,13 @@ export const translations = {
     widget_parameter_select_placeholder: "--- 매개 변수 선택 ---",
     widget_analogues_button: "유사 모델",
     widget_see_price_button: "가격",
+    //new
+    widget_model_type: "모델 유형",
+    widget_production_period: "생산 기간",
+    widget_series: "시리즈",
+    widget_equipment: "장비",
+    widget_categories: "카테고리",
+    widget_loading: "로딩 중...",
   },
   no: {
     widget_title: "Søk etter en bilmodell",
@@ -309,6 +428,13 @@ export const translations = {
     widget_parameter_select_placeholder: "--- Velg parameter ---",
     widget_analogues_button: "Analoger",
     widget_see_price_button: "Pris",
+    //new
+    widget_model_type: "Modelltype",
+    widget_production_period: "Produksjonsperiode",
+    widget_series: "Serie",
+    widget_equipment: "Utstyr",
+    widget_categories: "Kategorier",
+    widget_loading: "Laster...",
   },
   pt: {
     widget_title: "Pesquisar um modelo de veículo",
@@ -325,6 +451,13 @@ export const translations = {
     widget_parameter_select_placeholder: "--- Selecione o parâmetro ---",
     widget_analogues_button: "Análogos",
     widget_see_price_button: "Preço",
+    //new
+    widget_model_type: "Tipo de modelo",
+    widget_production_period: "Período de produção",
+    widget_series: "Série",
+    widget_equipment: "Equipamento",
+    widget_categories: "Categorias",
+    widget_loading: "Carregando...",
   },
   ro: {
     widget_title: "Căutați un model de vehicul",
@@ -341,6 +474,13 @@ export const translations = {
     widget_parameter_select_placeholder: "--- Selectați parametrul ---",
     widget_analogues_button: "Analogii",
     widget_see_price_button: "Preț",
+    //new
+    widget_model_type: "Tip model",
+    widget_production_period: "Perioada de producție",
+    widget_series: "Serie",
+    widget_equipment: "Echipare",
+    widget_categories: "Categorii",
+    widget_loading: "Se încarcă...",
   },
   sk: {
     widget_title: "Vyhľadajte model vozidla",
@@ -357,6 +497,13 @@ export const translations = {
     widget_parameter_select_placeholder: "--- Vyberte parameter ---",
     widget_analogues_button: "Analógy",
     widget_see_price_button: "Cena",
+    //new
+    widget_model_type: "Typ modelu",
+    widget_production_period: "Obdobie výroby",
+    widget_series: "Séria",
+    widget_equipment: "Výbava",
+    widget_categories: "Kategórie",
+    widget_loading: "Načítava sa...",
   },
   sl: {
     widget_title: "Iskanje modela vozila",
@@ -373,6 +520,13 @@ export const translations = {
     widget_parameter_select_placeholder: "--- Izberite parameter ---",
     widget_analogues_button: "Analogije",
     widget_see_price_button: "Cena",
+    //new
+    widget_model_type: "Tip modela",
+    widget_production_period: "Obdobje proizvodnje",
+    widget_series: "Serija",
+    widget_equipment: "Oprema",
+    widget_categories: "Kategorije",
+    widget_loading: "Nalaganje...",
   },
   es: {
     widget_title: "Buscar un modelo de vehículo",
@@ -389,6 +543,13 @@ export const translations = {
     widget_parameter_select_placeholder: "--- Seleccionar parámetro ---",
     widget_analogues_button: "Análogos",
     widget_see_price_button: "Precio",
+    //new
+    widget_model_type: "Tipo de modelo",
+    widget_production_period: "Periodo de producción",
+    widget_series: "Serie",
+    widget_equipment: "Equipamiento",
+    widget_categories: "Categorías",
+    widget_loading: "Cargando...",
   },
   sv: {
     widget_title: "Sök efter en fordonsmodell",
@@ -405,6 +566,13 @@ export const translations = {
     widget_parameter_select_placeholder: "--- Välj parameter ---",
     widget_analogues_button: "Analoger",
     widget_see_price_button: "Pris",
+    //new
+    widget_model_type: "Modelltyp",
+    widget_production_period: "Produktionsperiod",
+    widget_series: "Serie",
+    widget_equipment: "Utrustning",
+    widget_categories: "Kategorier",
+    widget_loading: "Laddar...",
   },
   tr: {
     widget_title: "Araç modelini arayın",
@@ -421,5 +589,12 @@ export const translations = {
     widget_parameter_select_placeholder: "--- Parametre seçin ---",
     widget_analogues_button: "Benzerler",
     widget_see_price_button: "Fiyat",
+    //new
+    widget_model_type: "Model tipi",
+    widget_production_period: "Üretim dönemi",
+    widget_series: "Seri",
+    widget_equipment: "Donanım",
+    widget_categories: "Kategoriler",
+    widget_loading: "Yükleniyor...",
   },
 };
