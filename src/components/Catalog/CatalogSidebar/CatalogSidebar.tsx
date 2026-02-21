@@ -6,6 +6,7 @@ import CatalogModelSidebarContent from "./CatalogModelSidebarContent/CatalogMode
 import CatalogEquipmentSidebarContent from "./CatalogEquipmentSidebarContent/CatalogEquipmentSidebarContent";
 import { useEffect, useState } from "react";
 import { ChevronLeft } from "lucide-react";
+import { useTranslation } from "../../../hooks/translation/useTranslation";
 
 interface CatalogSidebarProps {
   isSidebarActive: boolean;
@@ -20,13 +21,14 @@ const CatalogSidebar: React.FC<CatalogSidebarProps> = ({
   setModelId,
   setIsSidebarActive,
 }) => {
+  const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState("categories");
   const { groupsFlat } = useGroups();
   const { isVinSearch } = useModels();
 
   const tabs = [
-    { id: "categories", title: "Категории" },
-    { id: "equipment", title: "Комплектация" },
+    { id: "categories", title: t.widget_categories },
+    { id: "equipment", title: t.widget_equipment },
   ];
 
   const handleTabClick = (id: string) => {

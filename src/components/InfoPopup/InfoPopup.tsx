@@ -1,6 +1,7 @@
 import "./InfoPopup.css";
 import type { InfoPopupDescription } from "../Catalog/CatalogMain/CatalogModels/CatalogModels";
 import { X } from "lucide-react";
+import { useTranslation } from "../../hooks/translation/useTranslation";
 
 interface InfoPopupProps {
   isActive: boolean;
@@ -13,6 +14,8 @@ const InfoPopup: React.FC<InfoPopupProps> = ({
   description,
   onClose,
 }) => {
+  const { t } = useTranslation();
+
   const productionPeriod =
     description?.year_from && description?.year_to
       ? `${description.year_from} — ${description.year_to}`
@@ -30,19 +33,19 @@ const InfoPopup: React.FC<InfoPopupProps> = ({
       <div className="info-popup__containers">
         {description?.model_type && (
           <div className="info-popup__container">
-            <p className="info-popup__title">Model type</p>
+            <p className="info-popup__title">{t.widget_model_type}</p>
             <p className="info-popup__text">{description?.model_type}</p>
           </div>
         )}
         {productionPeriod && (
           <div className="info-popup__container">
-            <p className="info-popup__title">Production Period</p>
+            <p className="info-popup__title">{t.widget_production_period}</p>
             <p className="info-popup__text">{productionPeriod}</p>
           </div>
         )}
         {description?.series && (
           <div className="info-popup__container">
-            <p className="info-popup__title">Series</p>
+            <p className="info-popup__title">{t.widget_series}</p>
             <p className="info-popup__text">{description?.series}</p>
           </div>
         )}

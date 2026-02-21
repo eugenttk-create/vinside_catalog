@@ -101,7 +101,7 @@ const Widget: React.FC = () => {
           >
             <option value="">
               {catalogsLoading
-                ? "Loading..."
+                ? t.widget_loading
                 : catalogsError
                 ? `${catalogsError}`
                 : t.widget_vehicle_select_placeholder}
@@ -132,7 +132,9 @@ const Widget: React.FC = () => {
         disabled={isButtonDisabled || modelsLoading || groupsLoading}
         onClick={handleSearchButtonClick}
       >
-        {modelsLoading || groupsLoading ? "Loading..." : t.widget_search_button}
+        {modelsLoading || groupsLoading
+          ? t.widget_loading
+          : t.widget_search_button}
       </button>
       {(modelsError || groupsError) && (
         <span className="widget__error error">
