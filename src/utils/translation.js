@@ -20,6 +20,9 @@ export const translations = {
     widget_equipment: "Equipment",
     widget_categories: "Categories",
     widget_loading: "Loading...",
+    //new
+    widget_sales_type: "Sales Type",
+    widget_sales_term: "Sales Term",
   },
   ru: {
     widget_title: "Поиск модели автомобиля",
@@ -42,9 +45,6 @@ export const translations = {
     widget_equipment: "Комплектация",
     widget_categories: "Категории",
     widget_loading: "Загрузка...",
-    //new
-    widget_sales_type: "Sales Type",
-    widget_sales_term: "Sales Term",
   },
   pl: {
     widget_title: "Wyszukaj model pojazdu",
