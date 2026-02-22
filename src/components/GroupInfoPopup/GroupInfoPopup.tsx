@@ -28,21 +28,44 @@ interface GroupInfoPopupProps {
   isActive: boolean;
   description: GroupInfoPopupDescription;
   onClose: () => void;
+  position: { top: number; left: number };
 }
 
 const GroupInfoPopup: React.FC<GroupInfoPopupProps> = ({
   isActive,
   description,
   onClose,
+  position,
 }) => {
   const { t } = useTranslation();
 
   return (
-    <div className={`info-popup ${isActive ? "info-popup_active" : ""}`}>
+    <div
+      className={`info-popup ${isActive ? "info-popup_active" : ""}`}
+      style={{ top: position.top || "0", left: position.left || "0" }}
+    >
       <button className="info-popup__close" onClick={onClose}>
         <X className="icon" />
       </button>
       <div className="info-popup__containers">
+        {description?.subgroup && (
+          <div className="info-popup__container">
+            <p className="info-popup__title">{t.widget_subgroup}</p>
+            <p className="info-popup__text">{description?.subgroup}</p>
+          </div>
+        )}
+        {description?.code && (
+          <div className="info-popup__container">
+            <p className="info-popup__title">{t.widget_code}</p>
+            <p className="info-popup__text">{description?.code}</p>
+          </div>
+        )}
+        {description?.referenceName && (
+          <div className="info-popup__container">
+            <p className="info-popup__title">{t.widget_reference}</p>
+            <p className="info-popup__text">{description?.referenceName}</p>
+          </div>
+        )}
         {description?.illustration && (
           <div className="info-popup__container">
             <p className="info-popup__title">{t.widget_illustration}</p>
@@ -53,18 +76,6 @@ const GroupInfoPopup: React.FC<GroupInfoPopupProps> = ({
           <div className="info-popup__container">
             <p className="info-popup__title">{t.widget_name}</p>
             <p className="info-popup__text">{description?.name}</p>
-          </div>
-        )}
-        {description?.description && (
-          <div className="info-popup__container">
-            <p className="info-popup__title">{t.widget_comment}</p>
-            <p className="info-popup__text">{description?.description}</p>
-          </div>
-        )}
-        {description?.restriction && (
-          <div className="info-popup__container">
-            <p className="info-popup__title">{t.widget_restriction}</p>
-            <p className="info-popup__text">{description?.restriction}</p>
           </div>
         )}
         {description?.from && (
@@ -79,28 +90,16 @@ const GroupInfoPopup: React.FC<GroupInfoPopupProps> = ({
             <p className="info-popup__text">{description?.to}</p>
           </div>
         )}
-        {description?.comment && (
+        {description?.from_year && (
           <div className="info-popup__container">
-            <p className="info-popup__title">{t.widget_restriction}</p>
-            <p className="info-popup__text">{description?.comment}</p>
+            <p className="info-popup__title">{t.widget_from}</p>
+            <p className="info-popup__text">{description?.from_year}</p>
           </div>
         )}
-        {description?.remark && (
+        {description?.to_year && (
           <div className="info-popup__container">
-            <p className="info-popup__title">{t.widget_remark}</p>
-            <p className="info-popup__text">{description?.remark}</p>
-          </div>
-        )}
-        {description?.modelDescription && (
-          <div className="info-popup__container">
-            <p className="info-popup__title">{t.widget_model_desc}</p>
-            <p className="info-popup__text">{description?.modelDescription}</p>
-          </div>
-        )}
-        {description?.referenceName && (
-          <div className="info-popup__container">
-            <p className="info-popup__title">{t.widget_reference}</p>
-            <p className="info-popup__text">{description?.referenceName}</p>
+            <p className="info-popup__title">{t.widget_to}</p>
+            <p className="info-popup__text">{description?.to_year}</p>
           </div>
         )}
         {description?.pet && (
@@ -115,30 +114,6 @@ const GroupInfoPopup: React.FC<GroupInfoPopupProps> = ({
             <p className="info-popup__text">{description?.pat}</p>
           </div>
         )}
-        {description?.from_year && (
-          <div className="info-popup__container">
-            <p className="info-popup__title">{t.widget_from}</p>
-            <p className="info-popup__text">{description?.from_year}</p>
-          </div>
-        )}
-        {description?.to_year && (
-          <div className="info-popup__container">
-            <p className="info-popup__title">{t.widget_to}</p>
-            <p className="info-popup__text">{description?.to_year}</p>
-          </div>
-        )}
-        {description?.changePoint && (
-          <div className="info-popup__container">
-            <p className="info-popup__title">{t.widget_change_point}</p>
-            <p className="info-popup__text">{description?.changePoint}</p>
-          </div>
-        )}
-        {description?.code && (
-          <div className="info-popup__container">
-            <p className="info-popup__title">{t.widget_code}</p>
-            <p className="info-popup__text">{description?.code}</p>
-          </div>
-        )}
         {description?.mounting_time && (
           <div className="info-popup__container">
             <p className="info-popup__title">{t.widget_mounting_time}</p>
@@ -151,10 +126,40 @@ const GroupInfoPopup: React.FC<GroupInfoPopupProps> = ({
             <p className="info-popup__text">{description?.equipment}</p>
           </div>
         )}
-        {description?.subgroup && (
+        {description?.description && (
           <div className="info-popup__container">
-            <p className="info-popup__title">{t.widget_subgroup}</p>
-            <p className="info-popup__text">{description?.subgroup}</p>
+            <p className="info-popup__title">{t.widget_comment}</p>
+            <p className="info-popup__text">{description?.description}</p>
+          </div>
+        )}
+        {description?.remark && (
+          <div className="info-popup__container">
+            <p className="info-popup__title">{t.widget_remark}</p>
+            <p className="info-popup__text">{description?.remark}</p>
+          </div>
+        )}
+        {description?.comment && (
+          <div className="info-popup__container">
+            <p className="info-popup__title">{t.widget_restriction}</p>
+            <p className="info-popup__text">{description?.comment}</p>
+          </div>
+        )}
+        {description?.restriction && (
+          <div className="info-popup__container">
+            <p className="info-popup__title">{t.widget_restriction}</p>
+            <p className="info-popup__text">{description?.restriction}</p>
+          </div>
+        )}
+        {description?.modelDescription && (
+          <div className="info-popup__container">
+            <p className="info-popup__title">{t.widget_model_desc}</p>
+            <p className="info-popup__text">{description?.modelDescription}</p>
+          </div>
+        )}
+        {description?.changePoint && (
+          <div className="info-popup__container">
+            <p className="info-popup__title">{t.widget_change_point}</p>
+            <p className="info-popup__text">{description?.changePoint}</p>
           </div>
         )}
       </div>

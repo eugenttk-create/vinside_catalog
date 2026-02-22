@@ -21,6 +21,7 @@ const CatalogParameters: React.FC<CatalogParametersProps> = ({
   const [isInfoActive, setIsInfoActive] = useState(false);
   const [currentDescription, setCurrentDescription] =
     useState<InfoPopupDescription>(null);
+  const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
 
   const lastParameter = parameters[parameters.length - 1];
 
@@ -45,6 +46,7 @@ const CatalogParameters: React.FC<CatalogParametersProps> = ({
             switchState={switchState}
             setIsInfoActive={setIsInfoActive}
             setCurrentDescription={setCurrentDescription}
+            setPopupPosition={setPopupPosition}
           />
         ))}
       </ul>
@@ -52,6 +54,7 @@ const CatalogParameters: React.FC<CatalogParametersProps> = ({
         isActive={isInfoActive}
         description={currentDescription}
         onClose={() => setIsInfoActive(false)}
+        position={popupPosition}
       />
     </>
   );

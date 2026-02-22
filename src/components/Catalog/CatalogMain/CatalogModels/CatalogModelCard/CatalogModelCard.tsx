@@ -25,6 +25,9 @@ interface CatalogModelCardProps {
     React.SetStateAction<InfoPopupDescription>
   >;
   switchState: string;
+  setPopupPosition: React.Dispatch<
+    React.SetStateAction<{ top: number; left: number }>
+  >;
 }
 
 const CatalogModelCard: React.FC<CatalogModelCardProps> = ({
@@ -36,6 +39,7 @@ const CatalogModelCard: React.FC<CatalogModelCardProps> = ({
   setIsInfoActive,
   setCurrentDescription,
   switchState,
+  setPopupPosition,
 }) => {
   const { catalogId } = useModels();
   const { getParameters } = useParameters();
@@ -50,8 +54,33 @@ const CatalogModelCard: React.FC<CatalogModelCardProps> = ({
   const handleInfoButtonClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
     e.preventDefault();
+
+    const button = e.currentTarget;
+    const rect = button.getBoundingClientRect();
+    const popupWidth = 300;
+    const popupHeight = 300;
+    const margin = 8;
+
+    let left = rect.right + margin;
+    let top = rect.top;
+
+    if (left + popupWidth > window.innerWidth - margin) {
+      left = rect.left - popupWidth - margin;
+    }
+
+    if (left < margin) {
+      left = Math.max(margin, (window.innerWidth - popupWidth) / 2);
+    }
+
+    if (top + popupHeight > window.innerHeight - margin) {
+      top = window.innerHeight - popupHeight - margin;
+    }
+
+    if (top < margin) top = margin;
+
     setIsInfoActive(true);
     setCurrentDescription(description);
+    setPopupPosition({ top, left });
   };
 
   return (

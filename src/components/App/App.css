@@ -132,9 +132,6 @@ main {
   grid-template-columns: repeat(6, 1fr);
 }
 
-.cards-section_grid {
-}
-
 .cards-section_list {
   display: flex;
   flex-direction: column;

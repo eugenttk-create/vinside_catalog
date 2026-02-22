@@ -1,7 +1,5 @@
 .info-popup {
   position: fixed;
-  top: 108px;
-  right: 8px;
   border: 2px solid var(--border-blue);
   border-radius: 8px;
   padding: 16px;
@@ -51,4 +49,16 @@
   margin: 0;
   overflow-wrap: break-word;
   word-break: break-word;
+}
+
+@media (max-width: 480px) {
+  .info-popup {
+    width: calc(100vw - 16px) !important;
+    left: 8px !important;
+    right: 8px !important;
+    top: 174px !important;
+    bottom: 8px !important;
+    position: fixed;
+    max-height: 50vh;
+  }
 }

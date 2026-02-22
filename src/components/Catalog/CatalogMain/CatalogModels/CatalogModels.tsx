@@ -27,6 +27,7 @@ const CatalogModels: React.FC<CatalogModelsProps> = ({
   const [isInfoActive, setIsInfoActive] = useState(false);
   const [currentDescription, setCurrentDescription] =
     useState<InfoPopupDescription>(null);
+  const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
 
   return (
     <>
@@ -48,6 +49,7 @@ const CatalogModels: React.FC<CatalogModelsProps> = ({
                 setIsInfoActive={setIsInfoActive}
                 setCurrentDescription={setCurrentDescription}
                 switchState={switchState}
+                setPopupPosition={setPopupPosition}
               />
             );
           })}
@@ -56,6 +58,7 @@ const CatalogModels: React.FC<CatalogModelsProps> = ({
         isActive={isInfoActive}
         description={currentDescription}
         onClose={() => setIsInfoActive(false)}
+        position={popupPosition}
       />
     </>
   );

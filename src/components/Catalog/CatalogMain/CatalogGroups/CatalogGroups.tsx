@@ -18,6 +18,7 @@ const CatalogGroups: React.FC<CatalogGroupsProps> = ({
   const [isInfoActive, setIsInfoActive] = useState(false);
   const [currentDescription, setCurrentDescription] =
     useState<GroupInfoPopupDescription>(null);
+  const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
 
   return (
     <>
@@ -38,6 +39,7 @@ const CatalogGroups: React.FC<CatalogGroupsProps> = ({
             description={group.description}
             setIsInfoActive={setIsInfoActive}
             setCurrentDescription={setCurrentDescription}
+            setPopupPosition={setPopupPosition}
           />
         ))}
       </ul>
@@ -45,6 +47,7 @@ const CatalogGroups: React.FC<CatalogGroupsProps> = ({
         isActive={isInfoActive}
         description={currentDescription}
         onClose={() => setIsInfoActive(false)}
+        position={popupPosition}
       />
     </>
   );

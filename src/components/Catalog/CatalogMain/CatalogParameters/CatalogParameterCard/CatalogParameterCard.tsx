@@ -23,6 +23,9 @@ interface CatalogParameterCardProps {
   setCurrentDescription: React.Dispatch<
     React.SetStateAction<InfoPopupDescription>
   >;
+  setPopupPosition: React.Dispatch<
+    React.SetStateAction<{ top: number; left: number }>
+  >;
 }
 
 const CatalogParameterCard: React.FC<CatalogParameterCardProps> = ({
@@ -34,12 +37,38 @@ const CatalogParameterCard: React.FC<CatalogParameterCardProps> = ({
   switchState,
   setIsInfoActive,
   setCurrentDescription,
+  setPopupPosition,
 }) => {
   const handleInfoButtonClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
     e.preventDefault();
+
+    const button = e.currentTarget;
+    const rect = button.getBoundingClientRect();
+    const popupWidth = 300;
+    const popupHeight = 300;
+    const margin = 8;
+
+    let left = rect.right + margin;
+    let top = rect.top;
+
+    if (left + popupWidth > window.innerWidth - margin) {
+      left = rect.left - popupWidth - margin;
+    }
+
+    if (left < margin) {
+      left = Math.max(margin, (window.innerWidth - popupWidth) / 2);
+    }
+
+    if (top + popupHeight > window.innerHeight - margin) {
+      top = window.innerHeight - popupHeight - margin;
+    }
+
+    if (top < margin) top = margin;
+
     setIsInfoActive(true);
     setCurrentDescription(description);
+    setPopupPosition({ top, left });
   };
 
   return (

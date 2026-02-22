@@ -7,12 +7,14 @@ interface InfoPopupProps {
   isActive: boolean;
   description: InfoPopupDescription;
   onClose: () => void;
+  position: { top: number; left: number };
 }
 
 const InfoPopup: React.FC<InfoPopupProps> = ({
   isActive,
   description,
   onClose,
+  position,
 }) => {
   const { t } = useTranslation();
 
@@ -26,7 +28,10 @@ const InfoPopup: React.FC<InfoPopupProps> = ({
       : null;
 
   return (
-    <div className={`info-popup ${isActive ? "info-popup_active" : ""}`}>
+    <div
+      className={`info-popup ${isActive ? "info-popup_active" : ""}`}
+      style={{ top: position.top || "0", left: position.left || "0" }}
+    >
       <button className="info-popup__close" onClick={onClose}>
         <X className="icon" />
       </button>
