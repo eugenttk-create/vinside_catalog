@@ -1,6 +1,9 @@
 import "./CatalogGroups.css";
 import { useGroups } from "../../../../hooks/groups/useGroups";
 import CatalogGroupsCard from "./CatalogGroupsCard/CatalogGroupCard";
+import GroupInfoPopup from "../../../GroupInfoPopup/GroupInfoPopup";
+import type { GroupInfoPopupDescription } from "../../../GroupInfoPopup/GroupInfoPopup";
+import { useState } from "react";
 
 interface CatalogGroupsProps {
   carId: string;
@@ -12,6 +15,9 @@ const CatalogGroups: React.FC<CatalogGroupsProps> = ({
   switchState,
 }) => {
   const { groupsFlat } = useGroups();
+  const [isInfoActive, setIsInfoActive] = useState(false);
+  const [currentDescription, setCurrentDescription] =
+    useState<GroupInfoPopupDescription>(null);
 
   return (
     <>
@@ -29,9 +35,17 @@ const CatalogGroups: React.FC<CatalogGroupsProps> = ({
             imageSrc={group.img}
             hasSubgroup={group.hasSubgroups}
             switchState={switchState}
+            description={group.description}
+            setIsInfoActive={setIsInfoActive}
+            setCurrentDescription={setCurrentDescription}
           />
         ))}
       </ul>
+      <GroupInfoPopup
+        isActive={isInfoActive}
+        description={currentDescription}
+        onClose={() => setIsInfoActive(false)}
+      />
     </>
   );
 };

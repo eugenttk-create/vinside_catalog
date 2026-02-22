@@ -5,6 +5,8 @@ import { useParts } from "../../../../../hooks/parts/useParts";
 import { useModels } from "../../../../../hooks/models/useModels";
 import { useBreadcrumbs } from "../../../../../hooks/breadcrumbs/useBreadcrumbs";
 import { resolveImageSrc } from "../../../../../utils/resolveImgSrc";
+import { Info } from "lucide-react";
+import type { GroupInfoPopupDescription } from "../../../../GroupInfoPopup/GroupInfoPopup";
 
 interface CatalogGroupCardProps {
   carId: string;
@@ -13,6 +15,31 @@ interface CatalogGroupCardProps {
   idx: string;
   hasSubgroup: boolean;
   switchState: string;
+  description: {
+    illustration: string | null;
+    name: string | null;
+    description: string | null;
+    restriction: string | null;
+    from: string | null;
+    to: string | null;
+    comment: string | null;
+    remark: string | null;
+    modelDescription: string | null;
+    referenceName: string | null;
+    pet: string | null;
+    pat: string | null;
+    from_year: string | null;
+    to_year: string | null;
+    changePoint: string | null;
+    code: string | null;
+    mounting_time: string | null;
+    equipment: string | null;
+    subgroup: string | null;
+  } | null;
+  setIsInfoActive: React.Dispatch<React.SetStateAction<boolean>>;
+  setCurrentDescription: React.Dispatch<
+    React.SetStateAction<GroupInfoPopupDescription>
+  >;
 }
 
 const CatalogGroupCard: React.FC<CatalogGroupCardProps> = ({
@@ -22,6 +49,9 @@ const CatalogGroupCard: React.FC<CatalogGroupCardProps> = ({
   idx,
   hasSubgroup,
   switchState,
+  setIsInfoActive,
+  setCurrentDescription,
+  description,
 }) => {
   const { catalogId } = useModels();
   const { getGroups } = useGroups();
@@ -42,6 +72,13 @@ const CatalogGroupCard: React.FC<CatalogGroupCardProps> = ({
     e.currentTarget.src = CarImage;
   };
 
+  const handleInfoButtonClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
+    e.preventDefault();
+    setIsInfoActive(true);
+    setCurrentDescription(description);
+  };
+
   return (
     <li
       className={`catalog-group-card card ${
@@ -49,6 +86,35 @@ const CatalogGroupCard: React.FC<CatalogGroupCardProps> = ({
       }`}
       onClick={handleCardClick}
     >
+      {!description?.changePoint &&
+      !description?.code &&
+      !description?.comment &&
+      !description?.description &&
+      !description?.equipment &&
+      !description?.from &&
+      !description?.from_year &&
+      !description?.illustration &&
+      !description?.modelDescription &&
+      !description?.mounting_time &&
+      !description?.name &&
+      !description?.pat &&
+      !description?.pet &&
+      !description?.referenceName &&
+      !description?.remark &&
+      !description?.restriction &&
+      !description?.subgroup &&
+      !description?.to &&
+      !description?.to_year ? (
+        <></>
+      ) : (
+        <button
+          type="button"
+          className="catalog-group-card__info-icon"
+          onClick={handleInfoButtonClick}
+        >
+          <Info className="icon" />
+        </button>
+      )}
       <img
         src={resolveImageSrc(imageSrc)}
         alt={`param-${idx}`}

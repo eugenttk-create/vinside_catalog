@@ -75,25 +75,23 @@ const CatalogModelCard: React.FC<CatalogModelCardProps> = ({
           <Info className="icon" />
         </button>
       )}
-      <>
-        <img
-          src={resolveImageSrc(imageSrc)}
-          alt={`model-${modelId}`}
-          className={`catalog-model-card__image image ${
-            switchState === "list" ? "image_list" : ""
-          }`}
-          onError={(e) => {
-            e.currentTarget.src = FALLBACK_IMAGE;
-          }}
-        />
-        <p
-          className={`catalog-model-card__name title ${
-            switchState === "list" ? "title_list" : ""
-          }`}
-        >
-          {name}
-        </p>
-      </>
+      <img
+        src={resolveImageSrc(imageSrc)}
+        alt={`model-${modelId}`}
+        className={`catalog-model-card__image image ${
+          switchState === "list" ? "image_list" : ""
+        }`}
+        onError={(e) => {
+          e.currentTarget.src = FALLBACK_IMAGE;
+        }}
+      />
+      <p
+        className={`catalog-model-card__name title ${
+          switchState === "list" ? "title_list" : ""
+        }`}
+      >
+        {name}
+      </p>
     </li>
   );
 };

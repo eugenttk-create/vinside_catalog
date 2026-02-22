@@ -3,7 +3,27 @@ interface Group {
   hasSubgroups: boolean;
   hasParts: boolean;
   name: string;
-  description: string;
+  description: {
+    illustration: string | null;
+    name: string | null;
+    description: string | null;
+    restriction: string | null;
+    from: string | null;
+    to: string | null;
+    comment: string | null;
+    remark: string | null;
+    modelDescription: string | null;
+    referenceName: string | null;
+    pet: string | null;
+    pat: string | null;
+    from_year: string | null;
+    to_year: string | null;
+    changePoint: string | null;
+    code: string | null;
+    mounting_time: string | null;
+    equipment: string | null;
+    subgroup: string | null;
+  } | null;
   img: string;
   scope: string | null;
 }

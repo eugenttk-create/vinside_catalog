@@ -6,24 +6,12 @@ interface SettingsProps {
 }
 
 const Settings: React.FC<SettingsProps> = ({ isActive }) => {
-  const { language, changeLanguage, languageArray } = useTranslation();
+  const { language } = useTranslation();
 
   return (
     <div className={`settings ${isActive ? "settings_active" : ""}`}>
       <div className="settings__language">
-        <select
-          name="settings-language"
-          id="settings-language"
-          className="settings__language-select input"
-          value={language}
-          onChange={(e) => changeLanguage(e.target.value)}
-        >
-          {languageArray.map((l) => (
-            <option value={l} key={l}>
-              {l.toUpperCase()}
-            </option>
-          ))}
-        </select>
+        <span className="settings__language-span">{language}</span>
       </div>
     </div>
   );
