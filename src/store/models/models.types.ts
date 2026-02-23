@@ -1,4 +1,4 @@
-interface Model {
+export interface Model {
   description: {
     model_type: string | null;
     year_from: string | null;

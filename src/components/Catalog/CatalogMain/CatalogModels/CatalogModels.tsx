@@ -3,6 +3,7 @@ import CatalogModelCard from "./CatalogModelCard/CatalogModelCard";
 import { useModels } from "../../../../hooks/models/useModels";
 import { useState } from "react";
 import InfoPopup from "../../../InfoPopup/InfoPopup";
+import CatalogModelsTable from "./CatalogModelsTable/CatalogModelsTable";
 
 interface CatalogModelsProps {
   setModelId: React.Dispatch<React.SetStateAction<string>>;
@@ -29,7 +30,7 @@ const CatalogModels: React.FC<CatalogModelsProps> = ({
     useState<InfoPopupDescription>(null);
   const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
 
-  return (
+  return switchState === "cards" ? (
     <>
       <ul
         className={`models cards-section ${
@@ -61,6 +62,8 @@ const CatalogModels: React.FC<CatalogModelsProps> = ({
         position={popupPosition}
       />
     </>
+  ) : (
+    <CatalogModelsTable setModelId={setModelId} />
   );
 };
 

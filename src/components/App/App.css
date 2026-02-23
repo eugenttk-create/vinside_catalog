@@ -262,6 +262,79 @@ main {
   color: var(--text-color);
 }
 
+.table-container {
+  padding: 24px;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.table-wrapper {
+  border-radius: 8px;
+  border: 1px solid var(--border-blue);
+  box-sizing: border-box;
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  text-align: left;
+  border-collapse: collapse;
+}
+
+.table-header {
+  background-color: var(--bg-gray);
+  border-bottom: 1px solid var(--border-blue);
+}
+
+.table-header .table-row:hover {
+  background-color: var(--bg-gray);
+}
+
+.table-row {
+  border-bottom: 1px solid var(--border-blue);
+  transition: background-color 0.1s ease-in;
+}
+
+.table-row:last-child {
+  border-bottom: none;
+}
+
+.table-row:hover {
+  background-color: var(--bg-blue);
+}
+
+.table-header-el {
+  padding: 12px 24px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-gray);
+  text-align: left;
+}
+
+.table-body {
+  background-color: var(--bg-white);
+}
+
+.table-data {
+  gap: 8px;
+  font-size: 14px;
+  padding: 8px 24px;
+  max-width: 100px;
+}
+
+.table-data-text {
+  display: block;
+  max-width: 300px;
+  white-space: normal;
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+
+.table-image {
+  max-width: 40px;
+  border-radius: 8px;
+}
+
 @media screen and (max-width: 1650px) {
   .cards-section {
     grid-template-columns: repeat(5, 1fr);

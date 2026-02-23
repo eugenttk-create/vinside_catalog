@@ -5,6 +5,7 @@ import CatalogParameterCard from "./CatalogParameterCard/CatalogParameterCard";
 import { useBreadcrumbs } from "../../../../hooks/breadcrumbs/useBreadcrumbs";
 import InfoPopup from "../../../InfoPopup/InfoPopup";
 import type { InfoPopupDescription } from "../CatalogModels/CatalogModels";
+import CatalogParametersTable from "./CatalogParametersTable/CatalogParametersTable";
 
 interface CatalogParametersProps {
   modelId: string;
@@ -25,7 +26,7 @@ const CatalogParameters: React.FC<CatalogParametersProps> = ({
 
   const lastParameter = parameters[parameters.length - 1];
 
-  return (
+  return switchState === "cards" ? (
     <>
       <ul
         className={`cards-section ${
@@ -57,6 +58,15 @@ const CatalogParameters: React.FC<CatalogParametersProps> = ({
         position={popupPosition}
       />
     </>
+  ) : (
+    <CatalogParametersTable
+      values={lastParameter.values}
+      modelId={modelId}
+      onClick={(idx, name) => {
+        getParameters(catalogId, modelId, idx);
+        handleAddBreadcrumb("parameter", name, idx);
+      }}
+    />
   );
 };
 

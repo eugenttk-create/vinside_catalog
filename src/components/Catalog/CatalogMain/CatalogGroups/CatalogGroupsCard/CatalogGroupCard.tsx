@@ -1,10 +1,12 @@
-import CarImage from "../../../../../assets/car_cover.png";
 import "./CatalogGroupCard.css";
 import { useGroups } from "../../../../../hooks/groups/useGroups";
 import { useParts } from "../../../../../hooks/parts/useParts";
 import { useModels } from "../../../../../hooks/models/useModels";
 import { useBreadcrumbs } from "../../../../../hooks/breadcrumbs/useBreadcrumbs";
-import { resolveImageSrc } from "../../../../../utils/resolveImgSrc";
+import {
+  resolveImageSrc,
+  FALLBACK_IMAGE,
+} from "../../../../../utils/resolveImgSrc";
 import { Info } from "lucide-react";
 import type { GroupInfoPopupDescription } from "../../../../GroupInfoPopup/GroupInfoPopup";
 
@@ -70,10 +72,6 @@ const CatalogGroupCard: React.FC<CatalogGroupCardProps> = ({
       getParts(catalogId, carId, idx);
       handleAddBreadcrumb("part", name, idx);
     }
-  };
-
-  const handleImgError = (e: React.SyntheticEvent<HTMLImageElement>) => {
-    e.currentTarget.src = CarImage;
   };
 
   const handleInfoButtonClick = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -151,7 +149,9 @@ const CatalogGroupCard: React.FC<CatalogGroupCardProps> = ({
           switchState === "list" ? "image_list" : ""
         }`}
         loading="lazy"
-        onError={handleImgError}
+        onError={(e) => {
+          e.currentTarget.src = FALLBACK_IMAGE;
+        }}
       />
       <p
         className={`catalog-group-card__name title ${

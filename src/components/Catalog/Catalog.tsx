@@ -16,7 +16,7 @@ const Catalog: React.FC<CatalogProps> = ({ modelId, setModelId }) => {
 
   const { parts } = useParts();
   return (
-    <section className="catalog">
+    <section className="catalog" id="catalog-root">
       <CatalogHeader
         isSidebarActive={isSidebarActive}
         setIsSidebarActive={setIsSidebarActive}
