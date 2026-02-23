@@ -21,13 +21,13 @@ interface CatalogGroupCardProps {
     illustration: string | null;
     name: string | null;
     description: string | null;
-    restriction: string | null;
+    restrictions: string | null;
     from: string | null;
     to: string | null;
     comment: string | null;
     remark: string | null;
     modelDescription: string | null;
-    referenceName: string | null;
+    referenceNr: string | null;
     pet: string | null;
     pat: string | null;
     from_year: string | null;
@@ -126,9 +126,9 @@ const CatalogGroupCard: React.FC<CatalogGroupCardProps> = ({
       !description?.name &&
       !description?.pat &&
       !description?.pet &&
-      !description?.referenceName &&
+      !description?.referenceNr &&
       !description?.remark &&
-      !description?.restriction &&
+      !description?.restrictions &&
       !description?.subgroup &&
       !description?.to &&
       !description?.to_year ? (

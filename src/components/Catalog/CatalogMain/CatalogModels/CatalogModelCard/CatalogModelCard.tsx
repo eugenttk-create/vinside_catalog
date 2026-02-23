@@ -19,6 +19,7 @@ interface CatalogModelCardProps {
     year_from: string | null;
     year_to: string | null;
     series: string | null;
+    catalog: string | null;
   } | null;
   setIsInfoActive: React.Dispatch<React.SetStateAction<boolean>>;
   setCurrentDescription: React.Dispatch<
@@ -93,7 +94,8 @@ const CatalogModelCard: React.FC<CatalogModelCardProps> = ({
       {!description?.model_type &&
       !description?.series &&
       !description?.year_from &&
-      !description?.year_to ? (
+      !description?.year_to &&
+      !description?.catalog ? (
         <></>
       ) : (
         <button

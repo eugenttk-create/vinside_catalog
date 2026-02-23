@@ -5,6 +5,7 @@ export interface Model {
     year_to: string | null;
     series: string | null;
     code: string | null;
+    catalog: string | null;
   } | null;
   id: string;
   name: string;

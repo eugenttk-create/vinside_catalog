@@ -9,7 +9,7 @@ import TableImage from "../../../../TableImage/TableImage";
 const GROUP_COLUMN_KEYS = [
   "subgroup",
   "code",
-  "referenceName",
+  "referenceNr",
   "illustration",
   "name",
   "from",
@@ -23,7 +23,7 @@ const GROUP_COLUMN_KEYS = [
   "description",
   "remark",
   "comment",
-  "restriction",
+  "restrictions",
   "modelDescription",
   "changePoint",
 ] as const;
@@ -40,7 +40,7 @@ type GroupDescription = {
   comment: string | null;
   remark: string | null;
   modelDescription: string | null;
-  referenceName: string | null;
+  referenceNr: string | null;
   pet: string | null;
   pat: string | null;
   from_year: string | null;
@@ -72,7 +72,7 @@ const CatalogGroupsTable: React.FC<CatalogGroupsTableProps> = ({ onClick }) => {
   const columnLabels: Record<GroupColumnKey, string> = {
     subgroup: t.widget_subgroup,
     code: t.widget_code,
-    referenceName: t.widget_reference,
+    referenceNr: t.widget_reference,
     illustration: t.widget_illustration,
     name: t.widget_name,
     from: t.widget_from,
@@ -86,7 +86,7 @@ const CatalogGroupsTable: React.FC<CatalogGroupsTableProps> = ({ onClick }) => {
     description: t.widget_comment,
     remark: t.widget_remark,
     comment: t.widget_restriction,
-    restriction: t.widget_restriction,
+    restrictions: t.widget_restriction,
     modelDescription: t.widget_model_desc,
     changePoint: t.widget_change_point,
   };

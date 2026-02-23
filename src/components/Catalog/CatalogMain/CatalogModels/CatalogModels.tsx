@@ -18,6 +18,7 @@ export type InfoPopupDescription = {
   code?: string | null;
   sales_term?: string | null;
   sales_type?: string | null;
+  catalog?: string | null;
 } | null;
 
 const CatalogModels: React.FC<CatalogModelsProps> = ({

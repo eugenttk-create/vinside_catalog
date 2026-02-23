@@ -13,7 +13,7 @@ interface Group {
     comment: string | null;
     remark: string | null;
     modelDescription: string | null;
-    referenceName: string | null;
+    referenceNr: string | null;
     pet: string | null;
     pat: string | null;
     from_year: string | null;

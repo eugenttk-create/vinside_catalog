@@ -30,6 +30,7 @@ const COLUMN_KEYS = [
   "code",
   "sales_term",
   "sales_type",
+  "catalog",
 ] as const;
 
 type ColumnKey = (typeof COLUMN_KEYS)[number];
@@ -55,6 +56,7 @@ const CatalogModelsTable: React.FC<CatalogModelsTableProps> = ({
     code: "Code",
     sales_term: "Sales Term",
     sales_type: "Sales Type",
+    catalog: "Catalog",
   };
 
   const activeColumns = COLUMN_KEYS.filter((key) =>
