@@ -5,7 +5,7 @@
   background-color: var(--bg-blue);
   top: 0;
   left: 0;
-  z-index: 100000000000;
+  z-index: 998;
 }
 
 .catalog__container {

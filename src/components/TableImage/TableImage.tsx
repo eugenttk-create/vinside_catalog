@@ -44,7 +44,7 @@ const TableImage: React.FC<{ src: string; alt: string }> = ({ src, alt }) => {
               boxShadow: "0 4px 24px rgba(0,0,0,0.25)",
             }}
           />,
-          document.getElementById("catalog-root")!
+          document.body
         )}
     </>
   );
