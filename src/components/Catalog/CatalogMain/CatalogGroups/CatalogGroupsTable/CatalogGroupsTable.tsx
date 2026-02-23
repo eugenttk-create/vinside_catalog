@@ -34,7 +34,7 @@ type GroupDescription = {
   illustration: string | null;
   name: string | null;
   description: string | null;
-  restriction: string | null;
+  restrictions: string | null;
   from: string | null;
   to: string | null;
   comment: string | null;
