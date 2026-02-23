@@ -1,9 +1,6 @@
 import CatalogGroupsTableHead from "./CatalogGroupsTableHead/CatalogGroupsTableHead";
 import CatalogGroupsTableRow from "./CatalogGroupsTableRow/CatalogGroupsTableRow";
-import {
-  resolveImageSrc,
-  FALLBACK_IMAGE,
-} from "../../../../../utils/resolveImgSrc";
+import { resolveImageSrc } from "../../../../../utils/resolveImgSrc";
 import { useGroups } from "../../../../../hooks/groups/useGroups";
 import { useTranslation } from "../../../../../hooks/translation/useTranslation";
 import TruncatedCell from "../../../../TruncatedCell/TruncatedCell";

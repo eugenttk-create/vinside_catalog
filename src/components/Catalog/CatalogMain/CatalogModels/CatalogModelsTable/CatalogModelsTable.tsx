@@ -5,10 +5,7 @@ import { useModels } from "../../../../../hooks/models/useModels";
 import { useTranslation } from "../../../../../hooks/translation/useTranslation";
 import { useParameters } from "../../../../../hooks/parameters/useParameters";
 import { useBreadcrumbs } from "../../../../../hooks/breadcrumbs/useBreadcrumbs";
-import {
-  resolveImageSrc,
-  FALLBACK_IMAGE,
-} from "../../../../../utils/resolveImgSrc";
+import { resolveImageSrc } from "../../../../../utils/resolveImgSrc";
 import TableImage from "../../../../TableImage/TableImage";
 import type { Model } from "../../../../../store/models/models.types";
 

@@ -1,10 +1,7 @@
 import "./CatalogParametersTable.css";
 import CatalogParametersTableRow from "./CatalogParametersTableRow/CatalogParametersTableRow";
 import CatalogParametersTableHead from "./CatalogParametersTableHead/CatalogParametersTableHead";
-import {
-  resolveImageSrc,
-  FALLBACK_IMAGE,
-} from "../../../../../utils/resolveImgSrc";
+import { resolveImageSrc } from "../../../../../utils/resolveImgSrc";
 import TableImage from "../../../../TableImage/TableImage";
 import { useTranslation } from "../../../../../hooks/translation/useTranslation";
 
