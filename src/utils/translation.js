@@ -20,29 +20,36 @@ export const translations = {
     widget_equipment: "Equipment",
     widget_categories: "Categories",
     widget_loading: "Loading...",
-    //new
     widget_sales_type: "Sales Type",
     widget_sales_term: "Sales Term",
     widget_illustration: "Illustration",
-	widget_name: "Name",
-	widget_name_2: "Name",
-	widget_comment: "Comment",
-	widget_restriction: "Restriction",
-	widget_restriction_2: "Restriction",
-	widget_from: "From",
-	widget_from_2: "From",
-	widget_to: "To",
-	widget_to_2: "To",
-	widget_remark: "Remark",
-	widget_model_desc: "Comment",
-	widget_reference: "Reference number",
-	widget_pet: "PET",
-	widget_pat: "PAT",
-	widget_change_point: "Point of change",
-	widget_code: "Code",
-	widget_subgroup: "Group",
-	widget_mounting_time: "Installation Time",
-	widget_equipment_2: "Equipment",
+    widget_name: "Name",
+    widget_name_2: "Name",
+    widget_comment: "Comment",
+    widget_restriction: "Restriction",
+    widget_restriction_2: "Restriction",
+    widget_from: "From",
+    widget_from_2: "From",
+    widget_to: "To",
+    widget_to_2: "To",
+    widget_remark: "Remark",
+    widget_model_desc: "Comment",
+    widget_reference: "Reference number",
+    widget_pet: "PET",
+    widget_pat: "PAT",
+    widget_change_point: "Point of change",
+    widget_code: "Code",
+    widget_subgroup: "Group",
+    widget_mounting_time: "Installation Time",
+    widget_equipment_2: "Equipment",
+    //new
+    widget_catalog: "Catalog",
+    widget_cabin: "Cabin",
+    widget_engine: "Engine",
+    widget_gearbox: "Gearbox",
+    widget_steering: "Steering",
+    widget_suspension: "Suspension",
+    widget_wheel_base: "Wheel Base",
   },
   ru: {
     widget_title: "Поиск модели автомобиля",
@@ -65,7 +72,6 @@ export const translations = {
     widget_equipment: "Комплектация",
     widget_categories: "Категории",
     widget_loading: "Загрузка...",
-    //new
     widget_sales_type: "Тип продажи",
     widget_sales_term: "Условия продажи",
     widget_illustration: "Иллюстрация",
@@ -88,6 +94,14 @@ export const translations = {
     widget_subgroup: "Группа",
     widget_mounting_time: "Время установки",
     widget_equipment_2: "Комплектация",
+    //new
+    widget_catalog: "Catalog",
+    widget_cabin: "Cabin",
+    widget_engine: "Engine",
+    widget_gearbox: "Gearbox",
+    widget_steering: "Steering",
+    widget_suspension: "Suspension",
+    widget_wheel_base: "Wheel Base",
   },
   pl: {
     widget_title: "Wyszukaj model pojazdu",
@@ -110,7 +124,6 @@ export const translations = {
     widget_equipment: "Wyposażenie",
     widget_categories: "Kategorie",
     widget_loading: "Ładowanie...",
-    //new
     widget_sales_type: "Typ sprzedaży",
     widget_sales_term: "Warunki sprzedaży",
     widget_illustration: "Ilustracja",
@@ -155,7 +168,6 @@ export const translations = {
     widget_equipment: "Equipamento",
     widget_categories: "Categorias",
     widget_loading: "Carregando...",
-    //new
     widget_sales_type: "Tipo de venda",
     widget_sales_term: "Condições de venda",
     widget_illustration: "Ilustração",
@@ -200,7 +212,6 @@ export const translations = {
     widget_equipment: "Ausstattung",
     widget_categories: "Kategorien",
     widget_loading: "Wird geladen...",
-    //new
     widget_sales_type: "Verkaufsart",
     widget_sales_term: "Verkaufsbedingungen",
     widget_illustration: "Illustration",
@@ -245,7 +256,6 @@ export const translations = {
     widget_equipment: "配置",
     widget_categories: "分类",
     widget_loading: "加载中...",
-    //new
     widget_sales_type: "销售类型",
     widget_sales_term: "销售条款",
     widget_illustration: "示意图",
@@ -290,7 +300,6 @@ export const translations = {
     widget_equipment: "配備",
     widget_categories: "分類",
     widget_loading: "載入中...",
-    //new
     widget_sales_type: "銷售類型",
     widget_sales_term: "銷售條款",
     widget_illustration: "示意圖",
@@ -335,7 +344,6 @@ export const translations = {
     widget_equipment: "Oprema",
     widget_categories: "Kategorije",
     widget_loading: "Učitavanje...",
-    //new
     widget_sales_type: "Vrsta prodaje",
     widget_sales_term: "Uvjeti prodaje",
     widget_illustration: "Ilustracija",
@@ -380,7 +388,6 @@ export const translations = {
     widget_equipment: "Výbava",
     widget_categories: "Kategorie",
     widget_loading: "Načítání...",
-    //new
     widget_sales_type: "Typ prodeje",
     widget_sales_term: "Prodejní podmínky",
     widget_illustration: "Ilustrace",
@@ -425,7 +432,6 @@ export const translations = {
     widget_equipment: "Udstyr",
     widget_categories: "Kategorier",
     widget_loading: "Indlæser...",
-    //new
     widget_sales_type: "Salgsform",
     widget_sales_term: "Salgsbetingelser",
     widget_illustration: "Illustration",
@@ -470,7 +476,6 @@ export const translations = {
     widget_equipment: "Uitrusting",
     widget_categories: "Categorieën",
     widget_loading: "Bezig met laden...",
-    //new
     widget_sales_type: "Verkooptype",
     widget_sales_term: "Verkoopvoorwaarden",
     widget_illustration: "Illustratie",
@@ -515,7 +520,6 @@ export const translations = {
     widget_equipment: "Varustelu",
     widget_categories: "Kategoriat",
     widget_loading: "Ladataan...",
-    //new
     widget_sales_type: "Myyntityyppi",
     widget_sales_term: "Myyntiehdot",
     widget_illustration: "Kuva",
@@ -560,7 +564,6 @@ export const translations = {
     widget_equipment: "Équipement",
     widget_categories: "Catégories",
     widget_loading: "Chargement...",
-    //new
     widget_sales_type: "Type de vente",
     widget_sales_term: "Conditions de vente",
     widget_illustration: "Illustration",
@@ -605,7 +608,6 @@ export const translations = {
     widget_equipment: "Εξοπλισμός",
     widget_categories: "Κατηγορίες",
     widget_loading: "Φόρτωση...",
-    //new
     widget_sales_type: "Τύπος πώλησης",
     widget_sales_term: "Όροι πώλησης",
     widget_illustration: "Εικονογράφηση",
@@ -650,7 +652,6 @@ export const translations = {
     widget_equipment: "Felszereltség",
     widget_categories: "Kategóriák",
     widget_loading: "Betöltés...",
-    //new
     widget_sales_type: "Értékesítési típus",
     widget_sales_term: "Értékesítési feltételek",
     widget_illustration: "Illusztráció",
@@ -695,7 +696,6 @@ export const translations = {
     widget_equipment: "Allestimento",
     widget_categories: "Categorie",
     widget_loading: "Caricamento...",
-    //new
     widget_sales_type: "Tipo di vendita",
     widget_sales_term: "Condizioni di vendita",
     widget_illustration: "Illustrazione",
@@ -740,7 +740,6 @@ export const translations = {
     widget_equipment: "装備",
     widget_categories: "カテゴリー",
     widget_loading: "読み込み中...",
-    //new
     widget_sales_type: "販売タイプ",
     widget_sales_term: "販売条件",
     widget_illustration: "図解",
@@ -785,7 +784,6 @@ export const translations = {
     widget_equipment: "장비",
     widget_categories: "카테고리",
     widget_loading: "로딩 중...",
-    //new
     widget_sales_type: "판매 유형",
     widget_sales_term: "판매 조건",
     widget_illustration: "도면",
@@ -830,7 +828,6 @@ export const translations = {
     widget_equipment: "Utstyr",
     widget_categories: "Kategorier",
     widget_loading: "Laster...",
-    //new
     widget_sales_type: "Salgstype",
     widget_sales_term: "Salgsbetingelser",
     widget_illustration: "Illustrasjon",
@@ -875,7 +872,6 @@ export const translations = {
     widget_equipment: "Equipamento",
     widget_categories: "Categorias",
     widget_loading: "Carregando...",
-    //new
     widget_sales_type: "Tipo de venda",
     widget_sales_term: "Condições de venda",
     widget_illustration: "Ilustração",
@@ -920,7 +916,6 @@ export const translations = {
     widget_equipment: "Echipare",
     widget_categories: "Categorii",
     widget_loading: "Se încarcă...",
-    //new
     widget_sales_type: "Tip vânzare",
     widget_sales_term: "Condiții de vânzare",
     widget_illustration: "Ilustrație",
@@ -965,7 +960,6 @@ export const translations = {
     widget_equipment: "Výbava",
     widget_categories: "Kategórie",
     widget_loading: "Načítava sa...",
-    //new
     widget_sales_type: "Typ predaja",
     widget_sales_term: "Predajné podmienky",
     widget_illustration: "Ilustrácia",
@@ -1010,7 +1004,6 @@ export const translations = {
     widget_equipment: "Oprema",
     widget_categories: "Kategorije",
     widget_loading: "Nalaganje...",
-    //new
     widget_sales_type: "Vrsta prodaje",
     widget_sales_term: "Prodajni pogoji",
     widget_illustration: "Ilustracija",
@@ -1055,7 +1048,6 @@ export const translations = {
     widget_equipment: "Equipamiento",
     widget_categories: "Categorías",
     widget_loading: "Cargando...",
-    //new
     widget_sales_type: "Tipo de venta",
     widget_sales_term: "Condiciones de venta",
     widget_illustration: "Ilustración",
@@ -1100,7 +1092,6 @@ export const translations = {
     widget_equipment: "Utrustning",
     widget_categories: "Kategorier",
     widget_loading: "Laddar...",
-    //new
     widget_sales_type: "Försäljningstyp",
     widget_sales_term: "Försäljningsvillkor",
     widget_illustration: "Illustration",
@@ -1145,7 +1136,6 @@ export const translations = {
     widget_equipment: "Donanım",
     widget_categories: "Kategoriler",
     widget_loading: "Yükleniyor...",
-    //new
     widget_sales_type: "Satış türü",
     widget_sales_term: "Satış şartları",
     widget_illustration: "Görsel",

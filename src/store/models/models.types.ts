@@ -6,6 +6,14 @@ export interface Model {
     series: string | null;
     code: string | null;
     catalog: string | null;
+    cabin: string | null;
+    engine: string | null;
+    gearbox: string | null;
+    steering: string | null;
+    suspension: string | null;
+    wheel_base: string | null;
+    production: string | null;
+    type: string | null;
   } | null;
   id: string;
   name: string;

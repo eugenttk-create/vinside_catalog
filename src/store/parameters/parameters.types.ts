@@ -5,8 +5,15 @@ interface ParameterValue {
     code: string | null;
     year_from: string | null;
     year_to: string | null;
-    sales_type: string | null;
     sales_term: string | null;
+    sales_type: string | null;
+    catalog: string | null;
+    cabin: string | null;
+    engine: string | null;
+    gearbox: string | null;
+    steering: string | null;
+    suspension: string | null;
+    wheel_base: string | null;
   } | null;
 }
 

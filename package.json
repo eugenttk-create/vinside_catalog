@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.10.1",
+    "@tanstack/react-virtual": "^3.13.19",
     "axios": "^1.13.2",
     "jsencrypt": "^3.5.4",
     "lucide-react": "^0.554.0",

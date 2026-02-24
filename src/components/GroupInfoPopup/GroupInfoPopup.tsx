@@ -29,6 +29,7 @@ interface GroupInfoPopupProps {
   description: GroupInfoPopupDescription;
   onClose: () => void;
   position: { top: number; left: number };
+  title: string;
 }
 
 const GroupInfoPopup: React.FC<GroupInfoPopupProps> = ({
@@ -36,6 +37,7 @@ const GroupInfoPopup: React.FC<GroupInfoPopupProps> = ({
   description,
   onClose,
   position,
+  title,
 }) => {
   const { t } = useTranslation();
 
@@ -47,6 +49,7 @@ const GroupInfoPopup: React.FC<GroupInfoPopupProps> = ({
       <button className="info-popup__close" onClick={onClose}>
         <X className="icon" />
       </button>
+      <p className="info-popup__top-title">{title}</p>
       <div className="info-popup__containers">
         {description?.subgroup && (
           <div className="info-popup__container">

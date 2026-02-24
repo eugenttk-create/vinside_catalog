@@ -6,11 +6,20 @@ import TableImage from "../../../../TableImage/TableImage";
 import { useTranslation } from "../../../../../hooks/translation/useTranslation";
 
 type ParameterDescription = {
-  code?: string | null;
+  model_type?: string | null;
   year_from?: string | null;
   year_to?: string | null;
+  series?: string | null;
+  code?: string | null;
   sales_term?: string | null;
   sales_type?: string | null;
+  catalog?: string | null;
+  cabin?: string | null;
+  engine?: string | null;
+  gearbox?: string | null;
+  steering?: string | null;
+  suspension?: string | null;
+  wheel_base?: string | null;
 } | null;
 
 type ParameterValue = {
@@ -24,6 +33,13 @@ const PARAM_COLUMN_KEYS = [
   "code",
   "sales_term",
   "sales_type",
+  "catalog",
+  "cabin",
+  "engine",
+  "gearbox",
+  "steering",
+  "suspension",
+  "wheel_base",
 ] as const;
 
 type ParamColumnKey = (typeof PARAM_COLUMN_KEYS)[number];
@@ -42,9 +58,16 @@ const CatalogParametersTable: React.FC<CatalogParametersTableProps> = ({
 
   const columnLabels: Record<ParamColumnKey, string> = {
     production_period: t.widget_production_period,
-    code: "Code",
-    sales_term: "Sales Term",
-    sales_type: "Sales Type",
+    code: t.widget_code,
+    sales_term: t.widget_sales_term,
+    sales_type: t.widget_sales_type,
+    catalog: t.widget_catalog,
+    cabin: t.widget_cabin,
+    engine: t.widget_engine,
+    gearbox: t.widget_gearbox,
+    steering: t.widget_steering,
+    suspension: t.widget_suspension,
+    wheel_base: t.widget_wheel_base,
   };
 
   const activeColumns = PARAM_COLUMN_KEYS.filter((key) =>

@@ -20,6 +20,14 @@ interface CatalogModelCardProps {
     year_to: string | null;
     series: string | null;
     catalog: string | null;
+    cabin: string | null;
+    engine: string | null;
+    gearbox: string | null;
+    steering: string | null;
+    suspension: string | null;
+    wheel_base: string | null;
+    production: string | null;
+    type: string | null;
   } | null;
   setIsInfoActive: React.Dispatch<React.SetStateAction<boolean>>;
   setCurrentDescription: React.Dispatch<
@@ -29,6 +37,7 @@ interface CatalogModelCardProps {
   setPopupPosition: React.Dispatch<
     React.SetStateAction<{ top: number; left: number }>
   >;
+  setCurrentTitle: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const CatalogModelCard: React.FC<CatalogModelCardProps> = ({
@@ -41,6 +50,7 @@ const CatalogModelCard: React.FC<CatalogModelCardProps> = ({
   setCurrentDescription,
   switchState,
   setPopupPosition,
+  setCurrentTitle,
 }) => {
   const { catalogId } = useModels();
   const { getParameters } = useParameters();
@@ -82,6 +92,7 @@ const CatalogModelCard: React.FC<CatalogModelCardProps> = ({
     setIsInfoActive(true);
     setCurrentDescription(description);
     setPopupPosition({ top, left });
+    setCurrentTitle(name);
   };
 
   return (
@@ -95,7 +106,15 @@ const CatalogModelCard: React.FC<CatalogModelCardProps> = ({
       !description?.series &&
       !description?.year_from &&
       !description?.year_to &&
-      !description?.catalog ? (
+      !description?.catalog &&
+      !description?.cabin &&
+      !description?.engine &&
+      !description?.gearbox &&
+      !description?.steering &&
+      !description?.suspension &&
+      !description?.wheel_base &&
+      !description?.production &&
+      !description?.type ? (
         <></>
       ) : (
         <button

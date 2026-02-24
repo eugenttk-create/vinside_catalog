@@ -45,6 +45,7 @@ interface CatalogGroupCardProps {
   setPopupPosition: React.Dispatch<
     React.SetStateAction<{ top: number; left: number }>
   >;
+  setCurrentTitle: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const CatalogGroupCard: React.FC<CatalogGroupCardProps> = ({
@@ -58,6 +59,7 @@ const CatalogGroupCard: React.FC<CatalogGroupCardProps> = ({
   setCurrentDescription,
   description,
   setPopupPosition,
+  setCurrentTitle,
 }) => {
   const { catalogId } = useModels();
   const { getGroups } = useGroups();
@@ -104,6 +106,7 @@ const CatalogGroupCard: React.FC<CatalogGroupCardProps> = ({
     setIsInfoActive(true);
     setCurrentDescription(description);
     setPopupPosition({ top, left });
+    setCurrentTitle(name);
   };
 
   return (

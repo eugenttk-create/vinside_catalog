@@ -17,6 +17,8 @@ type ModelDescription = {
   code?: string | null;
   sales_term?: string | null;
   sales_type?: string | null;
+  production?: string | null;
+  type?: string | null;
 } | null;
 
 interface CatalogModelsTableProps {
@@ -31,6 +33,8 @@ const COLUMN_KEYS = [
   "sales_term",
   "sales_type",
   "catalog",
+  "production",
+  "type",
 ] as const;
 
 type ColumnKey = (typeof COLUMN_KEYS)[number];
@@ -53,10 +57,12 @@ const CatalogModelsTable: React.FC<CatalogModelsTableProps> = ({
     model_type: t.widget_model_type,
     production_period: t.widget_production_period,
     series: t.widget_series,
-    code: "Code",
-    sales_term: "Sales Term",
-    sales_type: "Sales Type",
-    catalog: "Catalog",
+    code: t.widget_code,
+    sales_term: t.widget_sales_term,
+    sales_type: t.widget_sales_type,
+    catalog: t.widget_catalog,
+    production: t.widget_production_period,
+    type: t.widget_model_type,
   };
 
   const activeColumns = COLUMN_KEYS.filter((key) =>

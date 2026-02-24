@@ -17,6 +17,13 @@ interface CatalogParameterCardProps {
     year_to: string | null;
     sales_term: string | null;
     sales_type: string | null;
+    catalog: string | null;
+    cabin: string | null;
+    engine: string | null;
+    gearbox: string | null;
+    steering: string | null;
+    suspension: string | null;
+    wheel_base: string | null;
   } | null;
   switchState: string;
   setIsInfoActive: React.Dispatch<React.SetStateAction<boolean>>;
@@ -26,6 +33,7 @@ interface CatalogParameterCardProps {
   setPopupPosition: React.Dispatch<
     React.SetStateAction<{ top: number; left: number }>
   >;
+  setCurrentTitle: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const CatalogParameterCard: React.FC<CatalogParameterCardProps> = ({
@@ -38,6 +46,7 @@ const CatalogParameterCard: React.FC<CatalogParameterCardProps> = ({
   setIsInfoActive,
   setCurrentDescription,
   setPopupPosition,
+  setCurrentTitle,
 }) => {
   const handleInfoButtonClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
@@ -69,6 +78,7 @@ const CatalogParameterCard: React.FC<CatalogParameterCardProps> = ({
     setIsInfoActive(true);
     setCurrentDescription(description);
     setPopupPosition({ top, left });
+    setCurrentTitle(name);
   };
 
   return (
@@ -82,7 +92,14 @@ const CatalogParameterCard: React.FC<CatalogParameterCardProps> = ({
       !description?.year_from &&
       !description?.year_to &&
       !description?.sales_term &&
-      !description?.sales_type ? (
+      !description?.sales_type &&
+      !description?.cabin &&
+      !description?.catalog &&
+      !description?.engine &&
+      !description?.gearbox &&
+      !description?.steering &&
+      !description?.suspension &&
+      !description?.wheel_base ? (
         <></>
       ) : (
         <button

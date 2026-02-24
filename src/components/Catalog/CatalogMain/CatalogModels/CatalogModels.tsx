@@ -19,6 +19,14 @@ export type InfoPopupDescription = {
   sales_term?: string | null;
   sales_type?: string | null;
   catalog?: string | null;
+  cabin?: string | null;
+  engine?: string | null;
+  gearbox?: string | null;
+  steering?: string | null;
+  suspension?: string | null;
+  wheel_base?: string | null;
+  production?: string | null;
+  type?: string | null;
 } | null;
 
 const CatalogModels: React.FC<CatalogModelsProps> = ({
@@ -29,6 +37,7 @@ const CatalogModels: React.FC<CatalogModelsProps> = ({
   const [isInfoActive, setIsInfoActive] = useState(false);
   const [currentDescription, setCurrentDescription] =
     useState<InfoPopupDescription>(null);
+  const [currentTitle, setCurrentTitle] = useState("");
   const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
 
   return switchState === "cards" ? (
@@ -52,6 +61,7 @@ const CatalogModels: React.FC<CatalogModelsProps> = ({
                 setCurrentDescription={setCurrentDescription}
                 switchState={switchState}
                 setPopupPosition={setPopupPosition}
+                setCurrentTitle={setCurrentTitle}
               />
             );
           })}
@@ -61,6 +71,7 @@ const CatalogModels: React.FC<CatalogModelsProps> = ({
         description={currentDescription}
         onClose={() => setIsInfoActive(false)}
         position={popupPosition}
+        title={currentTitle}
       />
     </>
   ) : (
