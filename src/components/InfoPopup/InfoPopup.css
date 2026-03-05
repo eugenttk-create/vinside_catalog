@@ -1,3 +1,17 @@
+.info-popup__overlay {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 99;
+  display: none;
+}
+
+.info-popup__overlay_active {
+  display: block;
+}
+
 .info-popup {
   position: fixed;
   border: 2px solid var(--border-blue);

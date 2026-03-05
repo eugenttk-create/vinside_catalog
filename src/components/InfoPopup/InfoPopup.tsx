@@ -30,113 +30,121 @@ const InfoPopup: React.FC<InfoPopupProps> = ({
       : null;
 
   return (
-    <div
-      className={`info-popup ${isActive ? "info-popup_active" : ""}`}
-      style={{ top: position.top || "0", left: position.left || "0" }}
-    >
-      <button className="info-popup__close" onClick={onClose}>
-        <X className="icon" />
-      </button>
-      <p className="info-popup__top-title">{title}</p>
-      <div className="info-popup__containers">
-        {description?.model_type && (
-          <div className="info-popup__container">
-            <p className="info-popup__title">{t.widget_model_type}</p>
-            <p className="info-popup__text">{description?.model_type}</p>
-          </div>
-        )}
-        {productionPeriod && (
-          <div className="info-popup__container">
-            <p className="info-popup__title">{t.widget_production_period}</p>
-            <p className="info-popup__text">{productionPeriod}</p>
-          </div>
-        )}
-        {description?.series && (
-          <div className="info-popup__container">
-            <p className="info-popup__title">{t.widget_series}</p>
-            <p className="info-popup__text">{description?.series}</p>
-          </div>
-        )}
-        {description?.code && (
-          <div className="info-popup__container">
-            <p className="info-popup__title">{t.widget_code}</p>
-            <p className="info-popup__text">{description?.code}</p>
-          </div>
-        )}
-        {description?.sales_term && (
-          <div className="info-popup__container">
-            <p className="info-popup__title">{t.widget_sales_term}</p>
-            <p className="info-popup__text">{description?.sales_term}</p>
-          </div>
-        )}
-        {description?.sales_type && (
-          <div className="info-popup__container">
-            <p className="info-popup__title">{t.widget_sales_type}</p>
-            <p className="info-popup__text">{description?.sales_type}</p>
-          </div>
-        )}
-        {description?.catalog && (
-          <div className="info-popup__container">
-            <p className="info-popup__title">{t.widget_catalog}</p>
-            <p className="info-popup__text">{description?.catalog}</p>
-          </div>
-        )}
-        {description?.cabin && (
-          <div className="info-popup__container">
-            <p className="info-popup__title">{t.widget_cabin}</p>
-            <p className="info-popup__text">{description?.cabin}</p>
-          </div>
-        )}
-        {description?.catalog && (
-          <div className="info-popup__container">
-            <p className="info-popup__title">{t.widget_catalog}</p>
-            <p className="info-popup__text">{description?.catalog}</p>
-          </div>
-        )}
-        {description?.engine && (
-          <div className="info-popup__container">
-            <p className="info-popup__title">{t.widget_engine}</p>
-            <p className="info-popup__text">{description?.engine}</p>
-          </div>
-        )}
-        {description?.gearbox && (
-          <div className="info-popup__container">
-            <p className="info-popup__title">{t.widget_gearbox}</p>
-            <p className="info-popup__text">{description?.gearbox}</p>
-          </div>
-        )}
-        {description?.steering && (
-          <div className="info-popup__container">
-            <p className="info-popup__title">{t.widget_steering}</p>
-            <p className="info-popup__text">{description?.steering}</p>
-          </div>
-        )}
-        {description?.suspension && (
-          <div className="info-popup__container">
-            <p className="info-popup__title">{t.widget_suspension}</p>
-            <p className="info-popup__text">{description?.suspension}</p>
-          </div>
-        )}
-        {description?.wheel_base && (
-          <div className="info-popup__container">
-            <p className="info-popup__title">{t.widget_wheel_base}</p>
-            <p className="info-popup__text">{description?.wheel_base}</p>
-          </div>
-        )}
-        {description?.type && (
-          <div className="info-popup__container">
-            <p className="info-popup__title">{t.widget_model_type}</p>
-            <p className="info-popup__text">{description?.type}</p>
-          </div>
-        )}
-        {description?.production && (
-          <div className="info-popup__container">
-            <p className="info-popup__title">{t.widget_production_period}</p>
-            <p className="info-popup__text">{description?.production}</p>
-          </div>
-        )}
+    <>
+      <div
+        className={`info-popup__overlay ${
+          isActive ? "info-popup__overlay_active" : ""
+        }`}
+        onClick={onClose}
+      ></div>
+      <div
+        className={`info-popup ${isActive ? "info-popup_active" : ""}`}
+        style={{ top: position.top || "0", left: position.left || "0" }}
+      >
+        <button className="info-popup__close" onClick={onClose}>
+          <X className="icon" />
+        </button>
+        <p className="info-popup__top-title">{title}</p>
+        <div className="info-popup__containers">
+          {description?.model_type && (
+            <div className="info-popup__container">
+              <p className="info-popup__title">{t.widget_model_type}</p>
+              <p className="info-popup__text">{description?.model_type}</p>
+            </div>
+          )}
+          {productionPeriod && (
+            <div className="info-popup__container">
+              <p className="info-popup__title">{t.widget_production_period}</p>
+              <p className="info-popup__text">{productionPeriod}</p>
+            </div>
+          )}
+          {description?.series && (
+            <div className="info-popup__container">
+              <p className="info-popup__title">{t.widget_series}</p>
+              <p className="info-popup__text">{description?.series}</p>
+            </div>
+          )}
+          {description?.code && (
+            <div className="info-popup__container">
+              <p className="info-popup__title">{t.widget_code}</p>
+              <p className="info-popup__text">{description?.code}</p>
+            </div>
+          )}
+          {description?.sales_term && (
+            <div className="info-popup__container">
+              <p className="info-popup__title">{t.widget_sales_term}</p>
+              <p className="info-popup__text">{description?.sales_term}</p>
+            </div>
+          )}
+          {description?.sales_type && (
+            <div className="info-popup__container">
+              <p className="info-popup__title">{t.widget_sales_type}</p>
+              <p className="info-popup__text">{description?.sales_type}</p>
+            </div>
+          )}
+          {description?.catalog && (
+            <div className="info-popup__container">
+              <p className="info-popup__title">{t.widget_catalog}</p>
+              <p className="info-popup__text">{description?.catalog}</p>
+            </div>
+          )}
+          {description?.cabin && (
+            <div className="info-popup__container">
+              <p className="info-popup__title">{t.widget_cabin}</p>
+              <p className="info-popup__text">{description?.cabin}</p>
+            </div>
+          )}
+          {description?.catalog && (
+            <div className="info-popup__container">
+              <p className="info-popup__title">{t.widget_catalog}</p>
+              <p className="info-popup__text">{description?.catalog}</p>
+            </div>
+          )}
+          {description?.engine && (
+            <div className="info-popup__container">
+              <p className="info-popup__title">{t.widget_engine}</p>
+              <p className="info-popup__text">{description?.engine}</p>
+            </div>
+          )}
+          {description?.gearbox && (
+            <div className="info-popup__container">
+              <p className="info-popup__title">{t.widget_gearbox}</p>
+              <p className="info-popup__text">{description?.gearbox}</p>
+            </div>
+          )}
+          {description?.steering && (
+            <div className="info-popup__container">
+              <p className="info-popup__title">{t.widget_steering}</p>
+              <p className="info-popup__text">{description?.steering}</p>
+            </div>
+          )}
+          {description?.suspension && (
+            <div className="info-popup__container">
+              <p className="info-popup__title">{t.widget_suspension}</p>
+              <p className="info-popup__text">{description?.suspension}</p>
+            </div>
+          )}
+          {description?.wheel_base && (
+            <div className="info-popup__container">
+              <p className="info-popup__title">{t.widget_wheel_base}</p>
+              <p className="info-popup__text">{description?.wheel_base}</p>
+            </div>
+          )}
+          {description?.type && (
+            <div className="info-popup__container">
+              <p className="info-popup__title">{t.widget_model_type}</p>
+              <p className="info-popup__text">{description?.type}</p>
+            </div>
+          )}
+          {description?.production && (
+            <div className="info-popup__container">
+              <p className="info-popup__title">{t.widget_production_period}</p>
+              <p className="info-popup__text">{description?.production}</p>
+            </div>
+          )}
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

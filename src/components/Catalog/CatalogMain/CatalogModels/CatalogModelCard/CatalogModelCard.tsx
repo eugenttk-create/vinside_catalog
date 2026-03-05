@@ -38,6 +38,8 @@ interface CatalogModelCardProps {
     React.SetStateAction<{ top: number; left: number }>
   >;
   setCurrentTitle: React.Dispatch<React.SetStateAction<string>>;
+  activeCardId: string | null;
+  setActiveCardId: React.Dispatch<React.SetStateAction<string | null>>;
 }
 
 const CatalogModelCard: React.FC<CatalogModelCardProps> = ({
@@ -51,6 +53,8 @@ const CatalogModelCard: React.FC<CatalogModelCardProps> = ({
   switchState,
   setPopupPosition,
   setCurrentTitle,
+  activeCardId,
+  setActiveCardId,
 }) => {
   const { catalogId } = useModels();
   const { getParameters } = useParameters();
@@ -93,13 +97,14 @@ const CatalogModelCard: React.FC<CatalogModelCardProps> = ({
     setCurrentDescription(description);
     setPopupPosition({ top, left });
     setCurrentTitle(name);
+    setActiveCardId(modelId);
   };
 
   return (
     <li
-      className={`catalog-model-card card ${
+      className={`catalog-group-card card ${
         switchState === "list" ? "card_list" : ""
-      }`}
+      } ${activeCardId === modelId ? "card_hovered" : ""}`}
       onClick={handleCardClick}
     >
       {!description?.model_type &&

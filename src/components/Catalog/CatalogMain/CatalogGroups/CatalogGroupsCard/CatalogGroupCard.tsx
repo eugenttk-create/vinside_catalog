@@ -46,6 +46,8 @@ interface CatalogGroupCardProps {
     React.SetStateAction<{ top: number; left: number }>
   >;
   setCurrentTitle: React.Dispatch<React.SetStateAction<string>>;
+  activeCardId: string | null;
+  setActiveCardId: React.Dispatch<React.SetStateAction<string | null>>;
 }
 
 const CatalogGroupCard: React.FC<CatalogGroupCardProps> = ({
@@ -60,6 +62,8 @@ const CatalogGroupCard: React.FC<CatalogGroupCardProps> = ({
   description,
   setPopupPosition,
   setCurrentTitle,
+  activeCardId,
+  setActiveCardId,
 }) => {
   const { catalogId } = useModels();
   const { getGroups } = useGroups();
@@ -107,13 +111,14 @@ const CatalogGroupCard: React.FC<CatalogGroupCardProps> = ({
     setCurrentDescription(description);
     setPopupPosition({ top, left });
     setCurrentTitle(name);
+    setActiveCardId(idx);
   };
 
   return (
     <li
       className={`catalog-group-card card ${
         switchState === "list" ? "card_list" : ""
-      }`}
+      } ${activeCardId === idx ? "card_hovered" : ""}`}
       onClick={handleCardClick}
     >
       {!description?.changePoint &&

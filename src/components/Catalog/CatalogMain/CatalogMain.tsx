@@ -57,7 +57,7 @@ const CatalogMain: React.FC<CatalogMainProps> = ({
           <ChevronRight className="icon" />
         </button>
       )}
-      {parts?.partGroups.length === 0 && (
+      {parts?.partGroups.length === 0 && models.length !== 0 && (
         <div className="cards-section__switch-container">
           <div className="cards-section__switch">
             <button

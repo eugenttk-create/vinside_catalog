@@ -34,6 +34,8 @@ interface CatalogParameterCardProps {
     React.SetStateAction<{ top: number; left: number }>
   >;
   setCurrentTitle: React.Dispatch<React.SetStateAction<string>>;
+  activeCardId: string | null;
+  setActiveCardId: React.Dispatch<React.SetStateAction<string | null>>;
 }
 
 const CatalogParameterCard: React.FC<CatalogParameterCardProps> = ({
@@ -47,6 +49,8 @@ const CatalogParameterCard: React.FC<CatalogParameterCardProps> = ({
   setCurrentDescription,
   setPopupPosition,
   setCurrentTitle,
+  activeCardId,
+  setActiveCardId,
 }) => {
   const handleInfoButtonClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
@@ -79,13 +83,14 @@ const CatalogParameterCard: React.FC<CatalogParameterCardProps> = ({
     setCurrentDescription(description);
     setPopupPosition({ top, left });
     setCurrentTitle(name);
+    setActiveCardId(idx);
   };
 
   return (
     <li
-      className={`catalog-parameter-card card ${
+      className={`catalog-group-card card ${
         switchState === "list" ? "card_list" : ""
-      }`}
+      } ${activeCardId === idx ? "card_hovered" : ""}`}
       onClick={() => onClick(idx)}
     >
       {!description?.code &&

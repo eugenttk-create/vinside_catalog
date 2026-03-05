@@ -30,7 +30,7 @@ export const useGroups = () => {
 
   const getGroupsByVin = useCallback(
     (vin: string) => {
-      return dispatch(fetchByVin(vin));
+      return dispatch(fetchByVin(vin)).unwrap();
     },
     [dispatch]
   );

@@ -27,6 +27,7 @@ const CatalogGroups: React.FC<CatalogGroupsProps> = ({
     useState<GroupInfoPopupDescription>(null);
   const [currentTitle, setCurrentTitle] = useState("");
   const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
+  const [activeCardId, setActiveCardId] = useState<string | null>(null);
 
   return switchState === "cards" ? (
     <>
@@ -49,13 +50,18 @@ const CatalogGroups: React.FC<CatalogGroupsProps> = ({
             setCurrentDescription={setCurrentDescription}
             setPopupPosition={setPopupPosition}
             setCurrentTitle={setCurrentTitle}
+            activeCardId={activeCardId}
+            setActiveCardId={setActiveCardId}
           />
         ))}
       </ul>
       <GroupInfoPopup
         isActive={isInfoActive}
         description={currentDescription}
-        onClose={() => setIsInfoActive(false)}
+        onClose={() => {
+          setIsInfoActive(false);
+          setActiveCardId(null);
+        }}
         position={popupPosition}
         title={currentTitle}
       />
