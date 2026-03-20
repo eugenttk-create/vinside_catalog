@@ -13,6 +13,8 @@ const MIN_SCALE = 0.5;
 const MAX_SCALE = 3;
 const SCALE_STEP = 0.1;
 
+const baseLink = window.__WIDGET_LINK__;
+
 interface CatalogPartsProps {
   modelId: string;
   setModelId: React.Dispatch<React.SetStateAction<string>>;
@@ -349,6 +351,38 @@ const CatalogParts: React.FC<CatalogPartsProps> = ({ modelId, setModelId }) => {
     return { left, top, width, height };
   };
 
+  const scrollRowToCenter = (row: HTMLTableRowElement) => {
+    const container = row.closest(".catalog-parts__table-wrapper");
+    if (!container) return;
+
+    const containerRect = container.getBoundingClientRect();
+    const rowRect = row.getBoundingClientRect();
+
+    const containerScrollTop = container.scrollTop;
+
+    const rowOffsetTop = rowRect.top - containerRect.top + containerScrollTop;
+
+    const targetScroll =
+      rowOffsetTop - container.clientHeight / 2 + row.clientHeight / 2;
+
+    const maxScroll = container.scrollHeight - container.clientHeight;
+
+    const clampedScroll = Math.max(0, Math.min(maxScroll, targetScroll));
+
+    container.scrollTo({
+      top: clampedScroll,
+      behavior: "smooth",
+    });
+  };
+
+  const getPartLink = (partNumber: string) => {
+    if (!baseLink) {
+      return `https://google.com/search?q=${partNumber}`;
+    }
+
+    return baseLink.replace("{part}", partNumber);
+  };
+
   return (
     <>
       <Breadcrumbs modelId={modelId} setModelId={setModelId} />
@@ -473,7 +507,16 @@ const CatalogParts: React.FC<CatalogPartsProps> = ({ modelId, setModelId }) => {
                       key={part.id}
                       onMouseEnter={() => posKey && setHoverTablePos(posKey)}
                       onMouseLeave={() => setHoverTablePos(null)}
-                      onClick={() => posKey && setSelectedPos(posKey)}
+                      onClick={() => {
+                        if (!posKey) return;
+
+                        setSelectedPos(posKey);
+
+                        const row = rowRefs.current[posKey];
+                        if (row) {
+                          scrollRowToCenter(row);
+                        }
+                      }}
                     >
                       <td className="catalog-parts__td">
                         <span className="catalog-parts__ts">
@@ -517,10 +560,7 @@ const CatalogParts: React.FC<CatalogPartsProps> = ({ modelId, setModelId }) => {
                       <td className="catalog-parts__td">
                         <span className="catalog-parts__ts">
                           <button className="catalog-parts__tb button">
-                            <a
-                              href={`https://google.com/search?q=${part.number}`}
-                              target="_blank"
-                            >
+                            <a href={getPartLink(part.number)} target="_blank">
                               {t.widget_see_price_button}
                             </a>
                           </button>

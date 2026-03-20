@@ -28,7 +28,7 @@ const CatalogMain: React.FC<CatalogMainProps> = ({
   const { parametersLoading, parameters, carId } = useParameters();
   const { groupsFlat, groupsLoading } = useGroups();
   const { parts, partsLoading } = useParts();
-  const { models, modelsLoading } = useModels();
+  const { models, modelsLoading, isVinSearch } = useModels();
   const [switchState, setSwitchState] = useState("cards");
 
   const toggleSwitch = () => {
@@ -57,7 +57,8 @@ const CatalogMain: React.FC<CatalogMainProps> = ({
           <ChevronRight className="icon" />
         </button>
       )}
-      {parts?.partGroups.length === 0 && models.length !== 0 && (
+      {((parts?.partGroups.length === 0 && models.length !== 0) ||
+        (isVinSearch === true && parts?.partGroups.length === 0)) && (
         <div className="cards-section__switch-container">
           <div className="cards-section__switch">
             <button
@@ -99,8 +100,7 @@ const CatalogMain: React.FC<CatalogMainProps> = ({
       ) : models.length > 0 ? (
         <CatalogModels setModelId={setModelId} switchState={switchState} />
       ) : (
-        !modelsLoading &&
-        !groupsLoading && <CatalogBrands switchState={switchState} />
+        !modelsLoading && !groupsLoading && <CatalogBrands />
       )}
     </div>
   );

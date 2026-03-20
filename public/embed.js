@@ -13,6 +13,7 @@
 
   const token = script.dataset.token;
   const language = script.dataset.language;
+  const link = script.dataset.link;
 
   const container = document.createElement("div");
   container.id = ROOT_ID;
@@ -37,7 +38,7 @@
         console.error("mountWidget() not found in widget.js", mod);
         return;
       }
-      mod.mountWidget(shadowRoot, { token, language });
+      mod.mountWidget(shadowRoot, { token, language, link });
     })
     .catch(console.error);
 })();

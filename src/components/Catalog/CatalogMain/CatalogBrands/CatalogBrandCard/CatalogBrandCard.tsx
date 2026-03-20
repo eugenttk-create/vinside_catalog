@@ -7,14 +7,12 @@ interface CatalogBrandCardProps {
   catalogId: string;
   name: string;
   imageSrc: string;
-  switchState: string;
 }
 
 const CatalogBrandCard: React.FC<CatalogBrandCardProps> = ({
   catalogId,
   name,
   imageSrc,
-  switchState,
 }) => {
   const { getModels, setCatalogId, handleSetSelectedBrand } = useModels();
 
@@ -29,19 +27,12 @@ const CatalogBrandCard: React.FC<CatalogBrandCardProps> = ({
   };
 
   return (
-    <li
-      className={`catalog-brand-card card ${
-        switchState === "list" ? "card_list" : ""
-      }`}
-      onClick={handleBrandClick}
-    >
+    <li className="catalog-brand-card card" onClick={handleBrandClick}>
       <img
         src={resolveImageSrc(imageSrc)}
         loading="lazy"
         alt={`brand-${catalogId}`}
-        className={`catalog-brand-card__image image ${
-          switchState === "list" ? "image_list" : ""
-        }`}
+        className="catalog-brand-card__image image"
         onError={handleImgError}
       />
       <p className="catalog-brand-card__name title">{name}</p>

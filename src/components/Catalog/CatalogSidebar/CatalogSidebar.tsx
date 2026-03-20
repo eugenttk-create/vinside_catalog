@@ -55,7 +55,7 @@ const CatalogSidebar: React.FC<CatalogSidebarProps> = ({
             return (
               <li
                 className={`sidebar__tab ${
-                  tab.id === activeTab ? "sidebar__tab_active" : ""
+                  tab.id !== activeTab ? "sidebar__tab_active" : ""
                 }`}
                 key={tab.id}
                 onClick={() => handleTabClick(tab.id)}

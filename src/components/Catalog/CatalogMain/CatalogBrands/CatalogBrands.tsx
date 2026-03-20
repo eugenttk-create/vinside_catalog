@@ -2,19 +2,13 @@ import "./CatalogBrands.css";
 import CatalogBrandCard from "./CatalogBrandCard/CatalogBrandCard";
 import { useCatalogs } from "../../../../hooks/catalogs/useCatalogs";
 
-interface CatalogBrandsProps {
-  switchState: string;
-}
+interface CatalogBrandsProps {}
 
-const CatalogBrands: React.FC<CatalogBrandsProps> = ({ switchState }) => {
+const CatalogBrands: React.FC<CatalogBrandsProps> = ({}) => {
   const { catalogs } = useCatalogs();
 
   return (
-    <ul
-      className={`brands cards-section ${
-        switchState === "cards" ? "cards-section_grid" : "cards-section_list"
-      }`}
-    >
+    <ul className="brands cards-section cards-section_grid">
       {catalogs &&
         catalogs.map((brand) => {
           return (
@@ -23,7 +17,6 @@ const CatalogBrands: React.FC<CatalogBrandsProps> = ({ switchState }) => {
               catalogId={brand.id}
               name={brand.name}
               imageSrc={brand.img}
-              switchState={switchState}
             />
           );
         })}

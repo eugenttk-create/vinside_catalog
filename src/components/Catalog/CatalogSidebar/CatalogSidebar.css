@@ -45,16 +45,17 @@
   text-align: center;
   padding: 8px 16px;
   cursor: pointer;
+  border-bottom: 2px solid var(--blue);
   transition: background-color 0.1s ease-in;
 }
 
 .sidebar__tab:hover {
-  background-color: var(--bg-blue);
+  background-color: var(--bg-white);
 }
 
 .sidebar__tab_active {
-  border-bottom: 2px solid var(--blue);
   background-color: var(--bg-blue);
+  border-bottom: none;
 }
 
 .sidebar__tab_active .sidebar__tab-title {
