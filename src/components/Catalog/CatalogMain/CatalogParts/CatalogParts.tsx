@@ -41,6 +41,10 @@ const CatalogParts: React.FC<CatalogPartsProps> = ({ modelId, setModelId }) => {
   const isPanning = useRef(false);
   const lastPanPoint = useRef({ x: 0, y: 0 });
   const lastTouchDistance = useRef<number | null>(null);
+  const isMultiImg = Array.isArray(parts.img);
+  const [activeImg, setActiveImg] = useState<string>(() =>
+    Array.isArray(parts.img) ? parts.img[0] ?? "" : parts.img
+  );
 
   const [tableWidth, setTableWidth] = useState<number>(() => {
     const saved = localStorage.getItem(LS_KEY);
@@ -49,6 +53,10 @@ const CatalogParts: React.FC<CatalogPartsProps> = ({ modelId, setModelId }) => {
 
   const isResizing = useRef(false);
   const catalogRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    setActiveImg(Array.isArray(parts.img) ? parts.img[0] ?? "" : parts.img);
+  }, [parts.img]);
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
@@ -423,7 +431,7 @@ const CatalogParts: React.FC<CatalogPartsProps> = ({ modelId, setModelId }) => {
 
           <img
             ref={imageRef}
-            src={resolveImageSrc(parts.img)}
+            src={resolveImageSrc(activeImg)}
             alt="parts"
             className="catalog-parts__image"
             draggable={false}
@@ -437,40 +445,50 @@ const CatalogParts: React.FC<CatalogPartsProps> = ({ modelId, setModelId }) => {
             }}
           />
 
-          {parts.positions.map((p) => {
-            const key = String(p.number);
-            const { left, top, width, height } = computeOverlayStyle(
-              p.coordinates as [number, number, number, number]
-            );
+          {parts.positions
+            .filter((p) => {
+              if (!isMultiImg) return true;
+              return (
+                resolveImageSrc(p.img ?? "") === resolveImageSrc(activeImg)
+              );
+            })
+            .map((p) => {
+              const key = String(p.number);
+              const { left, top, width, height } = computeOverlayStyle(
+                p.coordinates as [number, number, number, number]
+              );
 
-            const baseStyle: React.CSSProperties = {
-              left,
-              top,
-              width,
-              height,
-            };
+              const baseStyle: React.CSSProperties = {
+                left,
+                top,
+                width,
+                height,
+              };
 
-            return (
-              <div
-                key={key}
-                style={baseStyle}
-                onMouseEnter={() => setHoverImgPos(key)}
-                onMouseLeave={() => setHoverImgPos(null)}
-                onClick={() => {
-                  setSelectedPos(key);
-                  const row = rowRefs.current[key];
-                  if (row) {
-                    row.scrollIntoView({ behavior: "smooth", block: "center" });
-                  }
-                }}
-                className={`catalog-parts__highlight ${
-                  hoverImgPos === key || hoverTablePos === key
-                    ? "catalog-parts__highlight_active"
-                    : ""
-                }`}
-              />
-            );
-          })}
+              return (
+                <div
+                  key={key}
+                  style={baseStyle}
+                  onMouseEnter={() => setHoverImgPos(key)}
+                  onMouseLeave={() => setHoverImgPos(null)}
+                  onClick={() => {
+                    setSelectedPos(key);
+                    const row = rowRefs.current[key];
+                    if (row) {
+                      row.scrollIntoView({
+                        behavior: "smooth",
+                        block: "center",
+                      });
+                    }
+                  }}
+                  className={`catalog-parts__highlight ${
+                    hoverImgPos === key || hoverTablePos === key
+                      ? "catalog-parts__highlight_active"
+                      : ""
+                  }`}
+                />
+              );
+            })}
         </div>
 
         <div
@@ -509,13 +527,24 @@ const CatalogParts: React.FC<CatalogPartsProps> = ({ modelId, setModelId }) => {
                       onMouseLeave={() => setHoverTablePos(null)}
                       onClick={() => {
                         if (!posKey) return;
-
                         setSelectedPos(posKey);
 
-                        const row = rowRefs.current[posKey];
-                        if (row) {
-                          scrollRowToCenter(row);
+                        if (isMultiImg) {
+                          const position = parts.positions.find(
+                            (p) => String(p.number) === posKey
+                          );
+                          if (position?.img) {
+                            if (
+                              resolveImageSrc(position.img) !==
+                              resolveImageSrc(activeImg)
+                            ) {
+                              setActiveImg(position.img);
+                            }
+                          }
                         }
+
+                        const row = rowRefs.current[posKey];
+                        if (row) scrollRowToCenter(row);
                       }}
                     >
                       <td className="catalog-parts__td">

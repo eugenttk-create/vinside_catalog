@@ -19,10 +19,11 @@ interface PartsGroup {
 interface Position {
   number: string;
   coordinates: number[];
+  img?: string | null;
 }
 
 interface PartsResponse {
-  img: string;
+  img: string | string[];
   imgDescription: string;
   partGroups: PartsGroup[];
   positions: Position[];
