@@ -14,6 +14,9 @@ interface ParameterValue {
     steering: string | null;
     suspension: string | null;
     wheel_base: string | null;
+    pat: string | null;
+    pet: string | null;
+    prefix: string | null;
   } | null;
 }
 

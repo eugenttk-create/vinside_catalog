@@ -32,6 +32,8 @@ interface CatalogGroupCardProps {
     pat: string | null;
     from_year: string | null;
     to_year: string | null;
+    year_from: string | null;
+    year_to: string | null;
     changePoint: string | null;
     code: string | null;
     mounting_time: string | null;
@@ -139,6 +141,8 @@ const CatalogGroupCard: React.FC<CatalogGroupCardProps> = ({
       !description?.restrictions &&
       !description?.subgroup &&
       !description?.to &&
+      !description?.year_from &&
+      !description?.year_to &&
       !description?.to_year ? (
         <></>
       ) : (

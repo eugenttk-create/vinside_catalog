@@ -17,6 +17,8 @@ export type GroupInfoPopupDescription = {
   pat: string | null;
   from_year: string | null;
   to_year: string | null;
+  year_from: string | null;
+  year_to: string | null;
   changePoint: string | null;
   code: string | null;
   mounting_time: string | null;
@@ -110,6 +112,18 @@ const GroupInfoPopup: React.FC<GroupInfoPopupProps> = ({
             <div className="info-popup__container">
               <p className="info-popup__title">{t.widget_to}</p>
               <p className="info-popup__text">{description?.to_year}</p>
+            </div>
+          )}
+          {description?.year_from && (
+            <div className="info-popup__container">
+              <p className="info-popup__title">{t.widget_from}</p>
+              <p className="info-popup__text">{description?.year_from}</p>
+            </div>
+          )}
+          {description?.year_to && (
+            <div className="info-popup__container">
+              <p className="info-popup__title">{t.widget_to}</p>
+              <p className="info-popup__text">{description?.year_to}</p>
             </div>
           )}
           {description?.pet && (

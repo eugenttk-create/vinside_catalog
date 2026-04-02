@@ -142,6 +142,24 @@ const InfoPopup: React.FC<InfoPopupProps> = ({
               <p className="info-popup__text">{description?.production}</p>
             </div>
           )}
+          {description?.pet && (
+            <div className="info-popup__container">
+              <p className="info-popup__title">{t.widget_pet}</p>
+              <p className="info-popup__text">{description?.pet}</p>
+            </div>
+          )}
+          {description?.pat && (
+            <div className="info-popup__container">
+              <p className="info-popup__title">{t.widget_pat}</p>
+              <p className="info-popup__text">{description?.pat}</p>
+            </div>
+          )}
+          {description?.prefix && (
+            <div className="info-popup__container">
+              <p className="info-popup__title">{t.widget_prefix}</p>
+              <p className="info-popup__text">{description?.prefix}</p>
+            </div>
+          )}
         </div>
       </div>
     </>

@@ -1,0 +1,33 @@
+.parts-popup {
+  display: none;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  background-color: rgba(0, 0, 0, 0.199);
+  z-index: 11;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.parts-popup_active {
+  display: flex;
+}
+
+.parts-popup__content {
+  position: relative;
+  cursor: default;
+  width: 100%;
+}
+
+.parts-popup__close {
+  width: 24px;
+  height: 24px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  color: rgb(36, 36, 36);
+  cursor: pointer;
+}

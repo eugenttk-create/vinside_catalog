@@ -18,6 +18,8 @@ interface Group {
     pat: string | null;
     from_year: string | null;
     to_year: string | null;
+    year_from: string | null;
+    year_to: string | null;
     changePoint: string | null;
     code: string | null;
     mounting_time: string | null;

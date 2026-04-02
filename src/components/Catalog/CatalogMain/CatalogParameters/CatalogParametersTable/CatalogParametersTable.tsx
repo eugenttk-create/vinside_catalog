@@ -16,6 +16,9 @@ type ParameterDescription = {
   catalog?: string | null;
   cabin?: string | null;
   engine?: string | null;
+  pet?: string | null;
+  pat?: string | null;
+  prefix?: string | null;
   gearbox?: string | null;
   steering?: string | null;
   suspension?: string | null;
@@ -36,6 +39,9 @@ const PARAM_COLUMN_KEYS = [
   "catalog",
   "cabin",
   "engine",
+  "pet",
+  "pat",
+  "prefix",
   "gearbox",
   "steering",
   "suspension",
@@ -68,6 +74,9 @@ const CatalogParametersTable: React.FC<CatalogParametersTableProps> = ({
     steering: t.widget_steering,
     suspension: t.widget_suspension,
     wheel_base: t.widget_wheel_base,
+    pet: t.widget_pet,
+    pat: t.widget_pat,
+    prefix: t.widget_prefix,
   };
 
   const activeColumns = PARAM_COLUMN_KEYS.filter((key) =>

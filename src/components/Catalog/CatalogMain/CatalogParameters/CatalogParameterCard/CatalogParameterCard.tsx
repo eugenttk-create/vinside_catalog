@@ -24,6 +24,9 @@ interface CatalogParameterCardProps {
     steering: string | null;
     suspension: string | null;
     wheel_base: string | null;
+    pet: string | null;
+    pat: string | null;
+    prefix: string | null;
   } | null;
   switchState: string;
   setIsInfoActive: React.Dispatch<React.SetStateAction<boolean>>;
@@ -103,6 +106,9 @@ const CatalogParameterCard: React.FC<CatalogParameterCardProps> = ({
       !description?.engine &&
       !description?.gearbox &&
       !description?.steering &&
+      !description?.pet &&
+      !description?.pat &&
+      !description?.prefix &&
       !description?.suspension &&
       !description?.wheel_base ? (
         <></>

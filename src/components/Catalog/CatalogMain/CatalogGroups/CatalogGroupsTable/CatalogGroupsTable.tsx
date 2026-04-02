@@ -16,6 +16,8 @@ const GROUP_COLUMN_KEYS = [
   "to",
   "from_year",
   "to_year",
+  "year_from",
+  "year_to",
   "pet",
   "pat",
   "mounting_time",
@@ -45,6 +47,8 @@ type GroupDescription = {
   pat: string | null;
   from_year: string | null;
   to_year: string | null;
+  year_from: string | null;
+  year_to: string | null;
   changePoint: string | null;
   code: string | null;
   mounting_time: string | null;
@@ -79,6 +83,8 @@ const CatalogGroupsTable: React.FC<CatalogGroupsTableProps> = ({ onClick }) => {
     to: t.widget_to,
     from_year: t.widget_from,
     to_year: t.widget_to,
+    year_from: t.widget_from,
+    year_to: t.widget_to,
     pet: t.widget_pet,
     pat: t.widget_pat,
     mounting_time: t.widget_mounting_time,

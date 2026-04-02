@@ -26,6 +26,9 @@ export type InfoPopupDescription = {
   suspension?: string | null;
   wheel_base?: string | null;
   production?: string | null;
+  pet?: string | null;
+  pat?: string | null;
+  prefix?: string | null;
   type?: string | null;
 } | null;
 
