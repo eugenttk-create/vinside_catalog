@@ -58,14 +58,23 @@ export const useParameters = () => {
 
             if (fetchCarId.fulfilled.match(carIdAction)) {
               const actualCarId = carIdAction.payload;
-
-              await dispatch(
-                fetchGroups({
-                  catalogId,
-                  carId: actualCarId,
-                })
-              );
+              await dispatch(fetchGroups({ catalogId, carId: actualCarId }));
             }
+          }
+        }
+
+        if (newCount === 0 && paramsToUse.length === 0 && !newParameter) {
+          const carIdAction = await dispatch(
+            fetchCarId({
+              catalogId,
+              modelId,
+              parameters: [],
+            })
+          );
+
+          if (fetchCarId.fulfilled.match(carIdAction)) {
+            const actualCarId = carIdAction.payload;
+            await dispatch(fetchGroups({ catalogId, carId: actualCarId }));
           }
         }
       }
