@@ -1,10 +1,8 @@
 import { Copy, CircleCheck, Info } from "lucide-react";
 import { getPartLink } from "../../utils/getPartLink";
-import { lazy, Suspense, useState } from "react";
-import PageLoader from "../Loaders/PageLoader/PageLoader";
+import { useState } from "react";
 import type { Part } from "../../store/parts/parts.types";
-
-const PartsInfoPopup = lazy(() => import("../PartsInfoPopup/PartsInfoPopup"));
+import PartsInfoPopup from "../PartsInfoPopup/PartsInfoPopup";
 
 interface PartsTableProps {
   parts: Part[];
@@ -127,13 +125,11 @@ const PartsTable: React.FC<PartsTableProps> = ({
         </tbody>
       </table>
       {isInfoPopupOpen && (
-        <Suspense fallback={<PageLoader />}>
-          <PartsInfoPopup
-            isActive={isInfoPopupOpen}
-            setIsActive={setIsInfoPopupOpen}
-            part={selectedPart}
-          />
-        </Suspense>
+        <PartsInfoPopup
+          isActive={isInfoPopupOpen}
+          setIsActive={setIsInfoPopupOpen}
+          part={selectedPart}
+        />
       )}
     </div>
   );
