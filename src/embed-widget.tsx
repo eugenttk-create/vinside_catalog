@@ -14,6 +14,50 @@ declare global {
   }
 }
 
+const BASE = "https://vinside.carcatonline.com";
+const CSS = BASE + "/widget.css";
+const CSS2 = BASE + "/widget2.css";
+
+const CSS_VARIABLES = `
+  :host {
+    font-family: "Roboto", "Arial", "Helvetica", sans-serif;
+    font-weight: 400;
+    --bg-white: #fff;
+    --bg-red: rgb(253, 240, 240);
+    --bg-blue: rgb(240, 249, 255);
+    --bg-gray: rgb(249, 250, 251);
+    --text-color: rgb(12, 74, 110);
+    --text-secondary: rgb(7, 89, 133);
+    --white: #fff;
+    --blue: rgb(14, 165, 233);
+    --red: rgb(163, 22, 22);
+    --green: rgb(85, 211, 59);
+    --border-blue: rgba(14, 165, 233, 0.25);
+    --border-active-blue: rgb(14, 165, 233);
+  }
+`;
+
+const ROBOTO_FONT = `
+  @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+`;
+
+function attachStyles(shadow: ShadowRoot) {
+  const fontStyle = document.createElement("style");
+  fontStyle.textContent = ROBOTO_FONT;
+  shadow.appendChild(fontStyle);
+
+  const varStyle = document.createElement("style");
+  varStyle.textContent = CSS_VARIABLES;
+  shadow.appendChild(varStyle);
+
+  [CSS, CSS2].forEach((href) => {
+    const link = document.createElement("link");
+    link.rel = "stylesheet";
+    link.href = href;
+    shadow.appendChild(link);
+  });
+}
+
 export function mountWidget(
   container: HTMLElement | ShadowRoot,
   options?: { token?: string; language?: string; link?: string }
@@ -27,7 +71,6 @@ export function mountWidget(
 
   const portalHost = document.createElement("div");
   portalHost.id = "my-widget-portal-host";
-
   portalHost.style.cssText = `
     all: initial;
     position: fixed;
@@ -39,21 +82,17 @@ export function mountWidget(
   document.body.appendChild(portalHost);
 
   const portalShadow = portalHost.attachShadow({ mode: "open" });
-
-  const CSS = "https://vinside.carcatonline.com/widget.css";
-  const CSS2 = "https://vinside.carcatonline.com/widget2.css";
-  [CSS, CSS2].forEach((href) => {
-    const link = document.createElement("link");
-    link.rel = "stylesheet";
-    link.href = href;
-    portalShadow.appendChild(link);
-  });
+  attachStyles(portalShadow);
 
   const portalMount = document.createElement("div");
   portalMount.id = "widget-catalog-portal";
   portalShadow.appendChild(portalMount);
 
   window.__WIDGET_PORTAL_ROOT__ = portalShadow;
+
+  if (container instanceof ShadowRoot) {
+    attachStyles(container);
+  }
 
   ReactDOM.createRoot(container as Element).render(
     <React.StrictMode>
