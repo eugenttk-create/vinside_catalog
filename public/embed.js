@@ -18,23 +18,9 @@
   const container = document.createElement("div");
   container.id = ROOT_ID;
 
-  document.body.appendChild(container);
+  script.parentNode.insertBefore(container, script);
 
   const shadowRoot = container.attachShadow({ mode: "open" });
-
-  container.style.position = "fixed";
-  container.style.top = "0";
-  container.style.left = "0";
-  container.style.zIndex = "2147483647";
-
-  const rootWrapper = document.createElement("div");
-  rootWrapper.style.position = "fixed";
-  rootWrapper.style.top = "0";
-  rootWrapper.style.left = "0";
-  rootWrapper.style.width = "100vw";
-  rootWrapper.style.height = "100vh";
-
-  shadowRoot.appendChild(rootWrapper);
 
   const link1 = document.createElement("link");
   link1.rel = "stylesheet";
@@ -52,7 +38,7 @@
         console.error("mountWidget() not found in widget.js", mod);
         return;
       }
-      mod.mountWidget(rootWrapper, { token, language, link });
+      mod.mountWidget(shadowRoot, { token, language, link });
     })
     .catch(console.error);
 })();
