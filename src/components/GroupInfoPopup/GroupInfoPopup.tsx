@@ -6,7 +6,7 @@ export type GroupInfoPopupDescription = {
   illustration: string | null;
   name: string | null;
   description: string | null;
-  restrictions: string | null;
+  restriction: string | null;
   from: string | null;
   to: string | null;
   comment: string | null;
@@ -168,10 +168,10 @@ const GroupInfoPopup: React.FC<GroupInfoPopupProps> = ({
               <p className="info-popup__text">{description?.comment}</p>
             </div>
           )}
-          {description?.restrictions && (
+          {description?.restriction && (
             <div className="info-popup__container">
               <p className="info-popup__title">{t.widget_restriction}</p>
-              <p className="info-popup__text">{description?.restrictions}</p>
+              <p className="info-popup__text">{description?.restriction}</p>
             </div>
           )}
           {description?.modelDescription && (

@@ -25,7 +25,7 @@ const GROUP_COLUMN_KEYS = [
   "description",
   "remark",
   "comment",
-  "restrictions",
+  "restriction",
   "modelDescription",
   "changePoint",
 ] as const;
@@ -36,7 +36,7 @@ type GroupDescription = {
   illustration: string | null;
   name: string | null;
   description: string | null;
-  restrictions: string | null;
+  restriction: string | null;
   from: string | null;
   to: string | null;
   comment: string | null;
@@ -92,7 +92,7 @@ const CatalogGroupsTable: React.FC<CatalogGroupsTableProps> = ({ onClick }) => {
     description: t.widget_comment,
     remark: t.widget_remark,
     comment: t.widget_restriction,
-    restrictions: t.widget_restriction,
+    restriction: t.widget_restriction,
     modelDescription: t.widget_model_desc,
     changePoint: t.widget_change_point,
   };

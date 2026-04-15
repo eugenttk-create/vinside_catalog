@@ -1,40 +1,13 @@
 .main {
-  font-family: "Roboto", "Arial", "Helvetica", "sans-serif";
-  font-weight: 400;
   max-width: 1280px;
   margin: 0 auto;
   padding: 16px;
-  --bg-white: #fff;
-  --bg-red: rgb(253, 240, 240);
-  --bg-blue: rgb(240, 249, 255);
-  --bg-gray: rgb(249 250 251);
-  --text-color: rgb(12, 74, 110);
-  --text-secondary: rgb(7, 89, 133);
-  --white: #fff;
-  --blue: rgb(14, 165, 233);
-  --red: rgb(163, 22, 22);
-  --green: rgb(85, 211, 59);
-  --border-blue: rgba(14, 165, 233, 0.25);
-  --border-active-blue: rgb(14, 165, 233);
 }
 
 main {
-  font-family: "Roboto", "Arial", "Helvetica", "sans-serif";
-  font-weight: 400;
   max-width: 1280px;
   margin: 0 auto;
   padding: 16px;
-  --bg-white: #fff;
-  --bg-red: rgb(253, 240, 240);
-  --bg-blue: rgb(240, 249, 255);
-  --text-color: rgb(12, 74, 110);
-  --text-secondary: rgb(7, 89, 133);
-  --white: #fff;
-  --blue: rgb(14, 165, 233);
-  --red: rgb(163, 22, 22);
-  --green: rgb(85, 211, 59);
-  --border-blue: rgba(14, 165, 233, 0.25);
-  --border-active-blue: rgb(14, 165, 233);
 }
 
 .title {

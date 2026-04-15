@@ -112,10 +112,6 @@
 
 .catalog-parts__ts_name {
   display: block;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  overflow: hidden;
-  max-width: 100px;
   cursor: pointer;
 }
 

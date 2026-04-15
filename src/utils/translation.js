@@ -62,6 +62,7 @@ export const translations = {
     widget_appli_note: "Appli Note",
     widget_hint: "Hint",
     widget_modification_codes: "Modification Codes",
+    widget_model_number: "Model Number",
   },
   ru: {
     widget_title: "Поиск модели автомобиля",
@@ -126,6 +127,7 @@ export const translations = {
     widget_appli_note: "Appli Note",
     widget_hint: "Hint",
     widget_modification_codes: "Modification Codes",
+    widget_model_number: "Model Number",
   },
   pl: {
     widget_title: "Wyszukaj model pojazdu",
