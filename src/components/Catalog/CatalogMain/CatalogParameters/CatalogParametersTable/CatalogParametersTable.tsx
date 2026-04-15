@@ -4,6 +4,7 @@ import CatalogParametersTableHead from "./CatalogParametersTableHead/CatalogPara
 import { resolveImageSrc } from "../../../../../utils/resolveImgSrc";
 import TableImage from "../../../../TableImage/TableImage";
 import { useTranslation } from "../../../../../hooks/translation/useTranslation";
+import formatDate from "../../../../../utils/formatDate";
 
 type ParameterDescription = {
   model_type?: string | null;
@@ -92,9 +93,9 @@ const CatalogParametersTable: React.FC<CatalogParametersTableProps> = ({
   const getProductionPeriod = (desc: ParameterDescription) => {
     if (!desc) return null;
     if (desc.year_from && desc.year_to)
-      return `${desc.year_from} — ${desc.year_to}`;
-    if (desc.year_from) return desc.year_from;
-    if (desc.year_to) return desc.year_to;
+      return `${formatDate(desc.year_from)} — ${formatDate(desc.year_to)}`;
+    if (desc.year_from) return formatDate(desc.year_from);
+    if (desc.year_to) return formatDate(desc.year_to);
     return null;
   };
 

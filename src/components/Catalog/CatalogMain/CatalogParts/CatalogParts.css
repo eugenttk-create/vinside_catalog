@@ -98,6 +98,10 @@
   border-left: 3px solid var(--blue);
 }
 
+.catalog-parts__tr_info-active {
+  border: 1px solid var(--border-active-blue);
+}
+
 .catalog-parts__td {
   padding: 8px 12px;
   font-size: 12px;

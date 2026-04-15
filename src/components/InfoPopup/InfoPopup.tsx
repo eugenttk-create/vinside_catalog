@@ -2,6 +2,7 @@ import "./InfoPopup.css";
 import type { InfoPopupDescription } from "../Catalog/CatalogMain/CatalogModels/CatalogModels";
 import { X } from "lucide-react";
 import { useTranslation } from "../../hooks/translation/useTranslation";
+import formatDate from "../../utils/formatDate";
 
 interface InfoPopupProps {
   isActive: boolean;
@@ -22,11 +23,13 @@ const InfoPopup: React.FC<InfoPopupProps> = ({
 
   const productionPeriod =
     description?.year_from && description?.year_to
-      ? `${description.year_from} — ${description.year_to}`
+      ? `${formatDate(description.year_from)} — ${formatDate(
+          description.year_to
+        )}`
       : description?.year_from
-      ? `${description.year_from}`
+      ? `${formatDate(description.year_from)}`
       : description?.year_to
-      ? `${description.year_to}`
+      ? `${formatDate(description.year_to)}`
       : null;
 
   return (

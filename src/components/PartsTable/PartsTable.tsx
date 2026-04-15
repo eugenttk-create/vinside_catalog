@@ -61,6 +61,8 @@ const PartsTable: React.FC<PartsTableProps> = ({
                 className={`catalog-parts__tr ${
                   selectedPos === posKey || hoverTablePos === posKey
                     ? "catalog-parts__tr_active"
+                    : selectedPart?.id === part.id
+                    ? "catalog-parts__tr_info-active"
                     : ""
                 }`}
                 ref={(el) => {

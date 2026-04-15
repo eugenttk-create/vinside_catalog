@@ -1,6 +1,7 @@
 import "../InfoPopup/InfoPopup.css";
 import { X } from "lucide-react";
 import { useTranslation } from "../../hooks/translation/useTranslation";
+import formatDate from "../../utils/formatDate";
 
 export type GroupInfoPopupDescription = {
   illustration: string | null;
@@ -93,37 +94,47 @@ const GroupInfoPopup: React.FC<GroupInfoPopupProps> = ({
           {description?.from && (
             <div className="info-popup__container">
               <p className="info-popup__title">{t.widget_from}</p>
-              <p className="info-popup__text">{description?.from}</p>
+              <p className="info-popup__text">
+                {formatDate(description?.from)}
+              </p>
             </div>
           )}
           {description?.to && (
             <div className="info-popup__container">
               <p className="info-popup__title">{t.widget_to}</p>
-              <p className="info-popup__text">{description?.to}</p>
+              <p className="info-popup__text">{formatDate(description?.to)}</p>
             </div>
           )}
           {description?.from_year && (
             <div className="info-popup__container">
               <p className="info-popup__title">{t.widget_from}</p>
-              <p className="info-popup__text">{description?.from_year}</p>
+              <p className="info-popup__text">
+                {formatDate(description?.from_year)}
+              </p>
             </div>
           )}
           {description?.to_year && (
             <div className="info-popup__container">
               <p className="info-popup__title">{t.widget_to}</p>
-              <p className="info-popup__text">{description?.to_year}</p>
+              <p className="info-popup__text">
+                {formatDate(description?.to_year)}
+              </p>
             </div>
           )}
           {description?.year_from && (
             <div className="info-popup__container">
               <p className="info-popup__title">{t.widget_from}</p>
-              <p className="info-popup__text">{description?.year_from}</p>
+              <p className="info-popup__text">
+                {formatDate(description?.year_from)}
+              </p>
             </div>
           )}
           {description?.year_to && (
             <div className="info-popup__container">
               <p className="info-popup__title">{t.widget_to}</p>
-              <p className="info-popup__text">{description?.year_to}</p>
+              <p className="info-popup__text">
+                {formatDate(description?.year_to)}
+              </p>
             </div>
           )}
           {description?.pet && (
