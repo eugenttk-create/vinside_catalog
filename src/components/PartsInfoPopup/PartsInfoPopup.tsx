@@ -48,10 +48,12 @@ const PartsInfoPopup: React.FC<PartsInfoPopupProps> = ({
     comment: t.widget_comment,
   };
 
-  const activeColumns = PART_DESCRIPTION_KEYS.filter((key) => {
-    const val = part?.description?.[key];
-    return typeof val === "string" && val.trim() !== "";
-  });
+  // const activeColumns = PART_DESCRIPTION_KEYS.filter((key) => {
+  //   const val = part?.description?.[key];
+  //   return typeof val === "string" && val.trim() !== "";
+  // });
+
+  const activeColumns = PART_DESCRIPTION_KEYS;
 
   if (!isActive || !part) return null;
 

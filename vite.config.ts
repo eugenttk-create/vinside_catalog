@@ -24,10 +24,17 @@ export default defineConfig({
         },
         chunkFileNames: "assets/[name]-[hash].js",
         assetFileNames: (assetInfo) => {
-          if (assetInfo.name && assetInfo.name.endsWith(".css")) {
+          const name = assetInfo.name ?? "";
+
+          if (name.endsWith(".css")) {
             return "widget.css";
           }
-          return "assets/[name]-[hash].[ext]";
+
+          if (name.match(/\.(woff2?|ttf|eot|otf)$/)) {
+            return "fonts/[name][extname]";
+          }
+
+          return "assets/[name]-[hash][extname]";
         },
       },
     },

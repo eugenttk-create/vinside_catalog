@@ -46,9 +46,10 @@ const PartsTable: React.FC<PartsTableProps> = ({
 
   return (
     <div className="catalog-parts__table-wrapper" style={{ width: tableWidth }}>
-      <div className="catalog-parts__resize-handle" onMouseDown={onStartResize}>
-        <div className="catalog-parts__resize-icon" />
-      </div>
+      <div
+        className="catalog-parts__resize-handle"
+        onMouseDown={onStartResize}
+      ></div>
       <table className="catalog-parts__table">
         <tbody className="catalog-parts__tbody">
           {parts.map((part) => {
@@ -105,13 +106,13 @@ const PartsTable: React.FC<PartsTableProps> = ({
                     <span className="catalog-parts__ts_name">{part.name}</span>
                   </span>
                 </td>
-                <td className="catalog-parts__td">
+                {/* <td className="catalog-parts__td">
                   <span className="catalog-parts__ts">
                     <button className="catalog-parts__tb button">
                       {t.widget_analogues_button}
                     </button>
                   </span>
-                </td>
+                </td> */}
                 <td className="catalog-parts__td">
                   <span className="catalog-parts__ts">
                     <button className="catalog-parts__tb button">

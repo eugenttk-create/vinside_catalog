@@ -56,28 +56,19 @@
 }
 
 .catalog-parts__resize-handle {
-  position: absolute;
+  position: sticky;
   left: 0;
   top: 0;
   width: 6px;
-  height: 100%;
+  height: 100vh;
   cursor: col-resize;
   z-index: 10;
+  float: left;
+  margin-right: -6px;
 }
 
 .catalog-parts__resize-handle:hover {
   background-color: rgba(14, 165, 233, 0.15);
-}
-
-.catalog-parts__resize-icon {
-  position: absolute;
-  transform: translateY(-50%);
-  top: 50%;
-  left: 0;
-  width: 5px;
-  height: 20px;
-  border-radius: 4px;
-  background-color: #b6b6b6;
 }
 
 .catalog-parts__table {

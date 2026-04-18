@@ -11,7 +11,7 @@ const api = axios.create({
 });
 
 const DEFAULT_LANGUAGE = "en";
-console.log(DEFAULT_LANGUAGE);
+
 const getRequestLanguage = (): string => {
   const saved = localStorage.getItem("language");
   if (saved) return saved;

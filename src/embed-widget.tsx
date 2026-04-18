@@ -37,15 +37,43 @@ const CSS_VARIABLES = `
   }
 `;
 
-const ROBOTO_FONT = `
-  @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
-`;
+const FONT_BASE = "https://vinside.carcatonline.com/fonts";
+
+function injectFontsToDocument() {
+  if (document.getElementById("widget-fonts")) return;
+
+  const style = document.createElement("style");
+  style.id = "widget-fonts";
+  style.textContent = `
+    @font-face {
+      font-family: "Roboto";
+      src: url("${FONT_BASE}/Roboto-Regular.woff2") format("woff2"),
+           url("${FONT_BASE}/Roboto-Regular.woff") format("woff");
+      font-weight: 400;
+      font-style: normal;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: "Roboto";
+      src: url("${FONT_BASE}/Roboto-Medium.woff2") format("woff2"),
+           url("${FONT_BASE}/Roboto-Medium.woff") format("woff");
+      font-weight: 500;
+      font-style: normal;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: "Roboto";
+      src: url("${FONT_BASE}/Roboto-Bold.woff2") format("woff2"),
+           url("${FONT_BASE}/Roboto-Bold.woff") format("woff");
+      font-weight: 700;
+      font-style: normal;
+      font-display: swap;
+    }
+  `;
+  document.head.appendChild(style);
+}
 
 function attachStyles(shadow: ShadowRoot) {
-  const fontStyle = document.createElement("style");
-  fontStyle.textContent = ROBOTO_FONT;
-  shadow.appendChild(fontStyle);
-
   const varStyle = document.createElement("style");
   varStyle.textContent = CSS_VARIABLES;
   shadow.appendChild(varStyle);
@@ -62,6 +90,8 @@ export function mountWidget(
   container: HTMLElement | ShadowRoot,
   options?: { token?: string; language?: string; link?: string }
 ) {
+  injectFontsToDocument();
+
   if (options?.token) window.__WIDGET_TOKEN__ = options.token;
   if (options?.link) window.__WIDGET_LINK__ = options.link;
   if (options?.language) store.dispatch(setLanguage(options.language));

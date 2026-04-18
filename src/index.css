@@ -2,6 +2,8 @@
 @import url(./vendor/normalize.css);
 
 :root {
+  font-family: "Roboto", "Arial", "Helvetica", sans-serif;
+  font-weight: 400;
   --bg-white: #fff;
   --bg-red: rgb(253, 240, 240);
   --bg-blue: rgb(240, 249, 255);
