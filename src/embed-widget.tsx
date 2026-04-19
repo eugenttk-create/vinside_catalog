@@ -47,24 +47,21 @@ function injectFontsToDocument() {
   style.textContent = `
     @font-face {
       font-family: "Roboto";
-      src: url("${FONT_BASE}/Roboto-Regular.woff2") format("woff2"),
-           url("${FONT_BASE}/Roboto-Regular.woff") format("woff");
+      src: url("${FONT_BASE}/Roboto-Regular.ttf") format("truetype");
       font-weight: 400;
       font-style: normal;
       font-display: swap;
     }
     @font-face {
       font-family: "Roboto";
-      src: url("${FONT_BASE}/Roboto-Medium.woff2") format("woff2"),
-           url("${FONT_BASE}/Roboto-Medium.woff") format("woff");
+      src: url("${FONT_BASE}/Roboto-Medium.ttf") format("truetype");
       font-weight: 500;
       font-style: normal;
       font-display: swap;
     }
     @font-face {
       font-family: "Roboto";
-      src: url("${FONT_BASE}/Roboto-Bold.woff2") format("woff2"),
-           url("${FONT_BASE}/Roboto-Bold.woff") format("woff");
+      src: url("${FONT_BASE}/Roboto-Bold.ttf") format("truetype");
       font-weight: 700;
       font-style: normal;
       font-display: swap;
