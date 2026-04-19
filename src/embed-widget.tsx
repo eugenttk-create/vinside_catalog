@@ -35,6 +35,11 @@ const CSS_VARIABLES = `
     --border-blue: rgba(14, 165, 233, 0.25);
     --border-active-blue: rgb(14, 165, 233);
   }
+
+  * {
+    font-family: "Roboto", "Arial", "Helvetica", sans-serif;
+    font-weight: 400;
+  }
 `;
 
 const FONT_BASE = "https://vinside.carcatonline.com/fonts";
