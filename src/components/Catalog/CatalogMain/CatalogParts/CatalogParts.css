@@ -84,13 +84,13 @@
   background-color: transparent;
 }
 
+.catalog-parts__tr_info-active {
+  border: 1px solid var(--border-active-blue);
+}
+
 .catalog-parts__tr_active {
   background-color: rgba(0, 0, 0, 0.041) !important;
   border-left: 3px solid var(--blue);
-}
-
-.catalog-parts__tr_info-active {
-  border: 1px solid var(--border-active-blue);
 }
 
 .catalog-parts__td {

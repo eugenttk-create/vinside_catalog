@@ -19,7 +19,8 @@
 .parts-popup__content {
   position: relative;
   cursor: default;
-  width: 100%;
+  width: fit-content;
+  pointer-events: none;
 }
 
 .parts-popup__close {

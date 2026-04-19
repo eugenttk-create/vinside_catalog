@@ -246,6 +246,12 @@ main {
   width: 100%;
 }
 
+.table-container_parts {
+  width: fit-content;
+  margin: 0 auto;
+  position: relative;
+}
+
 .table-wrapper {
   border-radius: 8px;
   border: 1px solid var(--border-blue);
@@ -253,10 +259,17 @@ main {
   overflow-x: auto;
 }
 
+.table-wrapper_parts {
+  pointer-events: all;
+}
+
 .table {
   width: 100%;
   text-align: left;
   border-collapse: collapse;
+}
+
+.table_parts {
 }
 
 .table-header {
