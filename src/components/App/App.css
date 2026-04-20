@@ -313,6 +313,10 @@ main {
   max-width: 100px;
 }
 
+.table-data_parts {
+  max-width: 300px;
+}
+
 .table-data-text {
   display: block;
   max-width: 300px;

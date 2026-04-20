@@ -116,7 +116,11 @@ const PartsInfoPopup: React.FC<PartsInfoPopupProps> = ({
                       )}
                     </span>
                   </td>
-                  <CatalogGroupsTableRow text={part.name ? part.name : "-"} />
+                  <td className="table-data table-data_parts">
+                    <span className="table-data-text">
+                      {part.name ? part.name : "-"}
+                    </span>
+                  </td>
                   <td className="catalog-parts__td">
                     <span className="catalog-parts__ts">
                       <button className="catalog-parts__tb button">
@@ -127,10 +131,11 @@ const PartsInfoPopup: React.FC<PartsInfoPopupProps> = ({
                     </span>
                   </td>
                   {activeColumns.map((key) => (
-                    <CatalogGroupsTableRow
-                      key={key}
-                      text={part.description?.[key] ?? "—"}
-                    />
+                    <td className="table-data table-data_parts" key={key}>
+                      <span className="table-data-text">
+                        {part.description?.[key] ?? "—"}
+                      </span>
+                    </td>
                   ))}
                 </tr>
               </tbody>
