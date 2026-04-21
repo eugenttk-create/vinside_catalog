@@ -4,7 +4,7 @@ import type { Part, PartDescriptionKey } from "../../store/parts/parts.types";
 import { PART_DESCRIPTION_KEYS } from "../../store/parts/parts.types";
 import { X, CircleCheck, Copy } from "lucide-react";
 import CatalogGroupsTableHead from "../Catalog/CatalogMain/CatalogGroups/CatalogGroupsTable/CatalogGroupsTableHead/CatalogGroupsTableHead";
-import CatalogGroupsTableRow from "../Catalog/CatalogMain/CatalogGroups/CatalogGroupsTable/CatalogGroupsTableRow/CatalogGroupsTableRow";
+//import CatalogGroupsTableRow from "../Catalog/CatalogMain/CatalogGroups/CatalogGroupsTable/CatalogGroupsTableRow/CatalogGroupsTableRow";
 import { getPartLink } from "../../utils/getPartLink";
 
 interface PartsInfoPopupProps {
