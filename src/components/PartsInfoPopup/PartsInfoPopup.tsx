@@ -63,7 +63,7 @@ const PartsInfoPopup: React.FC<PartsInfoPopupProps> = ({
   const activeColumns = PART_DESCRIPTION_KEYS.filter(
     (key) => key in (part?.description ?? {})
   );
-  console.log(part);
+
   if (!isActive || !part) return null;
 
   return (
