@@ -19,6 +19,7 @@ main {
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 3;
+  word-break: break-word;
 }
 
 .title_list {
@@ -102,7 +103,7 @@ main {
   list-style: none;
   gap: 16px;
   padding: 24px;
-  grid-template-columns: repeat(6, 1fr);
+  grid-template-columns: repeat(6, minmax(0, 1fr));
 }
 
 .cards-section_list {

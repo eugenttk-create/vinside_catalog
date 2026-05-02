@@ -168,6 +168,7 @@ const CatalogParts: React.FC<CatalogPartsProps> = ({ modelId, setModelId }) => {
             positions={visiblePositions as any}
             hoverImgPos={hoverImgPos}
             hoverTablePos={hoverTablePos}
+            selectedPos={selectedPos}
             onHoverEnter={setHoverImgPos}
             onHoverLeave={() => setHoverImgPos(null)}
             onSelect={handleImgOverlaySelect}

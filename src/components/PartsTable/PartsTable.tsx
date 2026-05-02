@@ -118,7 +118,7 @@ const PartsTable: React.FC<PartsTableProps> = ({
                 <td className="catalog-parts__td">
                   <span className="catalog-parts__ts">
                     <button className="catalog-parts__tb button">
-                      <a href={getPartLink(part.number)} target="_blank">
+                      <a href={getPartLink(part.number)}>
                         {t.widget_see_price_button}
                       </a>
                     </button>

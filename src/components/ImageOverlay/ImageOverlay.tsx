@@ -8,6 +8,7 @@ interface ImageOverlayProps {
   positions: Position[];
   hoverImgPos: string | null;
   hoverTablePos: string | null;
+  selectedPos: string | null;
   onHoverEnter: (key: string) => void;
   onHoverLeave: () => void;
   onSelect: (key: string) => void;
@@ -24,11 +25,13 @@ const ImageOverlay: React.FC<ImageOverlayProps> = ({
   onHoverLeave,
   onSelect,
   computeOverlayStyle,
+  selectedPos,
 }) => (
   <>
     {positions.map((p) => {
       const key = String(p.number);
       const style = computeOverlayStyle(p.coordinates);
+
       return (
         <div
           key={key}
@@ -37,7 +40,7 @@ const ImageOverlay: React.FC<ImageOverlayProps> = ({
           onMouseLeave={onHoverLeave}
           onClick={() => onSelect(key)}
           className={`catalog-parts__highlight ${
-            hoverImgPos === key || hoverTablePos === key
+            hoverImgPos === key || hoverTablePos === key || selectedPos === key
               ? "catalog-parts__highlight_active"
               : ""
           }`}
