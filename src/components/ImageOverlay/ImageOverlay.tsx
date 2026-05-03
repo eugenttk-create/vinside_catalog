@@ -1,5 +1,3 @@
-import { useId } from "react";
-
 interface Position {
   number: number | string;
   coordinates: [number, number, number, number];
@@ -32,16 +30,16 @@ const ImageOverlay: React.FC<ImageOverlayProps> = ({
   <>
     {positions.map((p) => {
       const key = String(p.number);
-      const idKey = useId();
       const style = computeOverlayStyle(p.coordinates);
-      console.log(p.number, p.coordinates);
       return (
         <div
-          key={idKey}
+          key={key}
           style={style}
           onMouseEnter={() => onHoverEnter(key)}
           onMouseLeave={onHoverLeave}
-          onClick={() => onSelect(key)}
+          onClick={() => {
+            onSelect(key);
+          }}
           className={`catalog-parts__highlight ${
             hoverImgPos === key || hoverTablePos === key || selectedPos === key
               ? "catalog-parts__highlight_active"

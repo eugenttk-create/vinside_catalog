@@ -96,6 +96,7 @@ const CatalogParts: React.FC<CatalogPartsProps> = ({ modelId, setModelId }) => {
 
   const handleImgOverlaySelect = (key: string) => {
     setSelectedPos(key);
+
     const row = rowRefs.current[key];
     if (row) row.scrollIntoView({ behavior: "smooth", block: "center" });
   };
