@@ -1,6 +1,7 @@
 interface ParameterValue {
   idx: string;
   value: string;
+  img: string;
   description: {
     code: string | null;
     year_from: string | null;

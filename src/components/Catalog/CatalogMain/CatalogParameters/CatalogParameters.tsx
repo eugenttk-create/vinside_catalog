@@ -40,7 +40,7 @@ const CatalogParameters: React.FC<CatalogParametersProps> = ({
             key={val.idx}
             idx={val.idx}
             name={val.value}
-            imageSrc={""}
+            imageSrc={val.img}
             onClick={(idx) => {
               getParameters(catalogId, modelId, idx);
               handleAddBreadcrumb("parameter", val.value, val.idx);
