@@ -1,3 +1,6 @@
+import { buildHoverTargetMap } from "../../utils/positionGropus";
+import { useMemo } from "react";
+
 interface Position {
   number: number | string;
   coordinates: [number, number, number, number];
@@ -26,29 +29,38 @@ const ImageOverlay: React.FC<ImageOverlayProps> = ({
   onSelect,
   computeOverlayStyle,
   selectedPos,
-}) => (
-  <>
-    {positions.map((p) => {
-      const key = String(p.number);
-      const style = computeOverlayStyle(p.coordinates);
-      return (
-        <div
-          key={key}
-          style={style}
-          onMouseEnter={() => onHoverEnter(key)}
-          onMouseLeave={onHoverLeave}
-          onClick={() => {
-            onSelect(key);
-          }}
-          className={`catalog-parts__highlight ${
-            hoverImgPos === key || hoverTablePos === key || selectedPos === key
-              ? "catalog-parts__highlight_active"
-              : ""
-          }`}
-        />
-      );
-    })}
-  </>
-);
+}) => {
+  const hoverTargetMap = useMemo(
+    () => buildHoverTargetMap(positions),
+    [positions]
+  );
+
+  return (
+    <>
+      {positions.map((p, idx) => {
+        const key = String(p.number);
+        const ck = p.coordinates.join(",");
+        const hoverTarget = hoverTargetMap.get(ck) ?? key;
+        const style = computeOverlayStyle(p.coordinates);
+
+        const isActive =
+          hoverImgPos === key || hoverTablePos === key || selectedPos === key;
+
+        return (
+          <div
+            key={`${key}-${idx}`}
+            style={style}
+            onMouseEnter={() => onHoverEnter(hoverTarget)}
+            onMouseLeave={onHoverLeave}
+            onClick={() => onSelect(hoverTarget)}
+            className={`catalog-parts__highlight ${
+              isActive ? "catalog-parts__highlight_active" : ""
+            }`}
+          />
+        );
+      })}
+    </>
+  );
+};
 
 export default ImageOverlay;
