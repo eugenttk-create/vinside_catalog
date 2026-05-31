@@ -33,7 +33,7 @@ const Widget: React.FC = () => {
   useEffect(() => {
     if (vinInfo?.vin) {
       const exists = breadcrumbs.some(
-        (b) => b.type === "vin" && b.id === vinInfo.vin
+        (b) => b.type === "vin" && b.id === vinInfo.vin,
       );
       if (!exists) handleAddBreadcrumb("vin", vinInfo.vin, vinInfo.vin);
     }
@@ -72,7 +72,7 @@ const Widget: React.FC = () => {
     }
   };
 
-  const isButtonDisabled = vin === "" && catalogId === "";
+  const isButtonDisabled = (vin === "" && catalogId === "") || groupsLoading;
 
   return (
     <div className="widget">
@@ -103,8 +103,8 @@ const Widget: React.FC = () => {
               {catalogsLoading
                 ? t.widget_loading
                 : catalogsError
-                ? `${catalogsError}`
-                : t.widget_vehicle_select_placeholder}
+                  ? `${catalogsError}`
+                  : t.widget_vehicle_select_placeholder}
             </option>
             {catalogs?.map((catalog) => (
               <option value={catalog.id} key={catalog.id}>

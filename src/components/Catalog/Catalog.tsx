@@ -2,6 +2,7 @@ import CatalogMain from "./CatalogMain/CatalogMain";
 import CatalogHeader from "./CatalogHeader/CatalogHeader";
 import CatalogSidebar from "./CatalogSidebar/CatalogSidebar";
 import Breadcrumbs from "./Breadcrumbs/Breadcrumbs";
+import { Notifications } from "../Notifications/Notifications";
 import { useParts } from "../../hooks/parts/useParts";
 import "./Catalog.css";
 import { useState } from "react";
@@ -17,6 +18,7 @@ const Catalog: React.FC<CatalogProps> = ({ modelId, setModelId }) => {
   const { parts } = useParts();
   return (
     <section className="catalog" id="catalog-root">
+      <Notifications />
       <CatalogHeader
         isSidebarActive={isSidebarActive}
         setIsSidebarActive={setIsSidebarActive}

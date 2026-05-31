@@ -1,20 +1,30 @@
 import { useCallback } from "react";
 import { useAppDispatch } from "../store/useAppDispatch";
 import { useAppSelector } from "../store/useAppSelector";
-import { fetchParts } from "../../store/parts/partsThunks";
+import {
+  fetchParts,
+  fetchPartsBySearchQuery,
+} from "../../store/parts/partsThunks";
 import { resetParts } from "../../store/parts/partsSlice";
 
 export const useParts = () => {
   const dispatch = useAppDispatch();
   const { parts, partsLoading, partsError } = useAppSelector(
-    (state) => state.parts
+    (state) => state.parts,
   );
 
   const getParts = useCallback(
     (catalogId: string, carId: string, groupId: string) => {
       return dispatch(fetchParts({ catalogId, carId, groupId }));
     },
-    [dispatch]
+    [dispatch],
+  );
+
+  const searchParts = useCallback(
+    (catalogId: string, carId: string, q: string) => {
+      return dispatch(fetchPartsBySearchQuery({ catalogId, carId, q }));
+    },
+    [dispatch],
   );
 
   const handleResetParts = useCallback(() => {
@@ -27,5 +37,6 @@ export const useParts = () => {
     partsError,
     getParts,
     handleResetParts,
+    searchParts,
   };
 };

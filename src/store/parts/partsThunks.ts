@@ -9,11 +9,11 @@ export const fetchParts = createAsyncThunk(
       carId,
       groupId,
     }: { catalogId: string; carId: string; groupId: string },
-    { rejectWithValue }
+    { rejectWithValue },
   ) => {
     try {
       const response = await api.get(
-        `/catalogs/${catalogId}/parts2?carId=${carId}&groupId=${groupId}`
+        `/catalogs/${catalogId}/parts2?carId=${carId}&groupId=${groupId}`,
       );
       return response.data;
     } catch (error: any) {
@@ -21,8 +21,30 @@ export const fetchParts = createAsyncThunk(
         error.response?.data?.detail ||
           error.response?.data?.message ||
           error.message ||
-          "Failed to fetch parts"
+          "Failed to fetch parts",
       );
     }
-  }
+  },
+);
+
+export const fetchPartsBySearchQuery = createAsyncThunk(
+  "parts/fetchPartsBySearchQuery",
+  async (
+    { catalogId, carId, q }: { catalogId: string; carId: string; q: string },
+    { rejectWithValue },
+  ) => {
+    try {
+      const response = await api.get(
+        `/search/${catalogId}/ai?carId=${carId}&query=${q}`,
+      );
+      return response.data;
+    } catch (error: any) {
+      return rejectWithValue(
+        error.response?.data?.detail ||
+          error.response?.data?.message ||
+          error.message ||
+          "Failed to fetch parts",
+      );
+    }
+  },
 );

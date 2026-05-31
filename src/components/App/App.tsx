@@ -19,7 +19,7 @@ const App: React.FC<AppProps> = ({ portalMount }) => {
       {catalogOpened &&
         createPortal(
           <Catalog modelId={modelId} setModelId={setModelId} />,
-          portalMount
+          portalMount,
         )}
     </main>
   );

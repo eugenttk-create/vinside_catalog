@@ -18,8 +18,14 @@ const CatalogHeader: React.FC<CatalogHeaderProps> = ({
   setIsSidebarActive,
 }) => {
   const [vin, setVin] = useState("");
+  const [partQuery, setPartQuery] = useState("");
   const [isSettingsActive, setIsSettingsActive] = useState(false);
-  const { handleResetBreadcrumbs } = useBreadcrumbs();
+  const {
+    handleResetBreadcrumbs,
+    handleAddBreadcrumb,
+    breadcrumbs,
+    handleTrimBreadcrumbs,
+  } = useBreadcrumbs();
   const { handleResetParameters } = useParameters();
   const {
     handleResetModels,
@@ -28,8 +34,9 @@ const CatalogHeader: React.FC<CatalogHeaderProps> = ({
     isVinSearch,
     handleSetIsVinSearch,
     handleOpenCatalog,
+    catalogId,
   } = useModels();
-  const { handleResetParts } = useParts();
+  const { handleResetParts, searchParts } = useParts();
   const { handleResetGroups, vinInfo, getGroupsByVin } = useGroups();
 
   const handleResetAndCloseCatalog = () => {
@@ -63,6 +70,22 @@ const CatalogHeader: React.FC<CatalogHeaderProps> = ({
     }
   };
 
+  const handleSearchParts = async () => {
+    if (partQuery && vinInfo) {
+      try {
+        const res = await searchParts(catalogId, vinInfo.carId, partQuery);
+        if (res.meta.requestStatus === "fulfilled") {
+          const vinIndex = breadcrumbs.findIndex((b) => b.type === "vin");
+          if (vinIndex !== -1) {
+            handleTrimBreadcrumbs(vinIndex);
+          }
+          handleAddBreadcrumb("search", partQuery, partQuery);
+          setPartQuery("");
+        }
+      } catch (e) {}
+    }
+  };
+
   return (
     <header className="catalog-header">
       <div className="catalog-header__left">
@@ -85,9 +108,14 @@ const CatalogHeader: React.FC<CatalogHeaderProps> = ({
           </button>
         </div>
         <div className="catalog-header__inputs">
-          {" "}
           {!isVinSearch && (
-            <div className="catalog-header__input-container">
+            <form
+              className="catalog-header__input-container"
+              onSubmit={(e) => {
+                e.preventDefault();
+                handleSearchByVin();
+              }}
+            >
               <input
                 type="text"
                 placeholder="VIN"
@@ -100,7 +128,7 @@ const CatalogHeader: React.FC<CatalogHeaderProps> = ({
                 className="icon catalog-header__icon"
                 onClick={handleSearchByVin}
               />
-            </div>
+            </form>
           )}
           {isVinSearch && vinInfo && (
             <div className="catalog-header__input-container">
@@ -109,6 +137,28 @@ const CatalogHeader: React.FC<CatalogHeaderProps> = ({
                 &nbsp;&mdash;&nbsp;{vinInfo.vin}
               </p>
             </div>
+          )}
+          {isVinSearch && (
+            <form
+              className="catalog-header__input-container"
+              onSubmit={(e) => {
+                e.preventDefault();
+                handleSearchParts();
+              }}
+            >
+              <input
+                type="text"
+                placeholder="Search Part..."
+                className="catalog-header__input input"
+                id="catalog-header-part-search"
+                value={partQuery}
+                onChange={(e) => setPartQuery(e.target.value)}
+              />
+              <Search
+                className="icon catalog-header__icon"
+                onClick={handleSearchParts}
+              />
+            </form>
           )}
           {/* <div className="catalog-header__input-container">
             <input
