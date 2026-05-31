@@ -5,8 +5,13 @@ import {
   fetchGroups,
   fetchByVin,
   fetchVinInfo,
+  fetchGroupsBySearchQuery,
 } from "../../store/groups/groupsThunks";
-import { resetGroups } from "../../store/groups/groupsSlice";
+import {
+  resetGroups,
+  setIsAiSearch as isSearch,
+  setAiSearchQuery as setSearch,
+} from "../../store/groups/groupsSlice";
 
 export const useGroups = () => {
   const dispatch = useAppDispatch();
@@ -19,6 +24,8 @@ export const useGroups = () => {
     selectedGroups,
     isSidebarLoading,
     vinInfo,
+    isAiSearch,
+    aiSearchQuery,
   } = useAppSelector((s) => s.groups);
 
   const getGroups = useCallback(
@@ -47,6 +54,27 @@ export const useGroups = () => {
     [dispatch]
   );
 
+  const searchGroups = useCallback(
+    (catalogId: string, carId: string, q: string) => {
+      return dispatch(fetchGroupsBySearchQuery({ catalogId, carId, q }));
+    },
+    [dispatch]
+  );
+
+  const setIsAiSearch = useCallback(
+    (arg: boolean) => {
+      return dispatch(isSearch(arg));
+    },
+    [dispatch]
+  );
+
+  const setAiSearchQuery = useCallback(
+    (query: string) => {
+      return dispatch(setSearch(query));
+    },
+    [dispatch]
+  );
+
   return {
     groupsTree,
     groupsFlat,
@@ -57,7 +85,12 @@ export const useGroups = () => {
     getGroupsByVin,
     handleResetGroups,
     getVinInfo,
+    searchGroups,
     isSidebarLoading,
     vinInfo,
+    setIsAiSearch,
+    isAiSearch,
+    aiSearchQuery,
+    setAiSearchQuery,
   };
 };

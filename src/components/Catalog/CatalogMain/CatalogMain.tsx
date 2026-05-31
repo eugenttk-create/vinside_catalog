@@ -5,7 +5,7 @@ import CatalogParameters from "./CatalogParameters/CatalogParameters";
 import CatalogGroups from "./CatalogGroups/CatalogGroups";
 import CatalogParts from "./CatalogParts/CatalogParts";
 import CatalogBrands from "./CatalogBrands/CatalogBrands";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useParameters } from "../../../hooks/parameters/useParameters";
 import { useGroups } from "../../../hooks/groups/useGroups";
 import { useParts } from "../../../hooks/parts/useParts";
@@ -26,7 +26,7 @@ const CatalogMain: React.FC<CatalogMainProps> = ({
   isSidebarActive,
 }) => {
   const { parametersLoading, parameters, carId } = useParameters();
-  const { groupsFlat, groupsLoading } = useGroups();
+  const { groupsFlat, groupsLoading, isAiSearch } = useGroups();
   const { parts, partsLoading } = useParts();
   const { models, modelsLoading, isVinSearch } = useModels();
   const [switchState, setSwitchState] = useState("cards");
@@ -38,6 +38,14 @@ const CatalogMain: React.FC<CatalogMainProps> = ({
       setSwitchState("list");
     }
   };
+
+  useEffect(() => {
+    if (isAiSearch) {
+      setSwitchState("list");
+    } else {
+      setSwitchState("cards");
+    }
+  }, [isAiSearch]);
 
   return (
     <div

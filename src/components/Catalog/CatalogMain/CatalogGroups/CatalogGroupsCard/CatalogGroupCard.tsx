@@ -68,7 +68,7 @@ const CatalogGroupCard: React.FC<CatalogGroupCardProps> = ({
   setActiveCardId,
 }) => {
   const { catalogId } = useModels();
-  const { getGroups } = useGroups();
+  const { getGroups, isAiSearch, aiSearchQuery } = useGroups();
   const { getParts } = useParts();
   const { handleAddBreadcrumb } = useBreadcrumbs();
 
@@ -76,6 +76,9 @@ const CatalogGroupCard: React.FC<CatalogGroupCardProps> = ({
     if (hasSubgroup) {
       getGroups(catalogId, carId, idx);
       handleAddBreadcrumb("group", name, idx);
+    } else if (isAiSearch && aiSearchQuery) {
+      getParts(catalogId, carId, idx, aiSearchQuery);
+      handleAddBreadcrumb("part", name, idx);
     } else {
       getParts(catalogId, carId, idx);
       handleAddBreadcrumb("part", name, idx);

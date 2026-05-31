@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { initialState } from "./parts.types";
-import { fetchParts, fetchPartsBySearchQuery } from "./partsThunks";
+import { fetchParts } from "./partsThunks";
 
 const partsSlice = createSlice({
   name: "parts",
@@ -25,20 +25,6 @@ const partsSlice = createSlice({
         state.parts = action.payload;
       })
       .addCase(fetchParts.rejected, (state, action) => {
-        state.partsLoading = false;
-        state.partsError = action.payload as string;
-      })
-      //search parts
-      .addCase(fetchPartsBySearchQuery.pending, (state) => {
-        state.partsLoading = true;
-        state.partsError = null;
-      })
-      .addCase(fetchPartsBySearchQuery.fulfilled, (state, action) => {
-        state.partsLoading = false;
-        state.partsError = null;
-        state.parts = action.payload;
-      })
-      .addCase(fetchPartsBySearchQuery.rejected, (state, action) => {
         state.partsLoading = false;
         state.partsError = action.payload as string;
       });

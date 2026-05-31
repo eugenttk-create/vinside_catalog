@@ -18,7 +18,6 @@ const CatalogHeader: React.FC<CatalogHeaderProps> = ({
   setIsSidebarActive,
 }) => {
   const [vin, setVin] = useState("");
-  const [partQuery, setPartQuery] = useState("");
   const [isSettingsActive, setIsSettingsActive] = useState(false);
   const {
     handleResetBreadcrumbs,
@@ -36,8 +35,16 @@ const CatalogHeader: React.FC<CatalogHeaderProps> = ({
     handleOpenCatalog,
     catalogId,
   } = useModels();
-  const { handleResetParts, searchParts } = useParts();
-  const { handleResetGroups, vinInfo, getGroupsByVin } = useGroups();
+  const { handleResetParts } = useParts();
+  const {
+    handleResetGroups,
+    vinInfo,
+    getGroupsByVin,
+    searchGroups,
+    setIsAiSearch,
+    setAiSearchQuery,
+    aiSearchQuery,
+  } = useGroups();
 
   const handleResetAndCloseCatalog = () => {
     handleSetSelectedBrand("");
@@ -71,16 +78,17 @@ const CatalogHeader: React.FC<CatalogHeaderProps> = ({
   };
 
   const handleSearchParts = async () => {
-    if (partQuery && vinInfo) {
+    if (aiSearchQuery && vinInfo) {
       try {
-        const res = await searchParts(catalogId, vinInfo.carId, partQuery);
+        const res = await searchGroups(catalogId, vinInfo.carId, aiSearchQuery);
         if (res.meta.requestStatus === "fulfilled") {
           const vinIndex = breadcrumbs.findIndex((b) => b.type === "vin");
           if (vinIndex !== -1) {
             handleTrimBreadcrumbs(vinIndex);
           }
-          handleAddBreadcrumb("search", partQuery, partQuery);
-          setPartQuery("");
+          handleResetParts();
+          handleAddBreadcrumb("search", aiSearchQuery, aiSearchQuery);
+          setIsAiSearch(true);
         }
       } catch (e) {}
     }
@@ -151,8 +159,8 @@ const CatalogHeader: React.FC<CatalogHeaderProps> = ({
                 placeholder="Search Part..."
                 className="catalog-header__input input"
                 id="catalog-header-part-search"
-                value={partQuery}
-                onChange={(e) => setPartQuery(e.target.value)}
+                value={aiSearchQuery}
+                onChange={(e) => setAiSearchQuery(e.target.value)}
               />
               <Search
                 className="icon catalog-header__icon"

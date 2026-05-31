@@ -1,6 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { initialState } from "./groups.types";
-import { fetchGroups, fetchByVin, fetchVinInfo } from "./groupsThunks";
+import {
+  fetchGroups,
+  fetchByVin,
+  fetchVinInfo,
+  fetchGroupsBySearchQuery,
+} from "./groupsThunks";
 import type { GroupNode } from "./groups.types";
 
 const insertChildren = (
@@ -29,6 +34,13 @@ const groupsSlice = createSlice({
       state.groupsTree = [];
       state.groupsFlat = [];
       state.selectedGroups = [];
+      state.isAiSearch = false;
+    },
+    setIsAiSearch: (state, action) => {
+      state.isAiSearch = action.payload;
+    },
+    setAiSearchQuery: (state, action) => {
+      state.aiSearchQuery = action.payload;
     },
   },
 
@@ -90,9 +102,26 @@ const groupsSlice = createSlice({
       .addCase(fetchVinInfo.rejected, (state, action) => {
         state.isSidebarLoading = false;
         state.groupsError = action.payload as string;
+      })
+      //search groups
+      .addCase(fetchGroupsBySearchQuery.pending, (state) => {
+        state.groupsLoading = true;
+        state.groupsError = null;
+      })
+      .addCase(fetchGroupsBySearchQuery.fulfilled, (state, action) => {
+        const { children, flat } = action.payload;
+        state.groupsLoading = false;
+        state.groupsError = null;
+        state.groupsTree = children;
+        state.groupsFlat = flat;
+      })
+      .addCase(fetchGroupsBySearchQuery.rejected, (state, action) => {
+        state.groupsLoading = false;
+        state.groupsError = action.payload as string;
       });
   },
 });
 
-export const { resetGroups } = groupsSlice.actions;
+export const { resetGroups, setIsAiSearch, setAiSearchQuery } =
+  groupsSlice.actions;
 export default groupsSlice.reducer;

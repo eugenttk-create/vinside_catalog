@@ -83,3 +83,29 @@ export const fetchVinInfo = createAsyncThunk(
     }
   }
 );
+
+export const fetchGroupsBySearchQuery = createAsyncThunk(
+  "groups/fetchGroupsBySearchQuery",
+  async (
+    { catalogId, carId, q }: { catalogId: string; carId: string; q: string },
+    { rejectWithValue }
+  ) => {
+    try {
+      const response = await api.get(
+        `/search/${catalogId}/ai?carId=${carId}&query=${q}`
+      );
+      return {
+        parentId: null,
+        children: response.data,
+        flat: response.data,
+      };
+    } catch (e: any) {
+      return rejectWithValue(
+        e.response?.data?.detail ||
+          e.response?.data?.message ||
+          e.message ||
+          "Failed to search groups"
+      );
+    }
+  }
+);

@@ -6,6 +6,7 @@ import { Notifications } from "../Notifications/Notifications";
 import { useParts } from "../../hooks/parts/useParts";
 import "./Catalog.css";
 import { useState } from "react";
+import { useGroups } from "../../hooks/groups/useGroups";
 
 interface CatalogProps {
   modelId: string;
@@ -14,7 +15,8 @@ interface CatalogProps {
 
 const Catalog: React.FC<CatalogProps> = ({ modelId, setModelId }) => {
   const [isSidebarActive, setIsSidebarActive] = useState(true);
-
+  const { isAiSearch } = useGroups();
+  console.log(isAiSearch);
   const { parts } = useParts();
   return (
     <section className="catalog" id="catalog-root">
@@ -43,16 +45,17 @@ const Catalog: React.FC<CatalogProps> = ({ modelId, setModelId }) => {
           parts?.partGroups &&
           parts.partGroups.length > 0 &&
           parts.partGroups[0].parts?.length > 0
-        ) && (
-          <>
-            <CatalogSidebar
-              isSidebarActive={isSidebarActive}
-              modelId={modelId}
-              setModelId={setModelId}
-              setIsSidebarActive={setIsSidebarActive}
-            />
-          </>
-        )}
+        ) &&
+          !isAiSearch && (
+            <>
+              <CatalogSidebar
+                isSidebarActive={isSidebarActive}
+                modelId={modelId}
+                setModelId={setModelId}
+                setIsSidebarActive={setIsSidebarActive}
+              />
+            </>
+          )}
         <CatalogMain
           modelId={modelId}
           setModelId={setModelId}

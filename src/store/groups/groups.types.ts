@@ -55,6 +55,8 @@ export interface GroupsState {
   selectedGroups: string[];
   isSidebarLoading: boolean;
   vinInfo: VinInfo | null;
+  isAiSearch: boolean;
+  aiSearchQuery: string;
 }
 
 export const initialState: GroupsState = {
@@ -65,4 +67,6 @@ export const initialState: GroupsState = {
   selectedGroups: [],
   isSidebarLoading: false,
   vinInfo: null,
+  isAiSearch: false,
+  aiSearchQuery: "",
 };
