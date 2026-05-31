@@ -156,7 +156,7 @@ const CatalogHeader: React.FC<CatalogHeaderProps> = ({
             >
               <input
                 type="text"
-                placeholder="Search Part..."
+                placeholder="AI Search"
                 className="catalog-header__input input"
                 id="catalog-header-part-search"
                 value={aiSearchQuery}
