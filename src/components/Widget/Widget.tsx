@@ -6,8 +6,11 @@ import { useGroups } from "../../hooks/groups/useGroups";
 import { useBreadcrumbs } from "../../hooks/breadcrumbs/useBreadcrumbs";
 import { useRef } from "react";
 import { useTranslation } from "../../hooks/translation/useTranslation";
+// import { useAppDispatch } from "../../hooks/store/useAppDispatch";
+// import { fetchOE } from "../../store/OE/OEThunks";
 
 const Widget: React.FC = () => {
+  // const dispatch = useAppDispatch();
   const { t } = useTranslation();
   const [vin, setVin] = useState("");
   const { catalogs, catalogsError, getCatalogs, catalogsLoading } =
@@ -33,11 +36,15 @@ const Widget: React.FC = () => {
   useEffect(() => {
     if (vinInfo?.vin) {
       const exists = breadcrumbs.some(
-        (b) => b.type === "vin" && b.id === vinInfo.vin,
+        (b) => b.type === "vin" && b.id === vinInfo.vin
       );
       if (!exists) handleAddBreadcrumb("vin", vinInfo.vin, vinInfo.vin);
     }
   }, [vinInfo]);
+
+  // useEffect(() => {
+  //   dispatch(fetchOE("443011031A"));
+  // }, []);
 
   const handleVinChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setVin(e.target.value);
@@ -103,8 +110,8 @@ const Widget: React.FC = () => {
               {catalogsLoading
                 ? t.widget_loading
                 : catalogsError
-                  ? `${catalogsError}`
-                  : t.widget_vehicle_select_placeholder}
+                ? `${catalogsError}`
+                : t.widget_vehicle_select_placeholder}
             </option>
             {catalogs?.map((catalog) => (
               <option value={catalog.id} key={catalog.id}>
@@ -125,6 +132,19 @@ const Widget: React.FC = () => {
           }
         >
           XW8AN2NE3JH035743
+        </span>
+      </p>
+      <p className="widget__example-vin">
+        Example №:{" "}
+        <span
+          className="widget__example-vin widget__example-vin_blue"
+          onClick={() =>
+            handleVinChange({
+              target: { value: "5Q0407365A" },
+            } as any)
+          }
+        >
+          5Q0407365A
         </span>
       </p>
       <button

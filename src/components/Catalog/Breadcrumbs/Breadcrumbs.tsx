@@ -30,8 +30,15 @@ const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ setModelId }) => {
     handleSetSelectedBrand,
     handleSetIsVinSearch,
   } = useModels();
-  const { handleResetParts, searchParts } = useParts();
-  const { handleResetGroups, getGroups, getGroupsByVin, vinInfo } = useGroups();
+  const { handleResetParts } = useParts();
+  const {
+    handleResetGroups,
+    getGroups,
+    getGroupsByVin,
+    vinInfo,
+    aiSearchQuery,
+    searchGroups,
+  } = useGroups();
 
   const handleBrandsClick = () => {
     handleResetBreadcrumbs();
@@ -113,7 +120,7 @@ const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ setModelId }) => {
             catalogId,
             modelId,
             parameters: selectedParams,
-          }),
+          })
         );
         if (fetchCarId.fulfilled.match(carIdAction)) {
           const actualCarId = carIdAction.payload;
@@ -139,7 +146,7 @@ const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ setModelId }) => {
     if (clicked.type === "search") {
       handleResetParts();
       if (vinInfo?.carId) {
-        await searchParts(catalogId, vinInfo.carId, clicked.id!);
+        await searchGroups(catalogId, vinInfo.carId, aiSearchQuery);
       }
       return;
     }
