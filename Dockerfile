@@ -26,6 +26,10 @@ ENV VITE_API_TOKEN=$VITE_API_TOKEN
 ENV VITE_API_IMG_BASE=$VITE_API_IMG_BASE
 ENV GENERATE_SOURCEMAP=$GENERATE_SOURCEMAP
 
+RUN chmod +x ./embed_env_patch.sh
+
+ENTRYPOINT ["./embed_env_patch.sh"]
+
 # Build the application
 RUN npm run build
 
