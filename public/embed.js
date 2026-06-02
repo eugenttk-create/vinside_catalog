@@ -1,7 +1,7 @@
 (function () {
   const ROOT_ID = "my-widget-root";
 
-  const BASE = "https://vinside-dev.carcatonline.com";
+  const BASE = import.meta.env.VITE_BASE_URL;
   const JS = BASE + "/widget.js";
   const CSS = BASE + "/widget.css";
   const CSS2 = BASE + "/widget2.css";
