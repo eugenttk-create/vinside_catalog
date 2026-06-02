@@ -28,6 +28,7 @@ ENV GENERATE_SOURCEMAP=$GENERATE_SOURCEMAP
 
 RUN chmod +x ./embed_env_patch.sh
 
+CMD ["printenv"]
 ENTRYPOINT ["./embed_env_patch.sh"]
 
 # Build the application
