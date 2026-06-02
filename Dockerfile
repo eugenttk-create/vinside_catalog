@@ -26,12 +26,10 @@ ENV VITE_API_TOKEN=$VITE_API_TOKEN
 ENV VITE_API_IMG_BASE=$VITE_API_IMG_BASE
 ENV GENERATE_SOURCEMAP=$GENERATE_SOURCEMAP
 
-RUN chmod +x ./embed_env_patch.sh
+# Patch placeholders in public/embed.js with build-time env values
+RUN chmod +x ./embed_env_patch.sh && ./embed_env_patch.sh
 
-CMD ["printenv"]
-ENTRYPOINT ["./embed_env_patch.sh"]
-
-# Build the application
+# Build the application (Vite copies the patched public/embed.js into dist/)
 RUN npm run build
 
 # Production stage - serve with nginx
