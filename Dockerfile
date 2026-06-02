@@ -26,8 +26,12 @@ ENV VITE_API_TOKEN=$VITE_API_TOKEN
 ENV VITE_API_IMG_BASE=$VITE_API_IMG_BASE
 ENV GENERATE_SOURCEMAP=$GENERATE_SOURCEMAP
 
+# DEBUG: prove what the build actually received
+RUN echo "DEBUG VITE_BASE_URL=[$VITE_BASE_URL]"
+
 # Patch placeholders in public/embed.js with build-time env values
-RUN chmod +x ./embed_env_patch.sh && ./embed_env_patch.sh
+RUN chmod +x ./embed_env_patch.sh && ./embed_env_patch.sh && \
+    echo "DEBUG embed.js after patch:" && grep BASE ./public/embed.js
 
 # Build the application (Vite copies the patched public/embed.js into dist/)
 RUN npm run build
