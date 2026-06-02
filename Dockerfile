@@ -26,10 +26,6 @@ ENV VITE_API_TOKEN=$VITE_API_TOKEN
 ENV VITE_API_IMG_BASE=$VITE_API_IMG_BASE
 ENV GENERATE_SOURCEMAP=$GENERATE_SOURCEMAP
 
-# DEBUG: capture the build-time value into a file nginx will serve.
-# After deploy, open http://<host>:8085/_debug.txt to see what the build received.
-RUN echo "build-time VITE_BASE_URL=[$VITE_BASE_URL]" > ./public/_debug.txt
-
 # Patch placeholders in public/embed.js with build-time env values
 RUN chmod +x ./embed_env_patch.sh && ./embed_env_patch.sh
 
