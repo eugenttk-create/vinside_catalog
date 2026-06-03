@@ -6,11 +6,11 @@ import { useGroups } from "../../hooks/groups/useGroups";
 import { useBreadcrumbs } from "../../hooks/breadcrumbs/useBreadcrumbs";
 import { useRef } from "react";
 import { useTranslation } from "../../hooks/translation/useTranslation";
-// import { useAppDispatch } from "../../hooks/store/useAppDispatch";
-// import { fetchOE } from "../../store/OE/OEThunks";
+import { useAppDispatch } from "../../hooks/store/useAppDispatch";
+import { fetchOE } from "../../store/OE/OEThunks";
 
 const Widget: React.FC = () => {
-  // const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch();
   const { t } = useTranslation();
   const [vin, setVin] = useState("");
   const { catalogs, catalogsError, getCatalogs, catalogsLoading } =
@@ -42,9 +42,9 @@ const Widget: React.FC = () => {
     }
   }, [vinInfo]);
 
-  // useEffect(() => {
-  //   dispatch(fetchOE("443011031A"));
-  // }, []);
+  useEffect(() => {
+    dispatch(fetchOE("5E0 051 510"));
+  }, []);
 
   const handleVinChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setVin(e.target.value);

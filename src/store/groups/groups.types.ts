@@ -57,6 +57,7 @@ export interface GroupsState {
   vinInfo: VinInfo | null;
   isAiSearch: boolean;
   aiSearchQuery: string;
+  searchResultType: "groups" | "parts" | null;
 }
 
 export const initialState: GroupsState = {
@@ -69,4 +70,5 @@ export const initialState: GroupsState = {
   vinInfo: null,
   isAiSearch: false,
   aiSearchQuery: "",
+  searchResultType: null,
 };

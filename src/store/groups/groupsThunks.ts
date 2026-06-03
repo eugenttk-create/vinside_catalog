@@ -1,6 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import api from "../../api/api";
 import { setCatalogId } from "../models/modelsSlice";
+import { setParts } from "../parts/partsSlice";
 
 export const fetchGroups = createAsyncThunk(
   "groups/fetchGroups",
@@ -88,24 +89,34 @@ export const fetchGroupsBySearchQuery = createAsyncThunk(
   "groups/fetchGroupsBySearchQuery",
   async (
     { catalogId, carId, q }: { catalogId: string; carId: string; q: string },
-    { rejectWithValue }
+    { rejectWithValue, dispatch }
   ) => {
     try {
       const response = await api.get(
         `/search/${catalogId}/ai?carId=${carId}&query=${q}`
       );
+
+      const data = response.data;
+      const isPartsResponse = !Array.isArray(data) && "partGroups" in data;
+
+      if (isPartsResponse) {
+        dispatch(setParts(data));
+        return {
+          type: "parts" as const,
+          parentId: null,
+          children: [],
+          flat: [],
+        };
+      }
+
       return {
+        type: "groups" as const,
         parentId: null,
-        children: response.data,
-        flat: response.data,
+        children: data,
+        flat: data,
       };
     } catch (e: any) {
-      return rejectWithValue(
-        e.response?.data?.detail ||
-          e.response?.data?.message ||
-          e.message ||
-          "Failed to search groups"
-      );
+      return rejectWithValue(e.response?.data?.detail ?? "Failed to search");
     }
   }
 );

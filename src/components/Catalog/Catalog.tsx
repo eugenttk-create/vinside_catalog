@@ -16,8 +16,9 @@ interface CatalogProps {
 const Catalog: React.FC<CatalogProps> = ({ modelId, setModelId }) => {
   const [isSidebarActive, setIsSidebarActive] = useState(true);
   const { isAiSearch } = useGroups();
-  console.log(isAiSearch);
+
   const { parts } = useParts();
+
   return (
     <section className="catalog" id="catalog-root">
       <Notifications />

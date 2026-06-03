@@ -5,7 +5,7 @@ export const fetchOE = createAsyncThunk(
   "OE/fetchOE",
   async (query: string, { rejectWithValue }) => {
     try {
-      const response = await api.get(`/search/pb&query=${query}`);
+      const response = await api.get(`/search/pb?query=${query}`);
       return response.data;
     } catch (error: any) {
       return rejectWithValue(

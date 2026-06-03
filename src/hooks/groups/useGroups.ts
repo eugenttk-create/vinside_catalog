@@ -26,6 +26,7 @@ export const useGroups = () => {
     vinInfo,
     isAiSearch,
     aiSearchQuery,
+    searchResultType,
   } = useAppSelector((s) => s.groups);
 
   const getGroups = useCallback(
@@ -92,5 +93,6 @@ export const useGroups = () => {
     isAiSearch,
     aiSearchQuery,
     setAiSearchQuery,
+    searchResultType,
   };
 };

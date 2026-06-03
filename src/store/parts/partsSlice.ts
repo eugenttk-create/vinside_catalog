@@ -11,6 +11,9 @@ const partsSlice = createSlice({
       state.partsError = null;
       state.partsLoading = false;
     },
+    setParts: (state, action) => {
+      state.parts = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -31,5 +34,5 @@ const partsSlice = createSlice({
   },
 });
 
-export const { resetParts } = partsSlice.actions;
+export const { resetParts, setParts } = partsSlice.actions;
 export default partsSlice.reducer;

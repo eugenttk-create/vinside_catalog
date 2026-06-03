@@ -150,6 +150,10 @@ const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ setModelId }) => {
       }
       return;
     }
+
+    if (clicked.type === "parts-search") {
+      return;
+    }
   };
 
   useEffect(() => {

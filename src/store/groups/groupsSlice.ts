@@ -35,6 +35,8 @@ const groupsSlice = createSlice({
       state.groupsFlat = [];
       state.selectedGroups = [];
       state.isAiSearch = false;
+      state.aiSearchQuery = "";
+      state.searchResultType = null;
     },
     setIsAiSearch: (state, action) => {
       state.isAiSearch = action.payload;
@@ -109,11 +111,14 @@ const groupsSlice = createSlice({
         state.groupsError = null;
       })
       .addCase(fetchGroupsBySearchQuery.fulfilled, (state, action) => {
-        const { children, flat } = action.payload;
         state.groupsLoading = false;
         state.groupsError = null;
-        state.groupsTree = children;
-        state.groupsFlat = flat;
+        state.searchResultType = action.payload.type;
+
+        if (action.payload.type === "groups") {
+          state.groupsTree = action.payload.children;
+          state.groupsFlat = action.payload.flat;
+        }
       })
       .addCase(fetchGroupsBySearchQuery.rejected, (state, action) => {
         state.groupsLoading = false;

@@ -44,6 +44,7 @@ const CatalogHeader: React.FC<CatalogHeaderProps> = ({
     setIsAiSearch,
     setAiSearchQuery,
     aiSearchQuery,
+    searchResultType,
   } = useGroups();
 
   const handleResetAndCloseCatalog = () => {
@@ -86,9 +87,14 @@ const CatalogHeader: React.FC<CatalogHeaderProps> = ({
           if (vinIndex !== -1) {
             handleTrimBreadcrumbs(vinIndex);
           }
-          handleResetParts();
-          handleAddBreadcrumb("search", aiSearchQuery, aiSearchQuery);
-          setIsAiSearch(true);
+          //@ts-ignore
+          if (res.payload.type === "parts") {
+            handleAddBreadcrumb("parts-search", aiSearchQuery, aiSearchQuery);
+          } else {
+            handleResetParts();
+            handleAddBreadcrumb("search", aiSearchQuery, aiSearchQuery);
+            setIsAiSearch(true);
+          }
         }
       } catch (e) {}
     }
