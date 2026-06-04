@@ -44,7 +44,6 @@ const CatalogHeader: React.FC<CatalogHeaderProps> = ({
     setIsAiSearch,
     setAiSearchQuery,
     aiSearchQuery,
-    searchResultType,
   } = useGroups();
 
   const handleResetAndCloseCatalog = () => {
