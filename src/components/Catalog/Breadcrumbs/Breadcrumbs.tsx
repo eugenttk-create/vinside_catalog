@@ -1,5 +1,5 @@
 import "./Breadcrumbs.css";
-import { ChevronRight } from "lucide-react";
+import { ChevronRight, ChevronLeft } from "lucide-react";
 import { useParameters } from "../../../hooks/parameters/useParameters";
 import { useModels } from "../../../hooks/models/useModels";
 import { useParts } from "../../../hooks/parts/useParts";
@@ -21,8 +21,13 @@ const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ setModelId }) => {
   const dispatch = useAppDispatch();
   const { handleResetParameters, getParameters, handleResetCarId, carId } =
     useParameters();
-  const { breadcrumbs, handleTrimBreadcrumbs, handleResetBreadcrumbs } =
-    useBreadcrumbs();
+  const {
+    breadcrumbs,
+    currentIndex,
+    handleTrimBreadcrumbs,
+    handleResetBreadcrumbs,
+    handleNavigateToBreadcrumb,
+  } = useBreadcrumbs();
   const {
     handleResetModels,
     catalogId,
@@ -58,16 +63,25 @@ const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ setModelId }) => {
     handleResetParameters();
   };
 
-  const handleBreadcrumbClick = async (index: number) => {
-    if (index + 1 === breadcrumbs.length) {
+  // isNavigation=true — двигаемся кнопками, крошки не обрезаем
+  const handleBreadcrumbClick = async (index: number, isNavigation = false) => {
+    if (!isNavigation && index + 1 === breadcrumbs.length) {
+      return;
+    }
+    if (isNavigation && index === currentIndex) {
       return;
     }
 
     const clicked = breadcrumbs[index];
-    handleTrimBreadcrumbs(index);
+
+    if (!isNavigation) {
+      handleTrimBreadcrumbs(index);
+    } else {
+      handleNavigateToBreadcrumb(index);
+    }
 
     if (clicked.type === "vin") {
-      handleTrimBreadcrumbs(index);
+      if (!isNavigation) handleTrimBreadcrumbs(index);
 
       handleResetModels();
       handleResetParameters();
@@ -78,17 +92,16 @@ const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ setModelId }) => {
       if (clicked.id) {
         await getGroupsByVin(clicked.id);
       }
-
       return;
     }
 
     if (clicked.type === "model") {
-      const modelId = clicked.id!;
-      setModelId(modelId);
+      const mId = clicked.id!;
+      setModelId(mId);
       handleResetParameters();
       handleResetGroups();
       handleResetParts();
-      await getParameters(catalogId, modelId, null, []);
+      await getParameters(catalogId, mId, null, []);
       return;
     }
 
@@ -99,8 +112,8 @@ const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ setModelId }) => {
         .slice()
         .reverse()
         .find((b) => b.type === "model");
-      const modelId = modelCrumb?.id!;
-      if (modelId) setModelId(modelId);
+      const mId = modelCrumb?.id!;
+      if (mId) setModelId(mId);
 
       handleResetGroups();
       handleResetParts();
@@ -116,27 +129,21 @@ const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ setModelId }) => {
 
       if (isLastParameter) {
         const carIdAction = await dispatch(
-          fetchCarId({
-            catalogId,
-            modelId,
-            parameters: selectedParams,
-          })
+          fetchCarId({ catalogId, modelId: mId, parameters: selectedParams })
         );
         if (fetchCarId.fulfilled.match(carIdAction)) {
           const actualCarId = carIdAction.payload;
           await getGroups(catalogId, actualCarId);
         }
       } else {
-        await getParameters(catalogId, modelId, null, selectedParams);
+        await getParameters(catalogId, mId, null, selectedParams);
       }
-
       return;
     }
 
     if (clicked.type === "group") {
       const groupId = clicked.id;
       handleResetParts();
-
       if (carId) {
         await getGroups(catalogId, carId, groupId);
       }
@@ -156,6 +163,27 @@ const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ setModelId }) => {
     }
   };
 
+  const handleBack = () => {
+    const prevIndex = currentIndex - 1;
+    // prevIndex === -1 означает уровень модели
+    if (prevIndex < -1) return;
+    if (prevIndex === -1) {
+      handleModelClick();
+    } else {
+      handleBreadcrumbClick(prevIndex, true);
+    }
+  };
+
+  const handleForward = () => {
+    const nextIndex = currentIndex + 1;
+    if (nextIndex >= breadcrumbs.length) return;
+    handleBreadcrumbClick(nextIndex, true);
+  };
+
+  const canGoBack = currentIndex >= 0;
+  const canGoForward = currentIndex < breadcrumbs.length - 1;
+
+  // scroll drag logic
   useEffect(() => {
     const el: any = scrollRef.current;
     if (!el) return;
@@ -170,23 +198,19 @@ const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ setModelId }) => {
       startX = e.pageX - el.offsetLeft;
       scrollLeft = el.scrollLeft;
     };
-
-    const onMouseLeave = (_e: MouseEvent) => {
+    const onMouseLeave = () => {
       isDown = false;
       el.classList.remove("dragging");
     };
-
-    const onMouseUp = (_e: MouseEvent) => {
+    const onMouseUp = () => {
       isDown = false;
       el.classList.remove("dragging");
     };
-
     const onMouseMove = (e: MouseEvent) => {
       if (!isDown) return;
       e.preventDefault();
       const x = e.pageX - el.offsetLeft;
-      const walk = (x - startX) * 1;
-      el.scrollLeft = scrollLeft - walk;
+      el.scrollLeft = scrollLeft - (x - startX);
     };
 
     el.addEventListener("mousedown", onMouseDown);
@@ -203,47 +227,64 @@ const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ setModelId }) => {
   }, []);
 
   return (
-    <ul className="breadcrumbs" ref={scrollRef}>
-      {" "}
-      <li
-        className="breadcrumbs__el"
-        onClick={handleBrandsClick}
-        title="Brands"
+    <div className="breadcrumbs-wrapper">
+      <button
+        className="breadcrumbs__nav-btn"
+        onClick={handleBack}
+        disabled={!canGoBack}
+        title="Back"
       >
-        <span className="breadcrumbs__el-text">
-          {t.widget_brands_breadcrumb}
-        </span>{" "}
-        {selectedBrand && (
-          <ChevronRight className="icon breadcrumbs__chevron" />
-        )}
-      </li>
-      <li
-        className="breadcrumbs__el"
-        onClick={handleModelClick}
-        title={selectedBrand}
+        <ChevronLeft className="icon" />
+      </button>
+      <button
+        className="breadcrumbs__nav-btn"
+        onClick={handleForward}
+        disabled={!canGoForward}
+        title="Forward"
       >
-        <span className="breadcrumbs__el-text">{selectedBrand}</span>{" "}
-        {breadcrumbs.length > 0 && (
-          <ChevronRight className="icon breadcrumbs__chevron" />
-        )}
-      </li>
-      {breadcrumbs &&
-        breadcrumbs.map((el, index) => {
-          return (
-            <li
-              className="breadcrumbs__el"
-              key={`${index}-${el.name}`}
-              onClick={() => handleBreadcrumbClick(index)}
-              title={el.name}
-            >
-              <span className="breadcrumbs__el-text">{el.name}</span>
-              {index !== breadcrumbs.length - 1 && (
-                <ChevronRight className="icon breadcrumbs__chevron" />
-              )}{" "}
-            </li>
-          );
-        })}
-    </ul>
+        <ChevronRight className="icon" />
+      </button>
+
+      <ul className="breadcrumbs" ref={scrollRef}>
+        <li
+          className="breadcrumbs__el"
+          onClick={handleBrandsClick}
+          title="Brands"
+        >
+          <span className="breadcrumbs__el-text">
+            {t.widget_brands_breadcrumb}
+          </span>
+          {selectedBrand && (
+            <ChevronRight className="icon breadcrumbs__chevron" />
+          )}
+        </li>
+        <li
+          className="breadcrumbs__el"
+          onClick={handleModelClick}
+          title={selectedBrand}
+        >
+          <span className="breadcrumbs__el-text">{selectedBrand}</span>
+          {breadcrumbs.length > 0 && (
+            <ChevronRight className="icon breadcrumbs__chevron" />
+          )}
+        </li>
+        {breadcrumbs.map((el, index) => (
+          <li
+            className={`breadcrumbs__el${
+              index === currentIndex ? " breadcrumbs__el--active" : ""
+            }`}
+            key={`${index}-${el.name}`}
+            onClick={() => handleBreadcrumbClick(index)}
+            title={el.name}
+          >
+            <span className="breadcrumbs__el-text">{el.name}</span>
+            {index !== breadcrumbs.length - 1 && (
+              <ChevronRight className="icon breadcrumbs__chevron" />
+            )}
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 };
 

@@ -3,14 +3,12 @@ import { useState, useEffect } from "react";
 import { useCatalogs } from "../../hooks/catalogs/useCatalogs";
 import { useModels } from "../../hooks/models/useModels";
 import { useGroups } from "../../hooks/groups/useGroups";
+import { useOE } from "../../hooks/OE/useOE";
 import { useBreadcrumbs } from "../../hooks/breadcrumbs/useBreadcrumbs";
 import { useRef } from "react";
 import { useTranslation } from "../../hooks/translation/useTranslation";
-import { useAppDispatch } from "../../hooks/store/useAppDispatch";
-import { fetchOE } from "../../store/OE/OEThunks";
 
 const Widget: React.FC = () => {
-  const dispatch = useAppDispatch();
   const { t } = useTranslation();
   const [vin, setVin] = useState("");
   const { catalogs, catalogsError, getCatalogs, catalogsLoading } =
@@ -25,7 +23,9 @@ const Widget: React.FC = () => {
     handleSetSelectedBrand,
     handleSetIsVinSearch,
   } = useModels();
-  const { getGroupsByVin, groupsLoading, groupsError, vinInfo } = useGroups();
+  const { getOE, OELoading } = useOE();
+  const { getGroupsByVin, groupsLoading, groupsError, vinInfo, setIsOESearch } =
+    useGroups();
   const { breadcrumbs, handleAddBreadcrumb } = useBreadcrumbs();
   const selectRef = useRef<HTMLSelectElement>(null);
 
@@ -41,10 +41,6 @@ const Widget: React.FC = () => {
       if (!exists) handleAddBreadcrumb("vin", vinInfo.vin, vinInfo.vin);
     }
   }, [vinInfo]);
-
-  useEffect(() => {
-    dispatch(fetchOE("5E0 051 510"));
-  }, []);
 
   const handleVinChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setVin(e.target.value);
@@ -66,12 +62,21 @@ const Widget: React.FC = () => {
 
   const handleSearchButtonClick = async () => {
     if (vin) {
-      try {
-        await getGroupsByVin(vin);
-        handleOpenCatalog();
-        handleSetIsVinSearch(true);
-        setVin("");
-      } catch (error) {}
+      if (vin.length === 17) {
+        try {
+          await getGroupsByVin(vin);
+          handleOpenCatalog();
+          handleSetIsVinSearch(true);
+          setVin("");
+        } catch (error) {}
+      } else {
+        try {
+          await getOE(vin);
+          handleOpenCatalog();
+          setIsOESearch(true);
+          setVin("");
+        } catch (error) {}
+      }
     } else if (catalogId) {
       getModels(catalogId);
       handleOpenCatalog();
@@ -79,7 +84,8 @@ const Widget: React.FC = () => {
     }
   };
 
-  const isButtonDisabled = (vin === "" && catalogId === "") || groupsLoading;
+  const isButtonDisabled =
+    (vin === "" && catalogId === "") || groupsLoading || OELoading;
 
   return (
     <div className="widget">

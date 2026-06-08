@@ -11,6 +11,7 @@ import {
   resetGroups,
   setIsAiSearch as isSearch,
   setAiSearchQuery as setSearch,
+  setIsOESearch as setOESearch,
 } from "../../store/groups/groupsSlice";
 
 export const useGroups = () => {
@@ -27,6 +28,7 @@ export const useGroups = () => {
     isAiSearch,
     aiSearchQuery,
     searchResultType,
+    isOESearch,
   } = useAppSelector((s) => s.groups);
 
   const getGroups = useCallback(
@@ -76,6 +78,13 @@ export const useGroups = () => {
     [dispatch]
   );
 
+  const setIsOESearch = useCallback(
+    (val: boolean) => {
+      return dispatch(setOESearch(val));
+    },
+    [dispatch]
+  );
+
   return {
     groupsTree,
     groupsFlat,
@@ -94,5 +103,7 @@ export const useGroups = () => {
     aiSearchQuery,
     setAiSearchQuery,
     searchResultType,
+    setIsOESearch,
+    isOESearch,
   };
 };

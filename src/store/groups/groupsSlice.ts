@@ -6,6 +6,7 @@ import {
   fetchVinInfo,
   fetchGroupsBySearchQuery,
 } from "./groupsThunks";
+import { fetchOEGroups } from "../OE/OEThunks";
 import type { GroupNode } from "./groups.types";
 
 const insertChildren = (
@@ -43,6 +44,9 @@ const groupsSlice = createSlice({
     },
     setAiSearchQuery: (state, action) => {
       state.aiSearchQuery = action.payload;
+    },
+    setIsOESearch: (state, action) => {
+      state.isOESearch = action.payload;
     },
   },
 
@@ -123,10 +127,33 @@ const groupsSlice = createSlice({
       .addCase(fetchGroupsBySearchQuery.rejected, (state, action) => {
         state.groupsLoading = false;
         state.groupsError = action.payload as string;
+      })
+      //get groups by oe search
+      .addCase(fetchOEGroups.pending, (state) => {
+        state.groupsLoading = true;
+        state.groupsError = null;
+      })
+      .addCase(fetchOEGroups.fulfilled, (state, action) => {
+        const { parentId, children, flat } = action.payload;
+
+        state.groupsLoading = false;
+        state.groupsError = null;
+        state.groupsFlat = flat;
+
+        if (!parentId) {
+          state.groupsTree = children;
+          return;
+        }
+
+        insertChildren(state.groupsTree, parentId, children);
+      })
+      .addCase(fetchOEGroups.rejected, (state, action) => {
+        state.groupsLoading = false;
+        state.groupsError = action.payload as string;
       });
   },
 });
 
-export const { resetGroups, setIsAiSearch, setAiSearchQuery } =
+export const { resetGroups, setIsAiSearch, setAiSearchQuery, setIsOESearch } =
   groupsSlice.actions;
 export default groupsSlice.reducer;

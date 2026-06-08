@@ -5,11 +5,13 @@ import CatalogParameters from "./CatalogParameters/CatalogParameters";
 import CatalogGroups from "./CatalogGroups/CatalogGroups";
 import CatalogParts from "./CatalogParts/CatalogParts";
 import CatalogBrands from "./CatalogBrands/CatalogBrands";
+import CatalogOE from "./CatalogOE/CatalogOE";
 import { useEffect, useState } from "react";
 import { useParameters } from "../../../hooks/parameters/useParameters";
 import { useGroups } from "../../../hooks/groups/useGroups";
 import { useParts } from "../../../hooks/parts/useParts";
 import { useModels } from "../../../hooks/models/useModels";
+import { useOE } from "../../../hooks/OE/useOE";
 import PageLoader from "../../Loaders/PageLoader/PageLoader";
 
 interface CatalogMainProps {
@@ -29,6 +31,7 @@ const CatalogMain: React.FC<CatalogMainProps> = ({
   const { groupsFlat, groupsLoading, isAiSearch } = useGroups();
   const { parts, partsLoading } = useParts();
   const { models, modelsLoading, isVinSearch } = useModels();
+  const { OE, OELoading } = useOE();
   const [switchState, setSwitchState] = useState("cards");
 
   const toggleSwitch = () => {
@@ -95,7 +98,8 @@ const CatalogMain: React.FC<CatalogMainProps> = ({
       {(parametersLoading ||
         groupsLoading ||
         partsLoading ||
-        modelsLoading) && <PageLoader />}
+        modelsLoading ||
+        OELoading) && <PageLoader />}
 
       {parts?.partGroups &&
       parts.partGroups.length > 0 &&
@@ -103,6 +107,8 @@ const CatalogMain: React.FC<CatalogMainProps> = ({
         <CatalogParts modelId={modelId} setModelId={setModelId} />
       ) : groupsFlat.length > 0 && carId ? (
         <CatalogGroups carId={carId} switchState={switchState} />
+      ) : OE ? (
+        <CatalogOE />
       ) : parameters.length > 0 ? (
         <CatalogParameters modelId={modelId} switchState={switchState} />
       ) : models.length > 0 ? (

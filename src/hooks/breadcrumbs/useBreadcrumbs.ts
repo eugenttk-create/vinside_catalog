@@ -5,11 +5,14 @@ import {
   addBreadcrumb,
   trimBreadcrumbs,
   resetBreadcrumbs,
+  navigateToBreadcrumb,
 } from "../../store/breadcrumbs/breadcrumbsSlice";
 
 export const useBreadcrumbs = () => {
   const dispatch = useAppDispatch();
-  const { breadcrumbs } = useAppSelector((state) => state.breadcrumbs);
+  const { breadcrumbs, currentIndex } = useAppSelector(
+    (state) => state.breadcrumbs
+  );
 
   const handleAddBreadcrumb = useCallback(
     (type: string, name: string, id?: string) => {
@@ -29,10 +32,19 @@ export const useBreadcrumbs = () => {
     dispatch(resetBreadcrumbs());
   }, [dispatch]);
 
+  const handleNavigateToBreadcrumb = useCallback(
+    (index: number) => {
+      dispatch(navigateToBreadcrumb(index));
+    },
+    [dispatch]
+  );
+
   return {
     breadcrumbs,
+    currentIndex,
     handleAddBreadcrumb,
     handleTrimBreadcrumbs,
     handleResetBreadcrumbs,
+    handleNavigateToBreadcrumb,
   };
 };

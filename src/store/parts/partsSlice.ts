@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { initialState } from "./parts.types";
 import { fetchParts } from "./partsThunks";
+import { fetchOEParts } from "../OE/OEThunks";
 
 const partsSlice = createSlice({
   name: "parts",
@@ -28,6 +29,20 @@ const partsSlice = createSlice({
         state.parts = action.payload;
       })
       .addCase(fetchParts.rejected, (state, action) => {
+        state.partsLoading = false;
+        state.partsError = action.payload as string;
+      })
+      //get OE parts
+      .addCase(fetchOEParts.pending, (state) => {
+        state.partsLoading = true;
+        state.partsError = null;
+      })
+      .addCase(fetchOEParts.fulfilled, (state, action) => {
+        state.partsLoading = false;
+        state.partsError = null;
+        state.parts = action.payload;
+      })
+      .addCase(fetchOEParts.rejected, (state, action) => {
         state.partsLoading = false;
         state.partsError = action.payload as string;
       });

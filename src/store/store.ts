@@ -4,6 +4,7 @@ import modelsReducer from "./models/modelsSlice";
 import parametersReducer from "./parameters/parametersSlice";
 import groupsReducer from "./groups/groupsSlice";
 import partsReducer from "./parts/partsSlice";
+import OEReducer from "./OE/OESlice";
 import breadcrumbsReducer from "./breadcrumbs/breadcrumbsSlice";
 import languageReducer from "./language/languageSlice";
 import notificationsReducer from "./notifications/notificationsSlice";
@@ -15,6 +16,7 @@ const appReducer = combineReducers({
   parameters: parametersReducer,
   groups: groupsReducer,
   parts: partsReducer,
+  OE: OEReducer,
   breadcrumbs: breadcrumbsReducer,
   language: languageReducer,
   notifications: notificationsReducer,
@@ -22,7 +24,7 @@ const appReducer = combineReducers({
 
 const rootReducer = (
   state: ReturnType<typeof appReducer> | undefined,
-  action: any,
+  action: any
 ) => {
   if (action.type === "RESET_STORE") {
     state = undefined;

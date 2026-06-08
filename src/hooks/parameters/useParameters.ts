@@ -9,6 +9,7 @@ import { fetchGroups } from "../../store/groups/groupsThunks";
 import {
   resetParameters,
   resetCarId,
+  setCarId,
 } from "../../store/parameters/parametersSlice";
 
 export const useParameters = () => {
@@ -90,6 +91,13 @@ export const useParameters = () => {
     return dispatch(resetCarId());
   }, [dispatch]);
 
+  const handleSetCarId = useCallback(
+    (carId: string) => {
+      return dispatch(setCarId(carId));
+    },
+    [dispatch]
+  );
+
   return {
     parameters,
     parametersLoading,
@@ -99,5 +107,6 @@ export const useParameters = () => {
     getParameters,
     handleResetParameters,
     handleResetCarId,
+    handleSetCarId,
   };
 };

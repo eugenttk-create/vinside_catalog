@@ -9,6 +9,7 @@ import {
 } from "../../../../../utils/resolveImgSrc";
 import { Info } from "lucide-react";
 import type { GroupInfoPopupDescription } from "../../../../GroupInfoPopup/GroupInfoPopup";
+import { useOE } from "../../../../../hooks/OE/useOE";
 
 interface CatalogGroupCardProps {
   carId: string;
@@ -67,8 +68,9 @@ const CatalogGroupCard: React.FC<CatalogGroupCardProps> = ({
   activeCardId,
   setActiveCardId,
 }) => {
+  const { getOEParts } = useOE();
   const { catalogId } = useModels();
-  const { getGroups, isAiSearch, aiSearchQuery } = useGroups();
+  const { getGroups, isAiSearch, aiSearchQuery, isOESearch } = useGroups();
   const { getParts } = useParts();
   const { handleAddBreadcrumb } = useBreadcrumbs();
 
@@ -78,6 +80,9 @@ const CatalogGroupCard: React.FC<CatalogGroupCardProps> = ({
       handleAddBreadcrumb("group", name, idx);
     } else if (isAiSearch && aiSearchQuery) {
       getParts(catalogId, carId, idx, aiSearchQuery);
+      handleAddBreadcrumb("part", name, idx);
+    } else if (isOESearch) {
+      getOEParts(idx);
       handleAddBreadcrumb("part", name, idx);
     } else {
       getParts(catalogId, carId, idx);

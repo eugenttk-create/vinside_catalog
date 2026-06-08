@@ -58,6 +58,7 @@ export interface GroupsState {
   isAiSearch: boolean;
   aiSearchQuery: string;
   searchResultType: "groups" | "parts" | null;
+  isOESearch: boolean;
 }
 
 export const initialState: GroupsState = {
@@ -71,4 +72,5 @@ export const initialState: GroupsState = {
   isAiSearch: false,
   aiSearchQuery: "",
   searchResultType: null,
+  isOESearch: false,
 };
