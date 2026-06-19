@@ -43,7 +43,7 @@ const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ setModelId }) => {
     vinInfo,
     aiSearchQuery,
     searchGroups,
-    isOESearch,
+    // isOESearch,
   } = useGroups();
 
   const handleBrandsClick = () => {
