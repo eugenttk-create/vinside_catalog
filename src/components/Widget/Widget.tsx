@@ -7,6 +7,7 @@ import { useOE } from "../../hooks/OE/useOE";
 import { useBreadcrumbs } from "../../hooks/breadcrumbs/useBreadcrumbs";
 import { useRef } from "react";
 import { useTranslation } from "../../hooks/translation/useTranslation";
+import { resolveImageSrc } from "../../utils/resolveImgSrc";
 
 const Widget: React.FC = () => {
   const { t } = useTranslation();
@@ -153,6 +154,30 @@ const Widget: React.FC = () => {
           5Q0407365A
         </span>
       </p>
+      <ul className="widget__cells">
+        {catalogs?.map((c) => {
+          return (
+            <li
+              className={`widget__cell${
+                catalogId === c.id ? " widget__cell_active" : ""
+              }`}
+              key={c.id}
+              onClick={() => {
+                setCatalogId(c.id);
+                handleSetSelectedBrand(c.name);
+                if (vin) setVin("");
+              }}
+            >
+              <img
+                src={resolveImageSrc(c.img)}
+                alt={`${c.id}-${c.name}`}
+                className="widget__cell-img"
+              />
+              <p className="widget__cell-title">{c.name}</p>
+            </li>
+          );
+        })}
+      </ul>
       <button
         className="widget__button button"
         disabled={isButtonDisabled || modelsLoading || groupsLoading}

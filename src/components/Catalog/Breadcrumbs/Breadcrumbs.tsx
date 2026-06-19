@@ -43,6 +43,7 @@ const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ setModelId }) => {
     vinInfo,
     aiSearchQuery,
     searchGroups,
+    isOESearch,
   } = useGroups();
 
   const handleBrandsClick = () => {
@@ -63,7 +64,6 @@ const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ setModelId }) => {
     handleResetParameters();
   };
 
-  // isNavigation=true — двигаемся кнопками, крошки не обрезаем
   const handleBreadcrumbClick = async (index: number, isNavigation = false) => {
     if (!isNavigation && index + 1 === breadcrumbs.length) {
       return;
@@ -165,7 +165,6 @@ const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ setModelId }) => {
 
   const handleBack = () => {
     const prevIndex = currentIndex - 1;
-    // prevIndex === -1 означает уровень модели
     if (prevIndex < -1) return;
     if (prevIndex === -1) {
       handleModelClick();
@@ -183,7 +182,6 @@ const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ setModelId }) => {
   const canGoBack = currentIndex >= 0;
   const canGoForward = currentIndex < breadcrumbs.length - 1;
 
-  // scroll drag logic
   useEffect(() => {
     const el: any = scrollRef.current;
     if (!el) return;
@@ -228,24 +226,23 @@ const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ setModelId }) => {
 
   return (
     <div className="breadcrumbs-wrapper">
-      <button
-        className="breadcrumbs__nav-btn"
-        onClick={handleBack}
-        disabled={!canGoBack}
-        title="Back"
-      >
-        <ChevronLeft className="icon" />
-      </button>
-      <button
-        className="breadcrumbs__nav-btn"
-        onClick={handleForward}
-        disabled={!canGoForward}
-        title="Forward"
-      >
-        <ChevronRight className="icon" />
-      </button>
-
       <ul className="breadcrumbs" ref={scrollRef}>
+        <button
+          className="breadcrumbs__nav-btn"
+          onClick={handleBack}
+          disabled={!canGoBack}
+          title="Back"
+        >
+          <ChevronLeft className="icon breadcrumbs__chevron_nav" />
+        </button>
+        <button
+          className="breadcrumbs__nav-btn"
+          onClick={handleForward}
+          disabled={!canGoForward}
+          title="Forward"
+        >
+          <ChevronRight className="icon breadcrumbs__chevron_nav" />
+        </button>
         <li
           className="breadcrumbs__el"
           onClick={handleBrandsClick}
@@ -271,7 +268,7 @@ const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ setModelId }) => {
         {breadcrumbs.map((el, index) => (
           <li
             className={`breadcrumbs__el${
-              index === currentIndex ? " breadcrumbs__el--active" : ""
+              index === currentIndex ? " breadcrumbs__el_active" : ""
             }`}
             key={`${index}-${el.name}`}
             onClick={() => handleBreadcrumbClick(index)}

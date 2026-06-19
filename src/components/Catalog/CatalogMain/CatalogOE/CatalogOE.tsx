@@ -1,13 +1,15 @@
 import "./CatalogOE.css";
 import CatalogOEFilters from "./CatalogOEFilters/CatalogOEFilters";
 import { useParameters } from "../../../../hooks/parameters/useParameters";
+import { useGroups } from "../../../../hooks/groups/useGroups";
 import { useOE } from "../../../../hooks/OE/useOE";
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import PageLoader from "../../../Loaders/PageLoader/PageLoader";
 
 const CatalogOE: React.FC = () => {
   const { OE, getOEGroups, OELoading } = useOE();
   const { handleSetCarId } = useParameters();
+  const { setIsOESearch } = useGroups();
   const [selectedBrand, setSelectedBrand] = useState("");
 
   const filteredModels = useMemo(() => {
@@ -17,8 +19,16 @@ const CatalogOE: React.FC = () => {
   }, [OE, selectedBrand]);
 
   const handleRowClick = (carId: string) => {
-    getOEGroups(carId), handleSetCarId(carId);
+    getOEGroups(carId);
+    handleSetCarId(carId);
   };
+
+  useEffect(() => {
+    setIsOESearch(true);
+    return () => {
+      setIsOESearch(false);
+    };
+  }, []);
 
   return (
     <div>
@@ -42,7 +52,7 @@ const CatalogOE: React.FC = () => {
               <tbody className="table-body">
                 {filteredModels.map((m) => (
                   <tr
-                    className="table-row"
+                    className="table-row table-row_oe"
                     key={`${m.carId}-${m.model}`}
                     onClick={() => handleRowClick(m.carId)}
                   >

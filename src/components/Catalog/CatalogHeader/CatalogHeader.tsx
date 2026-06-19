@@ -1,4 +1,4 @@
-import { Home, SettingsIcon, User, Search, Menu, X } from "lucide-react";
+import { Home, Search, Menu, X } from "lucide-react";
 import { useModels } from "../../../hooks/models/useModels";
 import { useParts } from "../../../hooks/parts/useParts";
 import { useParameters } from "../../../hooks/parameters/useParameters";
@@ -6,7 +6,7 @@ import { useGroups } from "../../../hooks/groups/useGroups";
 import { useBreadcrumbs } from "../../../hooks/breadcrumbs/useBreadcrumbs";
 import "./CatalogHeader.css";
 import { useState } from "react";
-import Settings from "./Settings/Settings";
+// import Settings from "./Settings/Settings";
 
 interface CatalogHeaderProps {
   isSidebarActive: boolean;
@@ -18,7 +18,7 @@ const CatalogHeader: React.FC<CatalogHeaderProps> = ({
   setIsSidebarActive,
 }) => {
   const [vin, setVin] = useState("");
-  const [isSettingsActive, setIsSettingsActive] = useState(false);
+  // const [isSettingsActive, setIsSettingsActive] = useState(false);
   const {
     handleResetBreadcrumbs,
     handleAddBreadcrumb,
@@ -57,9 +57,9 @@ const CatalogHeader: React.FC<CatalogHeaderProps> = ({
     handleSetIsVinSearch(false);
   };
 
-  const toggleSettings = () => {
-    setIsSettingsActive(!isSettingsActive);
-  };
+  // const toggleSettings = () => {
+  //   setIsSettingsActive(!isSettingsActive);
+  // };
 
   const toggleSidebar = () => {
     setIsSidebarActive(!isSidebarActive);
@@ -184,7 +184,7 @@ const CatalogHeader: React.FC<CatalogHeaderProps> = ({
           </div> */}
         </div>
       </div>
-      <div className="catalog-header__right">
+      {/* <div className="catalog-header__right">
         {" "}
         <div className="catalog-header__buttons">
           <button
@@ -198,7 +198,7 @@ const CatalogHeader: React.FC<CatalogHeaderProps> = ({
           </button>
           <Settings isActive={isSettingsActive} />
         </div>
-      </div>
+      </div> */}
     </header>
   );
 };
