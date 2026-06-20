@@ -9,6 +9,7 @@ import { fetchCarId } from "../../../store/parameters/parametersThunks";
 import { useAppDispatch } from "../../../hooks/store/useAppDispatch";
 import { useRef, useEffect } from "react";
 import { useTranslation } from "../../../hooks/translation/useTranslation";
+import { useOE } from "../../../hooks/OE/useOE";
 
 interface BreadcrumbsProps {
   modelId: string;
@@ -19,8 +20,13 @@ const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ setModelId }) => {
   const { t } = useTranslation();
   const scrollRef = useRef(null);
   const dispatch = useAppDispatch();
-  const { handleResetParameters, getParameters, handleResetCarId, carId } =
-    useParameters();
+  const {
+    handleResetParameters,
+    getParameters,
+    handleResetCarId,
+    carId,
+    handleSetCarId,
+  } = useParameters();
   const {
     breadcrumbs,
     currentIndex,
@@ -36,6 +42,7 @@ const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ setModelId }) => {
     handleSetIsVinSearch,
   } = useModels();
   const { handleResetParts } = useParts();
+  const { getOE, getOEGroups, handleResetOE, setIsOESearch } = useOE();
   const {
     handleResetGroups,
     getGroups,
@@ -52,6 +59,7 @@ const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ setModelId }) => {
     handleResetParts();
     handleResetGroups();
     handleResetParameters();
+    handleResetOE();
     handleSetSelectedBrand("");
     handleSetIsVinSearch(false);
     setModelId("");
@@ -150,10 +158,36 @@ const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ setModelId }) => {
       return;
     }
 
+    if (clicked.type === "oe-group") {
+      handleResetParts();
+      handleResetGroups();
+      setIsOESearch(true);
+
+      if (clicked.id) {
+        handleSetCarId(clicked.id);
+        await getOEGroups(clicked.id);
+      }
+      return;
+    }
+
     if (clicked.type === "search") {
       handleResetParts();
       if (vinInfo?.carId) {
         await searchGroups(catalogId, vinInfo.carId, aiSearchQuery);
+      }
+      return;
+    }
+
+    if (clicked.type === "oe") {
+      handleResetModels();
+      handleResetParameters();
+      handleResetParts();
+      handleResetGroups();
+      handleResetCarId();
+      setIsOESearch(true);
+
+      if (clicked.id) {
+        await getOE(clicked.id);
       }
       return;
     }

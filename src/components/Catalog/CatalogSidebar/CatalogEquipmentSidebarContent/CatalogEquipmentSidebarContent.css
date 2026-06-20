@@ -33,3 +33,53 @@
   font-size: 14px;
   color: var(--text-color);
 }
+
+.equipment__option-codes {
+}
+
+.equipment__option-codes-title-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.equipment__option-codes-icon {
+}
+
+.equipment__option-codes-icon_rotated {
+  transform: rotate(180deg);
+}
+
+.equipment__option-codes-title {
+  margin: 0;
+  color: var(--blue);
+  font-weight: 500;
+}
+
+.equipment__option-codes-list {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.equipment__option-code {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: 8px;
+}
+
+.equipment__option-code-title {
+  margin: 0;
+  font-size: 14px;
+  color: var(--blue);
+}
+
+.equipment__option-code-text {
+  margin: 0;
+  font-weight: 500;
+  font-size: 14px;
+  color: var(--text-color);
+}

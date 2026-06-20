@@ -11,7 +11,7 @@ import {
   resetGroups,
   setIsAiSearch as isSearch,
   setAiSearchQuery as setSearch,
-  setIsOESearch as setOESearch,
+  setIsSidebarVisible as setSidebar,
 } from "../../store/groups/groupsSlice";
 
 export const useGroups = () => {
@@ -28,7 +28,7 @@ export const useGroups = () => {
     isAiSearch,
     aiSearchQuery,
     searchResultType,
-    isOESearch,
+    sidebarVisible,
   } = useAppSelector((s) => s.groups);
 
   const getGroups = useCallback(
@@ -78,9 +78,9 @@ export const useGroups = () => {
     [dispatch]
   );
 
-  const setIsOESearch = useCallback(
+  const setIsSidebarVisible = useCallback(
     (val: boolean) => {
-      return dispatch(setOESearch(val));
+      return dispatch(setSidebar(val));
     },
     [dispatch]
   );
@@ -103,7 +103,7 @@ export const useGroups = () => {
     aiSearchQuery,
     setAiSearchQuery,
     searchResultType,
-    setIsOESearch,
-    isOESearch,
+    sidebarVisible,
+    setIsSidebarVisible,
   };
 };

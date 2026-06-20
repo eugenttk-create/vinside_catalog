@@ -19,6 +19,7 @@ interface OEState {
   OEError: string | null;
   OEGroupsLoading: boolean;
   OEGroupsError: string | null;
+  isOESearch: boolean;
 }
 
 export const initialState: OEState = {
@@ -27,4 +28,5 @@ export const initialState: OEState = {
   OEError: null,
   OEGroupsLoading: false,
   OEGroupsError: null,
+  isOESearch: false,
 };

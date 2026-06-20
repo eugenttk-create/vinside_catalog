@@ -45,8 +45,9 @@ const groupsSlice = createSlice({
     setAiSearchQuery: (state, action) => {
       state.aiSearchQuery = action.payload;
     },
-    setIsOESearch: (state, action) => {
-      state.isOESearch = action.payload;
+
+    setIsSidebarVisible: (state, action) => {
+      state.sidebarVisible = action.payload;
     },
   },
 
@@ -154,6 +155,10 @@ const groupsSlice = createSlice({
   },
 });
 
-export const { resetGroups, setIsAiSearch, setAiSearchQuery, setIsOESearch } =
-  groupsSlice.actions;
+export const {
+  resetGroups,
+  setIsAiSearch,
+  setAiSearchQuery,
+  setIsSidebarVisible,
+} = groupsSlice.actions;
 export default groupsSlice.reducer;

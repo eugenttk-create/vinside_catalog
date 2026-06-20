@@ -1,12 +1,12 @@
 import { useCallback } from "react";
 import { useAppDispatch } from "../store/useAppDispatch";
 import { useAppSelector } from "../store/useAppSelector";
-import { resetOE } from "../../store/OE/OESlice";
+import { resetOE, setIsOESearch as setOESearch } from "../../store/OE/OESlice";
 import { fetchOE, fetchOEGroups, fetchOEParts } from "../../store/OE/OEThunks";
 
 export const useOE = () => {
   const dispatch = useAppDispatch();
-  const { OE, OEError, OELoading, OEGroupsError, OEGroupsLoading } =
+  const { OE, OEError, OELoading, OEGroupsError, OEGroupsLoading, isOESearch } =
     useAppSelector((state) => state.OE);
 
   const getOE = useCallback(
@@ -34,6 +34,13 @@ export const useOE = () => {
     return dispatch(resetOE());
   }, [dispatch]);
 
+  const setIsOESearch = useCallback(
+    (val: boolean) => {
+      return dispatch(setOESearch(val));
+    },
+    [dispatch]
+  );
+
   return {
     OE,
     OEError,
@@ -41,6 +48,8 @@ export const useOE = () => {
     OEGroupsError,
     OEGroupsLoading,
     handleResetOE,
+    setIsOESearch,
+    isOESearch,
     getOE,
     getOEGroups,
     getOEParts,

@@ -1,9 +1,12 @@
 import "./CatalogEquipmentSidebarContent.css";
 import { useGroups } from "../../../../hooks/groups/useGroups";
 import DefaultLoader from "../../../Loaders/DefaultLoader/DefaultLoader";
+import { ChevronDown } from "lucide-react";
+import { useState } from "react";
 
 const CatalogEquipmentSidebarContent: React.FC = () => {
   const { vinInfo, isSidebarLoading } = useGroups();
+  const [isCodesOpen, setIsCodesOpen] = useState(true);
 
   if (isSidebarLoading)
     return (
@@ -33,14 +36,52 @@ const CatalogEquipmentSidebarContent: React.FC = () => {
         </li>
       )}
       {vinInfo &&
-        vinInfo.parameters.map((p) => {
-          return (
-            <li className="equipment__el" key={p.key}>
-              <p className="equipment__el-title">{p.key}</p>
-              <p className="equipment__el-text">{p.value}</p>
-            </li>
-          );
-        })}
+        vinInfo.parameters
+          .filter(
+            (p) =>
+              p.key === "prod_date" ||
+              p.key === "model_year" ||
+              p.key === "engine_code"
+          )
+          .map((p) => {
+            return (
+              <li className="equipment__el" key={p.key}>
+                <p className="equipment__el-title">
+                  {p.description ? p.description : p.key}
+                </p>
+                <p className="equipment__el-text">{p.value}</p>
+              </li>
+            );
+          })}
+      <div className="equipment__option-codes">
+        <div
+          className="equipment__option-codes-title-container"
+          onClick={() => setIsCodesOpen(!isCodesOpen)}
+        >
+          <p className="equipment__option-codes-title">Опционные коды</p>
+          <ChevronDown
+            className={`icon ${
+              isCodesOpen
+                ? "equipment__option-codes-icon_rotated"
+                : "equipment__option-codes-icon"
+            }`}
+          />
+        </div>
+        {isCodesOpen && vinInfo?.optionCodes && (
+          <ul className="equipment__option-codes-list">
+            {vinInfo.optionCodes.map((oc) => {
+              return (
+                <li className="equipment__option-code" key={oc.key}>
+                  <p className="equipment__option-code-title">
+                    {oc.description ? oc.description : oc.key}
+                  </p>
+                  <p className="equipment__option-code-text">{oc.value}</p>
+                </li>
+              );
+            })}
+          </ul>
+        )}
+      </div>
     </ul>
   );
 };

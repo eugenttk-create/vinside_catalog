@@ -3,13 +3,15 @@ import CatalogOEFilters from "./CatalogOEFilters/CatalogOEFilters";
 import { useParameters } from "../../../../hooks/parameters/useParameters";
 import { useGroups } from "../../../../hooks/groups/useGroups";
 import { useOE } from "../../../../hooks/OE/useOE";
+import { useBreadcrumbs } from "../../../../hooks/breadcrumbs/useBreadcrumbs";
 import { useState, useMemo, useEffect } from "react";
 import PageLoader from "../../../Loaders/PageLoader/PageLoader";
 
 const CatalogOE: React.FC = () => {
-  const { OE, getOEGroups, OELoading } = useOE();
+  const { OE, getOEGroups, OELoading, setIsOESearch } = useOE();
   const { handleSetCarId } = useParameters();
-  const { setIsOESearch } = useGroups();
+  const { setIsSidebarVisible } = useGroups();
+  const { handleAddBreadcrumb } = useBreadcrumbs();
   const [selectedBrand, setSelectedBrand] = useState("");
 
   const filteredModels = useMemo(() => {
@@ -18,15 +20,20 @@ const CatalogOE: React.FC = () => {
     return OE.models.filter((m) => m.brand === selectedBrand);
   }, [OE, selectedBrand]);
 
-  const handleRowClick = (carId: string) => {
+  const handleRowClick = (carId: string, name: string) => {
     getOEGroups(carId);
     handleSetCarId(carId);
+    handleAddBreadcrumb("oe-group", name, carId);
   };
 
   useEffect(() => {
     setIsOESearch(true);
+  }, []);
+
+  useEffect(() => {
+    setIsSidebarVisible(false);
     return () => {
-      setIsOESearch(false);
+      setIsSidebarVisible(true);
     };
   }, []);
 
@@ -54,7 +61,9 @@ const CatalogOE: React.FC = () => {
                   <tr
                     className="table-row table-row_oe"
                     key={`${m.carId}-${m.model}`}
-                    onClick={() => handleRowClick(m.carId)}
+                    onClick={() =>
+                      handleRowClick(m.carId, `${m.brand} ${m.model}`)
+                    }
                   >
                     <td className="table-data">
                       <span className="table-data-text">{m.brand}</span>

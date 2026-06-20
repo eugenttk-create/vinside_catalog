@@ -8,6 +8,7 @@ import CatalogGroupsTable from "./CatalogGroupsTable/CatalogGroupsTable";
 import { useParts } from "../../../../hooks/parts/useParts";
 import { useBreadcrumbs } from "../../../../hooks/breadcrumbs/useBreadcrumbs";
 import { useModels } from "../../../../hooks/models/useModels";
+import { useOE } from "../../../../hooks/OE/useOE";
 
 interface CatalogGroupsProps {
   carId: string;
@@ -19,6 +20,7 @@ const CatalogGroups: React.FC<CatalogGroupsProps> = ({
   switchState,
 }) => {
   const { groupsFlat, getGroups, isAiSearch, aiSearchQuery } = useGroups();
+  const { isOESearch, getOEParts } = useOE();
   const { getParts } = useParts();
   const { handleAddBreadcrumb } = useBreadcrumbs();
   const { catalogId } = useModels();
@@ -75,6 +77,9 @@ const CatalogGroups: React.FC<CatalogGroupsProps> = ({
           handleAddBreadcrumb("group", name, idx);
         } else if (isAiSearch && aiSearchQuery) {
           getParts(catalogId, carId, idx, aiSearchQuery);
+          handleAddBreadcrumb("part", name, idx);
+        } else if (isOESearch) {
+          getOEParts(idx);
           handleAddBreadcrumb("part", name, idx);
         } else {
           getParts(catalogId, carId, idx);

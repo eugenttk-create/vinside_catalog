@@ -68,9 +68,9 @@ const CatalogGroupCard: React.FC<CatalogGroupCardProps> = ({
   activeCardId,
   setActiveCardId,
 }) => {
-  const { getOEParts } = useOE();
+  const { getOEParts, isOESearch } = useOE();
   const { catalogId } = useModels();
-  const { getGroups, isAiSearch, aiSearchQuery, isOESearch } = useGroups();
+  const { getGroups, isAiSearch, aiSearchQuery } = useGroups();
   const { getParts } = useParts();
   const { handleAddBreadcrumb } = useBreadcrumbs();
 

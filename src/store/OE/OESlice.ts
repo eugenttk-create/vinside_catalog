@@ -8,6 +8,10 @@ const OESlice = createSlice({
   reducers: {
     resetOE: (state) => {
       state.OE = null;
+      state.isOESearch = false;
+    },
+    setIsOESearch: (state, action) => {
+      state.isOESearch = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -29,5 +33,5 @@ const OESlice = createSlice({
   },
 });
 
-export const { resetOE } = OESlice.actions;
+export const { resetOE, setIsOESearch } = OESlice.actions;
 export default OESlice.reducer;

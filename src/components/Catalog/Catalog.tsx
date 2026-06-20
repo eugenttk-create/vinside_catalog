@@ -15,7 +15,7 @@ interface CatalogProps {
 
 const Catalog: React.FC<CatalogProps> = ({ modelId, setModelId }) => {
   const [isSidebarActive, setIsSidebarActive] = useState(true);
-  const { isAiSearch, isOESearch } = useGroups();
+  const { isAiSearch, sidebarVisible } = useGroups();
 
   const { parts } = useParts();
 
@@ -48,7 +48,7 @@ const Catalog: React.FC<CatalogProps> = ({ modelId, setModelId }) => {
           parts.partGroups[0].parts?.length > 0
         ) &&
           !isAiSearch &&
-          !isOESearch && (
+          sidebarVisible && (
             <>
               <CatalogSidebar
                 isSidebarActive={isSidebarActive}

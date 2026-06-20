@@ -33,6 +33,7 @@ interface Group {
 interface VinInfoParameter {
   key: string;
   value: string;
+  description: string | null | "";
 }
 
 interface VinInfo {
@@ -41,6 +42,13 @@ interface VinInfo {
   model: string;
   vin: string;
   parameters: VinInfoParameter[];
+  optionCodes:
+    | {
+        description: string;
+        key: string;
+        value: string;
+      }[]
+    | null;
 }
 
 export interface GroupNode extends Group {
@@ -58,7 +66,7 @@ export interface GroupsState {
   isAiSearch: boolean;
   aiSearchQuery: string;
   searchResultType: "groups" | "parts" | null;
-  isOESearch: boolean;
+  sidebarVisible: boolean;
 }
 
 export const initialState: GroupsState = {
@@ -72,5 +80,5 @@ export const initialState: GroupsState = {
   isAiSearch: false,
   aiSearchQuery: "",
   searchResultType: null,
-  isOESearch: false,
+  sidebarVisible: true,
 };

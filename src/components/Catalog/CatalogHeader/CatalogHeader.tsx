@@ -4,6 +4,7 @@ import { useParts } from "../../../hooks/parts/useParts";
 import { useParameters } from "../../../hooks/parameters/useParameters";
 import { useGroups } from "../../../hooks/groups/useGroups";
 import { useBreadcrumbs } from "../../../hooks/breadcrumbs/useBreadcrumbs";
+import { useOE } from "../../../hooks/OE/useOE";
 import "./CatalogHeader.css";
 import { useState } from "react";
 // import Settings from "./Settings/Settings";
@@ -19,6 +20,7 @@ const CatalogHeader: React.FC<CatalogHeaderProps> = ({
 }) => {
   const [vin, setVin] = useState("");
   // const [isSettingsActive, setIsSettingsActive] = useState(false);
+  const { handleResetOE, OE, isOESearch } = useOE();
   const {
     handleResetBreadcrumbs,
     handleAddBreadcrumb,
@@ -55,6 +57,7 @@ const CatalogHeader: React.FC<CatalogHeaderProps> = ({
     handleResetParameters();
     handleCloseCatalog();
     handleSetIsVinSearch(false);
+    handleResetOE();
   };
 
   // const toggleSettings = () => {
@@ -121,6 +124,11 @@ const CatalogHeader: React.FC<CatalogHeaderProps> = ({
           </button>
         </div>
         <div className="catalog-header__inputs">
+          {isOESearch && OE && (
+            <div className="catalog-header__input-container">
+              <p className="catalog-header__vin-info">{OE.oe_number}</p>
+            </div>
+          )}
           {!isVinSearch && (
             <form
               className="catalog-header__input-container"

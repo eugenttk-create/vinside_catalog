@@ -24,9 +24,8 @@ const Widget: React.FC = () => {
     handleSetSelectedBrand,
     handleSetIsVinSearch,
   } = useModels();
-  const { getOE, OELoading } = useOE();
-  const { getGroupsByVin, groupsLoading, groupsError, vinInfo, setIsOESearch } =
-    useGroups();
+  const { getOE, OELoading, setIsOESearch } = useOE();
+  const { getGroupsByVin, groupsLoading, groupsError, vinInfo } = useGroups();
   const { breadcrumbs, handleAddBreadcrumb } = useBreadcrumbs();
   const selectRef = useRef<HTMLSelectElement>(null);
 
@@ -75,6 +74,7 @@ const Widget: React.FC = () => {
           await getOE(vin);
           handleOpenCatalog();
           setIsOESearch(true);
+          handleAddBreadcrumb("oe", vin, vin);
           setVin("");
         } catch (error) {}
       }
@@ -172,6 +172,7 @@ const Widget: React.FC = () => {
                 src={resolveImageSrc(c.img)}
                 alt={`${c.id}-${c.name}`}
                 className="widget__cell-img"
+                loading="lazy"
               />
               <p className="widget__cell-title">{c.name}</p>
             </li>
