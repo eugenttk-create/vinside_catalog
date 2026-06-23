@@ -2,6 +2,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import api from "../../api/api";
 import { setCatalogId } from "../models/modelsSlice";
 import { setParts } from "../parts/partsSlice";
+import { setPendingRegions } from "./groupsSlice";
 
 export const fetchGroups = createAsyncThunk(
   "groups/fetchGroups",
@@ -36,27 +37,36 @@ export const fetchGroups = createAsyncThunk(
 
 export const fetchByVin = createAsyncThunk(
   "groups/fetchByVin",
-  async (vin: string, { rejectWithValue, dispatch }) => {
+  async (
+    { vin, regionId }: { vin: string; regionId?: string },
+    { rejectWithValue, dispatch }
+  ) => {
     try {
-      const response = await api.get(`/car/info?q=${vin}`);
-      const carData = response.data[0];
+      const url = regionId
+        ? `/car/info?q=${vin}&reg=${regionId}`
+        : `/car/info?q=${vin}`;
 
-      if (!carData) {
+      const response = await api.get(url);
+      const data = response.data;
+
+      if (!data || data.length === 0) {
         return rejectWithValue("No car found for this VIN");
       }
 
+      if ("region" in data[0]) {
+        dispatch(setPendingRegions({ regions: data, vin }));
+        return { type: "regions" } as const;
+      }
+
+      const carData = data[0];
+
       dispatch(setCatalogId(carData.catalogId));
-
       await dispatch(
-        fetchGroups({
-          catalogId: carData.catalogId,
-          carId: carData.carId,
-        })
+        fetchGroups({ catalogId: carData.catalogId, carId: carData.carId })
       );
-
       await dispatch(fetchVinInfo(carData.vin));
 
-      return carData;
+      return { type: "car", carData } as const;
     } catch (error: any) {
       return rejectWithValue(
         error.response?.data?.detail ||

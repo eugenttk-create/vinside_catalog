@@ -12,6 +12,7 @@ import {
   setIsAiSearch as isSearch,
   setAiSearchQuery as setSearch,
   setIsSidebarVisible as setSidebar,
+  clearPendingRegions as clearPending,
 } from "../../store/groups/groupsSlice";
 
 export const useGroups = () => {
@@ -29,6 +30,8 @@ export const useGroups = () => {
     aiSearchQuery,
     searchResultType,
     sidebarVisible,
+    pendingRegions,
+    pendingVin,
   } = useAppSelector((s) => s.groups);
 
   const getGroups = useCallback(
@@ -39,11 +42,15 @@ export const useGroups = () => {
   );
 
   const getGroupsByVin = useCallback(
-    (vin: string) => {
-      return dispatch(fetchByVin(vin)).unwrap();
+    (vin: string, regionId?: string) => {
+      return dispatch(fetchByVin({ vin, regionId })).unwrap();
     },
     [dispatch]
   );
+
+  const clearPendingRegions = useCallback(() => {
+    dispatch(clearPending());
+  }, [dispatch]);
 
   const handleResetGroups = useCallback(() => {
     return dispatch(resetGroups());
@@ -105,5 +112,8 @@ export const useGroups = () => {
     searchResultType,
     sidebarVisible,
     setIsSidebarVisible,
+    clearPendingRegions,
+    pendingRegions,
+    pendingVin,
   };
 };

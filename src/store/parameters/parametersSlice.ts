@@ -74,7 +74,9 @@ const parametersSlice = createSlice({
         state.parametersLoading = false;
         state.parametersError = null;
 
-        state.carId = action.payload.carId;
+        if (action.payload.type === "car") {
+          state.carId = action.payload.carData.carId;
+        }
       })
       .addCase(fetchByVin.rejected, (state, action) => {
         state.parametersLoading = false;

@@ -6,6 +6,8 @@ import {
   fetchVinInfo,
   fetchGroupsBySearchQuery,
 } from "./groupsThunks";
+import type { PayloadAction } from "@reduxjs/toolkit";
+import type { Region } from "./groups.types";
 import { fetchOEGroups } from "../OE/OEThunks";
 import type { GroupNode } from "./groups.types";
 
@@ -48,6 +50,19 @@ const groupsSlice = createSlice({
 
     setIsSidebarVisible: (state, action) => {
       state.sidebarVisible = action.payload;
+    },
+
+    setPendingRegions: (
+      state,
+      action: PayloadAction<{ regions: Region[]; vin: string }>
+    ) => {
+      state.pendingRegions = action.payload.regions;
+      state.pendingVin = action.payload.vin;
+    },
+
+    clearPendingRegions: (state) => {
+      state.pendingRegions = [];
+      state.pendingVin = "";
     },
   },
 
@@ -160,5 +175,7 @@ export const {
   setIsAiSearch,
   setAiSearchQuery,
   setIsSidebarVisible,
+  setPendingRegions,
+  clearPendingRegions,
 } = groupsSlice.actions;
 export default groupsSlice.reducer;

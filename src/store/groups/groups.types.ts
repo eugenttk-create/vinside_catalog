@@ -51,6 +51,11 @@ interface VinInfo {
     | null;
 }
 
+export interface Region {
+  id: string;
+  region: string;
+}
+
 export interface GroupNode extends Group {
   children?: GroupNode[];
 }
@@ -67,6 +72,8 @@ export interface GroupsState {
   aiSearchQuery: string;
   searchResultType: "groups" | "parts" | null;
   sidebarVisible: boolean;
+  pendingRegions: Region[];
+  pendingVin: string;
 }
 
 export const initialState: GroupsState = {
@@ -81,4 +88,6 @@ export const initialState: GroupsState = {
   aiSearchQuery: "",
   searchResultType: null,
   sidebarVisible: true,
+  pendingRegions: [],
+  pendingVin: "",
 };

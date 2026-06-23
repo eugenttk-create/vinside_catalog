@@ -9,6 +9,7 @@ import { useTranslation } from "../../hooks/translation/useTranslation";
 import { resolveImageSrc } from "../../utils/resolveImgSrc";
 import { Search, X } from "lucide-react";
 import DefaultLoader from "../Loaders/DefaultLoader/DefaultLoader";
+import RegionSelectPopup from "../RegionSelectPopup/RegionSelectPopup";
 
 const Widget: React.FC = () => {
   const { t } = useTranslation();
@@ -26,7 +27,15 @@ const Widget: React.FC = () => {
     catalogOpened,
   } = useModels();
   const { getOE, OELoading, setIsOESearch } = useOE();
-  const { getGroupsByVin, groupsLoading, groupsError, vinInfo } = useGroups();
+  const {
+    getGroupsByVin,
+    groupsLoading,
+    groupsError,
+    vinInfo,
+    clearPendingRegions,
+    pendingRegions,
+    pendingVin,
+  } = useGroups();
   const { breadcrumbs, handleAddBreadcrumb } = useBreadcrumbs();
   // const selectRef = useRef<HTMLSelectElement>(null);
   const measureRef = useRef<HTMLSpanElement>(null);
@@ -81,10 +90,12 @@ const Widget: React.FC = () => {
     if (vin) {
       if (vin.length === 17) {
         try {
-          await getGroupsByVin(vin);
-          handleOpenCatalog();
-          handleSetIsVinSearch(true);
-          setVin("");
+          const res = await getGroupsByVin(vin);
+          if (res.type === "car") {
+            handleOpenCatalog();
+            handleSetIsVinSearch(true);
+            setVin("");
+          }
         } catch (error) {}
       } else {
         try {
@@ -283,6 +294,22 @@ const Widget: React.FC = () => {
           {modelsError || groupsError}
         </span>
       )}
+      <RegionSelectPopup
+        isActive={pendingRegions.length > 0}
+        regions={pendingRegions}
+        vin={pendingVin}
+        onClose={clearPendingRegions}
+        onConfirm={async (regionId) => {
+          try {
+            clearPendingRegions();
+            const res = await getGroupsByVin(pendingVin, regionId);
+            if (res.type === "car") {
+              handleOpenCatalog();
+              handleSetIsVinSearch(true);
+            }
+          } catch (error) {}
+        }}
+      />
     </div>
   );
 };
