@@ -1,5 +1,5 @@
 import "./Breadcrumbs.css";
-import { ChevronRight, ChevronLeft } from "lucide-react";
+import { ChevronRight } from "lucide-react";
 import { useParameters } from "../../../hooks/parameters/useParameters";
 import { useModels } from "../../../hooks/models/useModels";
 import { useParts } from "../../../hooks/parts/useParts";
@@ -197,25 +197,6 @@ const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ setModelId }) => {
     }
   };
 
-  const handleBack = () => {
-    const prevIndex = currentIndex - 1;
-    if (prevIndex < -1) return;
-    if (prevIndex === -1) {
-      handleModelClick();
-    } else {
-      handleBreadcrumbClick(prevIndex, true);
-    }
-  };
-
-  const handleForward = () => {
-    const nextIndex = currentIndex + 1;
-    if (nextIndex >= breadcrumbs.length) return;
-    handleBreadcrumbClick(nextIndex, true);
-  };
-
-  const canGoBack = currentIndex >= 0;
-  const canGoForward = currentIndex < breadcrumbs.length - 1;
-
   useEffect(() => {
     const el: any = scrollRef.current;
     if (!el) return;
@@ -261,22 +242,6 @@ const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ setModelId }) => {
   return (
     <div className="breadcrumbs-wrapper">
       <ul className="breadcrumbs" ref={scrollRef}>
-        <button
-          className="breadcrumbs__nav-btn"
-          onClick={handleBack}
-          disabled={!canGoBack}
-          title="Back"
-        >
-          <ChevronLeft className="icon breadcrumbs__chevron_nav" />
-        </button>
-        <button
-          className="breadcrumbs__nav-btn"
-          onClick={handleForward}
-          disabled={!canGoForward}
-          title="Forward"
-        >
-          <ChevronRight className="icon breadcrumbs__chevron_nav" />
-        </button>
         <li
           className="breadcrumbs__el"
           onClick={handleBrandsClick}

@@ -88,22 +88,33 @@ const Widget: React.FC = () => {
         } catch (error) {}
       } else {
         try {
-          await getOE(vin);
-          handleOpenCatalog();
-          setIsOESearch(true);
-          handleAddBreadcrumb("oe", vin, vin);
-          setVin("");
+          const res = await getOE(vin);
+          if (res.meta.requestStatus === "fulfilled") {
+            handleOpenCatalog();
+            setIsOESearch(true);
+            handleAddBreadcrumb("oe", vin, vin);
+            setVin("");
+          }
         } catch (error) {}
       }
     } else if (catalogId) {
-      getModels(catalogId);
-      handleOpenCatalog();
-      handleSetIsVinSearch(false);
+      const res = await getModels(catalogId);
+      if (res.meta.requestStatus === "fulfilled") {
+        handleOpenCatalog();
+        handleSetIsVinSearch(false);
+      }
     }
   };
 
   const isButtonDisabled =
     (vin === "" && catalogId === "") ||
+    groupsLoading ||
+    OELoading ||
+    modelsLoading ||
+    catalogsLoading ||
+    catalogOpened;
+
+  const isInputDisabled =
     groupsLoading ||
     OELoading ||
     modelsLoading ||
@@ -133,7 +144,7 @@ const Widget: React.FC = () => {
               className="widget__input input"
               value={vin}
               onChange={handleVinChange}
-              disabled={isButtonDisabled}
+              disabled={isInputDisabled}
               onKeyDown={(e) => {
                 if (
                   e.key === "Enter" &&
