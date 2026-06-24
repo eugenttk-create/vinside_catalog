@@ -6,7 +6,7 @@ import { useState } from "react";
 
 const CatalogEquipmentSidebarContent: React.FC = () => {
   const { vinInfo, isSidebarLoading } = useGroups();
-  const [isCodesOpen, setIsCodesOpen] = useState(true);
+  const [isCodesOpen, setIsCodesOpen] = useState(false);
 
   if (isSidebarLoading)
     return (
@@ -76,11 +76,8 @@ const CatalogEquipmentSidebarContent: React.FC = () => {
                   <p className="equipment__option-code-text">
                     {oc.description || oc.key}
                   </p>
-                  <p
-                    className="equipment__option-code-text"
-                    style={{ color: "gray" }}
-                  >
-                    {oc.value}
+                  <p className="equipment__option-code-text equipment__option-code-text_gray">
+                    Code: {oc.value}
                   </p>
                 </li>
               );
