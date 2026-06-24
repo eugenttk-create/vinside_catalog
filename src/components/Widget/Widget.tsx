@@ -15,7 +15,6 @@ const Widget: React.FC = () => {
   const { t } = useTranslation();
   const [vin, setVin] = useState("");
   const { catalogs, getCatalogs, catalogsLoading } = useCatalogs();
-  console.log(catalogs);
   const {
     getModels,
     modelsError,
