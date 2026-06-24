@@ -72,10 +72,16 @@ const CatalogEquipmentSidebarContent: React.FC = () => {
             {vinInfo.optionCodes.map((oc) => {
               return (
                 <li className="equipment__option-code" key={oc.key}>
-                  <p className="equipment__option-code-title">
-                    {oc.description ? oc.description : oc.key}
+                  <p className="equipment__option-code-title">{oc.key}</p>
+                  <p className="equipment__option-code-text">
+                    {oc.description || oc.key}
                   </p>
-                  <p className="equipment__option-code-text">{oc.value}</p>
+                  <p
+                    className="equipment__option-code-text"
+                    style={{ color: "gray" }}
+                  >
+                    {oc.value}
+                  </p>
                 </li>
               );
             })}
