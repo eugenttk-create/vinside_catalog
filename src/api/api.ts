@@ -44,9 +44,9 @@ api.interceptors.request.use((config) => {
 });
 
 api.interceptors.response.use(
-  (response) => {
+  async (response) => {
     if (response.config.url?.includes("/catalogs")) {
-      cryptoService.setPublicKeyFromCookie();
+      await cryptoService.setPublicKeyFromCookie();
     }
     return response;
   },
