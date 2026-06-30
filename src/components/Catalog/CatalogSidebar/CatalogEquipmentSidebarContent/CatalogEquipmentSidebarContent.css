@@ -38,11 +38,16 @@
 }
 
 .equipment__option-codes-title-container {
+  border-top: 2px solid #0000002d;
+  border-bottom: 2px solid #0000002d;
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  gap: 5px;
+  font-size: 14px;
+  color: var(--text-secondary);
+  padding: 8px 0;
   cursor: pointer;
-  border-bottom: 1px solid #e5e7eb;
+  transition: opacity 0.1s ease-in;
 }
 
 .equipment__option-codes-icon {
