@@ -26,6 +26,7 @@ const getRequestLanguage = (): string => {
 api.interceptors.request.use((config) => {
   const token = window.__WIDGET_TOKEN__;
   console.log("cookies: ", document.cookie);
+  console.log("headers: ", config.headers);
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
