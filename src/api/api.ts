@@ -25,18 +25,16 @@ const getRequestLanguage = (): string => {
 
 api.interceptors.request.use((config) => {
   const token = window.__WIDGET_TOKEN__;
-  console.log("cookies: ", document.cookie);
-  console.log("headers: ", config.headers);
+
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
 
   const language = getRequestLanguage();
   config.headers["Accept-Language"] = language;
-  console.log("hasPublicKey: ", cryptoService.hasPublicKey());
+
   if (cryptoService.hasPublicKey() && config.url) {
     const encryptedEndpoint = cryptoService.encryptEndpoint(config.url);
-    console.log("encryptedEndpoint: ", encryptedEndpoint);
     if (encryptedEndpoint) {
       config.headers["carcat-session"] = encryptedEndpoint;
     }
@@ -47,7 +45,6 @@ api.interceptors.request.use((config) => {
 
 api.interceptors.response.use(
   (response) => {
-    console.log(response.headers);
     const publicKey = response.headers["carcat-id"];
     if (publicKey) {
       cryptoService.setPublicKey(publicKey);
