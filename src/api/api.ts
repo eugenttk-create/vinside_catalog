@@ -47,7 +47,7 @@ api.interceptors.request.use((config) => {
 
 api.interceptors.response.use(
   (response) => {
-    console.log(response.config.headers);
+    console.log("response headers: ", response.headers);
     if (response.config.url?.includes("/catalogs")) {
       cryptoService.setPublicKeyFromCookie();
     }
