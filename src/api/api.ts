@@ -47,9 +47,9 @@ api.interceptors.request.use((config) => {
 
 api.interceptors.response.use(
   (response) => {
-    console.log("response headers: ", response.headers);
-    if (response.config.url?.includes("/catalogs")) {
-      cryptoService.setPublicKeyFromCookie();
+    const publicKey = response.headers["carcat-id"];
+    if (publicKey) {
+      cryptoService.setPublicKey(publicKey);
     }
     return response;
   },
