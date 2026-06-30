@@ -47,6 +47,7 @@ api.interceptors.request.use((config) => {
 
 api.interceptors.response.use(
   (response) => {
+    console.log(response.headers);
     const publicKey = response.headers["carcat-id"];
     if (publicKey) {
       cryptoService.setPublicKey(publicKey);
