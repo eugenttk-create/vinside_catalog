@@ -25,6 +25,7 @@ const getRequestLanguage = (): string => {
 
 api.interceptors.request.use((config) => {
   const token = window.__WIDGET_TOKEN__;
+  console.log("cookies: ", document.cookie);
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
@@ -44,9 +45,9 @@ api.interceptors.request.use((config) => {
 });
 
 api.interceptors.response.use(
-  async (response) => {
+  (response) => {
     if (response.config.url?.includes("/catalogs")) {
-      await cryptoService.setPublicKeyFromCookie();
+      cryptoService.setPublicKeyFromCookie();
     }
     return response;
   },
