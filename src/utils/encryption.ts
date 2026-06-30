@@ -7,13 +7,15 @@ export class CryptoService {
   setPublicKeyFromCookie() {
     const cookies = document.cookie.split(";");
     const carcatCookie = cookies.find((c) => c.trim().startsWith("carcat_id="));
-
+    console.log("carcatCookie: ", carcatCookie);
     if (carcatCookie) {
       const base64Key = carcatCookie.split("=")[1];
       const decodedKey = atob(base64Key);
+      console.log("decodedKey: ", decodedKey);
       this.publicKey = decodedKey;
       this.encrypt.setPublicKey(decodedKey);
     }
+    console.log("publicKey: ", this.publicKey);
   }
 
   encryptEndpoint(endpoint: string): string | null {

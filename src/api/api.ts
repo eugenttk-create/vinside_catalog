@@ -31,9 +31,10 @@ api.interceptors.request.use((config) => {
 
   const language = getRequestLanguage();
   config.headers["Accept-Language"] = language;
-
+  console.log("hasPublicKey: ", cryptoService.hasPublicKey());
   if (cryptoService.hasPublicKey() && config.url) {
     const encryptedEndpoint = cryptoService.encryptEndpoint(config.url);
+    console.log("encryptedEndpoint: ", encryptedEndpoint);
     if (encryptedEndpoint) {
       config.headers["carcat-session"] = encryptedEndpoint;
     }
