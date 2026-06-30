@@ -4,12 +4,13 @@ export class CryptoService {
   private publicKey: string | null = null;
   private encrypt = new JSEncrypt();
 
-  setPublicKey(rawKey: string) {
+  setPublicKey(base64Key: string) {
     try {
-      this.publicKey = rawKey;
-      this.encrypt.setPublicKey(rawKey);
+      const decodedKey = atob(base64Key);
+      this.publicKey = decodedKey;
+      this.encrypt.setPublicKey(decodedKey);
     } catch (e) {
-      console.error("Failed to set public key", e);
+      console.error("Failed to decode/set public key", e);
     }
   }
 
@@ -19,7 +20,6 @@ export class CryptoService {
     }
 
     const endpointWithoutQuery = endpoint.split("?")[0];
-
     const payload = JSON.stringify({ endpoint: endpointWithoutQuery });
     const encrypted = this.encrypt.encrypt(payload);
 
@@ -27,9 +27,7 @@ export class CryptoService {
       return null;
     }
 
-    const base64Encrypted = btoa(encrypted);
-
-    return base64Encrypted;
+    return btoa(encrypted);
   }
 
   hasPublicKey(): boolean {
