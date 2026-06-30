@@ -35,7 +35,7 @@ api.interceptors.request.use((config) => {
   if (cryptoService.hasPublicKey() && config.url) {
     const encryptedEndpoint = cryptoService.encryptEndpoint(config.url);
     if (encryptedEndpoint) {
-      config.headers["carcat-session"] = encryptedEndpoint;
+      config.headers["carcat_session"] = encryptedEndpoint;
     }
   }
 
