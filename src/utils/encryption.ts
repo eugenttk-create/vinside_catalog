@@ -4,15 +4,13 @@ export class CryptoService {
   private publicKey: string | null = null;
   private encrypt = new JSEncrypt();
 
-  setPublicKeyFromCookie() {
-    const cookies = document.cookie.split(";");
-    const carcatCookie = cookies.find((c) => c.trim().startsWith("carcat_id="));
-
-    if (carcatCookie) {
-      const base64Key = carcatCookie.split("=")[1];
+  setPublicKey(base64Key: string) {
+    try {
       const decodedKey = atob(base64Key);
       this.publicKey = decodedKey;
       this.encrypt.setPublicKey(decodedKey);
+    } catch (e) {
+      console.error("Failed to decode/set public key", e);
     }
   }
 
@@ -22,7 +20,6 @@ export class CryptoService {
     }
 
     const endpointWithoutQuery = endpoint.split("?")[0];
-
     const payload = JSON.stringify({ endpoint: endpointWithoutQuery });
     const encrypted = this.encrypt.encrypt(payload);
 
@@ -30,9 +27,7 @@ export class CryptoService {
       return null;
     }
 
-    const base64Encrypted = btoa(encrypted);
-
-    return base64Encrypted;
+    return btoa(encrypted);
   }
 
   hasPublicKey(): boolean {
