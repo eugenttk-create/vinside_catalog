@@ -57,11 +57,17 @@ export const useGroups = () => {
   }, [dispatch]);
 
   const getVinInfo = useCallback(
-    (vin: string) => {
+    (vin: string, regionId?: string) => {
       if (vinInfo) return vinInfo;
-      return dispatch(fetchVinInfo(vin));
+
+      return dispatch(
+        fetchVinInfo({
+          vin,
+          regionId,
+        })
+      );
     },
-    [dispatch]
+    [dispatch, vinInfo]
   );
 
   const searchGroups = useCallback(

@@ -35,7 +35,6 @@ const parametersSlice = createSlice({
 
         const { data: newParams, appendedParameter } = action.payload;
 
-        // === новая ветка: все параметры приходят сразу ===
         if (newParams.length > 0 && isAllParamsResponse(newParams)) {
           if (!state.isAllParamsMode) {
             state.isAllParamsMode = true;
@@ -50,7 +49,6 @@ const parametersSlice = createSlice({
           return;
         }
 
-        // === старая последовательная ветка (без изменений) ===
         const oldCount = state.parameters.length;
         const newCount = newParams.length;
 

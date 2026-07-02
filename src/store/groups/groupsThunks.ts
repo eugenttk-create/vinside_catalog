@@ -64,7 +64,7 @@ export const fetchByVin = createAsyncThunk(
       await dispatch(
         fetchGroups({ catalogId: carData.catalogId, carId: carData.carId })
       );
-      await dispatch(fetchVinInfo(carData.vin));
+      await dispatch(fetchVinInfo({ vin: carData.vin, regionId }));
 
       return { type: "car", carData } as const;
     } catch (error: any) {
@@ -80,9 +80,16 @@ export const fetchByVin = createAsyncThunk(
 
 export const fetchVinInfo = createAsyncThunk(
   "groups/fetchVinInfo",
-  async (vin: string, { rejectWithValue }) => {
+  async (
+    { vin, regionId }: { vin: string; regionId?: string },
+    { rejectWithValue }
+  ) => {
     try {
-      const response = await api.get(`/car/vin-info?q=${vin}`);
+      const url = regionId
+        ? `/car/vin-info?q=${vin}&reg=${regionId}`
+        : `/car/vin-info?q=${vin}`;
+
+      const response = await api.get(url);
       return response.data[0];
     } catch (error: any) {
       return rejectWithValue(
