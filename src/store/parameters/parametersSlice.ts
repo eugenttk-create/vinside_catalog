@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { initialState } from "./parameters.types";
 import { fetchParameters, fetchCarId } from "./parametersThunks";
 import { fetchByVin } from "../groups/groupsThunks";
+import { isAllParamsResponse } from "../../utils/parameters";
 
 const parametersSlice = createSlice({
   name: "parameters",
@@ -11,6 +12,8 @@ const parametersSlice = createSlice({
       state.parameters = [];
       state.selectedParameters = [];
       state.carId = null;
+      state.isAllParamsMode = false;
+      state.totalParamsCount = 0;
     },
     resetCarId(state) {
       state.carId = null;
@@ -32,6 +35,22 @@ const parametersSlice = createSlice({
 
         const { data: newParams, appendedParameter } = action.payload;
 
+        // === новая ветка: все параметры приходят сразу ===
+        if (newParams.length > 0 && isAllParamsResponse(newParams)) {
+          if (!state.isAllParamsMode) {
+            state.isAllParamsMode = true;
+            state.totalParamsCount = newParams.length;
+          }
+
+          if (appendedParameter) {
+            state.selectedParameters.push(appendedParameter);
+          }
+
+          state.parameters = newParams;
+          return;
+        }
+
+        // === старая последовательная ветка (без изменений) ===
         const oldCount = state.parameters.length;
         const newCount = newParams.length;
 
