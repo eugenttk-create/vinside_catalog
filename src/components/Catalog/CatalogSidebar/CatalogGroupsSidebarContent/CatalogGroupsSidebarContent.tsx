@@ -135,7 +135,7 @@ const CatalogGroupsSidebarContent: React.FC = () => {
 
         return (
           <React.Fragment key={group.scope ?? "no-scope"}>
-            {group.scope !== null && group.scope !== "" && (
+            {group.scope !== null && group.scope !== "" ? (
               <li
                 className="sidebar__scope-label"
                 onClick={() => handleToggleScope(group.scope!)}
@@ -146,6 +146,18 @@ const CatalogGroupsSidebarContent: React.FC = () => {
                   }`}
                 />
                 {group.scope}
+              </li>
+            ) : (
+              <li
+                className="sidebar__scope-label"
+                onClick={() => handleToggleScope(group.scope!)}
+              >
+                <ChevronRight
+                  className={`icon sidebar__scope-icon ${
+                    isCollapsed ? "" : "sidebar__scope-icon_rotated"
+                  }`}
+                />
+                Groups
               </li>
             )}
 

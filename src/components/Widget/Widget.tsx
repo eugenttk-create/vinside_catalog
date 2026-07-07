@@ -8,6 +8,7 @@ import { useBreadcrumbs } from "../../hooks/breadcrumbs/useBreadcrumbs";
 import { useTranslation } from "../../hooks/translation/useTranslation";
 import { resolveImageSrc } from "../../utils/resolveImgSrc";
 import { Search, X } from "lucide-react";
+import { Notifications } from "../Notifications/Notifications";
 import DefaultLoader from "../Loaders/DefaultLoader/DefaultLoader";
 import RegionSelectPopup from "../RegionSelectPopup/RegionSelectPopup";
 
@@ -144,6 +145,7 @@ const Widget: React.FC = () => {
 
   return (
     <div className="widget">
+      <Notifications />
       <h1 className="widget__title">{t.widget_title}</h1>
       <div className="widget__inputs">
         <div className="widget__input-container">
@@ -263,10 +265,16 @@ const Widget: React.FC = () => {
                 catalogId === c.id ? " widget__cell_active" : ""
               }`}
               key={c.id}
-              onClick={() => {
+              onClick={async () => {
                 setCatalogId(c.id);
                 handleSetSelectedBrand(c.name);
                 if (vin) setVin("");
+
+                const res = await getModels(c.id);
+                if (res.meta.requestStatus === "fulfilled") {
+                  handleOpenCatalog();
+                  handleSetIsVinSearch(false);
+                }
               }}
             >
               <img

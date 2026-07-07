@@ -52,81 +52,93 @@ const PartsTable: React.FC<PartsTableProps> = ({
       ></div>
       <table className="catalog-parts__table">
         <tbody className="catalog-parts__tbody">
-          {parts.map((part) => {
-            const posKey = part.positionNumber
-              ? String(part.positionNumber)
-              : "";
-            return (
-              <tr
-                key={part.id}
-                className={`catalog-parts__tr ${
-                  selectedPos === posKey || hoverTablePos === posKey
-                    ? "catalog-parts__tr_active"
-                    : ""
-                } ${
-                  selectedPart?.id === part.id
-                    ? "catalog-parts__tr_info-active"
-                    : ""
-                }`}
-                ref={(el) => {
-                  if (posKey) rowRefs.current[posKey] = el;
-                }}
-                onMouseEnter={() => posKey && onRowHoverEnter(posKey)}
-                onMouseLeave={onRowHoverLeave}
-                onClick={() => posKey && onRowClick(posKey)}
-              >
-                <td className="catalog-parts__td">
-                  <span className="catalog-parts__ts">
-                    {part.positionNumber}
-                  </span>
-                </td>
-                <td className="catalog-parts__td">
-                  <span
-                    className={
-                      "catalog-parts__ts catalog-parts__ts_number" +
-                      (copiedPartId === part.id
-                        ? " catalog-parts__ts_number-copied"
-                        : "")
-                    }
-                    onClick={() => onCopy(part.id, part.number)}
-                    style={{ cursor: "pointer" }}
-                  >
-                    {part.number}{" "}
-                    {copiedPartId === part.id ? (
-                      <CircleCheck className="icon catalog-parts__table-icon catalog-parts__table-icon_copied" />
-                    ) : (
-                      <Copy className="icon catalog-parts__table-icon" />
-                    )}
-                  </span>
-                </td>
-                <td className="catalog-parts__td">
-                  <span className="catalog-parts__ts" title={part.name}>
-                    <Info
-                      className="icon catalog-parts__icon"
-                      onClick={(e) => handleInfoClick(e, part)}
-                    />{" "}
-                    <span className="catalog-parts__ts_name">{part.name}</span>
-                  </span>
-                </td>
-                {/* <td className="catalog-parts__td">
+          {parts.length === 0 ? (
+            <tr className="catalog-parts__tr catalog-parts__tr_empty">
+              <td className="catalog-parts__td" colSpan={4}>
+                <span className="catalog-parts__ts catalog-parts__ts_empty">
+                  {t.widget_no_data ?? "Нет данных"}
+                </span>
+              </td>
+            </tr>
+          ) : (
+            parts.map((part) => {
+              const posKey = part.positionNumber
+                ? String(part.positionNumber)
+                : "";
+              return (
+                <tr
+                  key={part.id}
+                  className={`catalog-parts__tr ${
+                    selectedPos === posKey || hoverTablePos === posKey
+                      ? "catalog-parts__tr_active"
+                      : ""
+                  } ${
+                    selectedPart?.id === part.id
+                      ? "catalog-parts__tr_info-active"
+                      : ""
+                  }`}
+                  ref={(el) => {
+                    if (posKey) rowRefs.current[posKey] = el;
+                  }}
+                  onMouseEnter={() => posKey && onRowHoverEnter(posKey)}
+                  onMouseLeave={onRowHoverLeave}
+                  onClick={() => posKey && onRowClick(posKey)}
+                >
+                  <td className="catalog-parts__td">
+                    <span className="catalog-parts__ts">
+                      {part.positionNumber}
+                    </span>
+                  </td>
+                  <td className="catalog-parts__td">
+                    <span
+                      className={
+                        "catalog-parts__ts catalog-parts__ts_number" +
+                        (copiedPartId === part.id
+                          ? " catalog-parts__ts_number-copied"
+                          : "")
+                      }
+                      onClick={() => onCopy(part.id, part.number)}
+                      style={{ cursor: "pointer" }}
+                    >
+                      {part.number}{" "}
+                      {copiedPartId === part.id ? (
+                        <CircleCheck className="icon catalog-parts__table-icon catalog-parts__table-icon_copied" />
+                      ) : (
+                        <Copy className="icon catalog-parts__table-icon" />
+                      )}
+                    </span>
+                  </td>
+                  <td className="catalog-parts__td">
+                    <span className="catalog-parts__ts" title={part.name}>
+                      <Info
+                        className="icon catalog-parts__icon"
+                        onClick={(e) => handleInfoClick(e, part)}
+                      />{" "}
+                      <span className="catalog-parts__ts_name">
+                        {part.name}
+                      </span>
+                    </span>
+                  </td>
+                  {/* <td className="catalog-parts__td">
                   <span className="catalog-parts__ts">
                     <button className="catalog-parts__tb button">
                       {t.widget_analogues_button}
                     </button>
                   </span>
                 </td> */}
-                <td className="catalog-parts__td">
-                  <span className="catalog-parts__ts">
-                    <button className="catalog-parts__tb button">
-                      <a href={getPartLink(part.number)} target="_blank">
-                        {t.widget_see_price_button}
-                      </a>
-                    </button>
-                  </span>
-                </td>
-              </tr>
-            );
-          })}
+                  <td className="catalog-parts__td">
+                    <span className="catalog-parts__ts">
+                      <button className="catalog-parts__tb button">
+                        <a href={getPartLink(part.number)} target="_blank">
+                          {t.widget_see_price_button}
+                        </a>
+                      </button>
+                    </span>
+                  </td>
+                </tr>
+              );
+            })
+          )}
         </tbody>
       </table>
       {isInfoPopupOpen && (

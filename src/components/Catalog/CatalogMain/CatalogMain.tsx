@@ -50,15 +50,11 @@ const CatalogMain: React.FC<CatalogMainProps> = ({
     }
   }, [isAiSearch]);
 
+  const hasPartsResponse = parts?.partGroups && parts.partGroups.length > 0;
+
   return (
     <div
-      className={`catalog-main ${
-        parts?.partGroups &&
-        parts.partGroups.length > 0 &&
-        parts.partGroups[0].parts?.length > 0
-          ? "catalog-main_parts"
-          : ""
-      }`}
+      className={`catalog-main ${hasPartsResponse ? "catalog-main_parts" : ""}`}
     >
       {!isSidebarActive && (
         <button
@@ -68,8 +64,8 @@ const CatalogMain: React.FC<CatalogMainProps> = ({
           <ChevronRight className="icon" />
         </button>
       )}
-      {((parts?.partGroups.length === 0 && models.length !== 0) ||
-        (isVinSearch === true && parts?.partGroups.length === 0)) && (
+      {((!hasPartsResponse && models.length !== 0) ||
+        (isVinSearch === true && !hasPartsResponse)) && (
         <div className="cards-section__switch-container">
           <div className="cards-section__switch">
             <button
@@ -101,9 +97,7 @@ const CatalogMain: React.FC<CatalogMainProps> = ({
         modelsLoading ||
         OELoading) && <PageLoader />}
 
-      {parts?.partGroups &&
-      parts.partGroups.length > 0 &&
-      parts.partGroups[0].parts?.length > 0 ? (
+      {hasPartsResponse ? (
         <CatalogParts modelId={modelId} setModelId={setModelId} />
       ) : groupsFlat.length > 0 && carId ? (
         <CatalogGroups carId={carId} switchState={switchState} />
