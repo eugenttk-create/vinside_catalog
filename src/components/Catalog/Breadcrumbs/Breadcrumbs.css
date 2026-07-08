@@ -29,6 +29,10 @@
   user-select: none;
 }
 
+.breadcrumbs__el_active {
+  text-decoration: underline;
+}
+
 .breadcrumbs__el:hover {
   text-decoration: underline;
 }
@@ -43,4 +47,29 @@
 .breadcrumbs__chevron {
   width: 14px;
   height: 14px;
+}
+
+.breadcrumbs__chevron_nav {
+  width: 18px;
+  height: 18px;
+}
+
+.breadcrumbs__nav-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  opacity: 0.7;
+  transition: opactiy 0.1s ease-in;
+}
+
+.breadcrumbs__nav-btn:hover {
+  opacity: 1;
+}
+
+.breadcrumbs__nav-btn:last-of-type {
+  border-right: 1px solid var(--border-blue);
 }

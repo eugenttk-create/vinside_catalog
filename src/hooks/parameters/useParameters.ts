@@ -9,7 +9,9 @@ import { fetchGroups } from "../../store/groups/groupsThunks";
 import {
   resetParameters,
   resetCarId,
+  setCarId,
 } from "../../store/parameters/parametersSlice";
+import { isAllParamsResponse } from "../../utils/parameters";
 
 export const useParameters = () => {
   const dispatch = useAppDispatch();
@@ -19,6 +21,8 @@ export const useParameters = () => {
     parametersError,
     selectedParameters,
     carId,
+    isAllParamsMode,
+    totalParamsCount,
   } = useAppSelector((state) => state.parameters);
 
   const getParameters = useCallback(
@@ -39,36 +43,45 @@ export const useParameters = () => {
         })
       );
 
-      if (fetchParameters.fulfilled.match(resultAction)) {
-        const newParams = resultAction.payload.data;
-        const oldCount = forcedSelected ? 0 : parameters.length;
-        const newCount = newParams.length;
+      if (!fetchParameters.fulfilled.match(resultAction)) return;
 
-        if (newCount === oldCount && newCount > 0) {
-          if (!carId) {
-            const carIdAction = await dispatch(
-              fetchCarId({
-                catalogId,
-                modelId,
-                parameters: newParameter
-                  ? [...selectedParameters, newParameter]
-                  : selectedParameters,
-              })
-            );
+      const newParams = resultAction.payload.data;
 
-            if (fetchCarId.fulfilled.match(carIdAction)) {
-              const actualCarId = carIdAction.payload;
-              await dispatch(fetchGroups({ catalogId, carId: actualCarId }));
-            }
+      if (isAllParamsResponse(newParams)) {
+        const totalCount = isAllParamsMode
+          ? totalParamsCount
+          : newParams.length;
+        const selectedCount = paramsToUse.length + (newParameter ? 1 : 0);
+
+        if (totalCount > 0 && selectedCount >= totalCount && !carId) {
+          const allSelected = newParameter
+            ? [...paramsToUse, newParameter]
+            : paramsToUse;
+
+          const carIdAction = await dispatch(
+            fetchCarId({ catalogId, modelId, parameters: allSelected })
+          );
+
+          if (fetchCarId.fulfilled.match(carIdAction)) {
+            const actualCarId = carIdAction.payload;
+            await dispatch(fetchGroups({ catalogId, carId: actualCarId }));
           }
         }
+        return;
+      }
 
-        if (newCount === 0 && paramsToUse.length === 0 && !newParameter) {
+      const oldCount = forcedSelected ? 0 : parameters.length;
+      const newCount = newParams.length;
+
+      if (newCount === oldCount && newCount > 0) {
+        if (!carId) {
           const carIdAction = await dispatch(
             fetchCarId({
               catalogId,
               modelId,
-              parameters: [],
+              parameters: newParameter
+                ? [...selectedParameters, newParameter]
+                : selectedParameters,
             })
           );
 
@@ -78,8 +91,26 @@ export const useParameters = () => {
           }
         }
       }
+
+      if (newCount === 0 && paramsToUse.length === 0 && !newParameter) {
+        const carIdAction = await dispatch(
+          fetchCarId({ catalogId, modelId, parameters: [] })
+        );
+
+        if (fetchCarId.fulfilled.match(carIdAction)) {
+          const actualCarId = carIdAction.payload;
+          await dispatch(fetchGroups({ catalogId, carId: actualCarId }));
+        }
+      }
     },
-    [dispatch, parameters.length, selectedParameters, carId]
+    [
+      dispatch,
+      parameters.length,
+      selectedParameters,
+      carId,
+      isAllParamsMode,
+      totalParamsCount,
+    ]
   );
 
   const handleResetParameters = useCallback(() => {
@@ -90,14 +121,23 @@ export const useParameters = () => {
     return dispatch(resetCarId());
   }, [dispatch]);
 
+  const handleSetCarId = useCallback(
+    (carId: string) => {
+      return dispatch(setCarId(carId));
+    },
+    [dispatch]
+  );
+
   return {
     parameters,
     parametersLoading,
     parametersError,
     carId,
     selectedParameters,
+    isAllParamsMode,
     getParameters,
     handleResetParameters,
     handleResetCarId,
+    handleSetCarId,
   };
 };

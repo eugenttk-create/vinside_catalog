@@ -1,12 +1,13 @@
-import { Home, SettingsIcon, User, Search, Menu, X } from "lucide-react";
+import { Home, Search, Menu, X } from "lucide-react";
 import { useModels } from "../../../hooks/models/useModels";
 import { useParts } from "../../../hooks/parts/useParts";
 import { useParameters } from "../../../hooks/parameters/useParameters";
 import { useGroups } from "../../../hooks/groups/useGroups";
 import { useBreadcrumbs } from "../../../hooks/breadcrumbs/useBreadcrumbs";
+import { useOE } from "../../../hooks/OE/useOE";
 import "./CatalogHeader.css";
 import { useState } from "react";
-import Settings from "./Settings/Settings";
+// import Settings from "./Settings/Settings";
 
 interface CatalogHeaderProps {
   isSidebarActive: boolean;
@@ -18,8 +19,14 @@ const CatalogHeader: React.FC<CatalogHeaderProps> = ({
   setIsSidebarActive,
 }) => {
   const [vin, setVin] = useState("");
-  const [isSettingsActive, setIsSettingsActive] = useState(false);
-  const { handleResetBreadcrumbs } = useBreadcrumbs();
+  // const [isSettingsActive, setIsSettingsActive] = useState(false);
+  const { handleResetOE, OE, isOESearch } = useOE();
+  const {
+    handleResetBreadcrumbs,
+    handleAddBreadcrumb,
+    breadcrumbs,
+    handleTrimBreadcrumbs,
+  } = useBreadcrumbs();
   const { handleResetParameters } = useParameters();
   const {
     handleResetModels,
@@ -28,9 +35,18 @@ const CatalogHeader: React.FC<CatalogHeaderProps> = ({
     isVinSearch,
     handleSetIsVinSearch,
     handleOpenCatalog,
+    catalogId,
   } = useModels();
   const { handleResetParts } = useParts();
-  const { handleResetGroups, vinInfo, getGroupsByVin } = useGroups();
+  const {
+    handleResetGroups,
+    vinInfo,
+    getGroupsByVin,
+    searchGroups,
+    setIsAiSearch,
+    setAiSearchQuery,
+    aiSearchQuery,
+  } = useGroups();
 
   const handleResetAndCloseCatalog = () => {
     handleSetSelectedBrand("");
@@ -41,11 +57,12 @@ const CatalogHeader: React.FC<CatalogHeaderProps> = ({
     handleResetParameters();
     handleCloseCatalog();
     handleSetIsVinSearch(false);
+    handleResetOE();
   };
 
-  const toggleSettings = () => {
-    setIsSettingsActive(!isSettingsActive);
-  };
+  // const toggleSettings = () => {
+  //   setIsSettingsActive(!isSettingsActive);
+  // };
 
   const toggleSidebar = () => {
     setIsSidebarActive(!isSidebarActive);
@@ -60,6 +77,28 @@ const CatalogHeader: React.FC<CatalogHeaderProps> = ({
         handleSetIsVinSearch(true);
         setVin("");
       } catch (error) {}
+    }
+  };
+
+  const handleSearchParts = async () => {
+    if (aiSearchQuery && vinInfo) {
+      try {
+        const res = await searchGroups(catalogId, vinInfo.carId, aiSearchQuery);
+        if (res.meta.requestStatus === "fulfilled") {
+          const vinIndex = breadcrumbs.findIndex((b) => b.type === "vin");
+          if (vinIndex !== -1) {
+            handleTrimBreadcrumbs(vinIndex);
+          }
+          //@ts-ignore
+          if (res.payload.type === "parts") {
+            handleAddBreadcrumb("parts-search", aiSearchQuery, aiSearchQuery);
+          } else {
+            handleResetParts();
+            handleAddBreadcrumb("search", aiSearchQuery, aiSearchQuery);
+            setIsAiSearch(true);
+          }
+        }
+      } catch (e) {}
     }
   };
 
@@ -85,9 +124,19 @@ const CatalogHeader: React.FC<CatalogHeaderProps> = ({
           </button>
         </div>
         <div className="catalog-header__inputs">
-          {" "}
-          {!isVinSearch && (
+          {isOESearch && OE && (
             <div className="catalog-header__input-container">
+              <p className="catalog-header__vin-info">{OE.oe_number}</p>
+            </div>
+          )}
+          {!isVinSearch && (
+            <form
+              className="catalog-header__input-container"
+              onSubmit={(e) => {
+                e.preventDefault();
+                handleSearchByVin();
+              }}
+            >
               <input
                 type="text"
                 placeholder="VIN"
@@ -100,7 +149,7 @@ const CatalogHeader: React.FC<CatalogHeaderProps> = ({
                 className="icon catalog-header__icon"
                 onClick={handleSearchByVin}
               />
-            </div>
+            </form>
           )}
           {isVinSearch && vinInfo && (
             <div className="catalog-header__input-container">
@@ -109,6 +158,28 @@ const CatalogHeader: React.FC<CatalogHeaderProps> = ({
                 &nbsp;&mdash;&nbsp;{vinInfo.vin}
               </p>
             </div>
+          )}
+          {isVinSearch && (
+            <form
+              className="catalog-header__input-container"
+              onSubmit={(e) => {
+                e.preventDefault();
+                handleSearchParts();
+              }}
+            >
+              <input
+                type="text"
+                placeholder="AI Search"
+                className="catalog-header__input input"
+                id="catalog-header-part-search"
+                value={aiSearchQuery}
+                onChange={(e) => setAiSearchQuery(e.target.value)}
+              />
+              <Search
+                className="icon catalog-header__icon"
+                onClick={handleSearchParts}
+              />
+            </form>
           )}
           {/* <div className="catalog-header__input-container">
             <input
@@ -121,7 +192,7 @@ const CatalogHeader: React.FC<CatalogHeaderProps> = ({
           </div> */}
         </div>
       </div>
-      <div className="catalog-header__right">
+      {/* <div className="catalog-header__right">
         {" "}
         <div className="catalog-header__buttons">
           <button
@@ -135,7 +206,7 @@ const CatalogHeader: React.FC<CatalogHeaderProps> = ({
           </button>
           <Settings isActive={isSettingsActive} />
         </div>
-      </div>
+      </div> */}
     </header>
   );
 };

@@ -62,6 +62,7 @@
   padding-left: 0;
   border-radius: 0 8px 8px 0;
   border-left: none;
+  cursor: pointer;
   transition: border-color 0.1s ease-in;
 }
 

@@ -1,4 +1,4 @@
-import { buildHoverTargetMap } from "../../utils/positionGropus";
+import { buildHoverTargetMap } from "../../utils/positionGroups";
 import { useMemo } from "react";
 
 interface Position {

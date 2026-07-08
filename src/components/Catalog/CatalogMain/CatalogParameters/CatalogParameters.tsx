@@ -1,4 +1,5 @@
-import { useState } from "react";
+import "./CatalogParameters.css";
+import { useState, useEffect } from "react";
 import { useParameters } from "../../../../hooks/parameters/useParameters";
 import { useModels } from "../../../../hooks/models/useModels";
 import CatalogParameterCard from "./CatalogParameterCard/CatalogParameterCard";
@@ -17,7 +18,7 @@ const CatalogParameters: React.FC<CatalogParametersProps> = ({
   switchState,
 }) => {
   const { handleAddBreadcrumb } = useBreadcrumbs();
-  const { parameters, getParameters } = useParameters();
+  const { parameters, getParameters, isAllParamsMode } = useParameters();
   const { catalogId } = useModels();
   const [isInfoActive, setIsInfoActive] = useState(false);
   const [currentDescription, setCurrentDescription] =
@@ -25,6 +26,73 @@ const CatalogParameters: React.FC<CatalogParametersProps> = ({
   const [currentTitle, setCurrentTitle] = useState("");
   const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
   const [activeCardId, setActiveCardId] = useState<string | null>(null);
+
+  const [answeredKeys, setAnsweredKeys] = useState<Set<string>>(new Set());
+
+  useEffect(() => {
+    setAnsweredKeys(new Set());
+  }, [modelId]);
+
+  const handleSelect = (idx: string, name: string, key?: string) => {
+    if (key) {
+      setAnsweredKeys((prev) => new Set(prev).add(key));
+    }
+    getParameters(catalogId, modelId, idx);
+    handleAddBreadcrumb("parameter", name, idx);
+  };
+
+  if (isAllParamsMode) {
+    const visibleParameters = parameters.filter(
+      (param) => !answeredKeys.has(param.key)
+    );
+
+    return (
+      <>
+        {visibleParameters.map((param) => (
+          <div className="parameters-group" key={param.key}>
+            <h3 className="parameters-group__title title">{param.name}</h3>
+            {switchState === "cards" ? (
+              <ul className="cards-section cards-section_grid">
+                {param.values.map((val) => (
+                  <CatalogParameterCard
+                    key={val.idx}
+                    idx={val.idx}
+                    name={val.value}
+                    imageSrc={val.img}
+                    onClick={(idx) => handleSelect(idx, val.value, param.key)}
+                    description={val.description}
+                    switchState={switchState}
+                    setIsInfoActive={setIsInfoActive}
+                    setCurrentDescription={setCurrentDescription}
+                    setPopupPosition={setPopupPosition}
+                    setCurrentTitle={setCurrentTitle}
+                    activeCardId={activeCardId}
+                    setActiveCardId={setActiveCardId}
+                  />
+                ))}
+              </ul>
+            ) : (
+              <CatalogParametersTable
+                values={param.values}
+                modelId={modelId}
+                onClick={(idx, name) => handleSelect(idx, name, param.key)}
+              />
+            )}
+          </div>
+        ))}
+        <InfoPopup
+          isActive={isInfoActive}
+          description={currentDescription}
+          onClose={() => {
+            setIsInfoActive(false);
+            setActiveCardId(null);
+          }}
+          position={popupPosition}
+          title={currentTitle}
+        />
+      </>
+    );
+  }
 
   const lastParameter = parameters[parameters.length - 1];
 
@@ -41,10 +109,7 @@ const CatalogParameters: React.FC<CatalogParametersProps> = ({
             idx={val.idx}
             name={val.value}
             imageSrc={val.img}
-            onClick={(idx) => {
-              getParameters(catalogId, modelId, idx);
-              handleAddBreadcrumb("parameter", val.value, val.idx);
-            }}
+            onClick={(idx) => handleSelect(idx, val.value)}
             description={val.description}
             switchState={switchState}
             setIsInfoActive={setIsInfoActive}
@@ -71,10 +136,7 @@ const CatalogParameters: React.FC<CatalogParametersProps> = ({
     <CatalogParametersTable
       values={lastParameter.values}
       modelId={modelId}
-      onClick={(idx, name) => {
-        getParameters(catalogId, modelId, idx);
-        handleAddBreadcrumb("parameter", name, idx);
-      }}
+      onClick={(idx, name) => handleSelect(idx, name)}
     />
   );
 };

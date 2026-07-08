@@ -2,6 +2,7 @@ import { useGroups } from "../../../../hooks/groups/useGroups";
 import { useParts } from "../../../../hooks/parts/useParts";
 import { useModels } from "../../../../hooks/models/useModels";
 import { useParameters } from "../../../../hooks/parameters/useParameters";
+import { useOE } from "../../../../hooks/OE/useOE";
 import { useState, useCallback } from "react";
 import SidebarGroup from "./SidebarGroup/SidebarGroup";
 import type { GroupNode } from "../../../../store/groups/groups.types";
@@ -12,6 +13,7 @@ import { ChevronRight } from "lucide-react";
 const CatalogGroupsSidebarContent: React.FC = () => {
   const { catalogId } = useModels();
   const { carId } = useParameters();
+  const { getOEParts, isOESearch } = useOE();
   const { breadcrumbs, handleAddBreadcrumb, handleTrimBreadcrumbs } =
     useBreadcrumbs();
   const { groupsTree, getGroups } = useGroups();
@@ -88,7 +90,13 @@ const CatalogGroupsSidebarContent: React.FC = () => {
         if (carId) getGroups(catalogId, carId, node.id);
       } else {
         handleAddBreadcrumb("part", node.name, node.id);
-        if (carId) getParts(catalogId, carId, node.id);
+        if (carId) {
+          if (isOESearch) {
+            getOEParts(node.id);
+          } else {
+            getParts(catalogId, carId, node.id);
+          }
+        }
       }
     },
     [
@@ -99,6 +107,8 @@ const CatalogGroupsSidebarContent: React.FC = () => {
       catalogId,
       getGroups,
       getParts,
+      isOESearch,
+      getOEParts,
     ]
   );
 
@@ -125,7 +135,7 @@ const CatalogGroupsSidebarContent: React.FC = () => {
 
         return (
           <React.Fragment key={group.scope ?? "no-scope"}>
-            {group.scope !== null && group.scope !== "" && (
+            {group.scope !== null && group.scope !== "" ? (
               <li
                 className="sidebar__scope-label"
                 onClick={() => handleToggleScope(group.scope!)}
@@ -136,6 +146,18 @@ const CatalogGroupsSidebarContent: React.FC = () => {
                   }`}
                 />
                 {group.scope}
+              </li>
+            ) : (
+              <li
+                className="sidebar__scope-label"
+                onClick={() => handleToggleScope(group.scope!)}
+              >
+                <ChevronRight
+                  className={`icon sidebar__scope-icon ${
+                    isCollapsed ? "" : "sidebar__scope-icon_rotated"
+                  }`}
+                />
+                Groups
               </li>
             )}
 

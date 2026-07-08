@@ -21,7 +21,7 @@ interface ParameterValue {
   } | null;
 }
 
-interface Parameter {
+export interface Parameter {
   key: string;
   name: string;
   values: ParameterValue[];
@@ -34,6 +34,8 @@ interface ParametersState {
   parametersLoading: boolean;
   parametersError: string | null;
   selectedParameters: string[];
+  isAllParamsMode: boolean;
+  totalParamsCount: number;
 }
 
 export const initialState: ParametersState = {
@@ -42,4 +44,6 @@ export const initialState: ParametersState = {
   parametersLoading: false,
   parametersError: null,
   selectedParameters: [],
+  isAllParamsMode: false,
+  totalParamsCount: 0,
 };

@@ -14,7 +14,7 @@ declare global {
   }
 }
 
-const BASE = "https://vinside.carcatonline.com";
+const BASE = "https://vinside-dev.carcatonline.com";
 const CSS = BASE + "/widget.css";
 const CSS2 = BASE + "/widget2.css";
 
@@ -42,7 +42,7 @@ const CSS_VARIABLES = `
   }
 `;
 
-const FONT_BASE = "https://vinside.carcatonline.com/fonts";
+const FONT_BASE = "https://vinside-dev.carcatonline.com/fonts";
 
 function injectFontsToDocument() {
   if (document.getElementById("widget-fonts")) return;

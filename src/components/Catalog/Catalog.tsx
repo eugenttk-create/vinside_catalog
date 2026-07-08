@@ -5,6 +5,7 @@ import Breadcrumbs from "./Breadcrumbs/Breadcrumbs";
 import { useParts } from "../../hooks/parts/useParts";
 import "./Catalog.css";
 import { useState } from "react";
+import { useGroups } from "../../hooks/groups/useGroups";
 
 interface CatalogProps {
   modelId: string;
@@ -13,43 +14,31 @@ interface CatalogProps {
 
 const Catalog: React.FC<CatalogProps> = ({ modelId, setModelId }) => {
   const [isSidebarActive, setIsSidebarActive] = useState(true);
+  const { isAiSearch, sidebarVisible } = useGroups();
 
   const { parts } = useParts();
+
+  const hasPartsResponse = Boolean(
+    parts?.partGroups && parts.partGroups.length > 0
+  );
+
   return (
     <section className="catalog" id="catalog-root">
       <CatalogHeader
         isSidebarActive={isSidebarActive}
         setIsSidebarActive={setIsSidebarActive}
       />
-      {!(
-        parts?.partGroups &&
-        parts.partGroups.length > 0 &&
-        parts.partGroups[0].parts?.length > 0
-      ) && <Breadcrumbs modelId={modelId} setModelId={setModelId} />}
-      <div
-        className={`${
-          !(
-            parts?.partGroups &&
-            parts.partGroups.length > 0 &&
-            parts.partGroups[0].parts?.length > 0
-          )
-            ? "catalog__container"
-            : ""
-        }`}
-      >
-        {!(
-          parts?.partGroups &&
-          parts.partGroups.length > 0 &&
-          parts.partGroups[0].parts?.length > 0
-        ) && (
-          <>
-            <CatalogSidebar
-              isSidebarActive={isSidebarActive}
-              modelId={modelId}
-              setModelId={setModelId}
-              setIsSidebarActive={setIsSidebarActive}
-            />
-          </>
+      {!hasPartsResponse && (
+        <Breadcrumbs modelId={modelId} setModelId={setModelId} />
+      )}
+      <div className={`${!hasPartsResponse ? "catalog__container" : ""}`}>
+        {!hasPartsResponse && !isAiSearch && sidebarVisible && (
+          <CatalogSidebar
+            isSidebarActive={isSidebarActive}
+            modelId={modelId}
+            setModelId={setModelId}
+            setIsSidebarActive={setIsSidebarActive}
+          />
         )}
         <CatalogMain
           modelId={modelId}

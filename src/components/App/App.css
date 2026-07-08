@@ -287,12 +287,20 @@ main {
   transition: background-color 0.1s ease-in;
 }
 
+.table-row_oe:nth-child(2n) {
+  background-color: var(--bg-gray);
+}
+
 .table-row:last-child {
   border-bottom: none;
 }
 
 .table-row:hover {
   background-color: var(--bg-blue);
+}
+
+.table-row_oe {
+  cursor: pointer;
 }
 
 .table-header-el {

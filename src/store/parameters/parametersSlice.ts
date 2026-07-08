@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { initialState } from "./parameters.types";
 import { fetchParameters, fetchCarId } from "./parametersThunks";
 import { fetchByVin } from "../groups/groupsThunks";
+import { isAllParamsResponse } from "../../utils/parameters";
 
 const parametersSlice = createSlice({
   name: "parameters",
@@ -11,9 +12,14 @@ const parametersSlice = createSlice({
       state.parameters = [];
       state.selectedParameters = [];
       state.carId = null;
+      state.isAllParamsMode = false;
+      state.totalParamsCount = 0;
     },
     resetCarId(state) {
       state.carId = null;
+    },
+    setCarId(state, action) {
+      state.carId = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -28,6 +34,20 @@ const parametersSlice = createSlice({
         state.parametersError = null;
 
         const { data: newParams, appendedParameter } = action.payload;
+
+        if (newParams.length > 0 && isAllParamsResponse(newParams)) {
+          if (!state.isAllParamsMode) {
+            state.isAllParamsMode = true;
+            state.totalParamsCount = newParams.length;
+          }
+
+          if (appendedParameter) {
+            state.selectedParameters.push(appendedParameter);
+          }
+
+          state.parameters = newParams;
+          return;
+        }
 
         const oldCount = state.parameters.length;
         const newCount = newParams.length;
@@ -71,7 +91,9 @@ const parametersSlice = createSlice({
         state.parametersLoading = false;
         state.parametersError = null;
 
-        state.carId = action.payload.carId;
+        if (action.payload.type === "car") {
+          state.carId = action.payload.carData.carId;
+        }
       })
       .addCase(fetchByVin.rejected, (state, action) => {
         state.parametersLoading = false;
@@ -80,5 +102,6 @@ const parametersSlice = createSlice({
   },
 });
 
-export const { resetParameters, resetCarId } = parametersSlice.actions;
+export const { resetParameters, resetCarId, setCarId } =
+  parametersSlice.actions;
 export default parametersSlice.reducer;

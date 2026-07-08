@@ -8,12 +8,20 @@ export const fetchParts = createAsyncThunk(
       catalogId,
       carId,
       groupId,
-    }: { catalogId: string; carId: string; groupId: string },
+      searchQuery,
+    }: {
+      catalogId: string;
+      carId: string;
+      groupId: string;
+      searchQuery?: string;
+    },
     { rejectWithValue }
   ) => {
     try {
       const response = await api.get(
-        `/catalogs/${catalogId}/parts2?carId=${carId}&groupId=${groupId}`
+        `/catalogs/${catalogId}/parts2?carId=${carId}&groupId=${groupId}${
+          searchQuery ? `&query=${searchQuery}` : ""
+        }`
       );
       return response.data;
     } catch (error: any) {

@@ -33,6 +33,7 @@ interface Group {
 interface VinInfoParameter {
   key: string;
   value: string;
+  description: string | null | "";
 }
 
 interface VinInfo {
@@ -41,6 +42,18 @@ interface VinInfo {
   model: string;
   vin: string;
   parameters: VinInfoParameter[];
+  optionCodes:
+    | {
+        description: string;
+        key: string;
+        value: string;
+      }[]
+    | null;
+}
+
+export interface Region {
+  id: string;
+  region: string;
 }
 
 export interface GroupNode extends Group {
@@ -55,6 +68,12 @@ export interface GroupsState {
   selectedGroups: string[];
   isSidebarLoading: boolean;
   vinInfo: VinInfo | null;
+  isAiSearch: boolean;
+  aiSearchQuery: string;
+  searchResultType: "groups" | "parts" | null;
+  sidebarVisible: boolean;
+  pendingRegions: Region[];
+  pendingVin: string;
 }
 
 export const initialState: GroupsState = {
@@ -65,4 +84,10 @@ export const initialState: GroupsState = {
   selectedGroups: [],
   isSidebarLoading: false,
   vinInfo: null,
+  isAiSearch: false,
+  aiSearchQuery: "",
+  searchResultType: null,
+  sidebarVisible: true,
+  pendingRegions: [],
+  pendingVin: "",
 };

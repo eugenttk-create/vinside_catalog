@@ -6,8 +6,10 @@ interface Breadcrumb {
 
 interface BreadcrumbsState {
   breadcrumbs: Breadcrumb[];
+  currentIndex: number;
 }
 
 export const initialState: BreadcrumbsState = {
   breadcrumbs: [],
+  currentIndex: -1,
 };

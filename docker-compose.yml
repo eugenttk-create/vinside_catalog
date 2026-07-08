@@ -5,6 +5,7 @@ services:
       dockerfile: Dockerfile
       args:
         - GENERATE_SOURCEMAP=${GENERATE_SOURCEMAP:?Please set GENERATE_SOURCEMAP}
+        - VITE_BASE_URL=${VITE_BASE_URL:?Please set VITE_BASE_URL}
         - VITE_API_URL=${VITE_API_URL:?Please set VITE_API_URL}
         - VITE_API_TOKEN=${VITE_API_TOKEN:?Please set VITE_API_TOKEN}
         - VITE_API_IMG_BASE=${VITE_API_IMG_BASE:?Please set VITE_API_IMG_BASE}

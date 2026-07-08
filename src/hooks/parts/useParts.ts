@@ -11,8 +11,13 @@ export const useParts = () => {
   );
 
   const getParts = useCallback(
-    (catalogId: string, carId: string, groupId: string) => {
-      return dispatch(fetchParts({ catalogId, carId, groupId }));
+    (
+      catalogId: string,
+      carId: string,
+      groupId: string,
+      searchQuery?: string
+    ) => {
+      return dispatch(fetchParts({ catalogId, carId, groupId, searchQuery }));
     },
     [dispatch]
   );

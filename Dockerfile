@@ -13,18 +13,23 @@ RUN npm ci
 COPY . .
 
 # Build arguments for environment variables
+ARG VITE_BASE_URL
 ARG VITE_API_URL
 ARG VITE_API_TOKEN
 ARG VITE_API_IMG_BASE
 ARG GENERATE_SOURCEMAP
 
 # Set environment variables for build
+ENV VITE_BASE_URL=$VITE_BASE_URL
 ENV VITE_API_URL=$VITE_API_URL
 ENV VITE_API_TOKEN=$VITE_API_TOKEN
 ENV VITE_API_IMG_BASE=$VITE_API_IMG_BASE
 ENV GENERATE_SOURCEMAP=$GENERATE_SOURCEMAP
 
-# Build the application
+# Patch placeholders in public/embed.js with build-time env values
+RUN chmod +x ./embed_env_patch.sh && ./embed_env_patch.sh
+
+# Build the application (Vite copies the patched public/embed.js into dist/)
 RUN npm run build
 
 # Production stage - serve with nginx

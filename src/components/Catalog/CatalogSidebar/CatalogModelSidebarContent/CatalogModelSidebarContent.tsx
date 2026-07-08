@@ -128,6 +128,15 @@ const CatalogModelSidebarContent: React.FC<CatalogModelSidebarContentProps> = ({
                     return (
                       <option value={value.idx} key={value.idx}>
                         {value.value}
+                        {value.description?.year_from ||
+                        value.description?.year_to
+                          ? ` ${value.description?.year_from ?? ""}${
+                              value.description?.year_from &&
+                              value.description?.year_to
+                                ? " - "
+                                : ""
+                            }${value.description?.year_to ?? ""}`
+                          : ""}
                       </option>
                     );
                   })}
