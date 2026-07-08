@@ -15,7 +15,8 @@ import RegionSelectPopup from "../RegionSelectPopup/RegionSelectPopup";
 const Widget: React.FC = () => {
   const { t } = useTranslation();
   const [vin, setVin] = useState("");
-  const { catalogs, getCatalogs, catalogsLoading } = useCatalogs();
+  const { catalogs, getCatalogs, catalogsLoading, catalogsError } =
+    useCatalogs();
   const {
     getModels,
     modelsError,
@@ -38,7 +39,7 @@ const Widget: React.FC = () => {
     pendingVin,
   } = useGroups();
   const { breadcrumbs, handleAddBreadcrumb } = useBreadcrumbs();
-  // const selectRef = useRef<HTMLSelectElement>(null);
+  const selectRef = useRef<HTMLSelectElement>(null);
   const measureRef = useRef<HTMLSpanElement>(null);
   const [clearLeft, setClearLeft] = useState(0);
 
@@ -75,18 +76,18 @@ const Widget: React.FC = () => {
     if (catalogId) setCatalogId("");
   };
 
-  // const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-  //   const selectedId = e.target.value;
-  //   setCatalogId(selectedId);
+  const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedId = e.target.value;
+    setCatalogId(selectedId);
 
-  //   if (selectRef.current) {
-  //     const selectedOption =
-  //       selectRef.current.options[selectRef.current.selectedIndex];
-  //     handleSetSelectedBrand(selectedOption.textContent || "");
-  //   }
+    if (selectRef.current) {
+      const selectedOption =
+        selectRef.current.options[selectRef.current.selectedIndex];
+      handleSetSelectedBrand(selectedOption.textContent || "");
+    }
 
-  //   if (vin) setVin("");
-  // };
+    if (vin) setVin("");
+  };
 
   const handleSearchButtonClick = async () => {
     if (vin) {
@@ -204,31 +205,33 @@ const Widget: React.FC = () => {
             </button>
           </div>
         </div>
-        {/* <div className="widget__input-container">
-          <p className="title widget__input-title">{t.widget_vehicle_select}</p>
-          <select
-            name="widget-car-select"
-            ref={selectRef}
-            id="widget-car-select"
-            className="widget__input input"
-            disabled={catalogsLoading || catalogsError !== null}
-            value={catalogId}
-            onChange={handleSelectChange}
-          >
-            <option value="">
-              {catalogsLoading
-                ? t.widget_loading
-                : catalogsError
-                ? `${catalogsError}`
-                : t.widget_vehicle_select_placeholder}
-            </option>
-            {catalogs?.map((catalog) => (
-              <option value={catalog.id} key={catalog.id}>
-                {catalog.name}
+        {isFullView && (
+          <div className="widget__input-container">
+            <p className="title widget__input-title">
+              {t.widget_vehicle_select}
+            </p>
+            <select
+              name="widget-car-select"
+              ref={selectRef}
+              id="widget-car-select"
+              className="widget__input input"
+              disabled={catalogsLoading || catalogsError !== null}
+              value={catalogId}
+              onChange={handleSelectChange}
+            >
+              <option value="">
+                {catalogsLoading
+                  ? t.widget_loading
+                  : t.widget_vehicle_select_placeholder}
               </option>
-            ))}
-          </select>
-        </div> */}
+              {catalogs?.map((catalog) => (
+                <option value={catalog.id} key={catalog.id}>
+                  {catalog.name}
+                </option>
+              ))}
+            </select>
+          </div>
+        )}
       </div>
       <div className="widget__examples">
         <p className="widget__example-vin">
@@ -258,46 +261,50 @@ const Widget: React.FC = () => {
           </span>
         </p>
       </div>
-      <ul className="widget__cells">
-        {catalogs?.map((c) => {
-          return (
-            <li
-              className={`widget__cell${
-                catalogId === c.id ? " widget__cell_active" : ""
-              }`}
-              key={c.id}
-              onClick={async () => {
-                setCatalogId(c.id);
-                handleSetSelectedBrand(c.name);
-                if (vin) setVin("");
+      {!isFullView && (
+        <ul className="widget__cells">
+          {catalogs?.map((c) => {
+            return (
+              <li
+                className={`widget__cell${
+                  catalogId === c.id ? " widget__cell_active" : ""
+                }`}
+                key={c.id}
+                onClick={async () => {
+                  setCatalogId(c.id);
+                  handleSetSelectedBrand(c.name);
+                  if (vin) setVin("");
 
-                const res = await getModels(c.id);
-                if (res.meta.requestStatus === "fulfilled") {
-                  handleOpenCatalog();
-                  handleSetIsVinSearch(false);
-                }
-              }}
-            >
-              <img
-                src={resolveImageSrc(c.img)}
-                alt={`${c.id}-${c.name}`}
-                className="widget__cell-img"
-                loading="lazy"
-              />
-              <p className="widget__cell-title">{c.name}</p>
-            </li>
-          );
-        })}
-      </ul>
-      {/* <button
-        className="widget__button button"
-        disabled={isButtonDisabled || modelsLoading || groupsLoading}
-        onClick={handleSearchButtonClick}
-      >
-        {modelsLoading || groupsLoading
-          ? t.widget_loading
-          : t.widget_search_button}
-      </button> */}
+                  const res = await getModels(c.id);
+                  if (res.meta.requestStatus === "fulfilled") {
+                    handleOpenCatalog();
+                    handleSetIsVinSearch(false);
+                  }
+                }}
+              >
+                <img
+                  src={resolveImageSrc(c.img)}
+                  alt={`${c.id}-${c.name}`}
+                  className="widget__cell-img"
+                  loading="lazy"
+                />
+                <p className="widget__cell-title">{c.name}</p>
+              </li>
+            );
+          })}
+        </ul>
+      )}
+      {isFullView && (
+        <button
+          className="widget__button button"
+          disabled={isButtonDisabled || modelsLoading || groupsLoading}
+          onClick={handleSearchButtonClick}
+        >
+          {modelsLoading || groupsLoading
+            ? t.widget_loading
+            : t.widget_search_button}
+        </button>
+      )}
       {(modelsError || groupsError) && (
         <span className="widget__error error">
           {modelsError || groupsError}
