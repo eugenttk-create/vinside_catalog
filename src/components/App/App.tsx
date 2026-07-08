@@ -12,7 +12,7 @@ interface AppProps {
 const App: React.FC<AppProps> = ({ portalMount }) => {
   const [modelId, setModelId] = useState("");
   const { catalogOpened } = useModels();
-
+  console.log(modelId);
   return (
     <main className="main">
       <Widget />
