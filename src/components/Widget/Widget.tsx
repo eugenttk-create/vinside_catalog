@@ -43,6 +43,7 @@ const Widget: React.FC = () => {
   const [clearLeft, setClearLeft] = useState(0);
 
   const INPUT_PADDING_LEFT = 16;
+  const isFullView = window.__WIDGET_FULL_VIEW__ === true;
 
   useEffect(() => {
     if (measureRef.current) {
@@ -144,7 +145,7 @@ const Widget: React.FC = () => {
   }, [isButtonDisabled, vin, catalogId]);
 
   return (
-    <div className="widget">
+    <div className={`widget${isFullView ? " widget_full" : ""}`}>
       <Notifications />
       <h1 className="widget__title">{t.widget_title}</h1>
       <div className="widget__inputs">

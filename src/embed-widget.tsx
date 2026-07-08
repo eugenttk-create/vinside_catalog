@@ -11,10 +11,11 @@ declare global {
     __WIDGET_LANGUAGE__?: string;
     __WIDGET_LINK__?: string;
     __WIDGET_PORTAL_ROOT__?: ShadowRoot;
+    __WIDGET_FULL_VIEW__?: boolean;
   }
 }
 
-const BASE = "https://vinside-dev.carcatonline.com";
+const BASE = "https://vinside.carcatonline.com";
 const CSS = BASE + "/widget.css";
 const CSS2 = BASE + "/widget2.css";
 
@@ -42,7 +43,7 @@ const CSS_VARIABLES = `
   }
 `;
 
-const FONT_BASE = "https://vinside-dev.carcatonline.com/fonts";
+const FONT_BASE = "https://vinside.carcatonline.com/fonts";
 
 function injectFontsToDocument() {
   if (document.getElementById("widget-fonts")) return;
@@ -90,13 +91,16 @@ function attachStyles(shadow: ShadowRoot) {
 
 export function mountWidget(
   container: HTMLElement | ShadowRoot,
-  options?: { token?: string; language?: string; link?: string }
+  options?: { token?: string; language?: string; link?: string; view?: string }
 ) {
   injectFontsToDocument();
 
   if (options?.token) window.__WIDGET_TOKEN__ = options.token;
   if (options?.link) window.__WIDGET_LINK__ = options.link;
   if (options?.language) store.dispatch(setLanguage(options.language));
+
+  window.__WIDGET_FULL_VIEW__ =
+    options?.view === "full" || options?.view === "true";
 
   const saved = localStorage.getItem("language");
   if (saved) store.dispatch(setLanguage(saved));

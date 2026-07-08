@@ -10,6 +10,10 @@
   border-radius: 16px;
 }
 
+.widget_full {
+  max-width: 900px;
+}
+
 .widget__title {
   color: var(--text-color);
   margin: 0 0 16px 0;
