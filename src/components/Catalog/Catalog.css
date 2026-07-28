@@ -5,7 +5,7 @@
   background-color: var(--bg-blue);
   top: 0;
   left: 0;
-  z-index: 2147483647;
+  z-index: 2147483646;
   pointer-events: auto;
 }
 

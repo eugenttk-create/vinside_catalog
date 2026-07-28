@@ -270,6 +270,41 @@ main {
   border-collapse: collapse;
 }
 
+.table th:first-child,
+.table td:first-child {
+  width: 1%;
+  min-width: 56px;
+  padding: 8px;
+  text-align: center;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.table td:first-child .table-image {
+  display: block;
+  width: 40px;
+  height: 40px;
+  margin: 0 auto;
+  object-fit: contain;
+}
+
+.table th:not(:first-child),
+.table td:not(:first-child) {
+  width: auto;
+  text-align: left;
+  vertical-align: middle;
+}
+
+.table-header-el,
+.table-data {
+  border-right: 1px solid var(--border-blue);
+}
+
+.table-header-el:last-child,
+.table-data :last-child {
+  border-right: none;
+}
+
 .table_parts {
 }
 
@@ -320,6 +355,8 @@ main {
   font-size: 14px;
   padding: 8px 24px;
   max-width: 100px;
+  text-align: left;
+  vertical-align: middle;
 }
 
 .table-data_parts {
@@ -328,10 +365,10 @@ main {
 
 .table-data-text {
   display: block;
-  max-width: 300px;
   white-space: normal;
   word-break: break-word;
   overflow-wrap: break-word;
+  min-width: 80px;
 }
 
 .table-image {

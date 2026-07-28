@@ -27,6 +27,7 @@ interface CatalogParameterCardProps {
     pet: string | null;
     pat: string | null;
     prefix: string | null;
+    pic: string | null;
   } | null;
   switchState: string;
   setIsInfoActive: React.Dispatch<React.SetStateAction<boolean>>;
@@ -110,7 +111,8 @@ const CatalogParameterCard: React.FC<CatalogParameterCardProps> = ({
       !description?.pat &&
       !description?.prefix &&
       !description?.suspension &&
-      !description?.wheel_base ? (
+      !description?.wheel_base &&
+      !description?.pic ? (
         <></>
       ) : (
         <button

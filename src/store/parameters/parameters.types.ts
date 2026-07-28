@@ -18,6 +18,7 @@ interface ParameterValue {
     pat: string | null;
     pet: string | null;
     prefix: string | null;
+    pic: string | null;
   } | null;
 }
 

@@ -93,7 +93,7 @@ const Widget: React.FC = () => {
     if (vin) {
       if (vin.length === 17) {
         try {
-          const res = await getGroupsByVin(vin);
+          const res = await getGroupsByVin(vin.replaceAll(" ", ""));
           if (res.type === "car") {
             handleOpenCatalog();
             handleSetIsVinSearch(true);
@@ -204,6 +204,35 @@ const Widget: React.FC = () => {
               )}
             </button>
           </div>
+
+          <div className="widget__examples">
+            <p className="widget__example-vin">
+              {t.widget_example_vin}:{" "}
+              <span
+                className="widget__example-vin widget__example-vin_blue"
+                onClick={() =>
+                  handleVinChange({
+                    target: { value: "XW8AN2NE3JH035743" },
+                  } as any)
+                }
+              >
+                XW8AN2NE3JH035743
+              </span>
+            </p>
+            <p className="widget__example-vin">
+              Example №:{" "}
+              <span
+                className="widget__example-vin widget__example-vin_blue"
+                onClick={() =>
+                  handleVinChange({
+                    target: { value: "5Q0407365A" },
+                  } as any)
+                }
+              >
+                5Q0407365A
+              </span>
+            </p>
+          </div>
         </div>
         {isFullView && (
           <div className="widget__input-container">
@@ -232,34 +261,6 @@ const Widget: React.FC = () => {
             </select>
           </div>
         )}
-      </div>
-      <div className="widget__examples">
-        <p className="widget__example-vin">
-          {t.widget_example_vin}:{" "}
-          <span
-            className="widget__example-vin widget__example-vin_blue"
-            onClick={() =>
-              handleVinChange({
-                target: { value: "XW8AN2NE3JH035743" },
-              } as any)
-            }
-          >
-            XW8AN2NE3JH035743
-          </span>
-        </p>
-        <p className="widget__example-vin">
-          Example №:{" "}
-          <span
-            className="widget__example-vin widget__example-vin_blue"
-            onClick={() =>
-              handleVinChange({
-                target: { value: "5Q0407365A" },
-              } as any)
-            }
-          >
-            5Q0407365A
-          </span>
-        </p>
       </div>
       {!isFullView && (
         <ul className="widget__cells">

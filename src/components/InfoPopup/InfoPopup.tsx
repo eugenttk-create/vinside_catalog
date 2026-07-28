@@ -160,6 +160,12 @@ const InfoPopup: React.FC<InfoPopupProps> = ({
               <p className="info-popup__text">{description?.prefix}</p>
             </div>
           )}
+          {description?.pic && (
+            <div className="info-popup__container">
+              <p className="info-popup__title">{t.widget_pic}</p>
+              <p className="info-popup__text">{description?.pic}</p>
+            </div>
+          )}
         </div>
       </div>
     </>

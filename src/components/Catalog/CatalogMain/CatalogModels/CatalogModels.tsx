@@ -30,6 +30,7 @@ export type InfoPopupDescription = {
   pat?: string | null;
   prefix?: string | null;
   type?: string | null;
+  pic?: string | null;
 } | null;
 
 const CatalogModels: React.FC<CatalogModelsProps> = ({

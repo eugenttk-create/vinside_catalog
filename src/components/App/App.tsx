@@ -4,6 +4,7 @@ import Catalog from "../Catalog/Catalog";
 import { useModels } from "../../hooks/models/useModels";
 import { useState } from "react";
 import { createPortal } from "react-dom";
+import { useLockBodyScroll } from "../../hooks/UI/useLockBodyScroll";
 
 interface AppProps {
   portalMount: HTMLElement;
@@ -12,6 +13,8 @@ interface AppProps {
 const App: React.FC<AppProps> = ({ portalMount }) => {
   const [modelId, setModelId] = useState("");
   const { catalogOpened } = useModels();
+
+  useLockBodyScroll(catalogOpened);
 
   return (
     <main className="main">
