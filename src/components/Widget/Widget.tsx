@@ -11,6 +11,7 @@ import { Search, X } from "lucide-react";
 import { Notifications } from "../Notifications/Notifications";
 import DefaultLoader from "../Loaders/DefaultLoader/DefaultLoader";
 import RegionSelectPopup from "../RegionSelectPopup/RegionSelectPopup";
+import { pushNavEntry } from "../../hooks/breadcrumbs/useBreadcrumbs";
 
 const Widget: React.FC = () => {
   const { t } = useTranslation();
@@ -116,6 +117,7 @@ const Widget: React.FC = () => {
       if (res.meta.requestStatus === "fulfilled") {
         handleOpenCatalog();
         handleSetIsVinSearch(false);
+        pushNavEntry({ type: "brand", id: catalogId }, 0);
       }
     }
   };
@@ -312,6 +314,7 @@ const Widget: React.FC = () => {
                   if (res.meta.requestStatus === "fulfilled") {
                     handleOpenCatalog();
                     handleSetIsVinSearch(false);
+                    pushNavEntry({ type: "brand", id: c.id }, 0);
                   }
                 }}
               >

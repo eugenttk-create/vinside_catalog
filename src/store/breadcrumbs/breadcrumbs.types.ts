@@ -1,4 +1,4 @@
-interface Breadcrumb {
+export interface Breadcrumb {
   name: string;
   type: string;
   id?: string;

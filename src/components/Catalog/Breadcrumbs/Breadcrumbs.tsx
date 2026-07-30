@@ -10,6 +10,14 @@ import { useAppDispatch } from "../../../hooks/store/useAppDispatch";
 import { useRef, useEffect } from "react";
 import { useTranslation } from "../../../hooks/translation/useTranslation";
 import { useOE } from "../../../hooks/OE/useOE";
+import {
+  goBackToDepth,
+  consumeSuppressFlag,
+} from "../../../hooks/breadcrumbs/useBreadcrumbs";
+
+const NAV_PARAM = "catalogNav";
+const getNavKey = (b: { type: string; id?: string }) =>
+  `${b.type}:${b.id ?? ""}`;
 
 interface BreadcrumbsProps {
   modelId: string;
@@ -33,6 +41,7 @@ const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ setModelId }) => {
     handleTrimBreadcrumbs,
     handleResetBreadcrumbs,
     handleNavigateToBreadcrumb,
+    handleResetBreadcrumbsSilently,
   } = useBreadcrumbs();
   const {
     handleResetModels,
@@ -66,7 +75,8 @@ const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ setModelId }) => {
   };
 
   const handleModelClick = () => {
-    handleResetBreadcrumbs();
+    goBackToDepth(0);
+    handleResetBreadcrumbsSilently();
     handleResetParts();
     handleResetGroups();
     handleResetParameters();
@@ -196,6 +206,37 @@ const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ setModelId }) => {
       return;
     }
   };
+
+  useEffect(() => {
+    const handlePopState = () => {
+      if (consumeSuppressFlag()) return;
+
+      const params = new URLSearchParams(window.location.search);
+      const navValue = params.get(NAV_PARAM);
+
+      if (!navValue) return;
+
+      if (navValue.startsWith("brand:")) {
+        if (currentIndex === -1) return;
+        handleNavigateToBreadcrumb(-1);
+        handleResetParts();
+        handleResetGroups();
+        handleResetParameters();
+        return;
+      }
+
+      const targetIndex = breadcrumbs.findIndex(
+        (b) => getNavKey(b) === navValue
+      );
+
+      if (targetIndex === -1 || targetIndex === currentIndex) return;
+
+      handleBreadcrumbClick(targetIndex, true);
+    };
+
+    window.addEventListener("popstate", handlePopState);
+    return () => window.removeEventListener("popstate", handlePopState);
+  }, [breadcrumbs, currentIndex]);
 
   useEffect(() => {
     const el: any = scrollRef.current;
