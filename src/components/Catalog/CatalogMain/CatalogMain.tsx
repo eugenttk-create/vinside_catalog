@@ -42,15 +42,64 @@ const CatalogMain: React.FC<CatalogMainProps> = ({
     }
   };
 
+  const hasExtraDescriptionData = (
+    description: Record<string, unknown> | null | undefined
+  ): boolean => {
+    if (!description) return false;
+    return Object.values(description).some(
+      (value) => value != null && String(value).trim() !== ""
+    );
+  };
+
+  const modelsHaveExtraData = models.some((m) =>
+    hasExtraDescriptionData(m.description as Record<string, unknown> | null)
+  );
+
+  const parametersHaveExtraData = parameters.some((param) =>
+    param.values.some((val) =>
+      hasExtraDescriptionData(val.description as Record<string, unknown> | null)
+    )
+  );
+
+  const groupsHaveExtraData = groupsFlat.some((g) =>
+    hasExtraDescriptionData(g.description as Record<string, unknown> | null)
+  );
+
   useEffect(() => {
     if (isAiSearch) {
       setSwitchState("list");
+      return;
+    }
+
+    // Decide default view based on currently visible data set
+    if (groupsFlat.length > 0 && carId) {
+      setSwitchState(groupsHaveExtraData ? "list" : "cards");
+    } else if (parameters.length > 0) {
+      setSwitchState(parametersHaveExtraData ? "list" : "cards");
+    } else if (models.length > 0) {
+      setSwitchState(modelsHaveExtraData ? "list" : "cards");
     } else {
       setSwitchState("cards");
     }
-  }, [isAiSearch]);
+  }, [
+    isAiSearch,
+    groupsFlat.length,
+    carId,
+    parameters.length,
+    models.length,
+    groupsHaveExtraData,
+    parametersHaveExtraData,
+    modelsHaveExtraData,
+  ]);
 
   const hasPartsResponse = parts?.partGroups && parts.partGroups.length > 0;
+
+  const showViewSwitch =
+    !hasPartsResponse &&
+    (models.length > 0 ||
+      parameters.length > 0 ||
+      (groupsFlat.length > 0 && !!carId) ||
+      isVinSearch);
 
   return (
     <div
@@ -64,8 +113,7 @@ const CatalogMain: React.FC<CatalogMainProps> = ({
           <ChevronRight className="icon" />
         </button>
       )}
-      {((!hasPartsResponse && models.length !== 0) ||
-        (isVinSearch === true && !hasPartsResponse)) && (
+      {showViewSwitch && (
         <div className="cards-section__switch-container">
           <div className="cards-section__switch">
             <button

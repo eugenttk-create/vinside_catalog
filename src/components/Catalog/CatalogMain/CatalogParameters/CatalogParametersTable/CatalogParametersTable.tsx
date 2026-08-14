@@ -29,6 +29,7 @@ type ParameterDescription = {
 type ParameterValue = {
   idx: string;
   value: string;
+  img?: string;
   description: ParameterDescription;
 };
 
@@ -140,7 +141,7 @@ const CatalogParametersTable: React.FC<CatalogParametersTableProps> = ({
               >
                 <td className="table-data">
                   <TableImage
-                    src={resolveImageSrc("")}
+                    src={resolveImageSrc(val.img)}
                     alt={`param-${val.idx}`}
                   />
                 </td>

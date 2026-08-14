@@ -1,3 +1,4 @@
+import "./CatalogGroupsSidebarContent.css";
 import { useGroups } from "../../../../hooks/groups/useGroups";
 import { useParts } from "../../../../hooks/parts/useParts";
 import { useModels } from "../../../../hooks/models/useModels";
@@ -8,7 +9,7 @@ import SidebarGroup from "./SidebarGroup/SidebarGroup";
 import type { GroupNode } from "../../../../store/groups/groups.types";
 import { useBreadcrumbs } from "../../../../hooks/breadcrumbs/useBreadcrumbs";
 import React, { useMemo, useRef, useEffect } from "react";
-import { ChevronRight } from "lucide-react";
+import { ChevronRight, Info, Search } from "lucide-react";
 
 const CatalogGroupsSidebarContent: React.FC = () => {
   const { catalogId } = useModels();
@@ -129,6 +130,23 @@ const CatalogGroupsSidebarContent: React.FC = () => {
 
   return (
     <ul className="sidebar__dropdown-list">
+      <li className="sidebar__ai-search-wrapper">
+        <div className="sidebar__ai-search">
+          <input
+            type="text"
+            placeholder="AI Search"
+            className="sidebar__ai-search-input"
+          />
+          <Search className="sidebar__ai-search-icon" />
+        </div>
+        <span
+          className="sidebar__ai-info"
+          title="Enter a part name or description to search using AI"
+        >
+          <Info className="sidebar__ai-info-icon" />
+        </span>
+      </li>
+
       {groupedByScope.map((group) => {
         const isCollapsed =
           group.scope !== null && collapsedScopes.has(group.scope);

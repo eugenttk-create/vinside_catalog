@@ -162,25 +162,34 @@ const CatalogGroupCard: React.FC<CatalogGroupCardProps> = ({
           <Info className="icon" />
         </button>
       )}
-      <img
-        src={resolveImageSrc(imageSrc)}
-        alt={`param-${idx}`}
-        className={`catalog-group-card__image image ${
-          switchState === "list" ? "image_list" : ""
-        }`}
-        loading="lazy"
-        onError={(e) => {
-          e.currentTarget.src = FALLBACK_IMAGE;
-        }}
-      />
-      <p
-        className={`catalog-group-card__name title ${
-          switchState === "list" ? "title_list" : ""
-        }`}
-        title={name}
-      >
-        {name}
-      </p>
+      <div className="catalog-group-card__top-container">
+        <img
+          src={resolveImageSrc(imageSrc)}
+          alt={`param-${idx}`}
+          className={`catalog-group-card__image image ${
+            switchState === "list" ? "image_list" : ""
+          }`}
+          loading="lazy"
+          onError={(e) => {
+            e.currentTarget.src = FALLBACK_IMAGE;
+          }}
+        />
+        <p
+          className={`catalog-group-card__name title ${
+            switchState === "list" ? "title_list" : ""
+          }`}
+          title={name}
+        >
+          {name}
+        </p>
+      </div>
+      {description?.illustration && (
+        <div className="catalog-group-card__illustration">
+          <span>Illustration </span>
+
+          <span>{description.illustration}</span>
+        </div>
+      )}
     </li>
   );
 };

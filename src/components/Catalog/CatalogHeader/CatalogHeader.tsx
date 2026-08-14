@@ -169,7 +169,7 @@ const CatalogHeader: React.FC<CatalogHeaderProps> = ({
             >
               <input
                 type="text"
-                placeholder="AI Search"
+                placeholder="OE Number"
                 className="catalog-header__input input"
                 id="catalog-header-part-search"
                 value={aiSearchQuery}
