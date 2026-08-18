@@ -19,14 +19,10 @@ const CatalogHeader: React.FC<CatalogHeaderProps> = ({
   setIsSidebarActive,
 }) => {
   const [vin, setVin] = useState("");
+  const [oeQuery, setOeQuery] = useState("");
   // const [isSettingsActive, setIsSettingsActive] = useState(false);
-  const { handleResetOE, OE, isOESearch } = useOE();
-  const {
-    handleResetBreadcrumbs,
-    handleAddBreadcrumb,
-    breadcrumbs,
-    handleTrimBreadcrumbs,
-  } = useBreadcrumbs();
+  const { handleResetOE, OE, isOESearch, getOE, setIsOESearch } = useOE();
+  const { handleResetBreadcrumbs, handleAddBreadcrumb } = useBreadcrumbs();
   const { handleResetParameters } = useParameters();
   const {
     handleResetModels,
@@ -35,18 +31,9 @@ const CatalogHeader: React.FC<CatalogHeaderProps> = ({
     isVinSearch,
     handleSetIsVinSearch,
     handleOpenCatalog,
-    catalogId,
   } = useModels();
   const { handleResetParts } = useParts();
-  const {
-    handleResetGroups,
-    vinInfo,
-    getGroupsByVin,
-    searchGroups,
-    setIsAiSearch,
-    setAiSearchQuery,
-    aiSearchQuery,
-  } = useGroups();
+  const { handleResetGroups, vinInfo, getGroupsByVin } = useGroups();
 
   const handleResetAndCloseCatalog = () => {
     handleSetSelectedBrand("");
@@ -80,25 +67,20 @@ const CatalogHeader: React.FC<CatalogHeaderProps> = ({
     }
   };
 
-  const handleSearchParts = async () => {
-    if (aiSearchQuery && vinInfo) {
+  const handleSearchByOE = async () => {
+    if (oeQuery) {
       try {
-        const res = await searchGroups(catalogId, vinInfo.carId, aiSearchQuery);
+        const res = await getOE(oeQuery);
         if (res.meta.requestStatus === "fulfilled") {
-          const vinIndex = breadcrumbs.findIndex((b) => b.type === "vin");
-          if (vinIndex !== -1) {
-            handleTrimBreadcrumbs(vinIndex);
-          }
-          //@ts-ignore
-          if (res.payload.type === "parts") {
-            handleAddBreadcrumb("parts-search", aiSearchQuery, aiSearchQuery);
-          } else {
-            handleResetParts();
-            handleAddBreadcrumb("search", aiSearchQuery, aiSearchQuery);
-            setIsAiSearch(true);
-          }
+          handleResetGroups();
+          handleResetParts();
+          handleResetParameters();
+          handleSetIsVinSearch(false);
+          setIsOESearch(true);
+          handleAddBreadcrumb("oe", oeQuery, oeQuery);
+          setOeQuery("");
         }
-      } catch (e) {}
+      } catch (error) {}
     }
   };
 
@@ -164,20 +146,20 @@ const CatalogHeader: React.FC<CatalogHeaderProps> = ({
               className="catalog-header__input-container"
               onSubmit={(e) => {
                 e.preventDefault();
-                handleSearchParts();
+                handleSearchByOE();
               }}
             >
               <input
                 type="text"
                 placeholder="OE Number"
                 className="catalog-header__input input"
-                id="catalog-header-part-search"
-                value={aiSearchQuery}
-                onChange={(e) => setAiSearchQuery(e.target.value)}
+                id="catalog-header-oe-search"
+                value={oeQuery}
+                onChange={(e) => setOeQuery(e.target.value)}
               />
               <Search
                 className="icon catalog-header__icon"
-                onClick={handleSearchParts}
+                onClick={handleSearchByOE}
               />
             </form>
           )}

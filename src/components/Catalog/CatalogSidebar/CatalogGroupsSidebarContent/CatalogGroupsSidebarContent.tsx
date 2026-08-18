@@ -17,8 +17,16 @@ const CatalogGroupsSidebarContent: React.FC = () => {
   const { getOEParts, isOESearch } = useOE();
   const { breadcrumbs, handleAddBreadcrumb, handleTrimBreadcrumbs } =
     useBreadcrumbs();
-  const { groupsTree, getGroups } = useGroups();
-  const { getParts } = useParts();
+  const {
+    groupsTree,
+    getGroups,
+    vinInfo,
+    searchGroups,
+    setIsAiSearch,
+    setAiSearchQuery,
+    aiSearchQuery,
+  } = useGroups();
+  const { getParts, handleResetParts } = useParts();
 
   const [openRootId, setOpenRootId] = useState<string | null>(null);
   const [lastRootId, setLastRootId] = useState<string | null>(null);
@@ -52,6 +60,28 @@ const CatalogGroupsSidebarContent: React.FC = () => {
       return next;
     });
   }, []);
+
+  const handleSearchParts = async () => {
+    if (aiSearchQuery && vinInfo) {
+      try {
+        const res = await searchGroups(catalogId, vinInfo.carId, aiSearchQuery);
+        if (res.meta.requestStatus === "fulfilled") {
+          const vinIndex = breadcrumbs.findIndex((b) => b.type === "vin");
+          if (vinIndex !== -1) {
+            handleTrimBreadcrumbs(vinIndex);
+          }
+          //@ts-ignore
+          if (res.payload.type === "parts") {
+            handleAddBreadcrumb("parts-search", aiSearchQuery, aiSearchQuery);
+          } else {
+            handleResetParts();
+            handleAddBreadcrumb("search", aiSearchQuery, aiSearchQuery);
+            setIsAiSearch(true);
+          }
+        }
+      } catch (e) {}
+    }
+  };
 
   const handleClick = useCallback(
     (
@@ -132,12 +162,26 @@ const CatalogGroupsSidebarContent: React.FC = () => {
     <ul className="sidebar__dropdown-list">
       <li className="sidebar__ai-search-wrapper">
         <div className="sidebar__ai-search">
-          <input
-            type="text"
-            placeholder="AI Search"
-            className="sidebar__ai-search-input"
-          />
-          <Search className="sidebar__ai-search-icon" />
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              handleSearchParts();
+            }}
+            style={{ display: "contents" }}
+          >
+            <input
+              type="text"
+              placeholder="AI Search"
+              className="sidebar__ai-search-input"
+              value={aiSearchQuery}
+              onChange={(e) => setAiSearchQuery(e.target.value)}
+            />
+            <Search
+              className="sidebar__ai-search-icon"
+              onClick={handleSearchParts}
+              style={{ cursor: "pointer" }}
+            />
+          </form>
         </div>
         <span
           className="sidebar__ai-info"
