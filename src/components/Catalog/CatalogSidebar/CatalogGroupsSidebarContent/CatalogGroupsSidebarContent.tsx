@@ -173,6 +173,7 @@ const CatalogGroupsSidebarContent: React.FC = () => {
               type="text"
               placeholder="AI Search"
               className="sidebar__ai-search-input"
+              id="ai-search-input"
               value={aiSearchQuery}
               onChange={(e) => setAiSearchQuery(e.target.value)}
             />

@@ -1,4 +1,4 @@
-import { Home, Search, Menu, X } from "lucide-react";
+import { Home, Search, Menu, X, Settings as SettingsIcon } from "lucide-react";
 import { useModels } from "../../../hooks/models/useModels";
 import { useParts } from "../../../hooks/parts/useParts";
 import { useParameters } from "../../../hooks/parameters/useParameters";
@@ -7,7 +7,7 @@ import { useBreadcrumbs } from "../../../hooks/breadcrumbs/useBreadcrumbs";
 import { useOE } from "../../../hooks/OE/useOE";
 import "./CatalogHeader.css";
 import { useState } from "react";
-// import Settings from "./Settings/Settings";
+import Settings from "./Settings/Settings";
 
 interface CatalogHeaderProps {
   isSidebarActive: boolean;
@@ -20,7 +20,7 @@ const CatalogHeader: React.FC<CatalogHeaderProps> = ({
 }) => {
   const [vin, setVin] = useState("");
   const [oeQuery, setOeQuery] = useState("");
-  // const [isSettingsActive, setIsSettingsActive] = useState(false);
+  const [isSettingsActive, setIsSettingsActive] = useState(false);
   const { handleResetOE, OE, isOESearch, getOE, setIsOESearch } = useOE();
   const { handleResetBreadcrumbs, handleAddBreadcrumb } = useBreadcrumbs();
   const { handleResetParameters } = useParameters();
@@ -47,9 +47,9 @@ const CatalogHeader: React.FC<CatalogHeaderProps> = ({
     handleResetOE();
   };
 
-  // const toggleSettings = () => {
-  //   setIsSettingsActive(!isSettingsActive);
-  // };
+  const toggleSettings = () => {
+    setIsSettingsActive(!isSettingsActive);
+  };
 
   const toggleSidebar = () => {
     setIsSidebarActive(!isSidebarActive);
@@ -174,21 +174,19 @@ const CatalogHeader: React.FC<CatalogHeaderProps> = ({
           </div> */}
         </div>
       </div>
-      {/* <div className="catalog-header__right">
-        {" "}
+      <div className="catalog-header__right">
         <div className="catalog-header__buttons">
           <button
             className="catalog-header__button icon-button"
             onClick={toggleSettings}
+            type="button"
+            aria-label="Settings"
           >
             <SettingsIcon className="icon" />
           </button>
-          <button className="catalog-header__button icon-button">
-            <User className="icon" />
-          </button>
           <Settings isActive={isSettingsActive} />
         </div>
-      </div> */}
+      </div>
     </header>
   );
 };

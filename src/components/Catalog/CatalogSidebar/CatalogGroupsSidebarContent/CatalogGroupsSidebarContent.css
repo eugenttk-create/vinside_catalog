@@ -17,7 +17,7 @@
   box-sizing: border-box;
   border: 1px solid var(--border-blue);
   border-radius: 8px;
-  background: #fff;
+  background: transparent;
   font-family: inherit;
   font-size: 14px;
   outline: none;

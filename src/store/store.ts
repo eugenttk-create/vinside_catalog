@@ -8,6 +8,7 @@ import OEReducer from "./OE/OESlice";
 import breadcrumbsReducer from "./breadcrumbs/breadcrumbsSlice";
 import languageReducer from "./language/languageSlice";
 import notificationsReducer from "./notifications/notificationsSlice";
+import themeReducer from "./theme/themeSlice";
 import { errorMiddleware } from "./middleware/errorMiddleware";
 
 const appReducer = combineReducers({
@@ -20,6 +21,7 @@ const appReducer = combineReducers({
   breadcrumbs: breadcrumbsReducer,
   language: languageReducer,
   notifications: notificationsReducer,
+  theme: themeReducer,
 });
 
 const rootReducer = (

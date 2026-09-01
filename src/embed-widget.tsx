@@ -26,15 +26,19 @@ const CSS_VARIABLES = `
     --bg-white: #fff;
     --bg-red: rgb(253, 240, 240);
     --bg-blue: rgb(240, 249, 255);
-    --bg-gray: rgb(249, 250, 251);
+    --bg-gray: rgb(249 250 251);
     --text-color: rgb(12, 74, 110);
     --text-secondary: rgb(7, 89, 133);
+    --text-gray: #7a7a7a;
     --white: #fff;
     --blue: rgb(14, 165, 233);
     --red: rgb(163, 22, 22);
     --green: rgb(85, 211, 59);
     --border-blue: rgba(14, 165, 233, 0.25);
     --border-active-blue: rgb(14, 165, 233);
+    --border-neutral: #e5e7eb;
+    --surface-muted: rgba(0, 0, 0, 0.041);
+    --overlay: rgba(0, 0, 0, 0.2);
   }
 
   * {
