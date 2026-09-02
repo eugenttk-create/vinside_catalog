@@ -11,6 +11,7 @@ declare global {
     __WIDGET_LANGUAGE__?: string;
     __WIDGET_LINK__?: string;
     __WIDGET_PORTAL_ROOT__?: ShadowRoot;
+    __WIDGET_SHADOW_ROOT__?: ShadowRoot;
     __WIDGET_FULL_VIEW__?: boolean;
   }
 }
@@ -26,7 +27,7 @@ const CSS_VARIABLES = `
     --bg-white: #fff;
     --bg-red: rgb(253, 240, 240);
     --bg-blue: rgb(240, 249, 255);
-    --bg-gray: rgb(249 250 251);
+    --bg-gray: rgb(249, 250, 251);
     --text-color: rgb(12, 74, 110);
     --text-secondary: rgb(7, 89, 133);
     --text-gray: #7a7a7a;
@@ -39,6 +40,26 @@ const CSS_VARIABLES = `
     --border-neutral: #e5e7eb;
     --surface-muted: rgba(0, 0, 0, 0.041);
     --overlay: rgba(0, 0, 0, 0.2);
+  }
+
+  :host([data-theme="dark"]),
+  [data-theme="dark"] {
+    --bg-white: #1a2332;
+    --bg-red: rgb(60, 25, 25);
+    --bg-blue: #0b1220;
+    --bg-gray: #151d2b;
+    --text-color: #e2e8f0;
+    --text-secondary: #94a3b8;
+    --text-gray: #94a3b8;
+    --white: #1a2332;
+    --blue: rgb(56, 189, 248);
+    --red: rgb(248, 113, 113);
+    --green: rgb(74, 222, 128);
+    --border-blue: rgba(56, 189, 248, 0.3);
+    --border-active-blue: rgb(56, 189, 248);
+    --border-neutral: #2a3548;
+    --surface-muted: rgba(255, 255, 255, 0.06);
+    --overlay: rgba(0, 0, 0, 0.5);
   }
 
   * {
@@ -132,6 +153,17 @@ export function mountWidget(
 
   if (container instanceof ShadowRoot) {
     attachStyles(container);
+    window.__WIDGET_SHADOW_ROOT__ = container;
+  }
+
+  const savedTheme = localStorage.getItem("catalog-theme");
+  const themeMode = savedTheme === "dark" ? "dark" : "light";
+  portalHost.setAttribute("data-theme", themeMode);
+  portalMount.setAttribute("data-theme", themeMode);
+  if (container instanceof ShadowRoot) {
+    container.host.setAttribute("data-theme", themeMode);
+  } else if (container instanceof HTMLElement) {
+    container.setAttribute("data-theme", themeMode);
   }
 
   ReactDOM.createRoot(container as Element).render(

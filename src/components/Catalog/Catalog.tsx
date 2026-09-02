@@ -4,8 +4,9 @@ import CatalogSidebar from "./CatalogSidebar/CatalogSidebar";
 import Breadcrumbs from "./Breadcrumbs/Breadcrumbs";
 import { useParts } from "../../hooks/parts/useParts";
 import "./Catalog.css";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useGroups } from "../../hooks/groups/useGroups";
+import { useAppSelector } from "../../hooks/store/useAppSelector";
 
 interface CatalogProps {
   modelId: string;
@@ -15,15 +16,43 @@ interface CatalogProps {
 const Catalog: React.FC<CatalogProps> = ({ modelId, setModelId }) => {
   const [isSidebarActive, setIsSidebarActive] = useState(true);
   const { isAiSearch, sidebarVisible } = useGroups();
+  const theme = useAppSelector((state) => state.theme.mode);
+  const catalogRef = useRef<HTMLElement>(null);
 
   const { parts } = useParts();
+
+  useEffect(() => {
+    const setOn = (el: Element | null | undefined) => {
+      if (el) el.setAttribute("data-theme", theme);
+    };
+
+    setOn(catalogRef.current);
+
+    const portalShadow = window.__WIDGET_PORTAL_ROOT__;
+    if (portalShadow) {
+      setOn(portalShadow.host);
+      setOn(portalShadow.getElementById("widget-catalog-portal"));
+    } else {
+      setOn(document.getElementById("widget-catalog-portal"));
+    }
+
+    const widgetShadow = window.__WIDGET_SHADOW_ROOT__;
+    if (widgetShadow) {
+      setOn(widgetShadow.host);
+    }
+  }, [theme]);
 
   const hasPartsResponse = Boolean(
     parts?.partGroups && parts.partGroups.length > 0
   );
 
   return (
-    <section className="catalog" id="catalog-root">
+    <section
+      className="catalog"
+      id="catalog-root"
+      ref={catalogRef}
+      data-theme={theme}
+    >
       <CatalogHeader
         isSidebarActive={isSidebarActive}
         setIsSidebarActive={setIsSidebarActive}
