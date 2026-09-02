@@ -26,7 +26,7 @@ const getInitialTheme = (): ThemeMode => {
 
 const applyThemeToDom = (mode: ThemeMode) => {
   const setOn = (el: Element | null | undefined) => {
-    if (el) el.setAttribute("data-theme", mode);
+    if (el) el.setAttribute("data-carcat-theme", mode);
   };
 
   const portalShadow = window.__WIDGET_PORTAL_ROOT__;

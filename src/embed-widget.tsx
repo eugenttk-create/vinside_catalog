@@ -42,8 +42,8 @@ const CSS_VARIABLES = `
     --overlay: rgba(0, 0, 0, 0.2);
   }
 
-  :host([data-theme="dark"]),
-  [data-theme="dark"] {
+  :host([data-carcat-theme="dark"]),
+  [data-carcat-theme="dark"] {
     --bg-white: #1a2332;
     --bg-red: rgb(60, 25, 25);
     --bg-blue: #0b1220;
@@ -158,12 +158,12 @@ export function mountWidget(
 
   const savedTheme = localStorage.getItem("catalog-theme");
   const themeMode = savedTheme === "dark" ? "dark" : "light";
-  portalHost.setAttribute("data-theme", themeMode);
-  portalMount.setAttribute("data-theme", themeMode);
+  portalHost.setAttribute("data-carcat-theme", themeMode);
+  portalMount.setAttribute("data-carcat-theme", themeMode);
   if (container instanceof ShadowRoot) {
-    container.host.setAttribute("data-theme", themeMode);
+    container.host.setAttribute("data-carcat-theme", themeMode);
   } else if (container instanceof HTMLElement) {
-    container.setAttribute("data-theme", themeMode);
+    container.setAttribute("data-carcat-theme", themeMode);
   }
 
   ReactDOM.createRoot(container as Element).render(

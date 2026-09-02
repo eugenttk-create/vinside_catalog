@@ -23,7 +23,7 @@ const Catalog: React.FC<CatalogProps> = ({ modelId, setModelId }) => {
 
   useEffect(() => {
     const setOn = (el: Element | null | undefined) => {
-      if (el) el.setAttribute("data-theme", theme);
+      if (el) el.setAttribute("data-carcat-theme", theme);
     };
 
     setOn(catalogRef.current);
@@ -51,7 +51,7 @@ const Catalog: React.FC<CatalogProps> = ({ modelId, setModelId }) => {
       className="catalog"
       id="catalog-root"
       ref={catalogRef}
-      data-theme={theme}
+      data-carcat-theme={theme}
     >
       <CatalogHeader
         isSidebarActive={isSidebarActive}
