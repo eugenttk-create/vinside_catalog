@@ -4,6 +4,8 @@ import { useParts } from "../../../../hooks/parts/useParts";
 import { useTranslation } from "../../../../hooks/translation/useTranslation";
 import { resolveImageSrc } from "../../../../utils/resolveImgSrc";
 import Breadcrumbs from "../../Breadcrumbs/Breadcrumbs";
+import { useAnalogs } from "../../../../hooks/analogs/useAnalogs";
+import { useBreadcrumbs } from "../../../../hooks/breadcrumbs/useBreadcrumbs";
 
 import { useTableResize } from "../../../../hooks/parts/useTableResize";
 import { useImageZoomPan } from "../../../../hooks/parts/useImageZoomPan";
@@ -22,6 +24,13 @@ interface CatalogPartsProps {
 const CatalogParts: React.FC<CatalogPartsProps> = ({ modelId, setModelId }) => {
   const { t } = useTranslation();
   const { parts } = useParts();
+  const { getAnalogs } = useAnalogs();
+  const { handleAddBreadcrumb } = useBreadcrumbs();
+
+  const handleAnaloguesClick = (partNumber: string) => {
+    getAnalogs(partNumber);
+    handleAddBreadcrumb("analogs", partNumber, partNumber);
+  };
 
   const imageRef = useRef<HTMLImageElement | null>(null);
   const containerRef = useRef<HTMLDivElement | null>(null);
@@ -190,6 +199,7 @@ const CatalogParts: React.FC<CatalogPartsProps> = ({ modelId, setModelId }) => {
           onStartResize={startResize}
           tableWidth={tableWidth}
           t={t}
+          onAnaloguesClick={handleAnaloguesClick}
         />
       </div>
     </>

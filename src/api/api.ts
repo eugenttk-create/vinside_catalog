@@ -56,7 +56,7 @@ api.interceptors.response.use(
       console.error("Unauthorized access");
     }
     return Promise.reject(error);
-  }
+  },
 );
 
 export default api;

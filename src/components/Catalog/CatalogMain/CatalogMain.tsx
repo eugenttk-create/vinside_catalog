@@ -6,12 +6,15 @@ import CatalogGroups from "./CatalogGroups/CatalogGroups";
 import CatalogParts from "./CatalogParts/CatalogParts";
 import CatalogBrands from "./CatalogBrands/CatalogBrands";
 import CatalogOE from "./CatalogOE/CatalogOE";
+import CatalogAnalogs from "./CatalogAnalogs/CatalogAnalogs";
+import CatalogAnalogDetail from "./CatalogAnalogDetail/CatalogAnalogDetail";
 import { useEffect, useState } from "react";
 import { useParameters } from "../../../hooks/parameters/useParameters";
 import { useGroups } from "../../../hooks/groups/useGroups";
 import { useParts } from "../../../hooks/parts/useParts";
 import { useModels } from "../../../hooks/models/useModels";
 import { useOE } from "../../../hooks/OE/useOE";
+import { useAnalogs } from "../../../hooks/analogs/useAnalogs";
 import PageLoader from "../../Loaders/PageLoader/PageLoader";
 
 interface CatalogMainProps {
@@ -32,6 +35,12 @@ const CatalogMain: React.FC<CatalogMainProps> = ({
   const { parts, partsLoading } = useParts();
   const { models, modelsLoading, isVinSearch } = useModels();
   const { OE, OELoading } = useOE();
+  const {
+    isAnalogsView,
+    isAnalogDetailView,
+    analogsLoading,
+    analogInfoLoading,
+  } = useAnalogs();
   const [switchState, setSwitchState] = useState("cards");
 
   const toggleSwitch = () => {
@@ -96,6 +105,7 @@ const CatalogMain: React.FC<CatalogMainProps> = ({
 
   const showViewSwitch =
     !hasPartsResponse &&
+    !isAnalogsView &&
     (models.length > 0 ||
       parameters.length > 0 ||
       (groupsFlat.length > 0 && !!carId) ||
@@ -103,7 +113,9 @@ const CatalogMain: React.FC<CatalogMainProps> = ({
 
   return (
     <div
-      className={`catalog-main ${hasPartsResponse ? "catalog-main_parts" : ""}`}
+      className={`catalog-main ${
+        hasPartsResponse && !isAnalogsView ? "catalog-main_parts" : ""
+      }`}
     >
       {!isSidebarActive && (
         <button
@@ -143,9 +155,15 @@ const CatalogMain: React.FC<CatalogMainProps> = ({
         groupsLoading ||
         partsLoading ||
         modelsLoading ||
-        OELoading) && <PageLoader />}
+        OELoading ||
+        analogsLoading ||
+        analogInfoLoading) && <PageLoader />}
 
-      {hasPartsResponse ? (
+      {isAnalogDetailView ? (
+        <CatalogAnalogDetail />
+      ) : isAnalogsView ? (
+        <CatalogAnalogs />
+      ) : hasPartsResponse ? (
         <CatalogParts modelId={modelId} setModelId={setModelId} />
       ) : groupsFlat.length > 0 && carId ? (
         <CatalogGroups carId={carId} switchState={switchState} />

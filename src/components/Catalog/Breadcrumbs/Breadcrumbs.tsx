@@ -10,6 +10,7 @@ import { useAppDispatch } from "../../../hooks/store/useAppDispatch";
 import { useRef, useEffect } from "react";
 import { useTranslation } from "../../../hooks/translation/useTranslation";
 import { useOE } from "../../../hooks/OE/useOE";
+import { useAnalogs } from "../../../hooks/analogs/useAnalogs";
 import {
   goBackToDepth,
   consumeSuppressFlag,
@@ -53,6 +54,12 @@ const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ setModelId }) => {
   const { handleResetParts } = useParts();
   const { getOE, getOEGroups, handleResetOE, setIsOESearch } = useOE();
   const {
+    getAnalogs,
+    handleResetAnalogs,
+    handleClearAnalogDetail,
+    handleSetIsAnalogsView,
+  } = useAnalogs();
+  const {
     handleResetGroups,
     getGroups,
     getGroupsByVin,
@@ -69,6 +76,7 @@ const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ setModelId }) => {
     handleResetGroups();
     handleResetParameters();
     handleResetOE();
+    handleResetAnalogs();
     handleSetSelectedBrand("");
     handleSetIsVinSearch(false);
     setModelId("");
@@ -80,6 +88,7 @@ const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ setModelId }) => {
     handleResetParts();
     handleResetGroups();
     handleResetParameters();
+    handleResetAnalogs();
   };
 
   const handleBreadcrumbClick = async (index: number, isNavigation = false) => {
@@ -119,6 +128,7 @@ const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ setModelId }) => {
       handleResetParameters();
       handleResetGroups();
       handleResetParts();
+      handleResetAnalogs();
       await getParameters(catalogId, mId, null, []);
       return;
     }
@@ -136,6 +146,7 @@ const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ setModelId }) => {
       handleResetGroups();
       handleResetParts();
       handleResetCarId();
+      handleResetAnalogs();
 
       const selectedParams: string[] = leftSlice
         .filter((b) => b.type === "parameter")
@@ -162,6 +173,7 @@ const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ setModelId }) => {
     if (clicked.type === "group") {
       const groupId = clicked.id;
       handleResetParts();
+      handleResetAnalogs();
       if (carId) {
         await getGroups(catalogId, carId, groupId);
       }
@@ -199,6 +211,20 @@ const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ setModelId }) => {
       if (clicked.id) {
         await getOE(clicked.id);
       }
+      return;
+    }
+
+    if (clicked.type === "analogs") {
+      handleClearAnalogDetail();
+      handleSetIsAnalogsView(true);
+      if (clicked.id) {
+        await getAnalogs(clicked.id);
+      }
+      return;
+    }
+
+    if (clicked.type === "analog-detail") {
+      // Stay on detail; data is already in store from previous navigation
       return;
     }
 

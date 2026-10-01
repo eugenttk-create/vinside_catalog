@@ -19,6 +19,7 @@ interface PartsTableProps {
   onStartResize: () => void;
   tableWidth: number;
   t: Record<string, string>;
+  onAnaloguesClick?: (partNumber: string) => void;
 }
 
 const PartsTable: React.FC<PartsTableProps> = ({
@@ -34,6 +35,7 @@ const PartsTable: React.FC<PartsTableProps> = ({
   onStartResize,
   tableWidth,
   t,
+  onAnaloguesClick,
 }) => {
   const [isInfoPopupOpen, setIsInfoPopupOpen] = useState(false);
   const [selectedPart, setSelectedPart] = useState<Part | null>(null);
@@ -42,6 +44,11 @@ const PartsTable: React.FC<PartsTableProps> = ({
     e.stopPropagation();
     setSelectedPart(part);
     setIsInfoPopupOpen(true);
+  };
+
+  const handleAnaloguesClick = (e: React.MouseEvent, partNumber: string) => {
+    e.stopPropagation();
+    onAnaloguesClick?.(partNumber);
   };
 
   return (
@@ -54,7 +61,7 @@ const PartsTable: React.FC<PartsTableProps> = ({
         <tbody className="catalog-parts__tbody">
           {parts.length === 0 ? (
             <tr className="catalog-parts__tr catalog-parts__tr_empty">
-              <td className="catalog-parts__td" colSpan={4}>
+              <td className="catalog-parts__td" colSpan={5}>
                 <span className="catalog-parts__ts catalog-parts__ts_empty">
                   {t.widget_no_data ?? "Нет данных"}
                 </span>
@@ -119,13 +126,16 @@ const PartsTable: React.FC<PartsTableProps> = ({
                       </span>
                     </span>
                   </td>
-                  {/* <td className="catalog-parts__td">
-                  <span className="catalog-parts__ts">
-                    <button className="catalog-parts__tb button">
-                      {t.widget_analogues_button}
-                    </button>
-                  </span>
-                </td> */}
+                  <td className="catalog-parts__td">
+                    <span className="catalog-parts__ts">
+                      <button
+                        className="catalog-parts__tb button"
+                        onClick={(e) => handleAnaloguesClick(e, part.number)}
+                      >
+                        {t.widget_analogues_button}
+                      </button>
+                    </span>
+                  </td>
                   <td className="catalog-parts__td">
                     <span className="catalog-parts__ts">
                       <button className="catalog-parts__tb button">

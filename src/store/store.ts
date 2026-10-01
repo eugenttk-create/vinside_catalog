@@ -5,6 +5,7 @@ import parametersReducer from "./parameters/parametersSlice";
 import groupsReducer from "./groups/groupsSlice";
 import partsReducer from "./parts/partsSlice";
 import OEReducer from "./OE/OESlice";
+import analogsReducer from "./analogs/analogsSlice";
 import breadcrumbsReducer from "./breadcrumbs/breadcrumbsSlice";
 import languageReducer from "./language/languageSlice";
 import notificationsReducer from "./notifications/notificationsSlice";
@@ -18,6 +19,7 @@ const appReducer = combineReducers({
   groups: groupsReducer,
   parts: partsReducer,
   OE: OEReducer,
+  analogs: analogsReducer,
   breadcrumbs: breadcrumbsReducer,
   language: languageReducer,
   notifications: notificationsReducer,

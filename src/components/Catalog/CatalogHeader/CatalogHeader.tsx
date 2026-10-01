@@ -5,6 +5,7 @@ import { useParameters } from "../../../hooks/parameters/useParameters";
 import { useGroups } from "../../../hooks/groups/useGroups";
 import { useBreadcrumbs } from "../../../hooks/breadcrumbs/useBreadcrumbs";
 import { useOE } from "../../../hooks/OE/useOE";
+import { useAnalogs } from "../../../hooks/analogs/useAnalogs";
 import "./CatalogHeader.css";
 import { useState } from "react";
 import Settings from "./Settings/Settings";
@@ -22,6 +23,7 @@ const CatalogHeader: React.FC<CatalogHeaderProps> = ({
   const [oeQuery, setOeQuery] = useState("");
   const [isSettingsActive, setIsSettingsActive] = useState(false);
   const { handleResetOE, OE, isOESearch, getOE, setIsOESearch } = useOE();
+  const { handleResetAnalogs } = useAnalogs();
   const { handleResetBreadcrumbs, handleAddBreadcrumb } = useBreadcrumbs();
   const { handleResetParameters } = useParameters();
   const {
@@ -45,6 +47,7 @@ const CatalogHeader: React.FC<CatalogHeaderProps> = ({
     handleCloseCatalog();
     handleSetIsVinSearch(false);
     handleResetOE();
+    handleResetAnalogs();
   };
 
   const toggleSettings = () => {
@@ -75,6 +78,7 @@ const CatalogHeader: React.FC<CatalogHeaderProps> = ({
           handleResetGroups();
           handleResetParts();
           handleResetParameters();
+          handleResetAnalogs();
           handleSetIsVinSearch(false);
           setIsOESearch(true);
           handleAddBreadcrumb("oe", oeQuery, oeQuery);

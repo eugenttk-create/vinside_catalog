@@ -6,6 +6,7 @@ import { useParts } from "../../hooks/parts/useParts";
 import "./Catalog.css";
 import { useState, useEffect, useRef } from "react";
 import { useGroups } from "../../hooks/groups/useGroups";
+import { useAnalogs } from "../../hooks/analogs/useAnalogs";
 import { useAppSelector } from "../../hooks/store/useAppSelector";
 
 interface CatalogProps {
@@ -20,6 +21,7 @@ const Catalog: React.FC<CatalogProps> = ({ modelId, setModelId }) => {
   const catalogRef = useRef<HTMLElement>(null);
 
   const { parts } = useParts();
+  const { isAnalogsView } = useAnalogs();
 
   useEffect(() => {
     const setOn = (el: Element | null | undefined) => {
@@ -45,6 +47,9 @@ const Catalog: React.FC<CatalogProps> = ({ modelId, setModelId }) => {
   const hasPartsResponse = Boolean(
     parts?.partGroups && parts.partGroups.length > 0
   );
+  const showOuterBreadcrumbs = !hasPartsResponse || isAnalogsView;
+  const showSidebar =
+    !hasPartsResponse && !isAnalogsView && !isAiSearch && sidebarVisible;
 
   return (
     <section
@@ -57,11 +62,11 @@ const Catalog: React.FC<CatalogProps> = ({ modelId, setModelId }) => {
         isSidebarActive={isSidebarActive}
         setIsSidebarActive={setIsSidebarActive}
       />
-      {!hasPartsResponse && (
+      {showOuterBreadcrumbs && (
         <Breadcrumbs modelId={modelId} setModelId={setModelId} />
       )}
-      <div className={`${!hasPartsResponse ? "catalog__container" : ""}`}>
-        {!hasPartsResponse && !isAiSearch && sidebarVisible && (
+      <div className={`${showOuterBreadcrumbs ? "catalog__container" : ""}`}>
+        {showSidebar && (
           <CatalogSidebar
             isSidebarActive={isSidebarActive}
             modelId={modelId}
