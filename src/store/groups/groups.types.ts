@@ -1,4 +1,4 @@
-interface Group {
+export interface Group {
   id: string;
   hasSubgroups: boolean;
   hasParts: boolean;

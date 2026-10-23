@@ -5,7 +5,7 @@ interface OEModel {
   year: string;
 }
 
-interface OE {
+export interface OE {
   engid: string;
   name: string;
   oe_number: string;

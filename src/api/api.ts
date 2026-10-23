@@ -1,13 +1,45 @@
-import axios from "axios";
+import axios, { type InternalAxiosRequestConfig } from "axios";
 import { cryptoService } from "../utils/encryption";
+import { demoRequest } from "../demo/demoAdapter";
 
+const DEMO_MODE = import.meta.env.VITE_DEMO_MODE === "true";
 const API_URL = import.meta.env.VITE_API_URL;
+
+const demoAdapter = async (config: InternalAxiosRequestConfig) => {
+  const method = (config.method ?? "get").toUpperCase();
+  const url = config.url ?? "";
+  let parsedData: unknown;
+  if (config.data) {
+    try {
+      parsedData = typeof config.data === "string" ? JSON.parse(config.data) : config.data;
+    } catch {
+      parsedData = config.data;
+    }
+  }
+  const result = await demoRequest(method, url, parsedData);
+  if (result.status >= 400) {
+    throw {
+      response: { status: result.status, data: result.data, statusText: result.statusText, headers: result.headers, config },
+      message: result.statusText,
+      config,
+    };
+  }
+  return {
+    data: result.data,
+    status: result.status,
+    statusText: result.statusText,
+    headers: result.headers,
+    config,
+  };
+};
+
 const api = axios.create({
   baseURL: API_URL,
   withCredentials: true,
   headers: {
     Accept: "application/json",
   },
+  ...(DEMO_MODE ? { adapter: demoAdapter } : {}),
 });
 
 const DEFAULT_LANGUAGE = "en";

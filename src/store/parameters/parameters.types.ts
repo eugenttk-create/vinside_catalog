@@ -1,4 +1,4 @@
-interface ParameterValue {
+export interface ParameterValue {
   idx: string;
   value: string;
   img: string;

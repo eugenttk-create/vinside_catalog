@@ -55,7 +55,7 @@ interface Position {
   img?: string | null;
 }
 
-interface PartsResponse {
+export interface PartsResponse {
   img: string | string[];
   imgDescription: string;
   partGroups: PartsGroup[];
