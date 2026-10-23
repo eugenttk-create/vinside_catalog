@@ -1,3 +1,4 @@
+import catalogPartsStyles from "../Catalog/CatalogMain/CatalogParts/CatalogParts.module.css";
 import { buildHoverTargetMap } from "../../utils/positionGroups";
 import { useMemo } from "react";
 
@@ -53,9 +54,7 @@ const ImageOverlay: React.FC<ImageOverlayProps> = ({
             onMouseEnter={() => onHoverEnter(hoverTarget)}
             onMouseLeave={onHoverLeave}
             onClick={() => onSelect(hoverTarget)}
-            className={`catalog-parts__highlight ${
-              isActive ? "catalog-parts__highlight_active" : ""
-            }`}
+            className={`${catalogPartsStyles["catalog-parts__highlight"]} ${isActive ? catalogPartsStyles["catalog-parts__highlight_active"] : ""}`}
           />
         );
       })}

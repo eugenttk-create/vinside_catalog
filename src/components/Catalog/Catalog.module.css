@@ -1,0 +1,14 @@
+.catalog {
+  position: fixed;
+  width: 100vw;
+  height: 100dvh;
+  background-color: var(--carcat-bg-blue);
+  top: 0;
+  left: 0;
+  z-index: 2147483646;
+  pointer-events: auto;
+}
+
+.catalog__container {
+  display: flex;
+}

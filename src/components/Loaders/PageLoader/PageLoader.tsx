@@ -1,18 +1,12 @@
-import "./PageLoader.css";
+import styles from "./PageLoader.module.css";
 import DefaultLoader from "../DefaultLoader/DefaultLoader";
-import { useEffect } from "react";
+import { useLockBodyScroll } from "../../../hooks/UI/useLockBodyScroll";
 
 const PageLoader = () => {
-  useEffect(() => {
-    document.body.style.overflow = "hidden";
-
-    return () => {
-      document.body.style.overflow = "auto";
-    };
-  });
+  useLockBodyScroll(true);
 
   return (
-    <div className="page-loader">
+    <div className={styles["page-loader"]}>
       <DefaultLoader />
     </div>
   );

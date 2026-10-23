@@ -1,4 +1,5 @@
-import "./Widget.css";
+import styles from "./Widget.module.css";
+import shared from "../../styles/common.module.css";
 import { useState, useEffect, useRef } from "react";
 import { useCatalogs } from "../../hooks/catalogs/useCatalogs";
 import { useModels } from "../../hooks/models/useModels";
@@ -11,7 +12,6 @@ import { Search, X } from "lucide-react";
 import { Notifications } from "../Notifications/Notifications";
 import DefaultLoader from "../Loaders/DefaultLoader/DefaultLoader";
 import RegionSelectPopup from "../RegionSelectPopup/RegionSelectPopup";
-import { pushNavEntry } from "../../hooks/breadcrumbs/useBreadcrumbs";
 
 const Widget: React.FC = () => {
   const { t } = useTranslation();
@@ -61,7 +61,7 @@ const Widget: React.FC = () => {
   useEffect(() => {
     if (vinInfo?.vin) {
       const exists = breadcrumbs.some(
-        (b) => b.type === "vin" && b.id === vinInfo.vin
+        (b) => b.type === "vin" && b.id === vinInfo.vin,
       );
       if (!exists) handleAddBreadcrumb("vin", vinInfo.vin, vinInfo.vin);
     }
@@ -117,7 +117,6 @@ const Widget: React.FC = () => {
       if (res.meta.requestStatus === "fulfilled") {
         handleOpenCatalog();
         handleSetIsVinSearch(false);
-        pushNavEntry({ type: "brand", id: catalogId }, 0);
       }
     }
   };
@@ -148,17 +147,17 @@ const Widget: React.FC = () => {
   }, [isButtonDisabled, vin, catalogId]);
 
   return (
-    <div className={`widget${isFullView ? " widget_full" : ""}`}>
+    <div className={`${styles["widget"]}${isFullView ? ` ${styles["widget_full"]}` : ""}`}>
       <Notifications />
-      <h1 className="widget__title">{t.widget_title}</h1>
-      <div className="widget__inputs">
-        <div className="widget__input-container">
-          <p className="title widget__input-title">{t.widget_vin_input}</p>
-          <div className="widget__input-search-container">
+      <h1 className={styles["widget__title"]}>{t.widget_title}</h1>
+      <div className={styles["widget__inputs"]}>
+        <div className={styles["widget__input-container"]}>
+          <p className={`${shared["title"]} ${styles["widget__input-title"]}`}>{t.widget_vin_input}</p>
+          <div className={styles["widget__input-search-container"]}>
             <input
               type="text"
               id="widget-vin-input"
-              className="widget__input input"
+              className={`${styles["widget__input"]} ${shared["input"]}`}
               value={vin}
               onChange={handleVinChange}
               disabled={isInputDisabled}
@@ -176,7 +175,7 @@ const Widget: React.FC = () => {
 
             <span
               ref={measureRef}
-              className="widget__input-measure"
+              className={styles["widget__input-measure"]}
               aria-hidden="true"
             >
               {vin}
@@ -185,34 +184,34 @@ const Widget: React.FC = () => {
             {vin && !isButtonDisabled && (
               <button
                 type="button"
-                className="widget__clear-button"
+                className={styles["widget__clear-button"]}
                 style={{ left: `${clearLeft}px` }}
                 onClick={handleClearVin}
                 aria-label="Clear input"
               >
-                <X className="icon widget__clear-icon" />
+                <X className={`${shared["icon"]} ${styles["widget__clear-icon"]}`} />
               </button>
             )}
 
             <button
-              className="widget__search-button"
+              className={styles["widget__search-button"]}
               onClick={handleSearchButtonClick}
               disabled={isButtonDisabled}
             >
               {modelsLoading || groupsLoading || OELoading ? (
                 <DefaultLoader />
               ) : (
-                <Search className="icon widget__search-icon" />
+                <Search className={`${shared["icon"]} ${styles["widget__search-icon"]}`} />
               )}
             </button>
           </div>
 
           {!isFullView && (
-            <div className="widget__examples">
-              <p className="widget__example-vin">
+            <div className={styles["widget__examples"]}>
+              <p className={styles["widget__example-vin"]}>
                 {t.widget_example_vin}:{" "}
                 <span
-                  className="widget__example-vin widget__example-vin_blue"
+                  className={`${styles["widget__example-vin"]} ${styles["widget__example-vin_blue"]}`}
                   onClick={() =>
                     handleVinChange({
                       target: { value: "XW8AN2NE3JH035743" },
@@ -222,10 +221,10 @@ const Widget: React.FC = () => {
                   XW8AN2NE3JH035743
                 </span>
               </p>
-              <p className="widget__example-vin">
+              <p className={styles["widget__example-vin"]}>
                 Example №:{" "}
                 <span
-                  className="widget__example-vin widget__example-vin_blue"
+                  className={`${styles["widget__example-vin"]} ${styles["widget__example-vin_blue"]}`}
                   onClick={() =>
                     handleVinChange({
                       target: { value: "5Q0407365A" },
@@ -239,15 +238,15 @@ const Widget: React.FC = () => {
           )}
         </div>
         {isFullView && (
-          <div className="widget__input-container">
-            <p className="title widget__input-title">
+          <div className={styles["widget__input-container"]}>
+            <p className={`${shared["title"]} ${styles["widget__input-title"]}`}>
               {t.widget_vehicle_select}
             </p>
             <select
               name="widget-car-select"
               ref={selectRef}
               id="widget-car-select"
-              className="widget__input input"
+              className={`${styles["widget__input"]} ${shared["input"]}`}
               disabled={catalogsLoading || catalogsError !== null}
               value={catalogId}
               onChange={handleSelectChange}
@@ -267,11 +266,11 @@ const Widget: React.FC = () => {
         )}
       </div>
       {isFullView && (
-        <div className="widget__examples">
-          <p className="widget__example-vin">
+        <div className={styles["widget__examples"]}>
+          <p className={styles["widget__example-vin"]}>
             {t.widget_example_vin}:{" "}
             <span
-              className="widget__example-vin widget__example-vin_blue"
+              className={`${styles["widget__example-vin"]} ${styles["widget__example-vin_blue"]}`}
               onClick={() =>
                 handleVinChange({
                   target: { value: "XW8AN2NE3JH035743" },
@@ -281,10 +280,10 @@ const Widget: React.FC = () => {
               XW8AN2NE3JH035743
             </span>
           </p>
-          <p className="widget__example-vin">
+          <p className={styles["widget__example-vin"]}>
             Example №:{" "}
             <span
-              className="widget__example-vin widget__example-vin_blue"
+              className={`${styles["widget__example-vin"]} ${styles["widget__example-vin_blue"]}`}
               onClick={() =>
                 handleVinChange({
                   target: { value: "5Q0407365A" },
@@ -297,13 +296,11 @@ const Widget: React.FC = () => {
         </div>
       )}
       {!isFullView && (
-        <ul className="widget__cells">
+        <ul className={styles["widget__cells"]}>
           {catalogs?.map((c) => {
             return (
               <li
-                className={`widget__cell${
-                  catalogId === c.id ? " widget__cell_active" : ""
-                }`}
+                className={`${styles["widget__cell"]}${catalogId === c.id ? ` ${styles["widget__cell_active"]}` : ""}`}
                 key={c.id}
                 onClick={async () => {
                   setCatalogId(c.id);
@@ -314,17 +311,16 @@ const Widget: React.FC = () => {
                   if (res.meta.requestStatus === "fulfilled") {
                     handleOpenCatalog();
                     handleSetIsVinSearch(false);
-                    pushNavEntry({ type: "brand", id: c.id }, 0);
                   }
                 }}
               >
                 <img
                   src={resolveImageSrc(c.img)}
                   alt={`${c.id}-${c.name}`}
-                  className="widget__cell-img"
+                  className={styles["widget__cell-img"]}
                   loading="lazy"
                 />
-                <p className="widget__cell-title">{c.name}</p>
+                <p className={styles["widget__cell-title"]}>{c.name}</p>
               </li>
             );
           })}
@@ -332,7 +328,7 @@ const Widget: React.FC = () => {
       )}
       {isFullView && (
         <button
-          className="widget__button button"
+          className={`${styles["widget__button"]} ${shared["button"]}`}
           disabled={isButtonDisabled || modelsLoading || groupsLoading}
           onClick={handleSearchButtonClick}
         >
@@ -342,7 +338,7 @@ const Widget: React.FC = () => {
         </button>
       )}
       {(modelsError || groupsError) && (
-        <span className="widget__error error">
+        <span className={`${styles["widget__error"]} ${shared["error"]}`}>
           {modelsError || groupsError}
         </span>
       )}

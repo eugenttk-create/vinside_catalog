@@ -1,9 +1,10 @@
-import "./CatalogParametersTable.css";
+import shared from "../../../../../styles/common.module.css";
 import CatalogParametersTableRow from "./CatalogParametersTableRow/CatalogParametersTableRow";
 import CatalogParametersTableHead from "./CatalogParametersTableHead/CatalogParametersTableHead";
 import { resolveImageSrc } from "../../../../../utils/resolveImgSrc";
 import TableImage from "../../../../TableImage/TableImage";
 import { useTranslation } from "../../../../../hooks/translation/useTranslation";
+import { orderCatalogFields } from "../../../../../utils/orderCatalogFields";
 
 type ParameterDescription = {
   model_type?: string | null;
@@ -90,7 +91,11 @@ const CatalogParametersTable: React.FC<CatalogParametersTableProps> = ({
         return val.description.year_from || val.description.year_to;
       }
       return !!val.description[key as keyof typeof val.description];
-    })
+    }),
+  );
+  const columns = orderCatalogFields(
+    ["image", "title", ...activeColumns] as const,
+    (key) => key,
   );
 
   const getProductionPeriod = (desc?: ParameterDescription) => {
@@ -99,15 +104,15 @@ const CatalogParametersTable: React.FC<CatalogParametersTableProps> = ({
     return desc.year_from && desc.year_to
       ? `${desc.year_from} — ${desc.year_to}`
       : desc.year_from
-      ? desc.year_from
-      : desc.year_to
-      ? desc.year_to
-      : null;
+        ? desc.year_from
+        : desc.year_to
+          ? desc.year_to
+          : null;
   };
 
   const getCellValue = (
     val: ParameterValue,
-    key: ParamColumnKey
+    key: ParamColumnKey,
   ): string | null => {
     if (!val.description) return null;
     if (key === "production_period")
@@ -116,44 +121,64 @@ const CatalogParametersTable: React.FC<CatalogParametersTableProps> = ({
   };
 
   return (
-    <div className="table-container">
-      <div className="table-wrapper">
-        <table className="table">
-          <thead className="table-header">
-            <tr className="table-row">
-              <th className="table-header-el"></th>
-              <th className="table-header-el">{t.widget_name}</th>
-              {activeColumns.map((key) => (
-                <CatalogParametersTableHead
-                  key={key}
-                  title={columnLabels[key]}
-                />
-              ))}
+    <div className={shared["table-container"]}>
+      <div className={shared["table-wrapper"]}>
+        <table className={`${shared["table"]} ${shared["table_ordered"]}`}>
+          <thead className={shared["table-header"]}>
+            <tr className={shared["table-row"]}>
+              {columns.map((key) =>
+                key === "image" ? (
+                  <th
+                    key={key}
+                    className={`${shared["table-header-el"]} ${shared["table-image-cell"]}`}
+                  ></th>
+                ) : (
+                  <CatalogParametersTableHead
+                    key={key}
+                    title={key === "title" ? t.widget_name : columnLabels[key]}
+                  />
+                ),
+              )}
             </tr>
           </thead>
-          <tbody className="table-body">
+          <tbody className={shared["table-body"]}>
             {values.map((val) => (
               <tr
                 key={val.idx}
-                className="table-row"
+                className={shared["table-row"]}
                 onClick={() => onClick(val.idx, val.value)}
                 style={{ cursor: "pointer" }}
               >
-                <td className="table-data">
-                  <TableImage
-                    src={resolveImageSrc(val.img)}
-                    alt={`param-${val.idx}`}
-                  />
-                </td>
-                <td className="table-data">
-                  <span className="table-data-text">{val.value}</span>
-                </td>
-                {activeColumns.map((key) => (
-                  <CatalogParametersTableRow
-                    key={key}
-                    text={getCellValue(val, key) ?? "—"}
-                  />
-                ))}
+                {columns.map((key) => {
+                  if (key === "image") {
+                    return (
+                      <td
+                        key={key}
+                        className={`${shared["table-data"]} ${shared["table-image-cell"]}`}
+                      >
+                        <TableImage
+                          src={resolveImageSrc(val.img)}
+                          alt={`param-${val.idx}`}
+                        />
+                      </td>
+                    );
+                  }
+                  if (key === "title") {
+                    return (
+                      <td key={key} className={shared["table-data"]}>
+                        <span className={shared["table-data-text"]}>
+                          {val.value}
+                        </span>
+                      </td>
+                    );
+                  }
+                  return (
+                    <CatalogParametersTableRow
+                      key={key}
+                      text={getCellValue(val, key) ?? "—"}
+                    />
+                  );
+                })}
               </tr>
             ))}
           </tbody>

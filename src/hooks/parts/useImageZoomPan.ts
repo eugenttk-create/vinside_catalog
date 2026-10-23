@@ -1,3 +1,4 @@
+import catalogPartsStyles from "../../components/Catalog/CatalogMain/CatalogParts/CatalogParts.module.css";
 import { useEffect, useRef, useState } from "react";
 import { MIN_SCALE, MAX_SCALE, SCALE_STEP } from "../../utils/constants";
 
@@ -43,7 +44,7 @@ export const useImageZoomPan = (
     if (!container) return;
 
     const handleMouseDown = (e: MouseEvent) => {
-      if ((e.target as HTMLElement).closest(".catalog-parts__highlight"))
+      if ((e.target as HTMLElement).closest(`.${catalogPartsStyles["catalog-parts__highlight"]}`))
         return;
       isPanning.current = true;
       lastPanPoint.current = { x: e.clientX, y: e.clientY };

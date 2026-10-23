@@ -1,4 +1,5 @@
-import "./CatalogSidebar.css";
+import styles from "./CatalogSidebar.module.css";
+import shared from "../../../styles/common.module.css";
 import { useGroups } from "../../../hooks/groups/useGroups";
 import { useModels } from "../../../hooks/models/useModels";
 import CatalogGroupsSidebarContent from "./CatalogGroupsSidebarContent/CatalogGroupsSidebarContent";
@@ -42,25 +43,23 @@ const CatalogSidebar: React.FC<CatalogSidebarProps> = ({
   }, [isVinSearch]);
 
   return (
-    <aside className={`sidebar ${isSidebarActive ? "sidebar_active" : ""}`}>
+    <aside className={`${styles["sidebar"]} ${isSidebarActive ? styles["sidebar_active"] : ""}`}>
       <button
-        className="sidebar__toggle"
+        className={styles["sidebar__toggle"]}
         onClick={() => setIsSidebarActive(false)}
       >
-        <ChevronLeft className="icon" />
+        <ChevronLeft className={shared["icon"]} />
       </button>
       {groupsFlat.length > 0 && isVinSearch && (
-        <ul className="sidebar__tabs">
+        <ul className={styles["sidebar__tabs"]}>
           {tabs.map((tab) => {
             return (
               <li
-                className={`sidebar__tab ${
-                  tab.id !== activeTab ? "sidebar__tab_active" : ""
-                }`}
+                className={`${styles["sidebar__tab"]} ${tab.id !== activeTab ? styles["sidebar__tab_active"] : ""}`}
                 key={tab.id}
                 onClick={() => handleTabClick(tab.id)}
               >
-                <span className="sidebar__tab-title">{tab.title}</span>
+                <span className={styles["sidebar__tab-title"]}>{tab.title}</span>
               </li>
             );
           })}

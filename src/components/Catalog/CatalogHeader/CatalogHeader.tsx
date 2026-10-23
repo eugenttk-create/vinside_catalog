@@ -1,3 +1,5 @@
+import styles from "./CatalogHeader.module.css";
+import shared from "../../../styles/common.module.css";
 import { Home, Search, Menu, X, Settings as SettingsIcon } from "lucide-react";
 import { useModels } from "../../../hooks/models/useModels";
 import { useParts } from "../../../hooks/parts/useParts";
@@ -6,7 +8,7 @@ import { useGroups } from "../../../hooks/groups/useGroups";
 import { useBreadcrumbs } from "../../../hooks/breadcrumbs/useBreadcrumbs";
 import { useOE } from "../../../hooks/OE/useOE";
 import { useAnalogs } from "../../../hooks/analogs/useAnalogs";
-import "./CatalogHeader.css";
+
 import { useState } from "react";
 import Settings from "./Settings/Settings";
 
@@ -89,35 +91,35 @@ const CatalogHeader: React.FC<CatalogHeaderProps> = ({
   };
 
   return (
-    <header className="catalog-header">
-      <div className="catalog-header__left">
-        <div className="catalog-header__buttons">
+    <header className={styles["catalog-header"]}>
+      <div className={styles["catalog-header__left"]}>
+        <div className={styles["catalog-header__buttons"]}>
           <button
-            className="catalog-header__button icon-button"
+            className={`${shared["catalog-header__button"]} ${shared["icon-button"]}`}
             onClick={handleResetAndCloseCatalog}
           >
-            <Home className="icon" />
+            <Home className={shared["icon"]} />
           </button>
           <button
-            className="catalog-header__button icon-button catalog-header__button_burger"
+            className={`${shared["catalog-header__button"]} ${shared["icon-button"]} ${styles["catalog-header__button_burger"]}`}
             onClick={toggleSidebar}
           >
             {isSidebarActive ? (
-              <X className="icon" />
+              <X className={shared["icon"]} />
             ) : (
-              <Menu className="icon" />
+              <Menu className={shared["icon"]} />
             )}
           </button>
         </div>
-        <div className="catalog-header__inputs">
+        <div className={styles["catalog-header__inputs"]}>
           {isOESearch && OE && (
-            <div className="catalog-header__input-container">
-              <p className="catalog-header__vin-info">{OE.oe_number}</p>
+            <div className={styles["catalog-header__input-container"]}>
+              <p className={styles["catalog-header__vin-info"]}>{OE.oe_number}</p>
             </div>
           )}
           {!isVinSearch && (
             <form
-              className="catalog-header__input-container"
+              className={styles["catalog-header__input-container"]}
               onSubmit={(e) => {
                 e.preventDefault();
                 handleSearchByVin();
@@ -126,20 +128,20 @@ const CatalogHeader: React.FC<CatalogHeaderProps> = ({
               <input
                 type="text"
                 placeholder="VIN"
-                className="catalog-header__input input"
+                className={`${styles["catalog-header__input"]} ${shared["input"]}`}
                 id="catalog-header-vin-input"
                 value={vin}
                 onChange={(e) => setVin(e.target.value)}
               />
               <Search
-                className="icon catalog-header__icon"
+                className={`${shared["icon"]} ${styles["catalog-header__icon"]}`}
                 onClick={handleSearchByVin}
               />
             </form>
           )}
           {isVinSearch && vinInfo && (
-            <div className="catalog-header__input-container">
-              <p className="catalog-header__vin-info">
+            <div className={styles["catalog-header__input-container"]}>
+              <p className={styles["catalog-header__vin-info"]}>
                 {vinInfo.brand}&nbsp;&mdash;&nbsp;{vinInfo.model}
                 &nbsp;&mdash;&nbsp;{vinInfo.vin}
               </p>
@@ -147,7 +149,7 @@ const CatalogHeader: React.FC<CatalogHeaderProps> = ({
           )}
           {isVinSearch && (
             <form
-              className="catalog-header__input-container"
+              className={styles["catalog-header__input-container"]}
               onSubmit={(e) => {
                 e.preventDefault();
                 handleSearchByOE();
@@ -156,13 +158,13 @@ const CatalogHeader: React.FC<CatalogHeaderProps> = ({
               <input
                 type="text"
                 placeholder="OE Number"
-                className="catalog-header__input input"
+                className={`${styles["catalog-header__input"]} ${shared["input"]}`}
                 id="catalog-header-oe-search"
                 value={oeQuery}
                 onChange={(e) => setOeQuery(e.target.value)}
               />
               <Search
-                className="icon catalog-header__icon"
+                className={`${shared["icon"]} ${styles["catalog-header__icon"]}`}
                 onClick={handleSearchByOE}
               />
             </form>
@@ -178,15 +180,15 @@ const CatalogHeader: React.FC<CatalogHeaderProps> = ({
           </div> */}
         </div>
       </div>
-      <div className="catalog-header__right">
-        <div className="catalog-header__buttons">
+      <div className={styles["catalog-header__right"]}>
+        <div className={styles["catalog-header__buttons"]}>
           <button
-            className="catalog-header__button icon-button"
+            className={`${shared["catalog-header__button"]} ${shared["icon-button"]}`}
             onClick={toggleSettings}
             type="button"
             aria-label="Settings"
           >
-            <SettingsIcon className="icon" />
+            <SettingsIcon className={shared["icon"]} />
           </button>
           <Settings isActive={isSettingsActive} />
         </div>

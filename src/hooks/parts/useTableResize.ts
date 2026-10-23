@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { LS_KEY, MIN_WIDTH, MAX_WIDTH } from "../../utils/constants";
 
 export const useTableResize = (
@@ -9,8 +9,22 @@ export const useTableResize = (
     return saved ? Number(saved) : 400;
   });
   const isResizing = useRef(false);
+  const savedBodyStyle = useRef({ cursor: "", cursorPriority: "", userSelect: "", userSelectPriority: "" });
+
+  const restoreBodyStyle = useCallback(() => {
+    document.body.style.setProperty("cursor", savedBodyStyle.current.cursor, savedBodyStyle.current.cursorPriority);
+    document.body.style.setProperty("user-select", savedBodyStyle.current.userSelect, savedBodyStyle.current.userSelectPriority);
+  }, []);
 
   const startResize = () => {
+    if (!isResizing.current) {
+      savedBodyStyle.current = {
+        cursor: document.body.style.cursor,
+        cursorPriority: document.body.style.getPropertyPriority("cursor"),
+        userSelect: document.body.style.userSelect,
+        userSelectPriority: document.body.style.getPropertyPriority("user-select"),
+      };
+    }
     isResizing.current = true;
     document.body.style.cursor = "col-resize";
     document.body.style.userSelect = "none";
@@ -28,8 +42,7 @@ export const useTableResize = (
       if (!isResizing.current) return;
       isResizing.current = false;
       localStorage.setItem(LS_KEY, String(tableWidth));
-      document.body.style.cursor = "";
-      document.body.style.userSelect = "";
+      restoreBodyStyle();
     };
 
     window.addEventListener("mousemove", handleMouseMove);
@@ -38,7 +51,11 @@ export const useTableResize = (
       window.removeEventListener("mousemove", handleMouseMove);
       window.removeEventListener("mouseup", handleMouseUp);
     };
-  }, [tableWidth, catalogRef]);
+  }, [tableWidth, catalogRef, restoreBodyStyle]);
+
+  useEffect(() => () => {
+    if (isResizing.current) restoreBodyStyle();
+  }, [restoreBodyStyle]);
 
   return { tableWidth, startResize };
 };

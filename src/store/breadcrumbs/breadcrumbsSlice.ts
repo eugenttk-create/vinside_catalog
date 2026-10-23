@@ -1,10 +1,14 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { initialState } from "./breadcrumbs.types";
+import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
+import { initialState, type Breadcrumb } from "./breadcrumbs.types";
 
 const breadcrumbsSlice = createSlice({
   name: "breadcrumbs",
   initialState,
   reducers: {
+    replaceBreadcrumbs: (state, action: PayloadAction<Breadcrumb[]>) => {
+      state.breadcrumbs = action.payload;
+      state.currentIndex = action.payload.length - 1;
+    },
     addBreadcrumb: (state, action) => {
       if (state.currentIndex < state.breadcrumbs.length - 1) {
         state.breadcrumbs = state.breadcrumbs.slice(0, state.currentIndex + 1);
@@ -30,6 +34,7 @@ const breadcrumbsSlice = createSlice({
 });
 
 export const {
+  replaceBreadcrumbs,
   addBreadcrumb,
   trimBreadcrumbs,
   resetBreadcrumbs,

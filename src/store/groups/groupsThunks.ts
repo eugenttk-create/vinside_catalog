@@ -39,14 +39,15 @@ export const fetchByVin = createAsyncThunk(
   "groups/fetchByVin",
   async (
     { vin, regionId }: { vin: string; regionId?: string },
-    { rejectWithValue, dispatch }
+    { rejectWithValue, dispatch, signal }
   ) => {
     try {
       const url = regionId
         ? `/car/info?q=${vin}&reg=${regionId}`
         : `/car/info?q=${vin}`;
 
-      const response = await api.get(url);
+      const response = await api.get(url, { signal });
+      signal.throwIfAborted();
       const data = response.data;
 
       if (!data || data.length === 0) {
@@ -61,10 +62,26 @@ export const fetchByVin = createAsyncThunk(
       const carData = data[0];
 
       dispatch(setCatalogId(carData.catalogId));
-      await dispatch(
+      const groupsTask = dispatch(
         fetchGroups({ catalogId: carData.catalogId, carId: carData.carId })
       );
-      await dispatch(fetchVinInfo({ vin: carData.vin, regionId }));
+      const abortGroups = () => groupsTask.abort();
+      signal.addEventListener("abort", abortGroups, { once: true });
+      try {
+        await groupsTask;
+      } finally {
+        signal.removeEventListener("abort", abortGroups);
+      }
+      signal.throwIfAborted();
+      const infoTask = dispatch(fetchVinInfo({ vin: carData.vin, regionId }));
+      const abortInfo = () => infoTask.abort();
+      signal.addEventListener("abort", abortInfo, { once: true });
+      try {
+        await infoTask;
+      } finally {
+        signal.removeEventListener("abort", abortInfo);
+      }
+      signal.throwIfAborted();
 
       return { type: "car", carData } as const;
     } catch (error: any) {

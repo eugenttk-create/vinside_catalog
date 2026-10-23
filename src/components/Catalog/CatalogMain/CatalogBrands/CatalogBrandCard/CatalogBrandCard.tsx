@@ -1,4 +1,4 @@
-import "./CatalogBrandCard.css";
+import shared from "../../../../../styles/common.module.css";
 import CarImage from "../../../../../assets/car_cover.png";
 import { useModels } from "../../../../../hooks/models/useModels";
 import { resolveImageSrc } from "../../../../../utils/resolveImgSrc";
@@ -27,15 +27,15 @@ const CatalogBrandCard: React.FC<CatalogBrandCardProps> = ({
   };
 
   return (
-    <li className="catalog-brand-card card" onClick={handleBrandClick}>
+    <li className={`${shared["catalog-brand-card"]} ${shared["card"]}`} onClick={handleBrandClick}>
       <img
         src={resolveImageSrc(imageSrc)}
         loading="lazy"
         alt={`brand-${catalogId}`}
-        className="catalog-brand-card__image image"
+        className={`${shared["catalog-brand-card__image"]} ${shared["image"]}`}
         onError={handleImgError}
       />
-      <p className="catalog-brand-card__name title">{name}</p>
+      <p className={`${shared["catalog-brand-card__name"]} ${shared["title"]}`}>{name}</p>
     </li>
   );
 };

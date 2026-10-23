@@ -1,3 +1,5 @@
+import catalogSidebarStyles from "../../CatalogSidebar.module.css";
+import shared from "../../../../../styles/common.module.css";
 import type { GroupNode } from "../../../../../store/groups/groups.types";
 import { useState } from "react";
 import { ChevronRight } from "lucide-react";
@@ -34,18 +36,16 @@ const SidebarGroup: React.FC<{
   };
 
   return (
-    <li className="sidebar__dropdown-el">
-      <div className="sidebar__group-title" onClick={handleClick}>
+    <li className={catalogSidebarStyles["sidebar__dropdown-el"]}>
+      <div className={catalogSidebarStyles["sidebar__group-title"]} onClick={handleClick}>
         <ChevronRight
-          className={`icon sidebar__dropdown-el-icon ${
-            isOpen ? "sidebar__dropdown-el-icon_rotated" : ""
-          }`}
+          className={`${shared["icon"]} ${catalogSidebarStyles["sidebar__dropdown-el-icon"]} ${isOpen ? catalogSidebarStyles["sidebar__dropdown-el-icon_rotated"] : ""}`}
         />
         {node.name}
       </div>
 
       {hasChildren && (
-        <ul className="sidebar__dropdown-list nested">
+        <ul className={`${catalogSidebarStyles["sidebar__dropdown-list"]} ${catalogSidebarStyles["nested"]}`}>
           {node.children!.map((child) => (
             <SidebarGroup
               key={child.id}

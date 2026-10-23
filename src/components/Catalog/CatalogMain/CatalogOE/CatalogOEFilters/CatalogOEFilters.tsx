@@ -1,4 +1,4 @@
-import "./CatalogOEFilters.css";
+import styles from "./CatalogOEFilters.module.css";
 import { useOE } from "../../../../../hooks/OE/useOE";
 import { useMemo } from "react";
 
@@ -19,11 +19,9 @@ const CatalogOEFilters: React.FC<CatalogOEFiltersProps> = ({
   }, [OE]);
 
   return (
-    <div className="oe-filters">
+    <div className={styles["oe-filters"]}>
       <button
-        className={`oe-filter-btn ${
-          selectedBrand === "" ? "oe-filter-btn_active" : ""
-        }`}
+        className={`${styles["oe-filter-btn"]} ${selectedBrand === "" ? styles["oe-filter-btn_active"] : ""}`}
         onClick={() => onBrandSelect("")}
       >
         Все
@@ -31,9 +29,7 @@ const CatalogOEFilters: React.FC<CatalogOEFiltersProps> = ({
       {uniqueBrands.map((brand) => (
         <button
           key={brand}
-          className={`oe-filter-btn ${
-            selectedBrand === brand ? "oe-filter-btn_active" : ""
-          }`}
+          className={`${styles["oe-filter-btn"]} ${selectedBrand === brand ? styles["oe-filter-btn_active"] : ""}`}
           onClick={() => onBrandSelect(brand)}
         >
           {brand}

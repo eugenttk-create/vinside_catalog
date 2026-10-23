@@ -1,4 +1,5 @@
-import "./CatalogBrands.css";
+import styles from "./CatalogBrands.module.css";
+import shared from "../../../../styles/common.module.css";
 import CatalogBrandCard from "./CatalogBrandCard/CatalogBrandCard";
 import { useCatalogs } from "../../../../hooks/catalogs/useCatalogs";
 
@@ -8,7 +9,7 @@ const CatalogBrands: React.FC<CatalogBrandsProps> = ({}) => {
   const { catalogs } = useCatalogs();
 
   return (
-    <ul className="brands cards-section cards-section_grid">
+    <ul className={`${styles["brands"]} ${shared["cards-section"]} ${shared["cards-section_grid"]}`}>
       {catalogs &&
         catalogs.map((brand) => {
           return (

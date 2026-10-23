@@ -1,12 +1,18 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import { resolve } from "path";
+import { isolateWidgetCss } from "./build/isolateWidgetCss";
 
 export default defineConfig({
   base: "/",
   plugins: [react()],
+  css: {
+    modules: { generateScopedName: "carcat_[name]_[local]_[hash:base64:6]" },
+    postcss: { plugins: [isolateWidgetCss()] },
+  },
 
   build: {
+    cssCodeSplit: false,
     assetsDir: "assets",
     emptyOutDir: true,
     rollupOptions: {

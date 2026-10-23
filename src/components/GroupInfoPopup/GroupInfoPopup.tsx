@@ -1,5 +1,7 @@
-import "../InfoPopup/InfoPopup.css";
+import infoPopupStyles from "../InfoPopup/InfoPopup.module.css";
+import shared from "../../styles/common.module.css";
 import { X } from "lucide-react";
+import { orderCatalogFields } from "../../utils/orderCatalogFields";
 import { useTranslation } from "../../hooks/translation/useTranslation";
 import formatDate from "../../utils/formatDate";
 
@@ -44,161 +46,54 @@ const GroupInfoPopup: React.FC<GroupInfoPopupProps> = ({
 }) => {
   const { t } = useTranslation();
 
+  const fields = orderCatalogFields(
+    [
+      { key: "subgroup", label: t.widget_subgroup, value: description?.subgroup },
+      { key: "code", label: t.widget_code, value: description?.code },
+      { key: "referenceNr", label: t.widget_reference, value: description?.referenceNr },
+      { key: "illustration", label: t.widget_illustration, value: description?.illustration },
+      { key: "name", label: t.widget_name, value: description?.name },
+      { key: "from", label: t.widget_from, value: description?.from && formatDate(description.from) },
+      { key: "to", label: t.widget_to, value: description?.to && formatDate(description.to) },
+      { key: "from_year", label: t.widget_from, value: description?.from_year && formatDate(description.from_year) },
+      { key: "to_year", label: t.widget_to, value: description?.to_year && formatDate(description.to_year) },
+      { key: "year_from", label: t.widget_from, value: description?.year_from && formatDate(description.year_from) },
+      { key: "year_to", label: t.widget_to, value: description?.year_to && formatDate(description.year_to) },
+      { key: "pet", label: t.widget_pet, value: description?.pet },
+      { key: "pat", label: t.widget_pat, value: description?.pat },
+      { key: "mounting_time", label: t.widget_mounting_time, value: description?.mounting_time },
+      { key: "equipment", label: t.widget_equipment_2, value: description?.equipment },
+      { key: "description", label: t.widget_comment, value: description?.description },
+      { key: "remark", label: t.widget_remark, value: description?.remark },
+      { key: "comment", label: t.widget_restriction, value: description?.comment },
+      { key: "restriction", label: t.widget_restriction, value: description?.restriction },
+      { key: "modelDescription", label: t.widget_model_desc, value: description?.modelDescription },
+      { key: "changePoint", label: t.widget_change_point, value: description?.changePoint },
+    ],
+    (field) => field.key
+  ).filter((field) => field.value);
+
   return (
     <>
       <div
-        className={`info-popup__overlay ${
-          isActive ? "info-popup__overlay_active" : ""
-        }`}
+        className={`${infoPopupStyles["info-popup__overlay"]} ${isActive ? infoPopupStyles["info-popup__overlay_active"] : ""}`}
         onClick={onClose}
       ></div>
       <div
-        className={`info-popup ${isActive ? "info-popup_active" : ""}`}
+        className={`${infoPopupStyles["info-popup"]} ${isActive ? infoPopupStyles["info-popup_active"] : ""}`}
         style={{ top: position.top || "0", left: position.left || "0" }}
       >
-        <button className="info-popup__close" onClick={onClose}>
-          <X className="icon" />
+        <button className={infoPopupStyles["info-popup__close"]} onClick={onClose}>
+          <X className={shared["icon"]} />
         </button>
-        <p className="info-popup__top-title">{title}</p>
-        <div className="info-popup__containers">
-          {description?.subgroup && (
-            <div className="info-popup__container">
-              <p className="info-popup__title">{t.widget_subgroup}</p>
-              <p className="info-popup__text">{description?.subgroup}</p>
+        <p className={infoPopupStyles["info-popup__top-title"]}>{title}</p>
+        <div className={infoPopupStyles["info-popup__containers"]}>
+          {fields.map((field) => (
+            <div key={field.key} className={infoPopupStyles["info-popup__container"]}>
+              <p className={infoPopupStyles["info-popup__title"]}>{field.label}</p>
+              <p className={infoPopupStyles["info-popup__text"]}>{field.value}</p>
             </div>
-          )}
-          {description?.code && (
-            <div className="info-popup__container">
-              <p className="info-popup__title">{t.widget_code}</p>
-              <p className="info-popup__text">{description?.code}</p>
-            </div>
-          )}
-          {description?.referenceNr && (
-            <div className="info-popup__container">
-              <p className="info-popup__title">{t.widget_reference}</p>
-              <p className="info-popup__text">{description?.referenceNr}</p>
-            </div>
-          )}
-          {description?.illustration && (
-            <div className="info-popup__container">
-              <p className="info-popup__title">{t.widget_illustration}</p>
-              <p className="info-popup__text">{description?.illustration}</p>
-            </div>
-          )}
-          {description?.name && (
-            <div className="info-popup__container">
-              <p className="info-popup__title">{t.widget_name}</p>
-              <p className="info-popup__text">{description?.name}</p>
-            </div>
-          )}
-          {description?.from && (
-            <div className="info-popup__container">
-              <p className="info-popup__title">{t.widget_from}</p>
-              <p className="info-popup__text">
-                {formatDate(description?.from)}
-              </p>
-            </div>
-          )}
-          {description?.to && (
-            <div className="info-popup__container">
-              <p className="info-popup__title">{t.widget_to}</p>
-              <p className="info-popup__text">{formatDate(description?.to)}</p>
-            </div>
-          )}
-          {description?.from_year && (
-            <div className="info-popup__container">
-              <p className="info-popup__title">{t.widget_from}</p>
-              <p className="info-popup__text">
-                {formatDate(description?.from_year)}
-              </p>
-            </div>
-          )}
-          {description?.to_year && (
-            <div className="info-popup__container">
-              <p className="info-popup__title">{t.widget_to}</p>
-              <p className="info-popup__text">
-                {formatDate(description?.to_year)}
-              </p>
-            </div>
-          )}
-          {description?.year_from && (
-            <div className="info-popup__container">
-              <p className="info-popup__title">{t.widget_from}</p>
-              <p className="info-popup__text">
-                {formatDate(description?.year_from)}
-              </p>
-            </div>
-          )}
-          {description?.year_to && (
-            <div className="info-popup__container">
-              <p className="info-popup__title">{t.widget_to}</p>
-              <p className="info-popup__text">
-                {formatDate(description?.year_to)}
-              </p>
-            </div>
-          )}
-          {description?.pet && (
-            <div className="info-popup__container">
-              <p className="info-popup__title">{t.widget_pet}</p>
-              <p className="info-popup__text">{description?.pet}</p>
-            </div>
-          )}
-          {description?.pat && (
-            <div className="info-popup__container">
-              <p className="info-popup__title">{t.widget_pat}</p>
-              <p className="info-popup__text">{description?.pat}</p>
-            </div>
-          )}
-          {description?.mounting_time && (
-            <div className="info-popup__container">
-              <p className="info-popup__title">{t.widget_mounting_time}</p>
-              <p className="info-popup__text">{description?.mounting_time}</p>
-            </div>
-          )}
-          {description?.equipment && (
-            <div className="info-popup__container">
-              <p className="info-popup__title">{t.widget_equipment_2}</p>
-              <p className="info-popup__text">{description?.equipment}</p>
-            </div>
-          )}
-          {description?.description && (
-            <div className="info-popup__container">
-              <p className="info-popup__title">{t.widget_comment}</p>
-              <p className="info-popup__text">{description?.description}</p>
-            </div>
-          )}
-          {description?.remark && (
-            <div className="info-popup__container">
-              <p className="info-popup__title">{t.widget_remark}</p>
-              <p className="info-popup__text">{description?.remark}</p>
-            </div>
-          )}
-          {description?.comment && (
-            <div className="info-popup__container">
-              <p className="info-popup__title">{t.widget_restriction}</p>
-              <p className="info-popup__text">{description?.comment}</p>
-            </div>
-          )}
-          {description?.restriction && (
-            <div className="info-popup__container">
-              <p className="info-popup__title">{t.widget_restriction}</p>
-              <p className="info-popup__text">{description?.restriction}</p>
-            </div>
-          )}
-          {description?.modelDescription && (
-            <div className="info-popup__container">
-              <p className="info-popup__title">{t.widget_model_desc}</p>
-              <p className="info-popup__text">
-                {description?.modelDescription}
-              </p>
-            </div>
-          )}
-          {description?.changePoint && (
-            <div className="info-popup__container">
-              <p className="info-popup__title">{t.widget_change_point}</p>
-              <p className="info-popup__text">{description?.changePoint}</p>
-            </div>
-          )}
+          ))}
         </div>
       </div>
     </>

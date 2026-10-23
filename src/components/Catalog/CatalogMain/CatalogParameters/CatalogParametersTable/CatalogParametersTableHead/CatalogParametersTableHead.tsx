@@ -1,3 +1,4 @@
+import shared from "../../../../../../styles/common.module.css";
 interface CatalogParametersTableHeadProps {
   title: string;
 }
@@ -5,7 +6,7 @@ interface CatalogParametersTableHeadProps {
 const CatalogParametersTableHead: React.FC<CatalogParametersTableHeadProps> = ({
   title,
 }) => {
-  return <th className="table-header-el">{title}</th>;
+  return <th className={shared["table-header-el"]}>{title}</th>;
 };
 
 export default CatalogParametersTableHead;

@@ -64,6 +64,7 @@ interface PartsResponse {
 
 interface PartsState {
   parts: PartsResponse;
+  loadedGroupId?: string;
   partsLoading: boolean;
   partsError: string | null;
 }

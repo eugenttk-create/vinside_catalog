@@ -1,4 +1,5 @@
-import "./CatalogMain.css";
+import styles from "./CatalogMain.module.css";
+import shared from "../../../styles/common.module.css";
 import { ChevronRight, Grid2X2, Menu } from "lucide-react";
 import CatalogModels from "./CatalogModels/CatalogModels";
 import CatalogParameters from "./CatalogParameters/CatalogParameters";
@@ -52,26 +53,28 @@ const CatalogMain: React.FC<CatalogMainProps> = ({
   };
 
   const hasExtraDescriptionData = (
-    description: Record<string, unknown> | null | undefined
+    description: Record<string, unknown> | null | undefined,
   ): boolean => {
     if (!description) return false;
     return Object.values(description).some(
-      (value) => value != null && String(value).trim() !== ""
+      (value) => value != null && String(value).trim() !== "",
     );
   };
 
   const modelsHaveExtraData = models.some((m) =>
-    hasExtraDescriptionData(m.description as Record<string, unknown> | null)
+    hasExtraDescriptionData(m.description as Record<string, unknown> | null),
   );
 
   const parametersHaveExtraData = parameters.some((param) =>
     param.values.some((val) =>
-      hasExtraDescriptionData(val.description as Record<string, unknown> | null)
-    )
+      hasExtraDescriptionData(
+        val.description as Record<string, unknown> | null,
+      ),
+    ),
   );
 
   const groupsHaveExtraData = groupsFlat.some((g) =>
-    hasExtraDescriptionData(g.description as Record<string, unknown> | null)
+    hasExtraDescriptionData(g.description as Record<string, unknown> | null),
   );
 
   useEffect(() => {
@@ -113,40 +116,30 @@ const CatalogMain: React.FC<CatalogMainProps> = ({
 
   return (
     <div
-      className={`catalog-main ${
-        hasPartsResponse && !isAnalogsView ? "catalog-main_parts" : ""
-      }`}
+      className={`${styles["catalog-main"]} ${hasPartsResponse && !isAnalogsView ? styles["catalog-main_parts"] : ""}`}
     >
       {!isSidebarActive && (
         <button
-          className="catalog__sidebar-toggle"
+          className={styles["catalog__sidebar-toggle"]}
           onClick={() => setIsSidebarAvtive(true)}
         >
-          <ChevronRight className="icon" />
+          <ChevronRight className={shared["icon"]} />
         </button>
       )}
       {showViewSwitch && (
-        <div className="cards-section__switch-container">
-          <div className="cards-section__switch">
+        <div className={shared["cards-section__switch-container"]}>
+          <div className={shared["cards-section__switch"]}>
             <button
-              className={`cards-section__switch-button ${
-                switchState === "cards"
-                  ? "cards-section__switch-button_active"
-                  : ""
-              }`}
+              className={`${shared["cards-section__switch-button"]} ${switchState === "cards" ? shared["cards-section__switch-button_active"] : ""}`}
               onClick={toggleSwitch}
             >
-              <Grid2X2 className="icon" />
+              <Grid2X2 className={shared["icon"]} />
             </button>
             <button
-              className={`cards-section__switch-button ${
-                switchState === "list"
-                  ? "cards-section__switch-button_active"
-                  : ""
-              }`}
+              className={`${shared["cards-section__switch-button"]} ${switchState === "list" ? shared["cards-section__switch-button_active"] : ""}`}
               onClick={toggleSwitch}
             >
-              <Menu className="icon" />
+              <Menu className={shared["icon"]} />
             </button>
           </div>
         </div>

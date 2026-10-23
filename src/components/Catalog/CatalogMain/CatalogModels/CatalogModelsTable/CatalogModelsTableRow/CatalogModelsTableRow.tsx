@@ -1,5 +1,6 @@
+
 import TruncatedCell from "../../../../../TruncatedCell/TruncatedCell";
-import "./CatalogModelsTableRow.css";
+
 
 interface CatalogModelsTableRowProps {
   text: string;

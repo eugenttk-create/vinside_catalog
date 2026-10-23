@@ -1,4 +1,5 @@
-import "./CatalogEquipmentSidebarContent.css";
+import styles from "./CatalogEquipmentSidebarContent.module.css";
+import shared from "../../../../styles/common.module.css";
 import { useGroups } from "../../../../hooks/groups/useGroups";
 import DefaultLoader from "../../../Loaders/DefaultLoader/DefaultLoader";
 import { ChevronDown } from "lucide-react";
@@ -10,66 +11,62 @@ const CatalogEquipmentSidebarContent: React.FC = () => {
 
   if (isSidebarLoading)
     return (
-      <div className="equipment__loader">
+      <div className={styles["equipment__loader"]}>
         <DefaultLoader />
       </div>
     );
 
   return (
-    <ul className="equipment">
+    <ul className={styles["equipment"]}>
       {vinInfo?.brand && (
-        <li className="equipment__el">
-          <p className="equipment__el-title">Brand</p>
-          <p className="equipment__el-text">{vinInfo.brand}</p>
+        <li className={styles["equipment__el"]}>
+          <p className={styles["equipment__el-title"]}>Brand</p>
+          <p className={styles["equipment__el-text"]}>{vinInfo.brand}</p>
         </li>
       )}
       {vinInfo?.model && (
-        <li className="equipment__el">
-          <p className="equipment__el-title">Model</p>
-          <p className="equipment__el-text">{vinInfo.model}</p>
+        <li className={styles["equipment__el"]}>
+          <p className={styles["equipment__el-title"]}>Model</p>
+          <p className={styles["equipment__el-text"]}>{vinInfo.model}</p>
         </li>
       )}{" "}
       {vinInfo?.vin && (
-        <li className="equipment__el">
-          <p className="equipment__el-title">VIN</p>
-          <p className="equipment__el-text">{vinInfo.vin}</p>
+        <li className={styles["equipment__el"]}>
+          <p className={styles["equipment__el-title"]}>VIN</p>
+          <p className={styles["equipment__el-text"]}>{vinInfo.vin}</p>
         </li>
       )}
       {vinInfo &&
         vinInfo.parameters.map((p) => {
           return (
-            <li className="equipment__el" key={p.key}>
-              <p className="equipment__el-title">
+            <li className={styles["equipment__el"]} key={p.key}>
+              <p className={styles["equipment__el-title"]}>
                 {p.description ? p.description : p.key}
               </p>
-              <p className="equipment__el-text">{p.value}</p>
+              <p className={styles["equipment__el-text"]}>{p.value}</p>
             </li>
           );
         })}
-      <div className="equipment__option-codes">
+      <div className={styles["equipment__option-codes"]}>
         <div
-          className="equipment__option-codes-title-container"
+          className={styles["equipment__option-codes-title-container"]}
           onClick={() => setIsCodesOpen(!isCodesOpen)}
         >
           <ChevronDown
-            className={`icon ${
-              isCodesOpen
-                ? "equipment__option-codes-icon_rotated"
-                : "equipment__option-codes-icon"
-            }`}
+            className={`${shared["icon"]} ${isCodesOpen ? styles["equipment__option-codes-icon_rotated"] : styles["equipment__option-codes-icon"]}`}
           />
-          <p className="equipment__option-codes-title">Опционные коды</p>
+          <p className={styles["equipment__option-codes-title"]}>Опционные коды</p>
         </div>
         {isCodesOpen && vinInfo?.optionCodes && (
-          <ul className="equipment__option-codes-list">
+          <ul className={styles["equipment__option-codes-list"]}>
             {vinInfo.optionCodes.map((oc) => {
               return (
-                <li className="equipment__option-code" key={oc.key}>
-                  <p className="equipment__option-code-title">{oc.key}</p>
-                  <p className="equipment__option-code-text">
+                <li className={styles["equipment__option-code"]} key={oc.key}>
+                  <p className={styles["equipment__option-code-title"]}>{oc.key}</p>
+                  <p className={styles["equipment__option-code-text"]}>
                     {oc.description || oc.key}
                   </p>
-                  <p className="equipment__option-code-text equipment__option-code-text_gray">
+                  <p className={`${styles["equipment__option-code-text"]} ${styles["equipment__option-code-text_gray"]}`}>
                     Code: {oc.value}
                   </p>
                 </li>

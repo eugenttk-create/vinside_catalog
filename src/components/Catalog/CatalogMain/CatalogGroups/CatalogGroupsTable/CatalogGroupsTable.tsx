@@ -1,3 +1,4 @@
+import shared from "../../../../../styles/common.module.css";
 import CatalogGroupsTableHead from "./CatalogGroupsTableHead/CatalogGroupsTableHead";
 import CatalogGroupsTableRow from "./CatalogGroupsTableRow/CatalogGroupsTableRow";
 import { resolveImageSrc } from "../../../../../utils/resolveImgSrc";
@@ -5,6 +6,7 @@ import { useGroups } from "../../../../../hooks/groups/useGroups";
 import { useTranslation } from "../../../../../hooks/translation/useTranslation";
 import TruncatedCell from "../../../../TruncatedCell/TruncatedCell";
 import TableImage from "../../../../TableImage/TableImage";
+import { orderCatalogFields } from "../../../../../utils/orderCatalogFields";
 
 const GROUP_COLUMN_KEYS = [
   "subgroup",
@@ -101,7 +103,11 @@ const CatalogGroupsTable: React.FC<CatalogGroupsTableProps> = ({ onClick }) => {
     groupsFlat.some((group) => {
       if (!group.description) return false;
       return !!group.description[key as keyof typeof group.description];
-    })
+    }),
+  );
+  const columns = orderCatalogFields(
+    ["image", "title", ...activeColumns] as const,
+    (key) => key,
   );
 
   const getCellValue = (group: Group, key: GroupColumnKey): string | null => {
@@ -110,41 +116,60 @@ const CatalogGroupsTable: React.FC<CatalogGroupsTableProps> = ({ onClick }) => {
   };
 
   return (
-    <div className="table-container">
-      <div className="table-wrapper">
-        <table className="table">
-          <thead className="table-header">
-            <tr className="table-row">
-              <th className="table-header-el"></th>
-              <th className="table-header-el">{t.widget_name}</th>
-              {activeColumns.map((key) => (
-                <CatalogGroupsTableHead key={key} title={columnLabels[key]} />
-              ))}
+    <div className={shared["table-container"]}>
+      <div className={shared["table-wrapper"]}>
+        <table className={`${shared["table"]} ${shared["table_ordered"]}`}>
+          <thead className={shared["table-header"]}>
+            <tr className={shared["table-row"]}>
+              {columns.map((key) =>
+                key === "image" ? (
+                  <th
+                    key={key}
+                    className={`${shared["table-header-el"]} ${shared["table-image-cell"]}`}
+                  ></th>
+                ) : (
+                  <CatalogGroupsTableHead
+                    key={key}
+                    title={key === "title" ? t.widget_name : columnLabels[key]}
+                  />
+                ),
+              )}
             </tr>
           </thead>
-          <tbody className="table-body">
+          <tbody className={shared["table-body"]}>
             {groupsFlat.map((group) => (
               <tr
                 key={group.id}
-                className="table-row"
+                className={shared["table-row"]}
                 onClick={() =>
                   onClick(group.id, group.name, group.hasSubgroups)
                 }
                 style={{ cursor: "pointer" }}
               >
-                <td className="table-data">
-                  <TableImage
-                    src={resolveImageSrc(group.img)}
-                    alt={`group-${group.id}`}
-                  />
-                </td>
-                <TruncatedCell text={group.name} />
-                {activeColumns.map((key) => (
-                  <CatalogGroupsTableRow
-                    key={key}
-                    text={getCellValue(group, key) ?? "—"}
-                  />
-                ))}
+                {columns.map((key) => {
+                  if (key === "image") {
+                    return (
+                      <td
+                        key={key}
+                        className={`${shared["table-data"]} ${shared["table-image-cell"]}`}
+                      >
+                        <TableImage
+                          src={resolveImageSrc(group.img)}
+                          alt={`group-${group.id}`}
+                        />
+                      </td>
+                    );
+                  }
+                  if (key === "title") {
+                    return <TruncatedCell key={key} text={group.name} />;
+                  }
+                  return (
+                    <CatalogGroupsTableRow
+                      key={key}
+                      text={getCellValue(group, key) ?? "—"}
+                    />
+                  );
+                })}
               </tr>
             ))}
           </tbody>

@@ -1,5 +1,6 @@
-import "./CatalogParameters.css";
-import { useState, useEffect } from "react";
+import shared from "../../../../styles/common.module.css";
+import styles from "./CatalogParameters.module.css";
+import { useState } from "react";
 import { useParameters } from "../../../../hooks/parameters/useParameters";
 import { useModels } from "../../../../hooks/models/useModels";
 import CatalogParameterCard from "./CatalogParameterCard/CatalogParameterCard";
@@ -18,7 +19,8 @@ const CatalogParameters: React.FC<CatalogParametersProps> = ({
   switchState,
 }) => {
   const { handleAddBreadcrumb } = useBreadcrumbs();
-  const { parameters, getParameters, isAllParamsMode } = useParameters();
+  const { parameters, getParameters, isAllParamsMode, selectedParameters } =
+    useParameters();
   const { catalogId } = useModels();
   const [isInfoActive, setIsInfoActive] = useState(false);
   const [currentDescription, setCurrentDescription] =
@@ -27,39 +29,38 @@ const CatalogParameters: React.FC<CatalogParametersProps> = ({
   const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
   const [activeCardId, setActiveCardId] = useState<string | null>(null);
 
-  const [answeredKeys, setAnsweredKeys] = useState<Set<string>>(new Set());
+  const answeredKeys = new Set(
+    parameters
+      .filter((param) =>
+        param.values.some((value) => selectedParameters.includes(value.idx)),
+      )
+      .map((param) => param.key),
+  );
 
-  useEffect(() => {
-    setAnsweredKeys(new Set());
-  }, [modelId]);
-
-  const handleSelect = (idx: string, name: string, key?: string) => {
-    if (key) {
-      setAnsweredKeys((prev) => new Set(prev).add(key));
-    }
+  const handleSelect = (idx: string, name: string) => {
     getParameters(catalogId, modelId, idx);
     handleAddBreadcrumb("parameter", name, idx);
   };
 
   if (isAllParamsMode) {
     const visibleParameters = parameters.filter(
-      (param) => !answeredKeys.has(param.key)
+      (param) => !answeredKeys.has(param.key),
     );
 
     return (
       <>
         {visibleParameters.map((param) => (
-          <div className="parameters-group" key={param.key}>
-            <h3 className="parameters-group__title title">{param.name}</h3>
+          <div className={shared["parameters-group"]} key={param.key}>
+            <h3 className={`${styles["parameters-group__title"]} ${shared["title"]}`}>{param.name}</h3>
             {switchState === "cards" ? (
-              <ul className="cards-section cards-section_grid">
+              <ul className={`${shared["cards-section"]} ${shared["cards-section_grid"]}`}>
                 {param.values.map((val) => (
                   <CatalogParameterCard
                     key={val.idx}
                     idx={val.idx}
                     name={val.value}
                     imageSrc={val.img}
-                    onClick={(idx) => handleSelect(idx, val.value, param.key)}
+                    onClick={(idx) => handleSelect(idx, val.value)}
                     description={val.description}
                     switchState={switchState}
                     setIsInfoActive={setIsInfoActive}
@@ -75,7 +76,7 @@ const CatalogParameters: React.FC<CatalogParametersProps> = ({
               <CatalogParametersTable
                 values={param.values}
                 modelId={modelId}
-                onClick={(idx, name) => handleSelect(idx, name, param.key)}
+                onClick={(idx, name) => handleSelect(idx, name)}
               />
             )}
           </div>
@@ -99,9 +100,7 @@ const CatalogParameters: React.FC<CatalogParametersProps> = ({
   return switchState === "cards" ? (
     <>
       <ul
-        className={`cards-section ${
-          switchState === "cards" ? "cards-section_grid" : "cards-section_list"
-        }`}
+        className={`${shared["cards-section"]} ${switchState === "cards" ? shared["cards-section_grid"] : shared["cards-section_list"]}`}
       >
         {lastParameter.values.map((val) => (
           <CatalogParameterCard

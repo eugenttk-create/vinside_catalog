@@ -1,3 +1,4 @@
+import shared from "../../styles/common.module.css";
 import { useState } from "react";
 
 const MAX_LENGTH = 100;
@@ -18,11 +19,11 @@ const TruncatedCell: React.FC<{ text: string }> = ({ text }) => {
 
   return (
     <td
-      className="table-data"
+      className={shared["table-data"]}
       onClick={handleClick}
       style={isTruncated ? { cursor: "pointer" } : undefined}
     >
-      <span className="table-data-text">{displayText}</span>
+      <span className={shared["table-data-text"]}>{displayText}</span>
     </td>
   );
 };

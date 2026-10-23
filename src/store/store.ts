@@ -11,6 +11,7 @@ import languageReducer from "./language/languageSlice";
 import notificationsReducer from "./notifications/notificationsSlice";
 import themeReducer from "./theme/themeSlice";
 import { errorMiddleware } from "./middleware/errorMiddleware";
+import { catalogRequestMiddleware } from "../navigation/catalogRequests";
 
 const appReducer = combineReducers({
   catalogs: catalogsReducer,
@@ -28,7 +29,7 @@ const appReducer = combineReducers({
 
 const rootReducer = (
   state: ReturnType<typeof appReducer> | undefined,
-  action: any
+  action: any,
 ) => {
   if (action.type === "RESET_STORE") {
     state = undefined;
@@ -40,7 +41,9 @@ const rootReducer = (
 const store = configureStore({
   reducer: rootReducer,
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(errorMiddleware),
+    getDefaultMiddleware()
+      .prepend(catalogRequestMiddleware)
+      .concat(errorMiddleware),
 });
 
 export default store;

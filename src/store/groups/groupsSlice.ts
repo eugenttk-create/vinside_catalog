@@ -118,6 +118,7 @@ const groupsSlice = createSlice({
       .addCase(fetchVinInfo.fulfilled, (state, action) => {
         state.isSidebarLoading = false;
         state.vinInfo = action.payload;
+        state.vinRegionId = action.meta.arg.regionId;
         state.groupsError = null;
       })
 

@@ -1,4 +1,5 @@
-import "./CatalogGroupCard.css";
+import shared from "../../../../../styles/common.module.css";
+import styles from "./CatalogGroupCard.module.css";
 import { useGroups } from "../../../../../hooks/groups/useGroups";
 import { useParts } from "../../../../../hooks/parts/useParts";
 import { useModels } from "../../../../../hooks/models/useModels";
@@ -126,9 +127,7 @@ const CatalogGroupCard: React.FC<CatalogGroupCardProps> = ({
 
   return (
     <li
-      className={`catalog-group-card card ${
-        switchState === "list" ? "card_list" : ""
-      } ${activeCardId === idx ? "card_hovered" : ""}`}
+      className={`${shared["catalog-group-card"]} ${shared["card"]} ${switchState === "list" ? shared["card_list"] : ""} ${activeCardId === idx ? shared["card_hovered"] : ""}`}
       onClick={handleCardClick}
     >
       {!description?.changePoint &&
@@ -156,35 +155,31 @@ const CatalogGroupCard: React.FC<CatalogGroupCardProps> = ({
       ) : (
         <button
           type="button"
-          className="catalog-group-card__info-icon"
+          className={styles["catalog-group-card__info-icon"]}
           onClick={handleInfoButtonClick}
         >
-          <Info className="icon" />
+          <Info className={shared["icon"]} />
         </button>
       )}
-      <div className="catalog-group-card__top-container">
+      <div className={styles["catalog-group-card__top-container"]}>
         <img
           src={resolveImageSrc(imageSrc)}
           alt={`param-${idx}`}
-          className={`catalog-group-card__image image ${
-            switchState === "list" ? "image_list" : ""
-          }`}
+          className={`${shared["catalog-group-card__image"]} ${shared["image"]} ${switchState === "list" ? shared["image_list"] : ""}`}
           loading="lazy"
           onError={(e) => {
             e.currentTarget.src = FALLBACK_IMAGE;
           }}
         />
         <p
-          className={`catalog-group-card__name title ${
-            switchState === "list" ? "title_list" : ""
-          }`}
+          className={`${shared["catalog-group-card__name"]} ${shared["title"]} ${switchState === "list" ? shared["title_list"] : ""}`}
           title={name}
         >
           {name}
         </p>
       </div>
       {description?.illustration && (
-        <div className="catalog-group-card__illustration">
+        <div className={styles["catalog-group-card__illustration"]}>
           <span>Illustration </span>
 
           <span>{description.illustration}</span>

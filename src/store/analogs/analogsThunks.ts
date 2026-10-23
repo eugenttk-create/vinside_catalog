@@ -15,10 +15,10 @@ export const fetchAnalogs = createAsyncThunk(
         error.response?.data?.detail ||
           error.response?.data?.message ||
           error.message ||
-          "Failed to fetch analogs"
+          "Failed to fetch analogs",
       );
     }
-  }
+  },
 );
 
 export const fetchAnalogInfo = createAsyncThunk(
@@ -29,7 +29,7 @@ export const fetchAnalogInfo = createAsyncThunk(
       articleNumber: string;
       genericArticleIds: number[];
     },
-    { rejectWithValue }
+    { rejectWithValue },
   ) => {
     try {
       const response = await api.post("/crossdoc/getAnalogInfo", payload);
@@ -39,17 +39,17 @@ export const fetchAnalogInfo = createAsyncThunk(
         error.response?.data?.detail ||
           error.response?.data?.message ||
           error.message ||
-          "Failed to fetch analog info"
+          "Failed to fetch analog info",
       );
     }
-  }
+  },
 );
 
 export const fetchApplicability = createAsyncThunk(
   "analogs/fetchApplicability",
   async (
     payload: { articleId: number; brandId: number },
-    { rejectWithValue }
+    { rejectWithValue },
   ) => {
     try {
       const response = await api.post("/crossdoc/getApplicability", payload);
@@ -59,8 +59,8 @@ export const fetchApplicability = createAsyncThunk(
         error.response?.data?.detail ||
           error.response?.data?.message ||
           error.message ||
-          "Failed to fetch applicability"
+          "Failed to fetch applicability",
       );
     }
-  }
+  },
 );

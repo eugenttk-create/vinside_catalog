@@ -68,6 +68,7 @@ export interface GroupsState {
   selectedGroups: string[];
   isSidebarLoading: boolean;
   vinInfo: VinInfo | null;
+  vinRegionId?: string;
   isAiSearch: boolean;
   aiSearchQuery: string;
   searchResultType: "groups" | "parts" | null;

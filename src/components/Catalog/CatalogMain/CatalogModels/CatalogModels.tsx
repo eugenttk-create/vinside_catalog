@@ -1,4 +1,4 @@
-import "./CatalogModels.css";
+import shared from "../../../../styles/common.module.css";
 import CatalogModelCard from "./CatalogModelCard/CatalogModelCard";
 import { useModels } from "../../../../hooks/models/useModels";
 import { useState } from "react";
@@ -48,9 +48,7 @@ const CatalogModels: React.FC<CatalogModelsProps> = ({
   return switchState === "cards" ? (
     <>
       <ul
-        className={`models cards-section ${
-          switchState === "cards" ? "cards-section_grid" : "cards-section_list"
-        }`}
+        className={`${shared["models"]} ${shared["cards-section"]} ${switchState === "cards" ? shared["cards-section_grid"] : shared["cards-section_list"]}`}
       >
         {models &&
           models.map((model) => {

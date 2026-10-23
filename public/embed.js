@@ -1,45 +1,31 @@
 (function () {
-  const ROOT_ID = "my-widget-root";
-
-  const BASE = "$VITE_BASE_URL";
-  const JS = BASE + "/widget.js";
-  const CSS = BASE + "/widget.css";
-  const CSS2 = BASE + "/widget2.css";
   const script = document.currentScript;
   if (!script) {
     console.error("Cannot detect current script");
     return;
   }
 
-  const token = script.dataset.token;
-  const language = script.dataset.language;
-  const link = script.dataset.link;
-  const view = script.dataset.view;
-
+  const configuredBase = "$VITE_BASE_URL";
+  const base = !configuredBase || configuredBase.startsWith("$")
+    ? new URL(".", script.src).href
+    : configuredBase.replace(/\/$/, "") + "/";
   const container = document.createElement("div");
-  container.id = ROOT_ID;
-
+  container.id = "my-widget-root";
   script.parentNode.insertBefore(container, script);
 
-  const shadowRoot = container.attachShadow({ mode: "open" });
+  const options = {
+    token: script.dataset.token,
+    language: script.dataset.language,
+    link: script.dataset.link,
+    view: script.dataset.view,
+  };
 
-  const link1 = document.createElement("link");
-  link1.rel = "stylesheet";
-  link1.href = CSS;
-  shadowRoot.appendChild(link1);
-
-  const link2 = document.createElement("link");
-  link2.rel = "stylesheet";
-  link2.href = CSS2;
-  shadowRoot.appendChild(link2);
-
-  import(JS)
+  import(new URL("widget.js", base).href)
     .then((mod) => {
       if (typeof mod.mountWidget !== "function") {
-        console.error("mountWidget() not found in widget.js", mod);
-        return;
+        throw new Error("mountWidget() not found in widget.js");
       }
-      mod.mountWidget(shadowRoot, { token, language, link, view });
+      return mod.mountWidget(container, options);
     })
     .catch(console.error);
 })();

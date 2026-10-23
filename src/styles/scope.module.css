@@ -1,0 +1,355 @@
+@import "../vendor/fonts/roboto.module.css";
+
+:global(:is(#my-widget-root#my-widget-root, #widget-catalog-portal#widget-catalog-portal, [data-carcat-root])).scope {
+  all: revert;
+  display: block;
+  font-family: "CarcatRoboto", "Arial", "Helvetica", sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: normal;
+  color: initial;
+  direction: ltr;
+  text-align: start;
+  letter-spacing: normal;
+  word-spacing: normal;
+  text-transform: none;
+  text-indent: 0;
+  white-space: normal;
+  color-scheme: light;
+  --carcat-bg-white: #fff;
+  --carcat-bg-red: rgb(253, 240, 240);
+  --carcat-bg-blue: rgb(240, 249, 255);
+  --carcat-bg-gray: rgb(249, 250, 251);
+  --carcat-text-color: rgb(12, 74, 110);
+  --carcat-text-secondary: rgb(7, 89, 133);
+  --carcat-text-gray: #7a7a7a;
+  --carcat-white: #fff;
+  --carcat-blue: rgb(14, 165, 233);
+  --carcat-red: rgb(163, 22, 22);
+  --carcat-green: rgb(85, 211, 59);
+  --carcat-border-blue: rgba(14, 165, 233, 0.25);
+  --carcat-border-active-blue: rgb(14, 165, 233);
+  --carcat-border-neutral: #e5e7eb;
+  --carcat-surface-muted: rgba(0, 0, 0, 0.041);
+  --carcat-overlay: rgba(0, 0, 0, 0.2);
+  --carcat-accent-soft: rgba(14, 165, 233, 0.082);
+  --carcat-accent-resize: rgba(14, 165, 233, 0.15);
+  --carcat-accent-highlight: rgba(0, 153, 255, 0.425);
+  --carcat-loader-color: rgb(123, 180, 255);
+}
+
+:global(:is(#my-widget-root#my-widget-root, #widget-catalog-portal#widget-catalog-portal, [data-carcat-root])).scope[data-carcat-theme="dark"] {
+  color-scheme: light;
+  --carcat-bg-white: #1a2332;
+  --carcat-bg-red: rgb(60, 25, 25);
+  --carcat-bg-blue: #0b1220;
+  --carcat-bg-gray: #151d2b;
+  --carcat-text-color: #e2e8f0;
+  --carcat-text-secondary: #94a3b8;
+  --carcat-text-gray: #94a3b8;
+  --carcat-white: #1a2332;
+  --carcat-blue: rgb(56, 189, 248);
+  --carcat-red: rgb(248, 113, 113);
+  --carcat-green: rgb(74, 222, 128);
+  --carcat-border-blue: rgba(56, 189, 248, 0.3);
+  --carcat-border-active-blue: rgb(56, 189, 248);
+  --carcat-border-neutral: #2a3548;
+  --carcat-surface-muted: rgba(255, 255, 255, 0.06);
+  --carcat-overlay: rgba(0, 0, 0, 0.5);
+}
+
+:global(:is(#my-widget-root#my-widget-root, #widget-catalog-portal#widget-catalog-portal, [data-carcat-root])) :where(:not(svg, svg *)) {
+  all: revert;
+}
+
+:global(:is(#my-widget-root#my-widget-root, #widget-catalog-portal#widget-catalog-portal, [data-carcat-root])).scope::before,
+:global(:is(#my-widget-root#my-widget-root, #widget-catalog-portal#widget-catalog-portal, [data-carcat-root])).scope::after,
+:global(:is(#my-widget-root#my-widget-root, #widget-catalog-portal#widget-catalog-portal, [data-carcat-root])) :where(*)::before,
+:global(:is(#my-widget-root#my-widget-root, #widget-catalog-portal#widget-catalog-portal, [data-carcat-root])) :where(*)::after {
+  all: revert;
+  content: normal;
+}
+
+:global(:is(#my-widget-root#my-widget-root, #widget-catalog-portal#widget-catalog-portal, [data-carcat-root])) :where(*) {
+  font-family: "CarcatRoboto", "Arial", "Helvetica", sans-serif;
+  font-weight: 400;
+}
+
+:global(:is(#my-widget-root#my-widget-root, #widget-catalog-portal#widget-catalog-portal, [data-carcat-root])).scope[data-carcat-standalone] {
+  line-height: 1.15;
+}
+
+:global(:is(#my-widget-root#my-widget-root, #widget-catalog-portal#widget-catalog-portal, [data-carcat-root])):where(.scope[data-carcat-standalone]) :where(h1, h2, h3, h4, h5, h6) {
+  font-weight: revert;
+}
+
+:global(:is(#my-widget-root#my-widget-root, #widget-catalog-portal#widget-catalog-portal, [data-carcat-root])) :where(svg) {
+  all: revert;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+:global(:is(#my-widget-root#my-widget-root, #widget-catalog-portal#widget-catalog-portal, [data-carcat-root])) :where(svg[stroke-width="1.5"]) {
+  stroke-width: 1.5;
+}
+
+:global(:is(#my-widget-root#my-widget-root, #widget-catalog-portal#widget-catalog-portal, [data-carcat-root])) :where(svg[stroke-width="1"]) {
+  stroke-width: 1;
+}
+
+:global(:is(#my-widget-root#my-widget-root, #widget-catalog-portal#widget-catalog-portal, [data-carcat-root])) :where(svg *) {
+  fill: inherit;
+  stroke: inherit;
+  stroke-width: inherit;
+  stroke-linecap: inherit;
+  stroke-linejoin: inherit;
+}
+
+:global(#widget-catalog-portal#widget-catalog-portal).portal {
+  color: var(--carcat-text-color);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  z-index: 2147483647;
+  pointer-events: none;
+}
+
+:global(:is(#my-widget-root#my-widget-root, #widget-catalog-portal#widget-catalog-portal, [data-carcat-root])).scope[data-carcat-palette="green"] {
+  --carcat-bg-blue: hsl(142 70% 97%);
+  --carcat-text-color: hsl(142 65% 22%);
+  --carcat-text-secondary: hsl(142 60% 29%);
+  --carcat-blue: #15803d;
+  --carcat-accent-soft: color-mix(in srgb, #15803d 8.2%, transparent);
+  --carcat-accent-resize: color-mix(in srgb, #15803d 15%, transparent);
+  --carcat-accent-highlight: color-mix(in srgb, #15803d 42.5%, transparent);
+  --carcat-loader-color: #15803d;
+  --carcat-border-blue: hsl(142 65% 45% / 0.25);
+  --carcat-border-active-blue: #15803d;
+}
+
+:global(:is(#my-widget-root#my-widget-root, #widget-catalog-portal#widget-catalog-portal, [data-carcat-root])).scope[data-carcat-theme="dark"][data-carcat-palette="green"] {
+  --carcat-bg-blue: hsl(142 35% 9%);
+  --carcat-text-color: hsl(142 35% 90%);
+  --carcat-text-secondary: hsl(142 25% 70%);
+  --carcat-blue: #4ade80;
+  --carcat-accent-soft: color-mix(in srgb, #4ade80 8.2%, transparent);
+  --carcat-accent-resize: color-mix(in srgb, #4ade80 15%, transparent);
+  --carcat-accent-highlight: color-mix(in srgb, #4ade80 42.5%, transparent);
+  --carcat-loader-color: #4ade80;
+  --carcat-border-blue: hsl(142 65% 65% / 0.3);
+  --carcat-border-active-blue: #4ade80;
+}
+
+:global(:is(#my-widget-root#my-widget-root, #widget-catalog-portal#widget-catalog-portal, [data-carcat-root])).scope[data-carcat-palette="emerald"] {
+  --carcat-bg-blue: hsl(160 70% 97%);
+  --carcat-text-color: hsl(160 65% 22%);
+  --carcat-text-secondary: hsl(160 60% 29%);
+  --carcat-blue: #047857;
+  --carcat-accent-soft: color-mix(in srgb, #047857 8.2%, transparent);
+  --carcat-accent-resize: color-mix(in srgb, #047857 15%, transparent);
+  --carcat-accent-highlight: color-mix(in srgb, #047857 42.5%, transparent);
+  --carcat-loader-color: #047857;
+  --carcat-border-blue: hsl(160 65% 45% / 0.25);
+  --carcat-border-active-blue: #047857;
+}
+
+:global(:is(#my-widget-root#my-widget-root, #widget-catalog-portal#widget-catalog-portal, [data-carcat-root])).scope[data-carcat-theme="dark"][data-carcat-palette="emerald"] {
+  --carcat-bg-blue: hsl(160 35% 9%);
+  --carcat-text-color: hsl(160 35% 90%);
+  --carcat-text-secondary: hsl(160 25% 70%);
+  --carcat-blue: #34d399;
+  --carcat-accent-soft: color-mix(in srgb, #34d399 8.2%, transparent);
+  --carcat-accent-resize: color-mix(in srgb, #34d399 15%, transparent);
+  --carcat-accent-highlight: color-mix(in srgb, #34d399 42.5%, transparent);
+  --carcat-loader-color: #34d399;
+  --carcat-border-blue: hsl(160 65% 65% / 0.3);
+  --carcat-border-active-blue: #34d399;
+}
+
+:global(:is(#my-widget-root#my-widget-root, #widget-catalog-portal#widget-catalog-portal, [data-carcat-root])).scope[data-carcat-palette="teal"] {
+  --carcat-bg-blue: hsl(174 70% 97%);
+  --carcat-text-color: hsl(174 65% 22%);
+  --carcat-text-secondary: hsl(174 60% 29%);
+  --carcat-blue: #0f766e;
+  --carcat-accent-soft: color-mix(in srgb, #0f766e 8.2%, transparent);
+  --carcat-accent-resize: color-mix(in srgb, #0f766e 15%, transparent);
+  --carcat-accent-highlight: color-mix(in srgb, #0f766e 42.5%, transparent);
+  --carcat-loader-color: #0f766e;
+  --carcat-border-blue: hsl(174 65% 45% / 0.25);
+  --carcat-border-active-blue: #0f766e;
+}
+
+:global(:is(#my-widget-root#my-widget-root, #widget-catalog-portal#widget-catalog-portal, [data-carcat-root])).scope[data-carcat-theme="dark"][data-carcat-palette="teal"] {
+  --carcat-bg-blue: hsl(174 35% 9%);
+  --carcat-text-color: hsl(174 35% 90%);
+  --carcat-text-secondary: hsl(174 25% 70%);
+  --carcat-blue: #2dd4bf;
+  --carcat-accent-soft: color-mix(in srgb, #2dd4bf 8.2%, transparent);
+  --carcat-accent-resize: color-mix(in srgb, #2dd4bf 15%, transparent);
+  --carcat-accent-highlight: color-mix(in srgb, #2dd4bf 42.5%, transparent);
+  --carcat-loader-color: #2dd4bf;
+  --carcat-border-blue: hsl(174 65% 65% / 0.3);
+  --carcat-border-active-blue: #2dd4bf;
+}
+
+:global(:is(#my-widget-root#my-widget-root, #widget-catalog-portal#widget-catalog-portal, [data-carcat-root])).scope[data-carcat-palette="cyan"] {
+  --carcat-bg-blue: hsl(192 70% 97%);
+  --carcat-text-color: hsl(192 65% 22%);
+  --carcat-text-secondary: hsl(192 60% 29%);
+  --carcat-blue: #0e7490;
+  --carcat-accent-soft: color-mix(in srgb, #0e7490 8.2%, transparent);
+  --carcat-accent-resize: color-mix(in srgb, #0e7490 15%, transparent);
+  --carcat-accent-highlight: color-mix(in srgb, #0e7490 42.5%, transparent);
+  --carcat-loader-color: #0e7490;
+  --carcat-border-blue: hsl(192 65% 45% / 0.25);
+  --carcat-border-active-blue: #0e7490;
+}
+
+:global(:is(#my-widget-root#my-widget-root, #widget-catalog-portal#widget-catalog-portal, [data-carcat-root])).scope[data-carcat-theme="dark"][data-carcat-palette="cyan"] {
+  --carcat-bg-blue: hsl(192 35% 9%);
+  --carcat-text-color: hsl(192 35% 90%);
+  --carcat-text-secondary: hsl(192 25% 70%);
+  --carcat-blue: #22d3ee;
+  --carcat-accent-soft: color-mix(in srgb, #22d3ee 8.2%, transparent);
+  --carcat-accent-resize: color-mix(in srgb, #22d3ee 15%, transparent);
+  --carcat-accent-highlight: color-mix(in srgb, #22d3ee 42.5%, transparent);
+  --carcat-loader-color: #22d3ee;
+  --carcat-border-blue: hsl(192 65% 65% / 0.3);
+  --carcat-border-active-blue: #22d3ee;
+}
+
+:global(:is(#my-widget-root#my-widget-root, #widget-catalog-portal#widget-catalog-portal, [data-carcat-root])).scope[data-carcat-palette="indigo"] {
+  --carcat-bg-blue: hsl(239 70% 97%);
+  --carcat-text-color: hsl(239 65% 22%);
+  --carcat-text-secondary: hsl(239 60% 29%);
+  --carcat-blue: #4f46e5;
+  --carcat-accent-soft: color-mix(in srgb, #4f46e5 8.2%, transparent);
+  --carcat-accent-resize: color-mix(in srgb, #4f46e5 15%, transparent);
+  --carcat-accent-highlight: color-mix(in srgb, #4f46e5 42.5%, transparent);
+  --carcat-loader-color: #4f46e5;
+  --carcat-border-blue: hsl(239 65% 45% / 0.25);
+  --carcat-border-active-blue: #4f46e5;
+}
+
+:global(:is(#my-widget-root#my-widget-root, #widget-catalog-portal#widget-catalog-portal, [data-carcat-root])).scope[data-carcat-theme="dark"][data-carcat-palette="indigo"] {
+  --carcat-bg-blue: hsl(239 35% 9%);
+  --carcat-text-color: hsl(239 35% 90%);
+  --carcat-text-secondary: hsl(239 25% 70%);
+  --carcat-blue: #a5b4fc;
+  --carcat-accent-soft: color-mix(in srgb, #a5b4fc 8.2%, transparent);
+  --carcat-accent-resize: color-mix(in srgb, #a5b4fc 15%, transparent);
+  --carcat-accent-highlight: color-mix(in srgb, #a5b4fc 42.5%, transparent);
+  --carcat-loader-color: #a5b4fc;
+  --carcat-border-blue: hsl(239 65% 65% / 0.3);
+  --carcat-border-active-blue: #a5b4fc;
+}
+
+:global(:is(#my-widget-root#my-widget-root, #widget-catalog-portal#widget-catalog-portal, [data-carcat-root])).scope[data-carcat-palette="violet"] {
+  --carcat-bg-blue: hsl(263 70% 97%);
+  --carcat-text-color: hsl(263 65% 22%);
+  --carcat-text-secondary: hsl(263 60% 29%);
+  --carcat-blue: #7c3aed;
+  --carcat-accent-soft: color-mix(in srgb, #7c3aed 8.2%, transparent);
+  --carcat-accent-resize: color-mix(in srgb, #7c3aed 15%, transparent);
+  --carcat-accent-highlight: color-mix(in srgb, #7c3aed 42.5%, transparent);
+  --carcat-loader-color: #7c3aed;
+  --carcat-border-blue: hsl(263 65% 45% / 0.25);
+  --carcat-border-active-blue: #7c3aed;
+}
+
+:global(:is(#my-widget-root#my-widget-root, #widget-catalog-portal#widget-catalog-portal, [data-carcat-root])).scope[data-carcat-theme="dark"][data-carcat-palette="violet"] {
+  --carcat-bg-blue: hsl(263 35% 9%);
+  --carcat-text-color: hsl(263 35% 90%);
+  --carcat-text-secondary: hsl(263 25% 70%);
+  --carcat-blue: #c4b5fd;
+  --carcat-accent-soft: color-mix(in srgb, #c4b5fd 8.2%, transparent);
+  --carcat-accent-resize: color-mix(in srgb, #c4b5fd 15%, transparent);
+  --carcat-accent-highlight: color-mix(in srgb, #c4b5fd 42.5%, transparent);
+  --carcat-loader-color: #c4b5fd;
+  --carcat-border-blue: hsl(263 65% 65% / 0.3);
+  --carcat-border-active-blue: #c4b5fd;
+}
+
+:global(:is(#my-widget-root#my-widget-root, #widget-catalog-portal#widget-catalog-portal, [data-carcat-root])).scope[data-carcat-palette="rose"] {
+  --carcat-bg-blue: hsl(347 70% 97%);
+  --carcat-text-color: hsl(347 65% 22%);
+  --carcat-text-secondary: hsl(347 60% 29%);
+  --carcat-blue: #be123c;
+  --carcat-accent-soft: color-mix(in srgb, #be123c 8.2%, transparent);
+  --carcat-accent-resize: color-mix(in srgb, #be123c 15%, transparent);
+  --carcat-accent-highlight: color-mix(in srgb, #be123c 42.5%, transparent);
+  --carcat-loader-color: #be123c;
+  --carcat-border-blue: hsl(347 65% 45% / 0.25);
+  --carcat-border-active-blue: #be123c;
+}
+
+:global(:is(#my-widget-root#my-widget-root, #widget-catalog-portal#widget-catalog-portal, [data-carcat-root])).scope[data-carcat-theme="dark"][data-carcat-palette="rose"] {
+  --carcat-bg-blue: hsl(347 35% 9%);
+  --carcat-text-color: hsl(347 35% 90%);
+  --carcat-text-secondary: hsl(347 25% 70%);
+  --carcat-blue: #fb7185;
+  --carcat-accent-soft: color-mix(in srgb, #fb7185 8.2%, transparent);
+  --carcat-accent-resize: color-mix(in srgb, #fb7185 15%, transparent);
+  --carcat-accent-highlight: color-mix(in srgb, #fb7185 42.5%, transparent);
+  --carcat-loader-color: #fb7185;
+  --carcat-border-blue: hsl(347 65% 65% / 0.3);
+  --carcat-border-active-blue: #fb7185;
+}
+
+:global(:is(#my-widget-root#my-widget-root, #widget-catalog-portal#widget-catalog-portal, [data-carcat-root])).scope[data-carcat-palette="orange"] {
+  --carcat-bg-blue: hsl(21 70% 97%);
+  --carcat-text-color: hsl(21 65% 22%);
+  --carcat-text-secondary: hsl(21 60% 29%);
+  --carcat-blue: #c2410c;
+  --carcat-accent-soft: color-mix(in srgb, #c2410c 8.2%, transparent);
+  --carcat-accent-resize: color-mix(in srgb, #c2410c 15%, transparent);
+  --carcat-accent-highlight: color-mix(in srgb, #c2410c 42.5%, transparent);
+  --carcat-loader-color: #c2410c;
+  --carcat-border-blue: hsl(21 65% 45% / 0.25);
+  --carcat-border-active-blue: #c2410c;
+}
+
+:global(:is(#my-widget-root#my-widget-root, #widget-catalog-portal#widget-catalog-portal, [data-carcat-root])).scope[data-carcat-theme="dark"][data-carcat-palette="orange"] {
+  --carcat-bg-blue: hsl(21 35% 9%);
+  --carcat-text-color: hsl(21 35% 90%);
+  --carcat-text-secondary: hsl(21 25% 70%);
+  --carcat-blue: #fb923c;
+  --carcat-accent-soft: color-mix(in srgb, #fb923c 8.2%, transparent);
+  --carcat-accent-resize: color-mix(in srgb, #fb923c 15%, transparent);
+  --carcat-accent-highlight: color-mix(in srgb, #fb923c 42.5%, transparent);
+  --carcat-loader-color: #fb923c;
+  --carcat-border-blue: hsl(21 65% 65% / 0.3);
+  --carcat-border-active-blue: #fb923c;
+}
+
+:global(:is(#my-widget-root#my-widget-root, #widget-catalog-portal#widget-catalog-portal, [data-carcat-root])).scope[data-carcat-palette="graphite"] {
+  --carcat-bg-blue: hsl(215 70% 97%);
+  --carcat-text-color: hsl(215 65% 22%);
+  --carcat-text-secondary: hsl(215 60% 29%);
+  --carcat-blue: #475569;
+  --carcat-accent-soft: color-mix(in srgb, #475569 8.2%, transparent);
+  --carcat-accent-resize: color-mix(in srgb, #475569 15%, transparent);
+  --carcat-accent-highlight: color-mix(in srgb, #475569 42.5%, transparent);
+  --carcat-loader-color: #475569;
+  --carcat-border-blue: hsl(215 65% 45% / 0.25);
+  --carcat-border-active-blue: #475569;
+}
+
+:global(:is(#my-widget-root#my-widget-root, #widget-catalog-portal#widget-catalog-portal, [data-carcat-root])).scope[data-carcat-theme="dark"][data-carcat-palette="graphite"] {
+  --carcat-bg-blue: hsl(215 35% 9%);
+  --carcat-text-color: hsl(215 35% 90%);
+  --carcat-text-secondary: hsl(215 25% 70%);
+  --carcat-blue: #94a3b8;
+  --carcat-accent-soft: color-mix(in srgb, #94a3b8 8.2%, transparent);
+  --carcat-accent-resize: color-mix(in srgb, #94a3b8 15%, transparent);
+  --carcat-accent-highlight: color-mix(in srgb, #94a3b8 42.5%, transparent);
+  --carcat-loader-color: #94a3b8;
+  --carcat-border-blue: hsl(215 65% 65% / 0.3);
+  --carcat-border-active-blue: #94a3b8;
+}
+

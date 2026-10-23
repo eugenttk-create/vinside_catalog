@@ -1,4 +1,4 @@
-import "./CatalogGroups.css";
+import shared from "../../../../styles/common.module.css";
 import { useGroups } from "../../../../hooks/groups/useGroups";
 import CatalogGroupsCard from "./CatalogGroupsCard/CatalogGroupCard";
 import GroupInfoPopup from "../../../GroupInfoPopup/GroupInfoPopup";
@@ -34,9 +34,7 @@ const CatalogGroups: React.FC<CatalogGroupsProps> = ({
   return switchState === "cards" ? (
     <>
       <ul
-        className={`cards-section ${
-          switchState === "cards" ? "cards-section_grid" : "cards-section_list"
-        } cards-section_groups`}
+        className={`${shared["cards-section"]} ${switchState === "cards" ? shared["cards-section_grid"] : shared["cards-section_list"]} ${shared["cards-section_groups"]}`}
       >
         {groupsFlat.map((group) => (
           <CatalogGroupsCard

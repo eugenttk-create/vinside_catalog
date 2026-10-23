@@ -1,3 +1,4 @@
+import catalogPartsStyles from "../Catalog/CatalogMain/CatalogParts/CatalogParts.module.css";
 import { useRef } from "react";
 import { resolveImageSrc } from "../../utils/resolveImgSrc";
 
@@ -42,7 +43,7 @@ const MiniImages: React.FC<MiniImagesProps> = ({
   return (
     <div
       ref={containerRef}
-      className="catalog-parts__mini-images-container"
+      className={catalogPartsStyles["catalog-parts__mini-images-container"]}
       onMouseDown={handleMouseDown}
       onMouseMove={handleMouseMove}
       onMouseUp={stopDragging}
@@ -54,9 +55,7 @@ const MiniImages: React.FC<MiniImagesProps> = ({
           src={resolveImageSrc(i)}
           alt={i}
           draggable={false}
-          className={`catalog-parts__mini-img ${
-            activeImg === i ? "catalog-parts__mini-img_active" : ""
-          }`}
+          className={`${catalogPartsStyles["catalog-parts__mini-img"]} ${activeImg === i ? catalogPartsStyles["catalog-parts__mini-img_active"] : ""}`}
           onClick={() => activeImg !== i && onSelect(i)}
         />
       ))}

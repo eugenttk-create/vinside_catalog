@@ -9,11 +9,13 @@ const partsSlice = createSlice({
   reducers: {
     resetParts: (state) => {
       state.parts = initialState.parts;
+      state.loadedGroupId = undefined;
       state.partsError = null;
       state.partsLoading = false;
     },
     setParts: (state, action) => {
       state.parts = action.payload;
+      state.loadedGroupId = undefined;
     },
   },
   extraReducers: (builder) => {
@@ -27,6 +29,7 @@ const partsSlice = createSlice({
         state.partsLoading = false;
         state.partsError = null;
         state.parts = action.payload;
+        state.loadedGroupId = action.meta.arg.groupId;
       })
       .addCase(fetchParts.rejected, (state, action) => {
         state.partsLoading = false;
@@ -41,6 +44,7 @@ const partsSlice = createSlice({
         state.partsLoading = false;
         state.partsError = null;
         state.parts = action.payload;
+        state.loadedGroupId = action.meta.arg;
       })
       .addCase(fetchOEParts.rejected, (state, action) => {
         state.partsLoading = false;

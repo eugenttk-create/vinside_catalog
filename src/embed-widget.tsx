@@ -4,173 +4,79 @@ import { Provider } from "react-redux";
 import store from "./store/store";
 import App from "./components/App/App";
 import { setLanguage } from "./store/language/languageSlice";
+import { createWidgetPortal, prepareWidgetRoot } from "./styles/roots";
 
 declare global {
   interface Window {
     __WIDGET_TOKEN__?: string;
     __WIDGET_LANGUAGE__?: string;
     __WIDGET_LINK__?: string;
-    __WIDGET_PORTAL_ROOT__?: ShadowRoot;
-    __WIDGET_SHADOW_ROOT__?: ShadowRoot;
+    __WIDGET_ROOT__?: HTMLElement;
+    __WIDGET_PORTAL_ROOT__?: HTMLElement;
     __WIDGET_FULL_VIEW__?: boolean;
   }
 }
 
-const BASE = "https://vinside.carcatonline.com";
-const CSS = BASE + "/widget.css";
-const CSS2 = BASE + "/widget2.css";
+let stylesheetReady: Promise<void> | undefined;
 
-const CSS_VARIABLES = `
-  :host {
-    font-family: "Roboto", "Arial", "Helvetica", sans-serif;
-    font-weight: 400;
-    --bg-white: #fff;
-    --bg-red: rgb(253, 240, 240);
-    --bg-blue: rgb(240, 249, 255);
-    --bg-gray: rgb(249, 250, 251);
-    --text-color: rgb(12, 74, 110);
-    --text-secondary: rgb(7, 89, 133);
-    --text-gray: #7a7a7a;
-    --white: #fff;
-    --blue: rgb(14, 165, 233);
-    --red: rgb(163, 22, 22);
-    --green: rgb(85, 211, 59);
-    --border-blue: rgba(14, 165, 233, 0.25);
-    --border-active-blue: rgb(14, 165, 233);
-    --border-neutral: #e5e7eb;
-    --surface-muted: rgba(0, 0, 0, 0.041);
-    --overlay: rgba(0, 0, 0, 0.2);
+function loadWidgetStyles() {
+  if (import.meta.env.DEV) return Promise.resolve();
+  if (!stylesheetReady) {
+    stylesheetReady = new Promise<void>((resolve, reject) => {
+      const link = document.createElement("link");
+      link.rel = "stylesheet";
+      link.href = new URL(/* @vite-ignore */ "./widget.css", import.meta.url).href;
+      link.dataset.carcatStyles = "";
+      link.onload = () => resolve();
+      link.onerror = () => {
+        link.remove();
+        stylesheetReady = undefined;
+        reject(new Error("Failed to load catalog styles"));
+      };
+      document.head.appendChild(link);
+    });
   }
-
-  :host([data-carcat-theme="dark"]),
-  [data-carcat-theme="dark"] {
-    --bg-white: #1a2332;
-    --bg-red: rgb(60, 25, 25);
-    --bg-blue: #0b1220;
-    --bg-gray: #151d2b;
-    --text-color: #e2e8f0;
-    --text-secondary: #94a3b8;
-    --text-gray: #94a3b8;
-    --white: #1a2332;
-    --blue: rgb(56, 189, 248);
-    --red: rgb(248, 113, 113);
-    --green: rgb(74, 222, 128);
-    --border-blue: rgba(56, 189, 248, 0.3);
-    --border-active-blue: rgb(56, 189, 248);
-    --border-neutral: #2a3548;
-    --surface-muted: rgba(255, 255, 255, 0.06);
-    --overlay: rgba(0, 0, 0, 0.5);
-  }
-
-  * {
-    font-family: "Roboto", "Arial", "Helvetica", sans-serif;
-    font-weight: 400;
-  }
-`;
-
-const FONT_BASE = "https://vinside.carcatonline.com/fonts";
-
-function injectFontsToDocument() {
-  if (document.getElementById("widget-fonts")) return;
-
-  const style = document.createElement("style");
-  style.id = "widget-fonts";
-  style.textContent = `
-    @font-face {
-      font-family: "Roboto";
-      src: url("${FONT_BASE}/Roboto-Regular.ttf") format("truetype");
-      font-weight: 400;
-      font-style: normal;
-      font-display: swap;
-    }
-    @font-face {
-      font-family: "Roboto";
-      src: url("${FONT_BASE}/Roboto-Medium.ttf") format("truetype");
-      font-weight: 500;
-      font-style: normal;
-      font-display: swap;
-    }
-    @font-face {
-      font-family: "Roboto";
-      src: url("${FONT_BASE}/Roboto-Bold.ttf") format("truetype");
-      font-weight: 700;
-      font-style: normal;
-      font-display: swap;
-    }
-  `;
-  document.head.appendChild(style);
+  return stylesheetReady;
 }
 
-function attachStyles(shadow: ShadowRoot) {
-  const varStyle = document.createElement("style");
-  varStyle.textContent = CSS_VARIABLES;
-  shadow.appendChild(varStyle);
-
-  [CSS, CSS2].forEach((href) => {
-    const link = document.createElement("link");
-    link.rel = "stylesheet";
-    link.href = href;
-    shadow.appendChild(link);
-  });
-}
-
-export function mountWidget(
-  container: HTMLElement | ShadowRoot,
-  options?: { token?: string; language?: string; link?: string; view?: string }
+export async function mountWidget(
+  container: HTMLElement,
+  options?: { token?: string; language?: string; link?: string; view?: string },
 ) {
-  injectFontsToDocument();
-
+  await loadWidgetStyles();
   if (options?.token) window.__WIDGET_TOKEN__ = options.token;
   if (options?.link) window.__WIDGET_LINK__ = options.link;
   if (options?.language) store.dispatch(setLanguage(options.language));
-
-  window.__WIDGET_FULL_VIEW__ =
-    options?.view === "full" || options?.view === "true";
+  window.__WIDGET_FULL_VIEW__ = options?.view === "full" || options?.view === "true";
 
   const saved = localStorage.getItem("language");
   if (saved) store.dispatch(setLanguage(saved));
 
-  const portalHost = document.createElement("div");
-  portalHost.id = "my-widget-portal-host";
-  portalHost.style.cssText = `
-    all: initial;
-    position: fixed;
-    top: 0; left: 0;
-    width: 0; height: 0;
-    z-index: 2147483647;
-    pointer-events: none;
-  `;
-  document.body.appendChild(portalHost);
-
-  const portalShadow = portalHost.attachShadow({ mode: "open" });
-  attachStyles(portalShadow);
-
-  const portalMount = document.createElement("div");
-  portalMount.id = "widget-catalog-portal";
-  portalShadow.appendChild(portalMount);
-
-  window.__WIDGET_PORTAL_ROOT__ = portalShadow;
-
-  if (container instanceof ShadowRoot) {
-    attachStyles(container);
-    window.__WIDGET_SHADOW_ROOT__ = container;
-  }
-
-  const savedTheme = localStorage.getItem("catalog-theme");
-  const themeMode = savedTheme === "dark" ? "dark" : "light";
-  portalHost.setAttribute("data-carcat-theme", themeMode);
-  portalMount.setAttribute("data-carcat-theme", themeMode);
-  if (container instanceof ShadowRoot) {
-    container.host.setAttribute("data-carcat-theme", themeMode);
-  } else if (container instanceof HTMLElement) {
-    container.setAttribute("data-carcat-theme", themeMode);
-  }
-
-  ReactDOM.createRoot(container as Element).render(
+  const previousClassName = container.className;
+  const attributes = ["data-carcat-root", "data-carcat-theme", "data-carcat-palette"];
+  const previousAttributes = attributes.map((attribute) => container.getAttribute(attribute));
+  prepareWidgetRoot(container);
+  window.__WIDGET_ROOT__ = container;
+  const portalMount = createWidgetPortal();
+  const root = ReactDOM.createRoot(container);
+  root.render(
     <React.StrictMode>
       <Provider store={store}>
         <App portalMount={portalMount} />
       </Provider>
-    </React.StrictMode>
+    </React.StrictMode>,
   );
+
+  return () => {
+    root.unmount();
+    portalMount.remove();
+    container.className = previousClassName;
+    attributes.forEach((attribute, index) => {
+      const value = previousAttributes[index];
+      if (value === null) container.removeAttribute(attribute);
+      else container.setAttribute(attribute, value);
+    });
+    if (window.__WIDGET_ROOT__ === container) delete window.__WIDGET_ROOT__;
+    if (window.__WIDGET_PORTAL_ROOT__ === portalMount) delete window.__WIDGET_PORTAL_ROOT__;
+  };
 }

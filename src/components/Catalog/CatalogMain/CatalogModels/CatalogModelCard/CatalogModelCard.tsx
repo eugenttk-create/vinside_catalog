@@ -1,4 +1,5 @@
-import "./CatalogModelCard.css";
+import shared from "../../../../../styles/common.module.css";
+import styles from "./CatalogModelCard.module.css";
 import { useParameters } from "../../../../../hooks/parameters/useParameters";
 import { useModels } from "../../../../../hooks/models/useModels";
 import { useBreadcrumbs } from "../../../../../hooks/breadcrumbs/useBreadcrumbs";
@@ -19,6 +20,7 @@ interface CatalogModelCardProps {
     year_from: string | null;
     year_to: string | null;
     series: string | null;
+    code: string | null;
     catalog: string | null;
     cabin: string | null;
     engine: string | null;
@@ -102,12 +104,11 @@ const CatalogModelCard: React.FC<CatalogModelCardProps> = ({
 
   return (
     <li
-      className={`catalog-group-card card ${
-        switchState === "list" ? "card_list" : ""
-      } ${activeCardId === modelId ? "card_hovered" : ""}`}
+      className={`${shared["catalog-group-card"]} ${shared["card"]} ${switchState === "list" ? shared["card_list"] : ""} ${activeCardId === modelId ? shared["card_hovered"] : ""}`}
       onClick={handleCardClick}
     >
       {!description?.model_type &&
+      !description?.code &&
       !description?.series &&
       !description?.year_from &&
       !description?.year_to &&
@@ -124,26 +125,22 @@ const CatalogModelCard: React.FC<CatalogModelCardProps> = ({
       ) : (
         <button
           type="button"
-          className="catalog-model-card__info-icon"
+          className={styles["catalog-model-card__info-icon"]}
           onClick={handleInfoButtonClick}
         >
-          <Info className="icon" />
+          <Info className={shared["icon"]} />
         </button>
       )}
       <img
         src={resolveImageSrc(imageSrc)}
         alt={`model-${modelId}`}
-        className={`catalog-model-card__image image ${
-          switchState === "list" ? "image_list" : ""
-        }`}
+        className={`${shared["catalog-model-card__image"]} ${shared["image"]} ${switchState === "list" ? shared["image_list"] : ""}`}
         onError={(e) => {
           e.currentTarget.src = FALLBACK_IMAGE;
         }}
       />
       <p
-        className={`catalog-model-card__name title ${
-          switchState === "list" ? "title_list" : ""
-        }`}
+        className={`${shared["catalog-model-card__name"]} ${shared["title"]} ${switchState === "list" ? shared["title_list"] : ""}`}
       >
         {name}
       </p>

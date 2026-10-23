@@ -1,3 +1,4 @@
+import shared from "../../styles/common.module.css";
 import { FALLBACK_IMAGE } from "../../utils/resolveImgSrc";
 import { createPortal } from "react-dom";
 import { useState, useRef } from "react";
@@ -45,7 +46,7 @@ const TableImage: React.FC<{ src: string; alt: string }> = ({ src, alt }) => {
         ref={imgRef}
         src={src}
         alt={alt}
-        className="table-image"
+        className={shared["table-image"]}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
         onError={(e) => {

@@ -1,4 +1,4 @@
-import "./Notifications.css";
+import styles from "./Notifications.module.css";
 import { X } from "lucide-react";
 import { useCallback, useState, useEffect, useRef } from "react";
 import { useAppDispatch } from "../../hooks/store/useAppDispatch";
@@ -40,23 +40,21 @@ export const Notifications = () => {
   if (notifications.length === 0) return null;
 
   return (
-    <div className="notifications">
+    <div className={styles["notifications"]}>
       {notifications.map((notification) => (
         <div
           key={notification.id}
-          className={`notification notification_${notification.type} ${
-            closingIds.has(notification.id) ? "notification_closing" : ""
-          }`}
+          className={`${styles["notification"]} ${styles[`notification_${notification.type}`]} ${closingIds.has(notification.id) ? styles["notification_closing"] : ""}`}
         >
-          <span className="notification__message">{notification.message}</span>
+          <span className={styles["notification__message"]}>{notification.message}</span>
           <button
-            className="notification__close"
+            className={styles["notification__close"]}
             onClick={() => handleClose(notification.id)}
           >
-            <X className="notification__close-icon" />
+            <X className={styles["notification__close-icon"]} />
           </button>
           {notification.type === "success" && (
-            <div className="notification__progress" />
+            <div className={styles["notification__progress"]} />
           )}
         </div>
       ))}

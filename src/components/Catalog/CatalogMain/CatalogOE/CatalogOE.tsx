@@ -1,4 +1,4 @@
-import "./CatalogOE.css";
+import shared from "../../../../styles/common.module.css";
 import CatalogOEFilters from "./CatalogOEFilters/CatalogOEFilters";
 import { useParameters } from "../../../../hooks/parameters/useParameters";
 import { useGroups } from "../../../../hooks/groups/useGroups";
@@ -42,37 +42,37 @@ const CatalogOE: React.FC = () => {
       {OELoading ? (
         <PageLoader />
       ) : (
-        <div className="table-container">
+        <div className={shared["table-container"]}>
           <CatalogOEFilters
             selectedBrand={selectedBrand}
             onBrandSelect={setSelectedBrand}
           />
-          <div className="table-wrapper">
-            <table className="table">
-              <thead className="table-header">
-                <tr className="table-row">
-                  <th className="table-header-el">Brand</th>
-                  <th className="table-header-el">Model</th>
-                  <th className="table-header-el">Year</th>
+          <div className={shared["table-wrapper"]}>
+            <table className={shared["table"]}>
+              <thead className={shared["table-header"]}>
+                <tr className={shared["table-row"]}>
+                  <th className={shared["table-header-el"]}>Brand</th>
+                  <th className={shared["table-header-el"]}>Model</th>
+                  <th className={shared["table-header-el"]}>Year</th>
                 </tr>
               </thead>
-              <tbody className="table-body">
+              <tbody className={shared["table-body"]}>
                 {filteredModels.map((m) => (
                   <tr
-                    className="table-row table-row_oe"
+                    className={`${shared["table-row"]} ${shared["table-row_oe"]}`}
                     key={`${m.carId}-${m.model}`}
                     onClick={() =>
                       handleRowClick(m.carId, `${m.brand} ${m.model}`)
                     }
                   >
-                    <td className="table-data">
-                      <span className="table-data-text">{m.brand}</span>
+                    <td className={shared["table-data"]}>
+                      <span className={shared["table-data-text"]}>{m.brand}</span>
                     </td>
-                    <td className="table-data">
-                      <span className="table-data-text">{m.model}</span>
+                    <td className={shared["table-data"]}>
+                      <span className={shared["table-data-text"]}>{m.model}</span>
                     </td>
-                    <td className="table-data">
-                      <span className="table-data-text">{m.year}</span>
+                    <td className={shared["table-data"]}>
+                      <span className={shared["table-data-text"]}>{m.year}</span>
                     </td>
                   </tr>
                 ))}

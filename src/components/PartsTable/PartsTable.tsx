@@ -1,3 +1,5 @@
+import catalogPartsStyles from "../Catalog/CatalogMain/CatalogParts/CatalogParts.module.css";
+import shared from "../../styles/common.module.css";
 import { Copy, CircleCheck, Info } from "lucide-react";
 import { getPartLink } from "../../utils/getPartLink";
 import { useState } from "react";
@@ -52,17 +54,17 @@ const PartsTable: React.FC<PartsTableProps> = ({
   };
 
   return (
-    <div className="catalog-parts__table-wrapper" style={{ width: tableWidth }}>
+    <div className={catalogPartsStyles["catalog-parts__table-wrapper"]} style={{ width: tableWidth }}>
       <div
-        className="catalog-parts__resize-handle"
+        className={catalogPartsStyles["catalog-parts__resize-handle"]}
         onMouseDown={onStartResize}
       ></div>
-      <table className="catalog-parts__table">
-        <tbody className="catalog-parts__tbody">
+      <table className={catalogPartsStyles["catalog-parts__table"]}>
+        <tbody className={shared["catalog-parts__tbody"]}>
           {parts.length === 0 ? (
-            <tr className="catalog-parts__tr catalog-parts__tr_empty">
-              <td className="catalog-parts__td" colSpan={5}>
-                <span className="catalog-parts__ts catalog-parts__ts_empty">
+            <tr className={`${catalogPartsStyles["catalog-parts__tr"]} ${shared["catalog-parts__tr_empty"]}`}>
+              <td className={catalogPartsStyles["catalog-parts__td"]} colSpan={5}>
+                <span className={`${catalogPartsStyles["catalog-parts__ts"]} ${shared["catalog-parts__ts_empty"]}`}>
                   {t.widget_no_data ?? "Нет данных"}
                 </span>
               </td>
@@ -75,15 +77,7 @@ const PartsTable: React.FC<PartsTableProps> = ({
               return (
                 <tr
                   key={part.id}
-                  className={`catalog-parts__tr ${
-                    selectedPos === posKey || hoverTablePos === posKey
-                      ? "catalog-parts__tr_active"
-                      : ""
-                  } ${
-                    selectedPart?.id === part.id
-                      ? "catalog-parts__tr_info-active"
-                      : ""
-                  }`}
+                  className={`${catalogPartsStyles["catalog-parts__tr"]} ${selectedPos === posKey || hoverTablePos === posKey ? catalogPartsStyles["catalog-parts__tr_active"] : ""} ${selectedPart?.id === part.id ? catalogPartsStyles["catalog-parts__tr_info-active"] : ""}`}
                   ref={(el) => {
                     if (posKey) rowRefs.current[posKey] = el;
                   }}
@@ -91,54 +85,49 @@ const PartsTable: React.FC<PartsTableProps> = ({
                   onMouseLeave={onRowHoverLeave}
                   onClick={() => posKey && onRowClick(posKey)}
                 >
-                  <td className="catalog-parts__td">
-                    <span className="catalog-parts__ts">
+                  <td className={catalogPartsStyles["catalog-parts__td"]}>
+                    <span className={catalogPartsStyles["catalog-parts__ts"]}>
                       {part.positionNumber}
                     </span>
                   </td>
-                  <td className="catalog-parts__td">
+                  <td className={catalogPartsStyles["catalog-parts__td"]}>
                     <span
-                      className={
-                        "catalog-parts__ts catalog-parts__ts_number" +
-                        (copiedPartId === part.id
-                          ? " catalog-parts__ts_number-copied"
-                          : "")
-                      }
+                      className={`${catalogPartsStyles["catalog-parts__ts"]} ${catalogPartsStyles["catalog-parts__ts_number"]}` + (copiedPartId === part.id ? ` ${catalogPartsStyles["catalog-parts__ts_number-copied"]}` : "")}
                       onClick={() => onCopy(part.id, part.number)}
                       style={{ cursor: "pointer" }}
                     >
                       {part.number}{" "}
                       {copiedPartId === part.id ? (
-                        <CircleCheck className="icon catalog-parts__table-icon catalog-parts__table-icon_copied" />
+                        <CircleCheck className={`${shared["icon"]} ${catalogPartsStyles["catalog-parts__table-icon"]} ${catalogPartsStyles["catalog-parts__table-icon_copied"]}`} />
                       ) : (
-                        <Copy className="icon catalog-parts__table-icon" />
+                        <Copy className={`${shared["icon"]} ${catalogPartsStyles["catalog-parts__table-icon"]}`} />
                       )}
                     </span>
                   </td>
-                  <td className="catalog-parts__td">
-                    <span className="catalog-parts__ts" title={part.name}>
+                  <td className={catalogPartsStyles["catalog-parts__td"]}>
+                    <span className={catalogPartsStyles["catalog-parts__ts"]} title={part.name}>
                       <Info
-                        className="icon catalog-parts__icon"
+                        className={`${shared["icon"]} ${catalogPartsStyles["catalog-parts__icon"]}`}
                         onClick={(e) => handleInfoClick(e, part)}
                       />{" "}
-                      <span className="catalog-parts__ts_name">
+                      <span className={catalogPartsStyles["catalog-parts__ts_name"]}>
                         {part.name}
                       </span>
                     </span>
                   </td>
-                  <td className="catalog-parts__td">
-                    <span className="catalog-parts__ts">
+                  <td className={catalogPartsStyles["catalog-parts__td"]}>
+                    <span className={catalogPartsStyles["catalog-parts__ts"]}>
                       <button
-                        className="catalog-parts__tb button"
+                        className={`${catalogPartsStyles["catalog-parts__tb"]} ${shared["button"]}`}
                         onClick={(e) => handleAnaloguesClick(e, part.number)}
                       >
                         {t.widget_analogues_button}
                       </button>
                     </span>
                   </td>
-                  <td className="catalog-parts__td">
-                    <span className="catalog-parts__ts">
-                      <button className="catalog-parts__tb button">
+                  <td className={catalogPartsStyles["catalog-parts__td"]}>
+                    <span className={catalogPartsStyles["catalog-parts__ts"]}>
+                      <button className={`${catalogPartsStyles["catalog-parts__tb"]} ${shared["button"]}`}>
                         <a href={getPartLink(part.number)} target="_blank">
                           {t.widget_see_price_button}
                         </a>

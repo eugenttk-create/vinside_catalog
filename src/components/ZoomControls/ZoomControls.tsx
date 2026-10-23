@@ -1,3 +1,4 @@
+import catalogPartsStyles from "../Catalog/CatalogMain/CatalogParts/CatalogParts.module.css";
 import { MIN_SCALE, MAX_SCALE } from "../../utils/constants";
 
 interface ZoomControlsProps {
@@ -13,16 +14,16 @@ const ZoomControls: React.FC<ZoomControlsProps> = ({
   onZoomOut,
   onReset,
 }) => (
-  <div className="catalog-parts__zoom-controls">
+  <div className={catalogPartsStyles["catalog-parts__zoom-controls"]}>
     <button
-      className="catalog-parts__zoom-btn"
+      className={catalogPartsStyles["catalog-parts__zoom-btn"]}
       onClick={onZoomOut}
       disabled={scale <= MIN_SCALE}
     >
       −
     </button>
     <span
-      className="catalog-parts__zoom-value"
+      className={catalogPartsStyles["catalog-parts__zoom-value"]}
       onClick={onReset}
       style={{ cursor: "pointer" }}
       title="Сбросить масштаб"
@@ -30,7 +31,7 @@ const ZoomControls: React.FC<ZoomControlsProps> = ({
       {Math.round(scale * 100)}%
     </span>
     <button
-      className="catalog-parts__zoom-btn"
+      className={catalogPartsStyles["catalog-parts__zoom-btn"]}
       onClick={onZoomIn}
       disabled={scale >= MAX_SCALE}
     >

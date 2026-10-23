@@ -38,7 +38,7 @@ export const useAnalogs = () => {
     (query: string) => {
       return dispatch(fetchAnalogs(query));
     },
-    [dispatch]
+    [dispatch],
   );
 
   const getAnalogInfo = useCallback(
@@ -49,17 +49,17 @@ export const useAnalogs = () => {
           id: analog.id,
           articleNumber: analog.articleNumber,
           genericArticleIds: analog.genericArticleIds,
-        })
+        }),
       );
     },
-    [dispatch]
+    [dispatch],
   );
 
   const getApplicability = useCallback(
     (articleId: number, brandId: number) => {
       return dispatch(fetchApplicability({ articleId, brandId }));
     },
-    [dispatch]
+    [dispatch],
   );
 
   const handleResetAnalogs = useCallback(() => {
@@ -70,21 +70,21 @@ export const useAnalogs = () => {
     (val: boolean) => {
       return dispatch(setIsAnalogsView(val));
     },
-    [dispatch]
+    [dispatch],
   );
 
   const handleSetSelectedAnalog = useCallback(
     (analog: Analog | null) => {
       return dispatch(setSelectedAnalog(analog));
     },
-    [dispatch]
+    [dispatch],
   );
 
   const handleSetSelectedBrandId = useCallback(
     (brandId: number | null) => {
       return dispatch(setSelectedBrandId(brandId));
     },
-    [dispatch]
+    [dispatch],
   );
 
   const handleClearAnalogDetail = useCallback(() => {

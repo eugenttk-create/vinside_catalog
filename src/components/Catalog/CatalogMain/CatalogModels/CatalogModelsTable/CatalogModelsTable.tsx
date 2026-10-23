@@ -1,4 +1,4 @@
-import "./CatalogModelsTable.css";
+import shared from "../../../../../styles/common.module.css";
 import CatalogModelsTableRow from "./CatalogModelsTableRow/CatalogModelsTableRow";
 import CatalogModelsTableHead from "./CatalogModelsTableHead/CatalogModelsTableHead";
 import { useModels } from "../../../../../hooks/models/useModels";
@@ -8,6 +8,7 @@ import { useBreadcrumbs } from "../../../../../hooks/breadcrumbs/useBreadcrumbs"
 import { resolveImageSrc } from "../../../../../utils/resolveImgSrc";
 import TableImage from "../../../../TableImage/TableImage";
 import type { Model } from "../../../../../store/models/models.types";
+import { orderCatalogFields } from "../../../../../utils/orderCatalogFields";
 
 type ModelDescription = {
   model_type?: string | null;
@@ -72,7 +73,11 @@ const CatalogModelsTable: React.FC<CatalogModelsTableProps> = ({
         return model.description.year_from || model.description.year_to;
       }
       return !!model.description[key as keyof typeof model.description];
-    })
+    }),
+  );
+  const columns = orderCatalogFields(
+    ["image", "title", ...activeColumns] as const,
+    (key) => key,
   );
 
   const getProductionPeriod = (desc: ModelDescription) => {
@@ -92,40 +97,63 @@ const CatalogModelsTable: React.FC<CatalogModelsTableProps> = ({
   };
 
   return (
-    <div className="table-container">
-      <div className="table-wrapper">
-        <table className="table">
-          <thead className="table-header">
-            <tr className="table-row">
-              <th className="table-header-el"></th>
-              <th className="table-header-el">{t.widget_name}</th>
-              {activeColumns.map((key) => (
-                <CatalogModelsTableHead key={key} title={columnLabels[key]} />
-              ))}
+    <div className={shared["table-container"]}>
+      <div className={shared["table-wrapper"]}>
+        <table className={`${shared["table"]} ${shared["table_ordered"]}`}>
+          <thead className={shared["table-header"]}>
+            <tr className={shared["table-row"]}>
+              {columns.map((key) =>
+                key === "image" ? (
+                  <th
+                    key={key}
+                    className={`${shared["table-header-el"]} ${shared["table-image-cell"]}`}
+                  ></th>
+                ) : (
+                  <CatalogModelsTableHead
+                    key={key}
+                    title={key === "title" ? t.widget_name : columnLabels[key]}
+                  />
+                ),
+              )}
             </tr>
           </thead>
-          <tbody className="table-body">
+          <tbody className={shared["table-body"]}>
             {models.map((model) => (
               <tr
                 key={model.id}
-                className="table-row"
+                className={shared["table-row"]}
                 onClick={() => handleRowClick(model.id, model.name)}
               >
-                <td className="table-data">
-                  <TableImage
-                    src={resolveImageSrc(model.img)}
-                    alt={`model-${model.id}`}
-                  />
-                </td>
-                <td className="table-data">
-                  <span className="table-data-text">{model.name}</span>
-                </td>
-                {activeColumns.map((key) => (
-                  <CatalogModelsTableRow
-                    key={key}
-                    text={getCellValue(model, key) ?? "—"}
-                  />
-                ))}
+                {columns.map((key) => {
+                  if (key === "image") {
+                    return (
+                      <td
+                        key={key}
+                        className={`${shared["table-data"]} ${shared["table-image-cell"]}`}
+                      >
+                        <TableImage
+                          src={resolveImageSrc(model.img)}
+                          alt={`model-${model.id}`}
+                        />
+                      </td>
+                    );
+                  }
+                  if (key === "title") {
+                    return (
+                      <td key={key} className={shared["table-data"]}>
+                        <span className={shared["table-data-text"]}>
+                          {model.name}
+                        </span>
+                      </td>
+                    );
+                  }
+                  return (
+                    <CatalogModelsTableRow
+                      key={key}
+                      text={getCellValue(model, key) ?? "—"}
+                    />
+                  );
+                })}
               </tr>
             ))}
           </tbody>

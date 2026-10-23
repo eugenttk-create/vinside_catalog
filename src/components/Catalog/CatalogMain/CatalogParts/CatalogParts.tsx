@@ -1,4 +1,4 @@
-import "./CatalogParts.css";
+import styles from "./CatalogParts.module.css";
 import { useEffect, useRef, useState } from "react";
 import { useParts } from "../../../../hooks/parts/useParts";
 import { useTranslation } from "../../../../hooks/translation/useTranslation";
@@ -39,7 +39,7 @@ const CatalogParts: React.FC<CatalogPartsProps> = ({ modelId, setModelId }) => {
 
   const isMultiImg = Array.isArray(parts.img);
   const [activeImg, setActiveImg] = useState<string>(() =>
-    Array.isArray(parts.img) ? parts.img[0] ?? "" : parts.img
+    Array.isArray(parts.img) ? (parts.img[0] ?? "") : parts.img,
   );
   const [hoverImgPos, setHoverImgPos] = useState<string | null>(null);
   const [selectedPos, setSelectedPos] = useState<string | null>(null);
@@ -52,11 +52,11 @@ const CatalogParts: React.FC<CatalogPartsProps> = ({ modelId, setModelId }) => {
   const { updateRects, computeOverlayStyle } = useOverlaySync(
     imageRef,
     containerRef,
-    [parts.img]
+    [parts.img],
   );
 
   useEffect(() => {
-    setActiveImg(Array.isArray(parts.img) ? parts.img[0] ?? "" : parts.img);
+    setActiveImg(Array.isArray(parts.img) ? (parts.img[0] ?? "") : parts.img);
   }, [parts.img]);
 
   useEffect(() => {
@@ -84,7 +84,7 @@ const CatalogParts: React.FC<CatalogPartsProps> = ({ modelId, setModelId }) => {
   };
 
   const scrollRowToCenter = (row: HTMLTableRowElement) => {
-    const wrapper = row.closest(".catalog-parts__table-wrapper");
+    const wrapper = row.closest(`.${styles["catalog-parts__table-wrapper"]}`);
     if (!wrapper) return;
     const wRect = wrapper.getBoundingClientRect();
     const rRect = row.getBoundingClientRect();
@@ -97,7 +97,7 @@ const CatalogParts: React.FC<CatalogPartsProps> = ({ modelId, setModelId }) => {
     wrapper.scrollTo({
       top: Math.max(
         0,
-        Math.min(wrapper.scrollHeight - wrapper.clientHeight, target)
+        Math.min(wrapper.scrollHeight - wrapper.clientHeight, target),
       ),
       behavior: "smooth",
     });
@@ -127,15 +127,16 @@ const CatalogParts: React.FC<CatalogPartsProps> = ({ modelId, setModelId }) => {
 
   const visiblePositions = parts.positions.filter(
     (p) =>
-      !isMultiImg || resolveImageSrc(p.img ?? "") === resolveImageSrc(activeImg)
+      !isMultiImg ||
+      resolveImageSrc(p.img ?? "") === resolveImageSrc(activeImg),
   );
 
   return (
     <>
       <Breadcrumbs modelId={modelId} setModelId={setModelId} />
-      <div className="catalog-parts" ref={catalogRef}>
+      <div className={styles["catalog-parts"]} ref={catalogRef}>
         <div
-          className="catalog-parts__img-container"
+          className={styles["catalog-parts__img-container"]}
           ref={containerRef}
           style={{
             position: "relative",
@@ -162,7 +163,7 @@ const CatalogParts: React.FC<CatalogPartsProps> = ({ modelId, setModelId }) => {
             ref={imageRef}
             src={resolveImageSrc(activeImg)}
             alt="parts"
-            className="catalog-parts__image"
+            className={styles["catalog-parts__image"]}
             draggable={false}
             loading="lazy"
             style={{

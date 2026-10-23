@@ -34,15 +34,15 @@ const parametersSlice = createSlice({
         state.parametersError = null;
 
         const { data: newParams, appendedParameter } = action.payload;
+        state.selectedParameters = [
+          ...action.meta.arg.selectedParameters,
+          ...(appendedParameter ? [appendedParameter] : []),
+        ];
 
         if (newParams.length > 0 && isAllParamsResponse(newParams)) {
           if (!state.isAllParamsMode) {
             state.isAllParamsMode = true;
             state.totalParamsCount = newParams.length;
-          }
-
-          if (appendedParameter) {
-            state.selectedParameters.push(appendedParameter);
           }
 
           state.parameters = newParams;
@@ -54,10 +54,6 @@ const parametersSlice = createSlice({
 
         if (newCount === oldCount) {
           return;
-        }
-
-        if (appendedParameter) {
-          state.selectedParameters.push(appendedParameter);
         }
 
         state.parameters = newParams;

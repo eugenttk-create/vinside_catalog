@@ -1,0 +1,105 @@
+.settings {
+  display: none;
+  position: absolute;
+  background-color: var(--carcat-white);
+  min-width: 140px;
+  border: 1px solid var(--carcat-border-blue);
+  border-radius: 8px;
+  padding: 12px;
+  box-sizing: border-box;
+  top: 40px;
+  right: 0;
+  left: auto;
+  z-index: 100;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+.settings_active {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.settings__section {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.settings__label {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--carcat-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.settings__language-span {
+  border: 1px solid var(--carcat-border-blue);
+  border-radius: 8px;
+  padding: 8px;
+  display: block;
+  text-align: center;
+  font-weight: 500;
+  color: var(--carcat-text-color);
+  background-color: var(--carcat-bg-gray);
+}
+
+.settings__theme {
+  display: flex;
+  gap: 8px;
+}
+
+.settings__theme-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+  border: 1px solid var(--carcat-border-blue);
+  border-radius: 8px;
+  background-color: var(--carcat-bg-gray);
+  cursor: pointer;
+  color: var(--carcat-text-secondary);
+  transition: background-color 0.15s ease, border-color 0.15s ease,
+    color 0.15s ease;
+}
+
+.settings__theme-btn:hover {
+  border-color: var(--carcat-border-active-blue);
+  color: var(--carcat-blue);
+}
+
+.settings__theme-btn_active {
+  background-color: var(--carcat-bg-blue);
+  border-color: var(--carcat-border-active-blue);
+  color: var(--carcat-blue);
+}
+
+.settings__theme-icon {
+  width: 18px;
+  height: 18px;
+}
+
+.settings__palettes {
+  display: grid;
+  grid-template-columns: repeat(5, 24px);
+  gap: 8px;
+  padding: 4px;
+}
+
+.settings__palette {
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: 2px solid var(--carcat-white);
+  border-radius: 50%;
+  outline: 1px solid var(--carcat-border-blue);
+  cursor: pointer;
+}
+
+.settings__palette[aria-pressed="true"],
+.settings__palette:focus-visible {
+  outline: 2px solid var(--carcat-text-color);
+  outline-offset: 2px;
+}

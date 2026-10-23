@@ -1,5 +1,7 @@
+import shared from "../../../../../styles/common.module.css";
+import styles from "./CatalogParameterCard.module.css";
 import { Info } from "lucide-react";
-import "./CatalogParameterCard.css";
+
 import {
   resolveImageSrc,
   FALLBACK_IMAGE,
@@ -92,9 +94,7 @@ const CatalogParameterCard: React.FC<CatalogParameterCardProps> = ({
 
   return (
     <li
-      className={`catalog-group-card card ${
-        switchState === "list" ? "card_list" : ""
-      } ${activeCardId === idx ? "card_hovered" : ""}`}
+      className={`${shared["catalog-group-card"]} ${shared["card"]} ${switchState === "list" ? shared["card_list"] : ""} ${activeCardId === idx ? shared["card_hovered"] : ""}`}
       onClick={() => onClick(idx)}
     >
       {!description?.code &&
@@ -117,26 +117,22 @@ const CatalogParameterCard: React.FC<CatalogParameterCardProps> = ({
       ) : (
         <button
           type="button"
-          className="catalog-parameter-card__info-icon"
+          className={styles["catalog-parameter-card__info-icon"]}
           onClick={handleInfoButtonClick}
         >
-          <Info className="icon" />
+          <Info className={shared["icon"]} />
         </button>
       )}
       <img
         src={resolveImageSrc(imageSrc)}
         alt={`param-${idx}`}
-        className={`catalog-parameter-card__image image ${
-          switchState === "list" ? "image_list" : ""
-        }`}
+        className={`${shared["catalog-parameter-card__image"]} ${shared["image"]} ${switchState === "list" ? shared["image_list"] : ""}`}
         onError={(e) => {
           e.currentTarget.src = FALLBACK_IMAGE;
         }}
       />
       <p
-        className={`catalog-parameter-card__name title ${
-          switchState === "list" ? "title_list" : ""
-        }`}
+        className={`${shared["catalog-parameter-card__name"]} ${shared["title"]} ${switchState === "list" ? shared["title_list"] : ""}`}
         title={name}
       >
         {name}

@@ -1,4 +1,4 @@
-import "./CatalogAnalogDetail.css";
+import styles from "./CatalogAnalogDetail.module.css";
 import { useEffect, useState } from "react";
 import { useAnalogs } from "../../../../hooks/analogs/useAnalogs";
 import { useBreadcrumbs } from "../../../../hooks/breadcrumbs/useBreadcrumbs";
@@ -57,90 +57,90 @@ const CatalogAnalogDetail: React.FC = () => {
     `${selectedAnalog?.brand ?? ""} ${selectedAnalog?.articleNumber ?? ""}`;
 
   return (
-    <div className="analog-detail">
-      <div className="analog-detail__header">
+    <div className={styles["analog-detail"]}>
+      <div className={styles["analog-detail__header"]}>
         <button
           type="button"
-          className="analog-detail__back"
+          className={styles["analog-detail__back"]}
           onClick={handleBack}
           aria-label="Back"
         >
           <ChevronLeft size={20} />
         </button>
-        <h1 className="analog-detail__title">{title}</h1>
+        <h1 className={styles["analog-detail__title"]}>{title}</h1>
       </div>
 
-      <div className="analog-detail__content">
-        <div className="analog-detail__gallery">
-          <div className="analog-detail__main-image">
-            <div className="analog-detail__main-image-placeholder">
+      <div className={styles["analog-detail__content"]}>
+        <div className={styles["analog-detail__gallery"]}>
+          <div className={styles["analog-detail__main-image"]}>
+            <div className={styles["analog-detail__main-image-placeholder"]}>
               <Box size={64} strokeWidth={1} />
             </div>
           </div>
-          <div className="analog-detail__thumbs">
-            <div className="analog-detail__thumb analog-detail__thumb_active">
+          <div className={styles["analog-detail__thumbs"]}>
+            <div className={`${styles["analog-detail__thumb"]} ${styles["analog-detail__thumb_active"]}`}>
               <Box size={28} strokeWidth={1.5} />
             </div>
           </div>
         </div>
 
-        <div className="analog-detail__info">
-          <div className="analog-detail__manufacturer-label">
+        <div className={styles["analog-detail__info"]}>
+          <div className={styles["analog-detail__manufacturer-label"]}>
             {t.widget_manufacturer ?? "Производитель"}:
           </div>
-          <div className="analog-detail__manufacturer">
+          <div className={styles["analog-detail__manufacturer"]}>
             {analogInfo?.brand || selectedAnalog?.brand}
           </div>
 
-          <div className="analog-detail__article-label">
+          <div className={styles["analog-detail__article-label"]}>
             {t.widget_article ?? "Артикул"}:
           </div>
-          <div className="analog-detail__article">
+          <div className={styles["analog-detail__article"]}>
             {analogInfo?.articleNumber || selectedAnalog?.articleNumber}
           </div>
 
-          <button type="button" className="analog-detail__suppliers-btn">
+          <button type="button" className={styles["analog-detail__suppliers-btn"]}>
             {t.widget_suppliers ?? "Поставщики"}
           </button>
 
           {analogInfo && (
-            <div className="analog-detail__specs">
+            <div className={styles["analog-detail__specs"]}>
               {analogInfo.code && (
                 <div>
-                  <div className="analog-detail__spec-label">
+                  <div className={styles["analog-detail__spec-label"]}>
                     {t.widget_code ?? "Код"}
                   </div>
-                  <div className="analog-detail__spec-value">
+                  <div className={styles["analog-detail__spec-value"]}>
                     {analogInfo.code}
                   </div>
                 </div>
               )}
               {analogInfo.quantityPerPackage != null && (
                 <div>
-                  <div className="analog-detail__spec-label">
+                  <div className={styles["analog-detail__spec-label"]}>
                     {t.widget_qty_per_package ?? "Количество в упаковке"}
                   </div>
-                  <div className="analog-detail__spec-value">
+                  <div className={styles["analog-detail__spec-value"]}>
                     {analogInfo.quantityPerPackage}
                   </div>
                 </div>
               )}
               {analogInfo.replacesArticles && (
                 <div>
-                  <div className="analog-detail__spec-label">
+                  <div className={styles["analog-detail__spec-label"]}>
                     {t.widget_replaces ?? "Заменяет"}
                   </div>
-                  <div className="analog-detail__spec-value">
+                  <div className={styles["analog-detail__spec-value"]}>
                     {analogInfo.replacesArticles}
                   </div>
                 </div>
               )}
               {analogInfo.info && (
                 <div>
-                  <div className="analog-detail__spec-label">
+                  <div className={styles["analog-detail__spec-label"]}>
                     {t.widget_info ?? "Информация"}
                   </div>
-                  <div className="analog-detail__spec-value">
+                  <div className={styles["analog-detail__spec-value"]}>
                     {analogInfo.info}
                   </div>
                 </div>
@@ -150,33 +150,29 @@ const CatalogAnalogDetail: React.FC = () => {
         </div>
       </div>
 
-      <div className="analog-detail__tabs">
-        <div className="analog-detail__tabs-header">
+      <div className={styles["analog-detail__tabs"]}>
+        <div className={styles["analog-detail__tabs-header"]}>
           <button
             type="button"
-            className={`analog-detail__tab ${
-              activeTab === "oe" ? "analog-detail__tab_active" : ""
-            }`}
+            className={`${styles["analog-detail__tab"]} ${activeTab === "oe" ? styles["analog-detail__tab_active"] : ""}`}
             onClick={() => setActiveTab("oe")}
           >
             {t.widget_oe_number ?? "OE Номер"}
           </button>
           <button
             type="button"
-            className={`analog-detail__tab ${
-              activeTab === "applicability" ? "analog-detail__tab_active" : ""
-            }`}
+            className={`${styles["analog-detail__tab"]} ${activeTab === "applicability" ? styles["analog-detail__tab_active"] : ""}`}
             onClick={() => setActiveTab("applicability")}
           >
             {t.widget_applicability ?? "Применяемость"}
           </button>
         </div>
 
-        <div className="analog-detail__tabs-body">
+        <div className={styles["analog-detail__tabs-body"]}>
           {activeTab === "oe" && (
             <>
               {analogInfo?.brands && analogInfo.brands.length > 0 ? (
-                <table className="analog-detail__oe-table">
+                <table className={styles["analog-detail__oe-table"]}>
                   <thead>
                     <tr>
                       <th>{t.widget_oe_oem_number ?? "OE [OEM] Номер"}</th>
@@ -193,7 +189,7 @@ const CatalogAnalogDetail: React.FC = () => {
                   </tbody>
                 </table>
               ) : (
-                <div className="analog-detail__empty">
+                <div className={styles["analog-detail__empty"]}>
                   {t.widget_no_data ?? "Нет данных"}
                 </div>
               )}
@@ -203,7 +199,7 @@ const CatalogAnalogDetail: React.FC = () => {
           {activeTab === "applicability" && (
             <>
               {analogInfo?.brands && analogInfo.brands.length > 0 && (
-                <div className="analog-detail__brand-select">
+                <div className={styles["analog-detail__brand-select"]}>
                   <select
                     value={selectedBrandId ?? ""}
                     onChange={handleBrandChange}
@@ -220,7 +216,7 @@ const CatalogAnalogDetail: React.FC = () => {
               {applicabilityLoading ? (
                 <PageLoader />
               ) : applicability.length > 0 ? (
-                <table className="analog-detail__appl-table">
+                <table className={styles["analog-detail__appl-table"]}>
                   <thead>
                     <tr>
                       <th>{t.widget_model_label ?? "Модель"}</th>
@@ -246,7 +242,7 @@ const CatalogAnalogDetail: React.FC = () => {
                   </tbody>
                 </table>
               ) : (
-                <div className="analog-detail__empty">
+                <div className={styles["analog-detail__empty"]}>
                   {t.widget_no_data ?? "Нет данных"}
                 </div>
               )}

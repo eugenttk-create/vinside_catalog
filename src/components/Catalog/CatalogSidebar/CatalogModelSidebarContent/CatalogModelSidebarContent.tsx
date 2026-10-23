@@ -1,3 +1,5 @@
+import catalogSidebarStyles from "../CatalogSidebar.module.css";
+import shared from "../../../../styles/common.module.css";
 import { useCatalogs } from "../../../../hooks/catalogs/useCatalogs";
 import { useModels } from "../../../../hooks/models/useModels";
 import { useParameters } from "../../../../hooks/parameters/useParameters";
@@ -27,14 +29,14 @@ const CatalogModelSidebarContent: React.FC<CatalogModelSidebarContentProps> = ({
   const { handleResetBreadcrumbs, handleAddBreadcrumb } = useBreadcrumbs();
 
   return (
-    <ul className="sidebar__selects">
+    <ul className={catalogSidebarStyles["sidebar__selects"]}>
       {catalogs && catalogs.length > 0 && (
-        <li className="sidebar__select-container">
-          <span className="sidebar__select-title title">
+        <li className={catalogSidebarStyles["sidebar__select-container"]}>
+          <span className={`${catalogSidebarStyles["sidebar__select-title"]} ${shared["title"]}`}>
             {t.widget_brand_label}
           </span>
           <select
-            className="sidebar__select input"
+            className={`${catalogSidebarStyles["sidebar__select"]} ${shared["input"]}`}
             id="sidebar-select-brand"
             onChange={(e) => {
               if (!e.target.value) return;
@@ -63,12 +65,12 @@ const CatalogModelSidebarContent: React.FC<CatalogModelSidebarContentProps> = ({
         </li>
       )}
       {models && models.length > 0 && (
-        <li className="sidebar__select-container">
-          <span className="sidebar__select-title title">
+        <li className={catalogSidebarStyles["sidebar__select-container"]}>
+          <span className={`${catalogSidebarStyles["sidebar__select-title"]} ${shared["title"]}`}>
             {t.widget_model_label}
           </span>
           <select
-            className="sidebar__select input"
+            className={`${catalogSidebarStyles["sidebar__select"]} ${shared["input"]}`}
             id="sidebar-select-model"
             onChange={(e) => {
               if (!e.target.value) return;
@@ -101,14 +103,14 @@ const CatalogModelSidebarContent: React.FC<CatalogModelSidebarContentProps> = ({
         <>
           {parameters.map((parameter, index) => {
             return (
-              <li className="sidebar__select-container" key={parameter.key}>
-                <span className="sidebar__select-title title">
+              <li className={catalogSidebarStyles["sidebar__select-container"]} key={parameter.key}>
+                <span className={`${catalogSidebarStyles["sidebar__select-title"]} ${shared["title"]}`}>
                   {parameter.name}
                 </span>
                 <select
                   name="sidebar-select"
                   id={`sidebar-select-parameter-${parameter.key}`}
-                  className="sidebar__select input"
+                  className={`${catalogSidebarStyles["sidebar__select"]} ${shared["input"]}`}
                   onChange={(e) => {
                     if (!e.target.value) return;
                     const idx = e.target.value;

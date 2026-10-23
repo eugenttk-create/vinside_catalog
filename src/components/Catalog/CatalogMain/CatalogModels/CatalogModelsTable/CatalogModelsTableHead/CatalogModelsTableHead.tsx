@@ -1,5 +1,4 @@
-import "./CatalogModelsTableHead.css";
-
+import shared from "../../../../../../styles/common.module.css";
 interface CatalogModelsTableHeadProps {
   title: string;
 }
@@ -7,7 +6,7 @@ interface CatalogModelsTableHeadProps {
 const CatalogModelsTableHead: React.FC<CatalogModelsTableHeadProps> = ({
   title,
 }) => {
-  return <th className="table-header-el">{title}</th>;
+  return <th className={shared["table-header-el"]}>{title}</th>;
 };
 
 export default CatalogModelsTableHead;

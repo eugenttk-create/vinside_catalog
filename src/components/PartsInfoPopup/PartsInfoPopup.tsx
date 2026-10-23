@@ -1,4 +1,6 @@
-import "./PartsInfoPopup.css";
+import styles from "./PartsInfoPopup.module.css";
+import shared from "../../styles/common.module.css";
+import catalogPartsStyles from "../Catalog/CatalogMain/CatalogParts/CatalogParts.module.css";
 import { useTranslation } from "../../hooks/translation/useTranslation";
 import type { Part, PartDescriptionKey } from "../../store/parts/parts.types";
 import { PART_DESCRIPTION_KEYS } from "../../store/parts/parts.types";
@@ -68,22 +70,22 @@ const PartsInfoPopup: React.FC<PartsInfoPopupProps> = ({
 
   return (
     <div
-      className={`parts-popup ${isActive ? "parts-popup_active" : ""}`}
+      className={`${styles["parts-popup"]} ${isActive ? styles["parts-popup_active"] : ""}`}
       onClick={() => setIsActive(false)}
     >
       <div
-        className="parts-popup__content"
+        className={styles["parts-popup__content"]}
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="table-container table-container_parts">
+        <div className={`${shared["table-container"]} ${shared["table-container_parts"]}`}>
           <X
-            className="parts-popup__close"
+            className={styles["parts-popup__close"]}
             onClick={() => setIsActive(false)}
           />
-          <div className="table-wrapper table-wrapper_parts">
-            <table className="table table_parts">
-              <thead className="table-header">
-                <tr className="table-row">
+          <div className={`${shared["table-wrapper"]} ${shared["table-wrapper_parts"]}`}>
+            <table className={`${shared["table"]} ${shared["table_parts"]}`}>
+              <thead className={shared["table-header"]}>
+                <tr className={shared["table-row"]}>
                   <CatalogGroupsTableHead title={t.widget_number} />
                   <CatalogGroupsTableHead title={t.widget_name} />{" "}
                   <CatalogGroupsTableHead title={t.widget_see_price_button} />
@@ -95,35 +97,30 @@ const PartsInfoPopup: React.FC<PartsInfoPopupProps> = ({
                   ))}
                 </tr>
               </thead>
-              <tbody className="table-body">
-                <tr className="table-row">
-                  <td className="catalog-parts__td">
+              <tbody className={shared["table-body"]}>
+                <tr className={shared["table-row"]}>
+                  <td className={catalogPartsStyles["catalog-parts__td"]}>
                     <span
-                      className={
-                        "catalog-parts__ts catalog-parts__ts_number" +
-                        (copiedPartId === part.id
-                          ? " catalog-parts__ts_number-copied"
-                          : "")
-                      }
+                      className={`${catalogPartsStyles["catalog-parts__ts"]} ${catalogPartsStyles["catalog-parts__ts_number"]}` + (copiedPartId === part.id ? ` ${catalogPartsStyles["catalog-parts__ts_number-copied"]}` : "")}
                       onClick={() => onCopy(part.id, part.number)}
                       style={{ cursor: "pointer" }}
                     >
                       {part.number}{" "}
                       {copiedPartId === part.id ? (
-                        <CircleCheck className="icon catalog-parts__table-icon catalog-parts__table-icon_copied" />
+                        <CircleCheck className={`${shared["icon"]} ${catalogPartsStyles["catalog-parts__table-icon"]} ${catalogPartsStyles["catalog-parts__table-icon_copied"]}`} />
                       ) : (
-                        <Copy className="icon catalog-parts__table-icon" />
+                        <Copy className={`${shared["icon"]} ${catalogPartsStyles["catalog-parts__table-icon"]}`} />
                       )}
                     </span>
                   </td>
-                  <td className="table-data table-data_parts">
-                    <span className="table-data-text">
+                  <td className={`${shared["table-data"]} ${shared["table-data_parts"]}`}>
+                    <span className={shared["table-data-text"]}>
                       {part.name ? part.name : "-"}
                     </span>
                   </td>
-                  <td className="catalog-parts__td">
-                    <span className="catalog-parts__ts">
-                      <button className="catalog-parts__tb button">
+                  <td className={catalogPartsStyles["catalog-parts__td"]}>
+                    <span className={catalogPartsStyles["catalog-parts__ts"]}>
+                      <button className={`${catalogPartsStyles["catalog-parts__tb"]} ${shared["button"]}`}>
                         <a href={getPartLink(part.number)} target="_blank">
                           {t.widget_see_price_button}
                         </a>
@@ -131,8 +128,8 @@ const PartsInfoPopup: React.FC<PartsInfoPopupProps> = ({
                     </span>
                   </td>
                   {activeColumns.map((key) => (
-                    <td className="table-data table-data_parts" key={key}>
-                      <span className="table-data-text">
+                    <td className={`${shared["table-data"]} ${shared["table-data_parts"]}`} key={key}>
+                      <span className={shared["table-data-text"]}>
                         {part.description?.[key] ?? "—"}
                       </span>
                     </td>

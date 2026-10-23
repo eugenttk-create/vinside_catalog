@@ -1,4 +1,6 @@
-import "./CatalogGroupsSidebarContent.css";
+import catalogSidebarStyles from "../CatalogSidebar.module.css";
+import styles from "./CatalogGroupsSidebarContent.module.css";
+import shared from "../../../../styles/common.module.css";
 import { useGroups } from "../../../../hooks/groups/useGroups";
 import { useParts } from "../../../../hooks/parts/useParts";
 import { useModels } from "../../../../hooks/models/useModels";
@@ -159,9 +161,9 @@ const CatalogGroupsSidebarContent: React.FC = () => {
   }, [groupsTree]);
 
   return (
-    <ul className="sidebar__dropdown-list">
-      <li className="sidebar__ai-search-wrapper">
-        <div className="sidebar__ai-search">
+    <ul className={catalogSidebarStyles["sidebar__dropdown-list"]}>
+      <li className={styles["sidebar__ai-search-wrapper"]}>
+        <div className={styles["sidebar__ai-search"]}>
           <form
             onSubmit={(e) => {
               e.preventDefault();
@@ -172,23 +174,23 @@ const CatalogGroupsSidebarContent: React.FC = () => {
             <input
               type="text"
               placeholder="AI Search"
-              className="sidebar__ai-search-input"
+              className={styles["sidebar__ai-search-input"]}
               id="ai-search-input"
               value={aiSearchQuery}
               onChange={(e) => setAiSearchQuery(e.target.value)}
             />
             <Search
-              className="sidebar__ai-search-icon"
+              className={styles["sidebar__ai-search-icon"]}
               onClick={handleSearchParts}
               style={{ cursor: "pointer" }}
             />
           </form>
         </div>
         <span
-          className="sidebar__ai-info"
+          className={styles["sidebar__ai-info"]}
           title="Enter a part name or description to search using AI"
         >
-          <Info className="sidebar__ai-info-icon" />
+          <Info className={styles["sidebar__ai-info-icon"]} />
         </span>
       </li>
 
@@ -200,25 +202,21 @@ const CatalogGroupsSidebarContent: React.FC = () => {
           <React.Fragment key={group.scope ?? "no-scope"}>
             {group.scope !== null && group.scope !== "" ? (
               <li
-                className="sidebar__scope-label"
+                className={catalogSidebarStyles["sidebar__scope-label"]}
                 onClick={() => handleToggleScope(group.scope!)}
               >
                 <ChevronRight
-                  className={`icon sidebar__scope-icon ${
-                    isCollapsed ? "" : "sidebar__scope-icon_rotated"
-                  }`}
+                  className={`${shared["icon"]} ${catalogSidebarStyles["sidebar__scope-icon"]} ${isCollapsed ? "" : catalogSidebarStyles["sidebar__scope-icon_rotated"]}`}
                 />
                 {group.scope}
               </li>
             ) : (
               <li
-                className="sidebar__scope-label"
+                className={catalogSidebarStyles["sidebar__scope-label"]}
                 onClick={() => handleToggleScope(group.scope!)}
               >
                 <ChevronRight
-                  className={`icon sidebar__scope-icon ${
-                    isCollapsed ? "" : "sidebar__scope-icon_rotated"
-                  }`}
+                  className={`${shared["icon"]} ${catalogSidebarStyles["sidebar__scope-icon"]} ${isCollapsed ? "" : catalogSidebarStyles["sidebar__scope-icon_rotated"]}`}
                 />
                 Groups
               </li>
